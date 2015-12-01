@@ -43,5 +43,13 @@
 		<!-- Compiler for custom widget sets. Should not be deployed -->
 		<dependency org="com.vaadin" name="vaadin-client-compiler"
 			rev="&vaadin.version;" conf="widgetset-compile->default" />
+		
+		
+		<!-- RuM specific -->
+		<!-- Database -->
+		<dependency org="org.postgresql" name="postgresql" rev="9.4-1206-jdbc42"/>
+		
+		
+		
 	</dependencies>
 </ivy-module>
