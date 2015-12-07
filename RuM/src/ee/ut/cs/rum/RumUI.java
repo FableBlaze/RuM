@@ -28,14 +28,15 @@ public class RumUI extends UI {
 	public static class Servlet extends VaadinServlet {
 	}
 	
+	public static SimpleJDBCConnectionPool databaseConnectionPool;
+	
 	private Panel content;
 	private Navigator mainNavigator;
 
 	@Override
 	protected void init(VaadinRequest request) {
 		
-		//TODO: Handle database connection error more gracefully
-		SimpleJDBCConnectionPool databaseConnectionPool = DatabaseUtils.createDatabaseConnectionPool();
+		databaseConnectionPool = DatabaseUtils.createDatabaseConnectionPool();
 		
 		content = new Panel();
 		this.setContent(content);
