@@ -36,4 +36,17 @@ public final class DatabaseUtils {
 		}
 		return container;
 	}
+	
+	public static SQLContainer createUsersTableContainer() {
+		SQLContainer container = null;
+		TableQuery tq = new TableQuery("users", RumUI.databaseConnectionPool);
+		tq.setVersionColumn("id");
+		try {
+			container = new SQLContainer(tq);
+		} catch (SQLException e) {
+			//TODO: Handle container creation error more gracefully
+			e.printStackTrace();
+		}
+		return container;
+	}
 }

@@ -1,5 +1,6 @@
 package ee.ut.cs.rum.administration.plugins;
 
+import com.vaadin.data.util.sqlcontainer.SQLContainer;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Button;
@@ -19,14 +20,16 @@ public class PluginsAdministrationView extends VerticalLayout implements View {
 	public PluginsAdministrationView() {
 		VerticalLayout pluginsAdministrationLayout = new VerticalLayout();
 		
-		Table pluginsTable = new Table("List of installed plugins", DatabaseUtils.createPluginsTableContainer());
+		SQLContainer pluginsTableContainer = DatabaseUtils.createPluginsTableContainer();
+		
+		Table pluginsTable = new Table("List of installed plugins", pluginsTableContainer);
 		pluginsTable.setImmediate(true);
 		
-		Button addPluginButton = new Button("Add new plugin...");
-		addPluginButton.addClickListener(new Button.ClickListener() {
+		Button openPluginAddDialoge = new Button("Add new plugin...");
+		openPluginAddDialoge.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
 			public void buttonClick(ClickEvent event) {
-				PluginAddSubWindow pluginAddSubWindow = new PluginAddSubWindow();
+				PluginAddDialoge pluginAddSubWindow = new PluginAddDialoge(pluginsTableContainer);
 				UI.getCurrent().addWindow(pluginAddSubWindow);
 			}
 		});
@@ -37,8 +40,7 @@ public class PluginsAdministrationView extends VerticalLayout implements View {
 		//TODO: Implement query to get in use count (cant be done before implementing task management)
 		pluginsAdministrationLayout.addComponent(new Label("In use plugins:"));
 		pluginsAdministrationLayout.addComponent(pluginsTable);
-		pluginsAdministrationLayout.addComponent(addPluginButton);
-		
+		pluginsAdministrationLayout.addComponent(openPluginAddDialoge);
 		
 		this.addComponent(pluginsAdministrationLayout);
 	}
