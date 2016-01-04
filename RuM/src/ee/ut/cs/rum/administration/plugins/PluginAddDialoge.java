@@ -38,18 +38,13 @@ public class PluginAddDialoge extends Window {
 		TextField versionField = new TextField("Version");
 		subContent.addComponent(versionField);
 
-
-		//TODO: Implement Receiver, page 223
-		subContent.addComponent(new Upload("Upload it here", null));
-
-
-		//TODO: There must be a more decent way to do this
 		Button pluginAddButton = new Button("Add uploaded plugin");
 		pluginAddButton.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
 			@SuppressWarnings("unchecked")
 			public void buttonClick(ClickEvent event) {
 				try {
+					//TODO: There must be a more decent way to do this
 					Object itemTmpId = pluginsTableContainer.addItem();
 					Item tmpItem = pluginsTableContainer.getItem(itemTmpId);
 					tmpItem.getItemProperty("file_name").setValue("filename");
@@ -61,6 +56,7 @@ public class PluginAddDialoge extends Window {
 					tmpItem.getItemProperty("creator").setValue("creatorname");
 					tmpItem.getItemProperty("version").setValue("v0.1");
 					pluginsTableContainer.commit();
+					close();
 				} catch(SQLException e) {
 					e.printStackTrace();
 					try {
@@ -71,6 +67,12 @@ public class PluginAddDialoge extends Window {
 				}
 			}
 		});
+		pluginAddButton.setEnabled(false);
+
+
+
+		//TODO: Implement Receiver, page 223
+		subContent.addComponent(new Upload("Upload it here", new PluginReceiver(pluginAddButton)));
 
 		subContent.addComponent(pluginAddButton);
 
