@@ -72,7 +72,11 @@ public class PluginAddDialoge extends Window {
 
 
 		//TODO: Implement Receiver, page 223
-		subContent.addComponent(new Upload("Upload it here", new PluginReceiver(pluginAddButton)));
+		PluginReceiver pluginReceiver = new PluginReceiver(pluginAddButton);
+		Upload upload = new Upload("Upload it here", pluginReceiver);
+		upload.addSucceededListener(pluginReceiver);
+		upload.addChangeListener(pluginReceiver);
+		subContent.addComponent(upload);
 
 		subContent.addComponent(pluginAddButton);
 
