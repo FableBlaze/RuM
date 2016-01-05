@@ -29,7 +29,7 @@ public class PluginsAdministrationView extends VerticalLayout implements View {
 		openPluginAddDialoge.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
 			public void buttonClick(ClickEvent event) {
-				PluginAddDialoge pluginAddSubWindow = new PluginAddDialoge(pluginsTableContainer);
+				PluginAddDialouge pluginAddSubWindow = new PluginAddDialouge(pluginsTableContainer);
 				UI.getCurrent().addWindow(pluginAddSubWindow);
 			}
 		});
