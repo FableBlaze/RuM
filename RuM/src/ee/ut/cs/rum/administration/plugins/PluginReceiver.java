@@ -39,9 +39,11 @@ public class PluginReceiver implements Receiver, SucceededListener, ChangeListen
 	@SuppressWarnings("unchecked")
 	@Override
 	public void uploadSucceeded(SucceededEvent event) {
-		tmpItem.getItemProperty("file_name").setValue(filename);
-		pluginAddButton.setEnabled(true);
-		pluginFileDetailsLayout.setVisible(true);
+		if (!event.getFilename().isEmpty()) {
+			tmpItem.getItemProperty("file_name").setValue(filename);
+			pluginAddButton.setEnabled(true);
+			pluginFileDetailsLayout.setVisible(true);
+		}
 	}
 
 	@Override
