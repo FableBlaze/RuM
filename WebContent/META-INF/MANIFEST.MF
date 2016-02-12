@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: RuM
+Bundle-Version: 0.0.1
+Bundle-Name: RuM
+Bundle-ManifestVersion: 2
+Bundle-ClassPath: WEB-INF/classes
+Web-ContextPath: RuM
+Import-Package: org.osgi.framework;version="[1.7.0,1.7.0]",
+ org.slf4j;version="1.7.2"
+Bundle-Activator: ee.ut.cs.rum.Activator
+Import-Bundle: org.eclipse.rap.rwt;version="[3.0.1.20150908-1130,3.0.1.20150908-1130]"
+
