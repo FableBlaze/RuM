@@ -1,27 +1,21 @@
 package ee.ut.cs.rum.database;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.Properties;
-
-import javax.sql.DataSource;
-
+import java.util.HashMap;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.Filter;
+import org.osgi.framework.ServiceReference;
 import org.osgi.framework.ServiceRegistration;
-import org.osgi.service.jdbc.DataSourceFactory;
-import org.osgi.util.tracker.ServiceTracker;
+import org.osgi.service.jpa.EntityManagerFactoryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class Activator implements BundleActivator {
 	private static BundleContext context;
 	private static Logger logger;
 
-	private Connection connection;
-	private ServiceTracker<?, ?> packageAdminTracker;
 	private ServiceRegistration<?> dsfService;
 
 	public void start(BundleContext bundleContext) throws Exception {
@@ -30,41 +24,29 @@ public class Activator implements BundleActivator {
 		logger = LoggerFactory.getLogger("ee.ut.cs.rum.virgoConsole");
 		logger.info("Starting RuM_database bundle");
 
-		Filter filter = context.createFilter(
-				"(&(objectClass=" + DataSourceFactory.class.getName() + 
-				")(" + DataSourceFactory.OSGI_JDBC_DRIVER_CLASS + "=org.postgresql.Driver))");
-		packageAdminTracker = new ServiceTracker<Object, Object>(context, filter, null); 
-		packageAdminTracker.open();
+		HashMap<String, String> props = new HashMap<String, String>(); 
+		props.put("javax.persistence.jdbc.url", "jdbc:postgresql://127.0.0.1:5432/RuM"); 
+		props.put("javax.persistence.jdbc.user", "postgres"); 
+		props.put("javax.persistence.jdbc.password", "postgres");
+		props.put("javax.persistence.jdbc.driver", "org.postgresql.Driver");
 
-		DataSourceFactory dsf = (DataSourceFactory) packageAdminTracker.getService();
+		ServiceReference[] refs = context.getServiceReferences(EntityManagerFactoryBuilder.class.getName(),
+				"(osgi.unit.name=RuM)");
+		//TODO: Add error handling
+		EntityManagerFactoryBuilder emfb = (EntityManagerFactoryBuilder)context.getService(refs[0]);
+		EntityManagerFactory emf = emfb.createEntityManagerFactory(props);
+		EntityManager em = emf.createEntityManager();
 
-		Properties props = new Properties(); 
-		props.put(DataSourceFactory.JDBC_URL, "jdbc:postgresql://127.0.0.1:5432/RuM"); 
-		props.put(DataSourceFactory.JDBC_USER, "postgres"); 
-		props.put(DataSourceFactory.JDBC_PASSWORD, "postgres");
+		dsfService = context.registerService(EntityManager.class.getName(), em, null);
 
-		DataSource dataSource = dsf.createDataSource(props);
-
-		try {
-			connection = dataSource.getConnection();
-			connection.getMetaData();
-			connection.close();
-		} catch (SQLException sqlEx) { 
-			logger.info("Database connection failed: " + sqlEx); 
-		}
-
-		if (connection != null) {
-			dsfService = context.registerService(DataSource.class.getName(), dataSource, null);
-		}
 		logger.info("RuM_database bundle started");
 	}
 
 	public void stop(BundleContext bundleContext) throws Exception {
-		logger.info("RuM_database bundle stopped");
-		packageAdminTracker.close(); 
 		if (dsfService != null) { 
-			dsfService.unregister(); 
+			dsfService.unregister();  
 		}
+		logger.info("RuM_database bundle stopped");
 		Activator.context = null;
 	}
 

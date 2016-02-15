@@ -9,4 +9,5 @@
 hs_err_pid*
 
 #Compiled files#
-build/
+classes
+bin
