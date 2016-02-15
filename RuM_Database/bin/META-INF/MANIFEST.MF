@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: RuM_Database
+Bundle-Version: 0.0.1
+Bundle-Name: RuM_Database
+Bundle-ManifestVersion: 2
+Import-Package: javax.sql,
+ org.osgi.framework;version="[1.7.0,1.7.0]",
+ org.osgi.service.jdbc;version="[1.0.0,1.0.0]",
+ org.osgi.util.tracker;version="[1.5.1,1.5.1]",
+ org.slf4j;version="[1.7.2,1.7.2]"
+Import-Bundle: org.postgresql.jdbc41;version="[9.4.0.build-1206,9.4.0.build-1206]"
+Bundle-Activator: ee.ut.cs.rum.database.Activator
+
