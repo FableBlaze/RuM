@@ -18,8 +18,8 @@ public class Activator implements BundleActivator {
 		//We use activator to set up logging
 		logger = LoggerFactory.getLogger("ee.ut.cs.rum.virgoConsole");
 		
-		EntityManagerServiceTrackerCustomizer customer2 = new EntityManagerServiceTrackerCustomizer(context);
-		serviceTracker = new ServiceTracker<Object, Object>(context, EntityManager.class.getName(), customer2);
+		EntityManagerServiceTrackerCustomizer emServiceTracker = new EntityManagerServiceTrackerCustomizer(context);
+		serviceTracker = new ServiceTracker<Object, Object>(context, EntityManager.class.getName(), emServiceTracker);
 		serviceTracker.open();
 
 		EntityManager em = (EntityManager) serviceTracker.getService();
