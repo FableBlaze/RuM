@@ -1,9 +1,6 @@
 package ee.ut.cs.rum;
 
-import java.sql.Connection;
-
-import javax.sql.DataSource;
-
+import javax.persistence.EntityManager;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.util.tracker.ServiceTracker;
@@ -21,16 +18,11 @@ public class Activator implements BundleActivator {
 		//We use activator to set up logging
 		logger = LoggerFactory.getLogger("ee.ut.cs.rum.virgoConsole");
 		
-		DatabaseServiceTrackerCustomizer customer = new DatabaseServiceTrackerCustomizer(context);
-		serviceTracker = new ServiceTracker<Object, Object>(context, DataSource.class.getName(), customer);
+		EntityManagerServiceTrackerCustomizer customer2 = new EntityManagerServiceTrackerCustomizer(context);
+		serviceTracker = new ServiceTracker<Object, Object>(context, EntityManager.class.getName(), customer2);
 		serviceTracker.open();
 
-		DataSource ds = (DataSource) serviceTracker.getService();
-		Connection conn = ds.getConnection();
-		//conn.setAutoCommit(false);
-		//conn.prepareStatement("INSERT INTO users VALUES ('669');").executeUpdate();
-		//conn.commit();
-		conn.close(); 
+		EntityManager em = (EntityManager) serviceTracker.getService();
 		
 		logger.info("RuM bundle started");
 	}
