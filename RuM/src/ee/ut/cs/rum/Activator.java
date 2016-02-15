@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 public class Activator implements BundleActivator {
 	private static BundleContext context;
 	private static Logger logger;
+	private static EntityManager entityManager;
 	private ServiceTracker<?, ?> serviceTracker;
 
 	@SuppressWarnings("unchecked")
@@ -22,7 +23,7 @@ public class Activator implements BundleActivator {
 		serviceTracker = new ServiceTracker<Object, Object>(context, EntityManager.class.getName(), emServiceTracker);
 		serviceTracker.open();
 
-		EntityManager em = (EntityManager) serviceTracker.getService();
+		entityManager = (EntityManager) serviceTracker.getService();
 		
 		logger.info("RuM bundle started");
 	}
@@ -37,8 +38,13 @@ public class Activator implements BundleActivator {
 		return context;
 	}
 	
-	//Rest of the application gets the logger instance trough activator
+	//Rest of the bundle gets the logger trough activator
 	public static Logger getLogger() {
 		return logger;
+	}
+	
+	//Rest of the bundle gets the entityManager trough activator
+	public static EntityManager getEntityManager() {
+		return entityManager;
 	}
 }
