@@ -6,6 +6,7 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class DatabaseServiceTrackerCustomizer implements ServiceTrackerCustomizer {
 	private final BundleContext context;
 

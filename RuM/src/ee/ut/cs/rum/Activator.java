@@ -15,6 +15,7 @@ public class Activator implements BundleActivator {
 	private static Logger logger;
 	private ServiceTracker<?, ?> serviceTracker;
 
+	@SuppressWarnings("unchecked")
 	public void start(BundleContext bundleContext) throws Exception {
 		Activator.context = bundleContext;
 		//We use activator to set up logging
