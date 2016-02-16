@@ -37,7 +37,7 @@ public class RumUI extends AbstractEntryPoint {
 				Activator.getLogger().info(button.getText() + " was pressed, counter is " + counter);
 				
 				EntityManagerFactory emf = Activator.getEmf();
-				EntityManager em=emf.createEntityManager();
+				EntityManager em = emf.createEntityManager();
 				em.getTransaction().begin();
 				//Plugin plugin = new Plugin();
 				//plugin.setName("Name" + counter);
