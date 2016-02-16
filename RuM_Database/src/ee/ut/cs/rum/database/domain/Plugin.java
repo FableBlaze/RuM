@@ -17,8 +17,8 @@ public class Plugin {
 		return name;
 	}
 
-	public void setName(String summary) {
-		this.name = summary;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getDescription() {
