@@ -38,14 +38,21 @@ public class RumUI extends AbstractEntryPoint {
 				
 				EntityManagerFactory emf = Activator.getEmf();
 				EntityManager em = emf.createEntityManager();
-				em.getTransaction().begin();
-				//Plugin plugin = new Plugin();
-				//plugin.setName("Name" + counter);
-				//plugin.setDescription("Description" + counter);
-				//em.persist(plugin);
-				em.getTransaction().commit();
+//				em.getTransaction().begin();
+//				Plugin plugin = new Plugin();
+//				plugin.setName("Name" + counter);
+//				plugin.setDescription("Description" + counter);
+//				em.persist(plugin);
+//				em.getTransaction().commit();
+//				
+//				Query query = em.createQuery("Select p from Plugin p");
+//				List<Plugin> plugins = query.getResultList();
+//				
+//				plugins.get(0).setDescription("blah-blah-blah");
+//				em.getTransaction().begin();
+//				em.persist(plugins.get(0));
+//				em.getTransaction().commit();
 				em.close();
-				
 			}
 		});
 		Activator.getLogger().info("Someone opened ee.ut.cs.rum.RumUI");
