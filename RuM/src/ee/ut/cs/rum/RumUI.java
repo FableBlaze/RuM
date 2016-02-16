@@ -1,6 +1,7 @@
 package ee.ut.cs.rum;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 
 import org.eclipse.rap.rwt.application.AbstractEntryPoint;
 import org.eclipse.swt.SWT;
@@ -10,7 +11,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
-
 import ee.ut.cs.rum.database.domain.Plugin;
 
 public class RumUI extends AbstractEntryPoint {
@@ -36,13 +36,15 @@ public class RumUI extends AbstractEntryPoint {
 				label.setText("Clicked" + " [" + ++counter + "]");
 				Activator.getLogger().info(button.getText() + " was pressed, counter is " + counter);
 				
-				EntityManager em = Activator.getEntityManager();
+				EntityManagerFactory emf = Activator.getEmf();
+				EntityManager em=emf.createEntityManager();
 				em.getTransaction().begin();
-				Plugin plugin = new Plugin();
-				plugin.setName("Name" + counter);
-				plugin.setDescription("Description" + counter);
-				em.persist(plugin);
+				//Plugin plugin = new Plugin();
+				//plugin.setName("Name" + counter);
+				//plugin.setDescription("Description" + counter);
+				//em.persist(plugin);
 				em.getTransaction().commit();
+				em.close();
 				
 			}
 		});

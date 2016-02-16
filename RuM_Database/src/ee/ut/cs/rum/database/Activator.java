@@ -1,7 +1,6 @@
 package ee.ut.cs.rum.database;
 
 import java.util.HashMap;
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
@@ -35,9 +34,8 @@ public class Activator implements BundleActivator {
 		//TODO: Add error handling
 		EntityManagerFactoryBuilder emfb = (EntityManagerFactoryBuilder)context.getService(refs[0]);
 		EntityManagerFactory emf = emfb.createEntityManagerFactory(props);
-		EntityManager em = emf.createEntityManager();
 
-		dsfService = context.registerService(EntityManager.class.getName(), em, null);
+		dsfService = context.registerService(EntityManagerFactory.class.getName(), emf, null);
 
 		logger.info("RuM_database bundle started");
 	}
