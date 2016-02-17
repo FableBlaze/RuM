@@ -39,4 +39,8 @@ public class Activator implements BundleActivator {
 	static BundleContext getContext() {
 		return context;
 	}
+
+	public static Logger getLogger() {
+		return logger;
+	}
 }

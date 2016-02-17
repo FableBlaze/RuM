@@ -1,10 +1,11 @@
-package ee.ut.cs.rum;
+package ee.ut.cs.rum.database;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
 import ee.ut.cs.rum.database.RumEmfService;
+import ee.ut.cs.rum.database.internal.Activator;
 
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class EmfTrackerCustomizer implements ServiceTrackerCustomizer {
@@ -17,7 +18,7 @@ public class EmfTrackerCustomizer implements ServiceTrackerCustomizer {
 	@Override
 	public Object addingService(ServiceReference reference) {
 		RumEmfService service = (RumEmfService) context.getService(reference);
-		Activator.getLogger().info("Emf registered");
+		Activator.getLogger().info("Emf registered in bundle: " + context.getBundle().getSymbolicName());
 		return service;
 	}
 
@@ -25,13 +26,13 @@ public class EmfTrackerCustomizer implements ServiceTrackerCustomizer {
 	public void modifiedService(ServiceReference reference, Object service) {
 		removedService(reference, service);
 		addingService(reference);
-		Activator.getLogger().info("Emf modified");
+		Activator.getLogger().info("Emf in bundle: " + context.getBundle().getSymbolicName());
 	}
 
 	@Override
 	public void removedService(ServiceReference reference, Object service) {
 		context.ungetService(reference);
-		Activator.getLogger().info("Emf removed");
+		Activator.getLogger().info("Emf in bundle: " + context.getBundle().getSymbolicName());
 		//TODO: Handle removal of EntityManager
 	}
 }
