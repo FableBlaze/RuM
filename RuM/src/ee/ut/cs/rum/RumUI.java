@@ -16,6 +16,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
 import ee.ut.cs.rum.database.domain.Plugin;
+import ee.ut.cs.rum.plugins.ui.PluginsTable;
 
 public class RumUI extends AbstractEntryPoint {
 	private static final long serialVersionUID = 1282027955721012064L;
@@ -59,6 +60,9 @@ public class RumUI extends AbstractEntryPoint {
 				em.close();
 			}
 		});
+		
+		PluginsTable.createPluginsTable(parent);
+		
 		Activator.getLogger().info("Someone opened ee.ut.cs.rum.RumUI");
 	}
 	
