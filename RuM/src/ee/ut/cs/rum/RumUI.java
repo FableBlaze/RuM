@@ -1,7 +1,10 @@
 package ee.ut.cs.rum;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
 
 import org.eclipse.rap.rwt.application.AbstractEntryPoint;
 import org.eclipse.swt.SWT;
@@ -11,6 +14,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+
 import ee.ut.cs.rum.database.domain.Plugin;
 
 public class RumUI extends AbstractEntryPoint {
@@ -38,20 +42,20 @@ public class RumUI extends AbstractEntryPoint {
 				
 				EntityManagerFactory emf = Activator.getEmf();
 				EntityManager em = emf.createEntityManager();
-//				em.getTransaction().begin();
-//				Plugin plugin = new Plugin();
-//				plugin.setName("Name" + counter);
-//				plugin.setDescription("Description" + counter);
-//				em.persist(plugin);
-//				em.getTransaction().commit();
-//				
-//				Query query = em.createQuery("Select p from Plugin p");
-//				List<Plugin> plugins = query.getResultList();
-//				
-//				plugins.get(0).setDescription("blah-blah-blah");
-//				em.getTransaction().begin();
-//				em.persist(plugins.get(0));
-//				em.getTransaction().commit();
+				em.getTransaction().begin();
+				Plugin plugin = new Plugin();
+				plugin.setName("Name" + counter);
+				plugin.setDescription("Description" + counter);
+				em.persist(plugin);
+				em.getTransaction().commit();
+				
+				Query query = em.createQuery("Select p from Plugin p order by p.id");
+				List<Plugin> plugins = query.getResultList();
+				
+				plugins.get(0).setDescription("blah-blah-blah" + counter);
+				em.getTransaction().begin();
+				em.persist(plugins.get(0));
+				em.getTransaction().commit();
 				em.close();
 			}
 		});

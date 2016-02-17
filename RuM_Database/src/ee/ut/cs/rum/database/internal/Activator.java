@@ -1,14 +1,12 @@
-package ee.ut.cs.rum.database;
+package ee.ut.cs.rum.database.internal;
 
-import java.util.HashMap;
-import javax.persistence.EntityManagerFactory;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceReference;
 import org.osgi.framework.ServiceRegistration;
-import org.osgi.service.jpa.EntityManagerFactoryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import ee.ut.cs.rum.database.RumEmfService;
 
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class Activator implements BundleActivator {
@@ -22,20 +20,10 @@ public class Activator implements BundleActivator {
 
 		logger = LoggerFactory.getLogger("ee.ut.cs.rum.virgoConsole");
 		logger.info("Starting RuM_database bundle");
+		
+		
 
-		HashMap<String, String> props = new HashMap<String, String>(); 
-		props.put("javax.persistence.jdbc.url", "jdbc:postgresql://127.0.0.1:5432/RuM"); 
-		props.put("javax.persistence.jdbc.user", "postgres"); 
-		props.put("javax.persistence.jdbc.password", "postgres");
-		props.put("javax.persistence.jdbc.driver", "org.postgresql.Driver");
-
-		ServiceReference[] refs = context.getServiceReferences(EntityManagerFactoryBuilder.class.getName(),
-				"(osgi.unit.name=RuM)");
-		//TODO: Add error handling
-		EntityManagerFactoryBuilder emfb = (EntityManagerFactoryBuilder)context.getService(refs[0]);
-		EntityManagerFactory emf = emfb.createEntityManagerFactory(props);
-
-		dsfService = context.registerService(EntityManagerFactory.class.getName(), emf, null);
+		dsfService = context.registerService(RumEmfService.class.getName(), new RumEmfServiceImpl(context), null);
 
 		logger.info("RuM_database bundle started");
 	}

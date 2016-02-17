@@ -8,6 +8,8 @@ import org.osgi.util.tracker.ServiceTracker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ee.ut.cs.rum.database.RumEmfService;
+
 public class Activator implements BundleActivator {
 	private static BundleContext context;
 	private static Logger logger;
@@ -20,13 +22,14 @@ public class Activator implements BundleActivator {
 		//We use activator to set up logging
 		logger = LoggerFactory.getLogger("ee.ut.cs.rum.virgoConsole");
 		
-		EmfTrackerCustomizer emfServiceTracker = new EmfTrackerCustomizer(context);
-		serviceTracker = new ServiceTracker<Object, Object>(context, EntityManagerFactory.class.getName(), emfServiceTracker);
+		EmfTrackerCustomizer emfTrackerCustomizer = new EmfTrackerCustomizer(context);
+		serviceTracker = new ServiceTracker<Object, Object>(context, RumEmfService.class.getName(), emfTrackerCustomizer);
 		serviceTracker.open();
 
-		emf = (EntityManagerFactory) serviceTracker.getService();
-		
-		logger.info("RuM bundle started");
+		RumEmfService rumEmfService = (RumEmfService) serviceTracker.getService();
+		if (rumEmfService == null) {throw new Exception("Database service not found");}
+		emf = rumEmfService.getEmf("RuM");
+		if (emf == null) {throw new Exception("Database service not found");} 
 	}
 
 	public void stop(BundleContext bundleContext) throws Exception {

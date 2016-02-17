@@ -1,10 +1,10 @@
 package ee.ut.cs.rum;
 
-import javax.persistence.EntityManagerFactory;
-
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
+
+import ee.ut.cs.rum.database.RumEmfService;
 
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class EmfTrackerCustomizer implements ServiceTrackerCustomizer {
@@ -16,7 +16,7 @@ public class EmfTrackerCustomizer implements ServiceTrackerCustomizer {
 
 	@Override
 	public Object addingService(ServiceReference reference) {
-		EntityManagerFactory service = (EntityManagerFactory) context.getService(reference);
+		RumEmfService service = (RumEmfService) context.getService(reference);
 		Activator.getLogger().info("Emf registered");
 		return service;
 	}
