@@ -10,7 +10,7 @@ Import-Package: javax.persistence;version="[2.0.4,2.0.4]",
  org.osgi.util.tracker;version="[1.5.1,1.5.1]",
  org.slf4j;version="[1.7.2,1.7.2]"
 Bundle-Activator: ee.ut.cs.rum.database.internal.Activator
-Import-Bundle: org.postgresql.jdbc41;version="[9.4.0.build-1206,9.4.0.build-1206]"
 Export-Package: ee.ut.cs.rum.database,
  ee.ut.cs.rum.database.domain
+Import-Bundle: org.postgresql.jdbc41;version="[9.4.0.build-1206,9.4.0.build-1206]"
 
