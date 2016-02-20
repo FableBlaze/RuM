@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.plugins.ui;
+package ee.ut.cs.rum.plugins.internal.ui;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ public final class PluginsTable {
 	private PluginsTable() {
 	}
 
-	public static Table createPluginsTable(Composite parent) {
+	public static void createPluginsTable(Composite parent) {
 		TableViewer viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL
 				| SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);
 
@@ -41,9 +41,6 @@ public final class PluginsTable {
 		List<Plugin> plugins = query.getResultList();
 		
 		viewer.setInput(plugins);
-		
-		
-		return null;
 
 	}
 
