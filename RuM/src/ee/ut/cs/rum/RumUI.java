@@ -8,7 +8,11 @@ import javax.persistence.Query;
 
 import org.eclipse.rap.rwt.application.AbstractEntryPoint;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
@@ -40,7 +44,7 @@ public class RumUI extends AbstractEntryPoint {
 			public void handleEvent(Event arg0) {
 				label.setText("Clicked" + " [" + ++counter + "]");
 				Activator.getLogger().info(button.getText() + " was pressed, counter is " + counter);
-				
+
 				EntityManagerFactory emf = Activator.getEmf();
 				EntityManager em = emf.createEntityManager();
 				em.getTransaction().begin();
@@ -49,10 +53,10 @@ public class RumUI extends AbstractEntryPoint {
 				plugin.setDescription("Description" + counter);
 				em.persist(plugin);
 				em.getTransaction().commit();
-				
+
 				Query query = em.createQuery("Select p from Plugin p order by p.id");
 				List<Plugin> plugins = query.getResultList();
-				
+
 				plugins.get(0).setDescription("blah-blah-blah" + counter);
 				em.getTransaction().begin();
 				em.persist(plugins.get(0));
@@ -60,12 +64,12 @@ public class RumUI extends AbstractEntryPoint {
 				em.close();
 			}
 		});
-		
+
 		PluginsManagementUI.createPluginsManagementUI(parent);
-		
+
 		Activator.getLogger().info("Someone opened ee.ut.cs.rum.RumUI");
 	}
-	
+
 	public void setButtonText(String buttonText) {
 		this.buttonText = buttonText;
 	}
