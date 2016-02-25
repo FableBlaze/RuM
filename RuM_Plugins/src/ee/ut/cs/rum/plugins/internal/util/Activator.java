@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.plugins.internal;
+package ee.ut.cs.rum.plugins.internal.util;
 
 import javax.persistence.EntityManagerFactory;
 

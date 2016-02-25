@@ -3,7 +3,7 @@ Bundle-SymbolicName: RuM_Plugins
 Bundle-Version: 0.0.1
 Bundle-Name: RuM_Plugins
 Bundle-ManifestVersion: 2
-Bundle-Activator: ee.ut.cs.rum.plugins.internal.Activator
+Bundle-Activator: ee.ut.cs.rum.plugins.internal.util.Activator
 Import-Package: ee.ut.cs.rum.database,
  ee.ut.cs.rum.database.domain,
  javax.persistence;version="[2.0.4,2.0.4]",

@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.plugins.internal.ui;
+package ee.ut.cs.rum.plugins.internal.ui.util;
 
 import java.util.HashMap;
 import java.util.List;
@@ -29,13 +29,13 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 import ee.ut.cs.rum.database.domain.Plugin;
-import ee.ut.cs.rum.plugins.internal.Activator;
+import ee.ut.cs.rum.plugins.internal.util.Activator;
 
 public final class PluginsTable {
 	private PluginsTable() {
 	}
 
-	public static void createPluginsTable(Composite parent, CTabFolder pluginsManagementTabs) {
+	public static void createPluginsTable(Composite parent, CTabFolder pluginsManagementTabs, List<Plugin> plugins) {
 		TableViewer viewer = new TableViewer(parent, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 
 		createColumns(parent, viewer, pluginsManagementTabs);
@@ -46,12 +46,6 @@ public final class PluginsTable {
 		table.setLinesVisible(true);
 
 		viewer.setContentProvider(new ArrayContentProvider());
-
-		EntityManagerFactory emf = Activator.getEmf();
-		EntityManager em = emf.createEntityManager();
-		Query query = em.createQuery("Select p from Plugin p order by p.id");
-		List<Plugin> plugins = query.getResultList();
-
 		viewer.setInput(plugins);
 	}
 
