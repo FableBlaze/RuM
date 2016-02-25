@@ -20,6 +20,7 @@ import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
@@ -35,12 +36,12 @@ public final class PluginsTable {
 	}
 
 	public static void createPluginsTable(Composite parent, CTabFolder pluginsManagementTabs) {
-		TableViewer viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL
-				| SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);
+		TableViewer viewer = new TableViewer(parent, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 
 		createColumns(parent, viewer, pluginsManagementTabs);
+		
 		final Table table = viewer.getTable();
-		table.setLayoutData(GridDataFactory.swtDefaults().hint(700, 500).create());
+		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 
@@ -80,6 +81,7 @@ public final class PluginsTable {
 
 		TableViewerColumn col3 = createTableViewerColumn(titles[2], bounds[2], 2, viewer);
 		col3.setLabelProvider(new ColumnLabelProvider() {
+			//TODO: The buttons are probably not disposed properly
 			Map<Object, Button> buttons = new HashMap<Object, Button>();
 
 			@Override
@@ -122,13 +124,11 @@ public final class PluginsTable {
 	}
 
 	private static TableViewerColumn createTableViewerColumn(String title, int bound, final int colNumber, final TableViewer viewer) {
-		final TableViewerColumn viewerColumn = new TableViewerColumn(viewer,
-				SWT.NONE);
+		final TableViewerColumn viewerColumn = new TableViewerColumn(viewer, SWT.NONE);
 		final TableColumn column = viewerColumn.getColumn();
 		column.setText(title);
 		column.setWidth(bound);
 		column.setResizable(true);
-		column.setMoveable(true);
 		return viewerColumn;
 	}
 
