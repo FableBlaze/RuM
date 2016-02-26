@@ -29,7 +29,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 import ee.ut.cs.rum.database.domain.Plugin;
-import ee.ut.cs.rum.plugins.internal.util.Activator;
+import ee.ut.cs.rum.plugins.internal.Activator;
 
 public final class PluginsTable {
 	private PluginsTable() {

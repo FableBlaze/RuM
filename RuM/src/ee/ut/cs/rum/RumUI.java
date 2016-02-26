@@ -1,6 +1,10 @@
 package ee.ut.cs.rum;
 
 import org.eclipse.rap.rwt.application.AbstractEntryPoint;
+import org.eclipse.rap.rwt.widgets.FileUpload;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Composite;
 import ee.ut.cs.rum.plugins.ui.PluginsManagementUI;
 

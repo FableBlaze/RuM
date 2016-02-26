@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.plugins.internal.util;
+package ee.ut.cs.rum.plugins.internal;
 
 import javax.persistence.EntityManagerFactory;
 
@@ -45,5 +45,9 @@ public class Activator implements BundleActivator {
 
 	public static EntityManagerFactory getEmf() {
 		return emf;
+	}
+	
+	public static Logger getLogger() {
+		return logger;
 	}
 }

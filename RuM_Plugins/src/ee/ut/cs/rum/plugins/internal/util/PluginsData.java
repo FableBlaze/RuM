@@ -7,6 +7,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 
 import ee.ut.cs.rum.database.domain.Plugin;
+import ee.ut.cs.rum.plugins.internal.Activator;
 
 public final class PluginsData {
 	
