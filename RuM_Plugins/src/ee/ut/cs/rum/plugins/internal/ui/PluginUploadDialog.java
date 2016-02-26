@@ -1,5 +1,8 @@
 package ee.ut.cs.rum.plugins.internal.ui;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+
 import org.eclipse.rap.fileupload.DiskFileUploadReceiver;
 import org.eclipse.rap.fileupload.FileUploadEvent;
 import org.eclipse.rap.fileupload.FileUploadHandler;
@@ -16,10 +19,11 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.plugins.internal.Activator;
 
 public class PluginUploadDialog extends Dialog {
-
+	
 	public PluginUploadDialog(Shell parent) {
 		this(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
 	}
@@ -40,7 +44,11 @@ public class PluginUploadDialog extends Dialog {
 	private void createContents(final Shell shell) {
 		shell.setLayout(new GridLayout(2, true));
 		
+		final Text pluginName = new Text(shell, SWT.BORDER);
+		pluginName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		
+		final Text pluginDescription = new Text(shell, SWT.BORDER);
+		pluginDescription.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		
 		final DiskFileUploadReceiver receiver = new DiskFileUploadReceiver();
 		final FileUploadHandler uploadHandler = new FileUploadHandler( receiver );
@@ -74,6 +82,17 @@ public class PluginUploadDialog extends Dialog {
 		ok.setLayoutData(gridData);
 		ok.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
+				EntityManagerFactory emf = Activator.getEmf();
+				EntityManager em = emf.createEntityManager();
+				em.getTransaction().begin();
+				Plugin plugin = new Plugin();
+				plugin.setName(pluginName.getText());
+				plugin.setDescription(pluginDescription.getText());
+				em.persist(plugin);
+				em.getTransaction().commit();
+				
+				
+				
 				shell.close();
 			}
 		});

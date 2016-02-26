@@ -32,15 +32,6 @@ public class RumUI extends AbstractEntryPoint {
 //				label.setText("Clicked" + " [" + ++counter + "]");
 //				Activator.getLogger().info(button.getText() + " was pressed, counter is " + counter);
 //
-//				EntityManagerFactory emf = Activator.getEmf();
-//				EntityManager em = emf.createEntityManager();
-//				em.getTransaction().begin();
-//				Plugin plugin = new Plugin();
-//				plugin.setName("Name" + counter);
-//				plugin.setDescription("Description" + counter);
-//				em.persist(plugin);
-//				em.getTransaction().commit();
-//
 //				Query query = em.createQuery("Select p from Plugin p order by p.id");
 //				List<Plugin> plugins = query.getResultList();
 //
