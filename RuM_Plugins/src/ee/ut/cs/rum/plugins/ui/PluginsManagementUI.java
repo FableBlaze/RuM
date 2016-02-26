@@ -23,13 +23,13 @@ import ee.ut.cs.rum.plugins.internal.ui.util.PluginsTable;
 import ee.ut.cs.rum.plugins.internal.util.PluginsData;
 
 public final class PluginsManagementUI {
-	
+
 	private PluginsManagementUI() {
 	}
 
 	public static void createPluginsManagementUI(Composite parent) {
 		List<Plugin> plugins = PluginsData.getPluginsDataFromDb();
-		
+
 		CTabFolder pluginsManagementTabs = new CTabFolder(parent, SWT.BORDER);
 		pluginsManagementTabs.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
@@ -41,30 +41,10 @@ public final class PluginsManagementUI {
 
 		PluginsOverview.createPluginsOverview(overviewTabContents, plugins);
 		PluginsTable.createPluginsTable(overviewTabContents, pluginsManagementTabs, plugins);
-		
+
 		overviewTab.setControl (overviewTabContents);
 		pluginsManagementTabs.setSelection(0);
-	
-		final DiskFileUploadReceiver receiver = new DiskFileUploadReceiver();
-		final FileUploadHandler uploadHandler = new FileUploadHandler( receiver );
-		uploadHandler.addUploadListener( new FileUploadListener() {
-		  public void uploadProgress( FileUploadEvent event ) {}
-		  public void uploadFailed( FileUploadEvent event ) {}
-		  public void uploadFinished( FileUploadEvent event ) {
-		    Activator.getLogger().info( "Stored file: " + receiver.getTargetFiles()[ 0 ].getAbsolutePath() );
-		  }
-		} );
 
-		final FileUpload fileUpload = new FileUpload( parent, SWT.NONE );
-		fileUpload.setText( "Select File" );
-		fileUpload.addSelectionListener( new SelectionAdapter() {
-		  @Override
-		  public void widgetSelected( SelectionEvent e ) {
-		    fileUpload.submit( uploadHandler.getUploadUrl() );
-		  }
-		} );
-	
-	
 	}
 }
 
