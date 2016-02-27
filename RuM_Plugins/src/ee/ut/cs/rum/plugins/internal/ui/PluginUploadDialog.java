@@ -1,8 +1,5 @@
 package ee.ut.cs.rum.plugins.internal.ui;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-
 import org.eclipse.rap.fileupload.DiskFileUploadReceiver;
 import org.eclipse.rap.fileupload.FileUploadEvent;
 import org.eclipse.rap.fileupload.FileUploadHandler;

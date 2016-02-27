@@ -2,49 +2,42 @@ package ee.ut.cs.rum.plugins.ui;
 
 import java.util.List;
 
-import org.eclipse.rap.fileupload.DiskFileUploadReceiver;
-import org.eclipse.rap.fileupload.FileUploadEvent;
-import org.eclipse.rap.fileupload.FileUploadHandler;
-import org.eclipse.rap.fileupload.FileUploadListener;
-import org.eclipse.rap.rwt.widgets.FileUpload;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
 import ee.ut.cs.rum.database.domain.Plugin;
-import ee.ut.cs.rum.plugins.internal.Activator;
 import ee.ut.cs.rum.plugins.internal.ui.util.PluginsOverview;
 import ee.ut.cs.rum.plugins.internal.ui.util.PluginsTable;
 import ee.ut.cs.rum.plugins.internal.util.PluginsData;
 
-public final class PluginsManagementUI {
-
-	private PluginsManagementUI() {
-	}
-
-	public static void createPluginsManagementUI(Composite parent) {
-		List<Plugin> plugins = PluginsData.getPluginsDataFromDb();
-
-		CTabFolder pluginsManagementTabs = new CTabFolder(parent, SWT.BORDER);
-		pluginsManagementTabs.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-
-		CTabItem overviewTab = new CTabItem (pluginsManagementTabs, SWT.NONE);
+public class PluginsManagementUI extends CTabFolder {
+	private static final long serialVersionUID = 2978902689070409076L;
+	
+	private List<Plugin> plugins;
+	private CTabItem overviewTab;
+	private Composite overviewTabContents;
+	
+	public PluginsManagementUI(Composite parent) {
+		super(parent, SWT.BORDER);
+		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		
+		this.plugins = PluginsData.getPluginsDataFromDb();
+		
+		this.overviewTab = new CTabItem (this, SWT.NONE);
 		overviewTab.setText ("Overview");
-
-		Composite overviewTabContents = new Composite(pluginsManagementTabs, SWT.NONE);
+		
+		this.overviewTabContents = new Composite(this, SWT.NONE);
 		overviewTabContents.setLayout(new GridLayout(2, false));
-
+		
 		PluginsOverview.createPluginsOverview(overviewTabContents, plugins);
-		PluginsTable.createPluginsTable(overviewTabContents, pluginsManagementTabs, plugins);
-
+		PluginsTable.createPluginsTable(overviewTabContents, this, plugins);
+		
 		overviewTab.setControl (overviewTabContents);
-		pluginsManagementTabs.setSelection(0);
-
+		this.setSelection(0);
 	}
 }
 

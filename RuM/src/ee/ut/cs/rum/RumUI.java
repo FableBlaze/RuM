@@ -42,8 +42,9 @@ public class RumUI extends AbstractEntryPoint {
 //				em.close();
 //			}
 //		});
+		
+		PluginsManagementUI pluginsManagementUI = new PluginsManagementUI(parent);
 
-		PluginsManagementUI.createPluginsManagementUI(parent);
 
 		Activator.getLogger().info("Someone opened ee.ut.cs.rum.RumUI");
 	}
