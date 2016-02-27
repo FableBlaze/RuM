@@ -4,11 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
-
-import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
@@ -29,29 +24,24 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 import ee.ut.cs.rum.database.domain.Plugin;
-import ee.ut.cs.rum.plugins.internal.Activator;
 
-public final class PluginsTable {
-	private PluginsTable() {
-	}
-
-	public static void createPluginsTable(Composite parent, CTabFolder pluginsManagementTabs, List<Plugin> plugins) {
-		TableViewer viewer = new TableViewer(parent, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
-
-		createColumns(parent, viewer, pluginsManagementTabs);
+public class PluginsTable extends TableViewer {
+	public PluginsTable(OverviewTabContents overviewTabContents, CTabFolder pluginsManagementTabs, List<Plugin> plugins) {
+		super(overviewTabContents, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 		
-		final Table table = viewer.getTable();
+		createColumns(this, pluginsManagementTabs);
+		
+		final Table table = this.getTable();
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
-
-		viewer.setContentProvider(new ArrayContentProvider());
-		viewer.setInput(plugins);
+		
+		this.setContentProvider(new ArrayContentProvider());
+		this.setInput(plugins);
 	}
-
-
-	private static void createColumns(final Composite parent, final TableViewer viewer, CTabFolder pluginsManagementTabs) {
-
+	
+	
+	private static void createColumns(final TableViewer viewer, CTabFolder pluginsManagementTabs) {
 		String[] titles = { "Name", "Description", "Details"};
 		int[] bounds = { 200, 400, 100 };
 
