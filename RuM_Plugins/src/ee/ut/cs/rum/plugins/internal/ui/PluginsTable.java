@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.plugins.internal.ui.util;
+package ee.ut.cs.rum.plugins.internal.ui;
 
 import java.util.HashMap;
 import java.util.List;

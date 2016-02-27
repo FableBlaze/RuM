@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.plugins.internal.ui.util;
+package ee.ut.cs.rum.plugins.internal.ui;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
 import ee.ut.cs.rum.database.domain.Plugin;
-import ee.ut.cs.rum.plugins.internal.ui.PluginUploadDialog;
+import ee.ut.cs.rum.plugins.internal.ui.dialog.PluginUploadDialog;
 
 public final class PluginsOverview {
 	private PluginsOverview() {

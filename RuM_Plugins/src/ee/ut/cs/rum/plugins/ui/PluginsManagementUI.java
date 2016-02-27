@@ -10,8 +10,8 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
 import ee.ut.cs.rum.database.domain.Plugin;
-import ee.ut.cs.rum.plugins.internal.ui.util.PluginsOverview;
-import ee.ut.cs.rum.plugins.internal.ui.util.PluginsTable;
+import ee.ut.cs.rum.plugins.internal.ui.PluginsOverview;
+import ee.ut.cs.rum.plugins.internal.ui.PluginsTable;
 import ee.ut.cs.rum.plugins.internal.util.PluginsData;
 
 public class PluginsManagementUI extends CTabFolder {
