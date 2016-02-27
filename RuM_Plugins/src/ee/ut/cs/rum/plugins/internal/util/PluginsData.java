@@ -22,4 +22,14 @@ public final class PluginsData {
 		return plugins;
 	}
 	
+	public static void addPluginDataToDb(Plugin plugin) {
+		EntityManagerFactory emf = Activator.getEmf();
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		em.persist(plugin);
+		em.getTransaction().commit();
+		em.close();
+		Activator.getLogger().info("Added plugin to db: " + plugin.toString());
+	}
+	
 }

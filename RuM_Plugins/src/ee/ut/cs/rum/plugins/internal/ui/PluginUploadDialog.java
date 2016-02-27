@@ -15,12 +15,12 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Dialog;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.plugins.internal.Activator;
+import ee.ut.cs.rum.plugins.internal.util.PluginsData;
 
 public class PluginUploadDialog extends Dialog {
 	
@@ -74,31 +74,21 @@ public class PluginUploadDialog extends Dialog {
 		
 
 		// Create the OK button and add a handler
-		// so that pressing it will set input
-		// to the entered value
 		Button ok = new Button(shell, SWT.PUSH);
 		ok.setText("OK");
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		ok.setLayoutData(gridData);
 		ok.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
-				EntityManagerFactory emf = Activator.getEmf();
-				EntityManager em = emf.createEntityManager();
-				em.getTransaction().begin();
 				Plugin plugin = new Plugin();
 				plugin.setName(pluginName.getText());
 				plugin.setDescription(pluginDescription.getText());
-				em.persist(plugin);
-				em.getTransaction().commit();
-				
-				
-				
+				PluginsData.addPluginDataToDb(plugin);
 				shell.close();
 			}
 		});
 
 		// Create the cancel button and add a handler
-		// so that pressing it will set input to null
 		Button cancel = new Button(shell, SWT.PUSH);
 		cancel.setText("Cancel");
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
