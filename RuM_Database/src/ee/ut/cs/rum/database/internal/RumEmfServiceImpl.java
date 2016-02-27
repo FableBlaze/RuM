@@ -21,9 +21,11 @@ public class RumEmfServiceImpl implements RumEmfService {
 		props.put("javax.persistence.jdbc.password", "postgres");
 		props.put("javax.persistence.jdbc.driver", "org.postgresql.Driver");
 
+		@SuppressWarnings("rawtypes")
 		ServiceReference[] refs = context.getServiceReferences(EntityManagerFactoryBuilder.class.getName(),
 				"(osgi.unit.name=RuM)");
 		//TODO: Add error handling
+		@SuppressWarnings("unchecked")
 		EntityManagerFactoryBuilder emfb = (EntityManagerFactoryBuilder)context.getService(refs[0]);
 		emf = emfb.createEntityManagerFactory(props);
 	}

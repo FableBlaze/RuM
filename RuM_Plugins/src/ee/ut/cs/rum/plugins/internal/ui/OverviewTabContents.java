@@ -10,14 +10,22 @@ public class OverviewTabContents extends Composite {
 	private static final long serialVersionUID = 5073868530789359506L;
 	
 	private PluginsOverview pluginsOverview;
-	private PluginsTable pluginsTable;
+	private PluginsTableViewer pluginsTableViewer;
 
 	public OverviewTabContents(PluginsManagementUI pluginsManagementUI) {
 		super(pluginsManagementUI, SWT.NONE);
 		this.setLayout(new GridLayout(2, false));
 		
-		pluginsOverview = new PluginsOverview(this, pluginsManagementUI.getPlugins());
-		pluginsTable = new PluginsTable(this, pluginsManagementUI, pluginsManagementUI.getPlugins());
+		this.pluginsOverview = new PluginsOverview(this, pluginsManagementUI.getPlugins());
+		this.pluginsTableViewer = new PluginsTableViewer(this, pluginsManagementUI, pluginsManagementUI.getPlugins());
+	}
+	
+	public PluginsOverview getPluginsOverview() {
+		return pluginsOverview;
+	}
+	
+	public PluginsTableViewer getPluginsTableViewer() {
+		return pluginsTableViewer;
 	}
 	
 }

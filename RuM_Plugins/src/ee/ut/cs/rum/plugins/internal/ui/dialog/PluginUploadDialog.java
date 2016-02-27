@@ -17,17 +17,19 @@ import org.eclipse.swt.widgets.Text;
 
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.plugins.internal.Activator;
+import ee.ut.cs.rum.plugins.internal.ui.OverviewTabContents;
 import ee.ut.cs.rum.plugins.internal.util.PluginsData;
 
 public class PluginUploadDialog extends Dialog {
+	private static final long serialVersionUID = 3382119816602279394L;
 	
-	public PluginUploadDialog(Shell parent) {
-		this(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
-	}
-	public PluginUploadDialog(Shell parent, int style) {
-		super(parent, style);
-	}
+	private OverviewTabContents overviewTabContents;
 	
+	public PluginUploadDialog(Shell activeShell, OverviewTabContents overviewTabContents) {
+		super(activeShell, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
+		this.overviewTabContents = overviewTabContents;
+	}
+
 	public String open() {
 		// Create the dialog window
 		Shell shell = new Shell(getParent(), getStyle());
@@ -63,6 +65,8 @@ public class PluginUploadDialog extends Dialog {
 		fileUpload.setLayoutData(gridData);
 		fileUpload.setText( "Select File" );
 		fileUpload.addSelectionListener( new SelectionAdapter() {
+			private static final long serialVersionUID = -5887356014040291468L;
+
 			@Override
 			public void widgetSelected( SelectionEvent e ) {
 				fileUpload.submit( uploadHandler.getUploadUrl() );
@@ -76,11 +80,13 @@ public class PluginUploadDialog extends Dialog {
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		ok.setLayoutData(gridData);
 		ok.addSelectionListener(new SelectionAdapter() {
+			private static final long serialVersionUID = -7891195942424898731L;
+
 			public void widgetSelected(SelectionEvent event) {
 				Plugin plugin = new Plugin();
 				plugin.setName(pluginName.getText());
 				plugin.setDescription(pluginDescription.getText());
-				PluginsData.addPluginDataToDb(plugin);
+				PluginsData.addPluginDataToDb(plugin, overviewTabContents);
 				shell.close();
 			}
 		});
@@ -91,6 +97,8 @@ public class PluginUploadDialog extends Dialog {
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		cancel.setLayoutData(gridData);
 		cancel.addSelectionListener(new SelectionAdapter() {
+			private static final long serialVersionUID = -415016060227564447L;
+
 			public void widgetSelected(SelectionEvent event) {
 				shell.close();
 			}

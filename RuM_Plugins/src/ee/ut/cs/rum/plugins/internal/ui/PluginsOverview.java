@@ -19,11 +19,15 @@ public class PluginsOverview extends Composite{
 	private static final long serialVersionUID = 6363000997779117721L;
 	
 	private List<Plugin> plugins;
+	private OverviewTabContents overviewTabContents;
+	
+	private Label numberOfPluginsLable;
 
 	public PluginsOverview(OverviewTabContents overviewTabContents, List<Plugin> plugins) {
 		super(overviewTabContents, SWT.NONE);
 		
 		this.plugins = plugins;
+		this.overviewTabContents = overviewTabContents;
 		
 		this.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, true));
 		this.setLayout(new GridLayout(2, false));
@@ -37,9 +41,9 @@ public class PluginsOverview extends Composite{
 		label.setText("Total plugins:");
 		label.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, true, true));
 		
-		label = new Label(this, SWT.NONE);
-		label.setText(Integer.toString(plugins.size()));
-		label.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, true, true));
+		numberOfPluginsLable = new Label(this, SWT.NONE);
+		numberOfPluginsLable.setText(Integer.toString(plugins.size()));
+		numberOfPluginsLable.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, true, true));
 		
 		Button button = new Button(this, SWT.PUSH);
 		button.setText("Add plugin (TODO)");
@@ -52,10 +56,14 @@ public class PluginsOverview extends Composite{
 
 			@Override
 			public void handleEvent(Event arg0) {
-				PluginUploadDialog pud = new PluginUploadDialog(Display.getCurrent().getActiveShell());
+				PluginUploadDialog pud = new PluginUploadDialog(Display.getCurrent().getActiveShell(), overviewTabContents);
 				pud.open();
 			}
 		});
 	}
-
+	
+	public Label getNumberOfPluginsLable() {
+		return numberOfPluginsLable;
+	}
+	
 }

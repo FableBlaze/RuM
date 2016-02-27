@@ -25,8 +25,10 @@ import org.eclipse.swt.widgets.TableItem;
 
 import ee.ut.cs.rum.database.domain.Plugin;
 
-public class PluginsTable extends TableViewer {
-	public PluginsTable(OverviewTabContents overviewTabContents, CTabFolder pluginsManagementTabs, List<Plugin> plugins) {
+public class PluginsTableViewer extends TableViewer {
+	private static final long serialVersionUID = -2085870762932626509L;
+
+	public PluginsTableViewer(OverviewTabContents overviewTabContents, CTabFolder pluginsManagementTabs, List<Plugin> plugins) {
 		super(overviewTabContents, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 		
 		createColumns(this, pluginsManagementTabs);
@@ -47,6 +49,8 @@ public class PluginsTable extends TableViewer {
 
 		TableViewerColumn col = createTableViewerColumn(titles[0], bounds[0], 0, viewer);
 		col.setLabelProvider(new ColumnLabelProvider() {
+			private static final long serialVersionUID = 5872575516853111364L;
+
 			@Override
 			public String getText(Object element) {
 				Plugin p = (Plugin) element;
@@ -56,6 +60,8 @@ public class PluginsTable extends TableViewer {
 
 		TableViewerColumn col2 = createTableViewerColumn(titles[1], bounds[1], 1, viewer);
 		col2.setLabelProvider(new ColumnLabelProvider() {
+			private static final long serialVersionUID = 859768103676685673L;
+
 			@Override
 			public String getText(Object element) {
 				Plugin p = (Plugin) element;
@@ -65,6 +71,8 @@ public class PluginsTable extends TableViewer {
 
 		TableViewerColumn col3 = createTableViewerColumn(titles[2], bounds[2], 2, viewer);
 		col3.setLabelProvider(new ColumnLabelProvider() {
+			private static final long serialVersionUID = -8762829711174270692L;
+			
 			//TODO: The buttons are probably not disposed properly
 			Map<Object, Button> buttons = new HashMap<Object, Button>();
 
@@ -80,6 +88,7 @@ public class PluginsTable extends TableViewer {
 					button = new Button((Composite) cell.getViewerRow().getControl(),SWT.NONE);
 					button.setText("Details");
 					button.addSelectionListener(new SelectionListener() {
+						private static final long serialVersionUID = 2256156491864328920L;
 
 						@Override
 						public void widgetSelected(SelectionEvent arg0) {

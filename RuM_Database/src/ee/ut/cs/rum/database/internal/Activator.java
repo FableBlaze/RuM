@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 
 import ee.ut.cs.rum.database.RumEmfService;
 
-@SuppressWarnings({ "unchecked", "rawtypes" })
 public class Activator implements BundleActivator {
 	private static BundleContext context;
 	private static Logger logger;

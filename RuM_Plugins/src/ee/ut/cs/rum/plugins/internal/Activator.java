@@ -14,15 +14,16 @@ import ee.ut.cs.rum.database.RumEmfService;
 public class Activator implements BundleActivator {
 	private static BundleContext context;
 	private static Logger logger;
-	private ServiceTracker<?, ?> serviceTracker;
 	private static EntityManagerFactory emf;
-
+	
+	
 	public void start(BundleContext bundleContext) throws Exception {
 		Activator.context = bundleContext;
 		logger = LoggerFactory.getLogger("ee.ut.cs.rum.virgoConsole");
 
 		EmfTrackerCustomizer emfTrackerCustomizer = new EmfTrackerCustomizer(context);
-		serviceTracker = new ServiceTracker<Object, Object>(context, RumEmfService.class.getName(), emfTrackerCustomizer);
+		@SuppressWarnings("unchecked")
+		ServiceTracker<?, ?> serviceTracker = new ServiceTracker<Object, Object>(context, RumEmfService.class.getName(), emfTrackerCustomizer);
 		serviceTracker.open();
 
 		RumEmfService rumEmfService = (RumEmfService) serviceTracker.getService();
