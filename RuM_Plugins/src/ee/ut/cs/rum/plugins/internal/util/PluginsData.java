@@ -35,9 +35,7 @@ public final class PluginsData {
 		em.close();
 		
 		PluginsTableViewer pluginsTableViewer = overviewTabContents.getPluginsTableViewer();
-		@SuppressWarnings("unchecked")
-		List<Plugin> plugins = (List<Plugin>) pluginsTableViewer.getInput();
-		plugins.add(plugin);
+		List<Plugin> plugins = getPluginsDataFromDb();
 		pluginsTableViewer.refresh();
 		
 		overviewTabContents.getPluginsOverview().getNumberOfPluginsLable().setText(Integer.toString(plugins.size()));

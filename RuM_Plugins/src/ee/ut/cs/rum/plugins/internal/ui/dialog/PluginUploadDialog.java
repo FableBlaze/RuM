@@ -31,7 +31,6 @@ public class PluginUploadDialog extends Dialog {
 	}
 
 	public String open() {
-		// Create the dialog window
 		Shell shell = new Shell(getParent(), getStyle());
 		createContents(shell);
 		shell.pack();
@@ -73,8 +72,6 @@ public class PluginUploadDialog extends Dialog {
 			}
 		} );
 		
-
-		// Create the OK button and add a handler
 		Button ok = new Button(shell, SWT.PUSH);
 		ok.setText("OK");
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
@@ -90,8 +87,7 @@ public class PluginUploadDialog extends Dialog {
 				shell.close();
 			}
 		});
-
-		// Create the cancel button and add a handler
+		
 		Button cancel = new Button(shell, SWT.PUSH);
 		cancel.setText("Cancel");
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
@@ -104,9 +100,6 @@ public class PluginUploadDialog extends Dialog {
 			}
 		});
 
-		// Set the OK button as the default, so
-		// user can type input and press Enter
-		// to dismiss
 		shell.setDefaultButton(ok);
 	}
 }
