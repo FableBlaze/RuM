@@ -6,7 +6,6 @@ Bundle-ManifestVersion: 2
 Bundle-ClassPath: WEB-INF/classes
 Web-ContextPath: RuM
 Import-Package: ee.ut.cs.rum.database,
- ee.ut.cs.rum.database.domain,
  ee.ut.cs.rum.plugins.ui,
  javax.persistence;version="[2.0.4,2.0.4]",
  org.osgi.framework;version="[1.7.0,1.7.0]",
