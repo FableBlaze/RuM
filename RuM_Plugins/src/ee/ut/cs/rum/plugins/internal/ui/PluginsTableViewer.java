@@ -23,6 +23,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 import ee.ut.cs.rum.database.domain.Plugin;
+import ee.ut.cs.rum.plugins.internal.Activator;
 import ee.ut.cs.rum.plugins.internal.util.PluginsData;
 
 public class PluginsTableViewer extends TableViewer {
@@ -74,18 +75,18 @@ public class PluginsTableViewer extends TableViewer {
 			private static final long serialVersionUID = -8762829711174270692L;
 			
 			//TODO: The buttons are probably not disposed properly
-			Map<Object, Button> buttons = new HashMap<Object, Button>();
+			Map<Object, PluginDetailsButton> buttons = new HashMap<Object, PluginDetailsButton>();
 
 			@Override
 			public void update(ViewerCell cell) {
-
 				TableItem item = (TableItem) cell.getItem();
-				Button button;
+				PluginDetailsButton button;
 				if(buttons.containsKey(cell.getElement())) {
 					button = buttons.get(cell.getElement());
 				}
 				else {
-					button = new Button((Composite) cell.getViewerRow().getControl(),SWT.NONE);
+					Plugin p = (Plugin) cell.getElement();
+					button = new PluginDetailsButton((Composite) cell.getViewerRow().getControl(),p.getId());
 					button.setText("Details");
 					button.addSelectionListener(new SelectionListener() {
 						private static final long serialVersionUID = 2256156491864328920L;
@@ -98,6 +99,8 @@ public class PluginsTableViewer extends TableViewer {
 							label.setText ("Plugin details");
 							item.setControl (label);
 							pluginsManagementTabs.setSelection(pluginsManagementTabs.getItemCount()-1);
+							
+							Activator.getLogger().info("Opened deatils of plugin with id: " + ((PluginDetailsButton) arg0.getSource()).getPluginId());
 						}
 
 						@Override
