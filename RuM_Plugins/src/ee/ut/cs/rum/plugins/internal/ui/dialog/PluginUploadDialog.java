@@ -4,6 +4,7 @@ import org.eclipse.rap.fileupload.DiskFileUploadReceiver;
 import org.eclipse.rap.fileupload.FileUploadEvent;
 import org.eclipse.rap.fileupload.FileUploadHandler;
 import org.eclipse.rap.fileupload.FileUploadListener;
+import org.eclipse.rap.rwt.service.ServerPushSession;
 import org.eclipse.rap.rwt.widgets.FileUpload;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -25,22 +26,27 @@ import ee.ut.cs.rum.plugins.internal.util.PluginsData;
 public class PluginUploadDialog extends Dialog {
 	private static final long serialVersionUID = 3382119816602279394L;
 	
+	ServerPushSession pushSession;
+	
 	private OverviewTabContents overviewTabContents;
 	
 	private Label fileName;
 	private Button ok;
 	
 	public PluginUploadDialog(Shell activeShell, OverviewTabContents overviewTabContents) {
-		super(activeShell, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
+		super(activeShell, SWT.APPLICATION_MODAL | SWT.TITLE | SWT.BORDER);
 		this.overviewTabContents = overviewTabContents;
 	}
 
 	public String open() {
 		Shell shell = new Shell(getParent(), getStyle());
+		shell.setText("Add plugin");
 		createContents(shell);
 		shell.pack();
 		shell.setLocation (100, 100);
 		shell.open();
+		pushSession = new ServerPushSession();
+		pushSession.start();
 		return null;
 	}
 
@@ -60,7 +66,6 @@ public class PluginUploadDialog extends Dialog {
 			public void uploadFailed(FileUploadEvent event) {}
 			public void uploadFinished(FileUploadEvent event) {
 				Activator.getLogger().info("Stored file: " + receiver.getTargetFiles()[0].getAbsolutePath());
-				//TODO: This takes too long, check if can be done in the UI thread directly
 				Display.getDefault().syncExec(new Runnable() {
 				    public void run() {
 				    	if (!fileName.isDisposed()) {
@@ -72,16 +77,16 @@ public class PluginUploadDialog extends Dialog {
 			}
 		} );
 
-		FileUpload fileUpload = new FileUpload( shell, SWT.NONE );
+		FileUpload fileUpload = new FileUpload(shell, SWT.NONE);
 		GridData gridData = new GridData();
 		gridData.horizontalSpan = 1;
 		fileUpload.setLayoutData(gridData);
-		fileUpload.setText( "Select File" );
-		fileUpload.addSelectionListener( new SelectionAdapter() {
+		fileUpload.setText("Select File");
+		fileUpload.addSelectionListener(new SelectionAdapter() {
 			private static final long serialVersionUID = -5887356014040291468L;
 
 			@Override
-			public void widgetSelected( SelectionEvent e ) {
+			public void widgetSelected(SelectionEvent e) {
 				fileUpload.submit(uploadHandler.getUploadUrl());
 				fileName.setText("");
 				ok.setEnabled(false);
@@ -117,6 +122,7 @@ public class PluginUploadDialog extends Dialog {
 			private static final long serialVersionUID = -415016060227564447L;
 
 			public void widgetSelected(SelectionEvent event) {
+				pushSession.stop();
 				shell.close();
 			}
 		});
