@@ -9,21 +9,14 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CTabFolder;
-import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.custom.TableEditor;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 import ee.ut.cs.rum.database.domain.Plugin;
-import ee.ut.cs.rum.plugins.internal.Activator;
 import ee.ut.cs.rum.plugins.internal.util.PluginsData;
 import ee.ut.cs.rum.plugins.ui.PluginsManagementUI;
 
@@ -49,90 +42,58 @@ public class PluginsTableViewer extends TableViewer {
 		String[] titles = { "Name", "Description", "Details"};
 		int[] bounds = { 200, 400, 100 };
 
-		TableViewerColumn col = createTableViewerColumn(titles[0], bounds[0], 0, viewer);
-		col.setLabelProvider(new ColumnLabelProvider() {
+		TableViewerColumn nameColumn = createTableViewerColumn(titles[0], bounds[0], viewer);
+		nameColumn.setLabelProvider(new ColumnLabelProvider() {
 			private static final long serialVersionUID = 5872575516853111364L;
 
 			@Override
 			public String getText(Object element) {
-				Plugin p = (Plugin) element;
-				return p.getName();
+				Plugin plugin = (Plugin) element;
+				return plugin.getName();
 			}
 		});
 
-		TableViewerColumn col2 = createTableViewerColumn(titles[1], bounds[1], 1, viewer);
-		col2.setLabelProvider(new ColumnLabelProvider() {
+		TableViewerColumn descriptionColumn = createTableViewerColumn(titles[1], bounds[1], viewer);
+		descriptionColumn.setLabelProvider(new ColumnLabelProvider() {
 			private static final long serialVersionUID = 859768103676685673L;
 
 			@Override
 			public String getText(Object element) {
-				Plugin p = (Plugin) element;
-				return p.getDescription();
+				Plugin plugin = (Plugin) element;
+				return plugin.getDescription();
 			}
 		});
 
-		TableViewerColumn col3 = createTableViewerColumn(titles[2], bounds[2], 2, viewer);
-		col3.setLabelProvider(new ColumnLabelProvider() {
+		TableViewerColumn detailsButtonColumn = createTableViewerColumn(titles[2], bounds[2], viewer);
+		detailsButtonColumn.setLabelProvider(new ColumnLabelProvider() {
 			private static final long serialVersionUID = -8762829711174270692L;
 			
 			//TODO: The buttons are probably not disposed properly
-			Map<Object, PluginDetailsButton> buttons = new HashMap<Object, PluginDetailsButton>();
+			Map<Object, PluginDetailsButton> pluginDetailsButtons = new HashMap<Object, PluginDetailsButton>();
 
 			@Override
 			public void update(ViewerCell cell) {
 				TableItem item = (TableItem) cell.getItem();
-				PluginDetailsButton button;
-				if(buttons.containsKey(cell.getElement())) {
-					button = buttons.get(cell.getElement());
+				PluginDetailsButton pluginDetailsButton;
+				if(pluginDetailsButtons.containsKey(cell.getElement())) {
+					pluginDetailsButton = pluginDetailsButtons.get(cell.getElement());
 				}
 				else {
-					Plugin p = (Plugin) cell.getElement();
-					button = new PluginDetailsButton((Composite) cell.getViewerRow().getControl(),p.getId());
-					button.setText("Details");
-					button.addSelectionListener(new SelectionListener() {
-						private static final long serialVersionUID = 2256156491864328920L;
-
-						@Override
-						public void widgetSelected(SelectionEvent arg0) {
-							Long pluginId = ((PluginDetailsButton) arg0.getSource()).getPluginId();
-							CTabItem cTabItem = null;
-							
-							//Checking if the tab is already open
-							for (CTabItem c : pluginsManagementUI.getItems()) {
-								if (c.getControl().getClass() == PluginDetails.class) {
-									if (((PluginDetails)c.getControl()).getPluginId() == pluginId) {
-										cTabItem = c;
-										pluginsManagementUI.setSelection(c);
-									}
-									
-								}
-							}
-							
-							if (cTabItem == null) {
-								cTabItem = new CTabItem (pluginsManagementUI, SWT.CLOSE);
-								cTabItem.setText ("Plugin " + pluginId.toString());
-								cTabItem.setControl(new PluginDetails(pluginsManagementUI, pluginId));
-								pluginsManagementUI.setSelection(cTabItem);	
-							}
-						}
-
-						@Override
-						public void widgetDefaultSelected(SelectionEvent arg0) {
-						}
-					});
-					buttons.put(cell.getElement(), button);
+					Plugin plugin = (Plugin) cell.getElement();
+					pluginDetailsButton = new PluginDetailsButton((Composite) cell.getViewerRow().getControl(), plugin.getId(), pluginsManagementUI);
+					pluginDetailsButtons.put(cell.getElement(), pluginDetailsButton);
 				}
 				TableEditor editor = new TableEditor(item.getParent());
 				editor.grabHorizontal  = true;
 				editor.grabVertical = true;
-				editor.setEditor(button , item, cell.getColumnIndex());
+				editor.setEditor(pluginDetailsButton , item, cell.getColumnIndex());
 				editor.layout();
 			}
 		});
 
 	}
 
-	private static TableViewerColumn createTableViewerColumn(String title, int bound, final int colNumber, final TableViewer viewer) {
+	private static TableViewerColumn createTableViewerColumn(String title, int bound, final TableViewer viewer) {
 		final TableViewerColumn viewerColumn = new TableViewerColumn(viewer, SWT.NONE);
 		final TableColumn column = viewerColumn.getColumn();
 		column.setText(title);
