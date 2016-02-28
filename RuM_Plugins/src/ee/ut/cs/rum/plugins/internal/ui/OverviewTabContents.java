@@ -16,8 +16,8 @@ public class OverviewTabContents extends Composite {
 		super(pluginsManagementUI, SWT.NONE);
 		this.setLayout(new GridLayout(2, false));
 		
-		this.pluginsOverview = new PluginsOverview(this, pluginsManagementUI.getPlugins());
-		this.pluginsTableViewer = new PluginsTableViewer(this, pluginsManagementUI, pluginsManagementUI.getPlugins());
+		this.pluginsOverview = new PluginsOverview(this);
+		this.pluginsTableViewer = new PluginsTableViewer(this, pluginsManagementUI);
 	}
 	
 	public PluginsOverview getPluginsOverview() {

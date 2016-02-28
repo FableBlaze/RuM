@@ -9,7 +9,6 @@ import javax.persistence.Query;
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.plugins.internal.Activator;
 import ee.ut.cs.rum.plugins.internal.ui.OverviewTabContents;
-import ee.ut.cs.rum.plugins.internal.ui.PluginsTableViewer;
 
 public final class PluginsData {
 	
@@ -34,10 +33,8 @@ public final class PluginsData {
 		em.getTransaction().commit();
 		em.close();
 		
-		PluginsTableViewer pluginsTableViewer = overviewTabContents.getPluginsTableViewer();
 		List<Plugin> plugins = getPluginsDataFromDb();
-		pluginsTableViewer.refresh();
-		
+		overviewTabContents.getPluginsTableViewer().setInput(plugins);
 		overviewTabContents.getPluginsOverview().getNumberOfPluginsLable().setText(Integer.toString(plugins.size()));
 		
 		Activator.getLogger().info("Added plugin to db: " + plugin.toString());

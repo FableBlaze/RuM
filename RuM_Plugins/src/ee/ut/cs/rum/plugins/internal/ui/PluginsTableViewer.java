@@ -1,7 +1,6 @@
 package ee.ut.cs.rum.plugins.internal.ui;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -24,11 +23,12 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 import ee.ut.cs.rum.database.domain.Plugin;
+import ee.ut.cs.rum.plugins.internal.util.PluginsData;
 
 public class PluginsTableViewer extends TableViewer {
 	private static final long serialVersionUID = -2085870762932626509L;
 
-	public PluginsTableViewer(OverviewTabContents overviewTabContents, CTabFolder pluginsManagementTabs, List<Plugin> plugins) {
+	public PluginsTableViewer(OverviewTabContents overviewTabContents, CTabFolder pluginsManagementTabs) {
 		super(overviewTabContents, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 		
 		createColumns(this, pluginsManagementTabs);
@@ -39,7 +39,7 @@ public class PluginsTableViewer extends TableViewer {
 		table.setLinesVisible(true);
 		
 		this.setContentProvider(new ArrayContentProvider());
-		this.setInput(plugins);
+		this.setInput(PluginsData.getPluginsDataFromDb());
 	}
 	
 	
