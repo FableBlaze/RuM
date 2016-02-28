@@ -13,7 +13,7 @@ import org.eclipse.swt.widgets.Listener;
 import ee.ut.cs.rum.plugins.internal.ui.dialog.PluginUploadDialog;
 import ee.ut.cs.rum.plugins.internal.util.PluginsData;
 
-public class PluginsOverview extends Composite{
+public class PluginsOverview extends Composite {
 	private static final long serialVersionUID = 6363000997779117721L;
 	
 	private OverviewTabContents overviewTabContents;
@@ -31,7 +31,7 @@ public class PluginsOverview extends Composite{
 		createContents();
 	}
 	
-	
+
 	private void createContents() {
 		Label label = new Label(this, SWT.NONE);
 		label.setText("Total plugins:");

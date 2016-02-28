@@ -40,4 +40,14 @@ public final class PluginsData {
 		Activator.getLogger().info("Added plugin to db: " + plugin.toString());
 	}
 	
+	public static Plugin getPluginDataFromDb(Long pluginId) {
+		EntityManagerFactory emf = Activator.getEmf();
+		EntityManager em = emf.createEntityManager();
+		Query query = em.createQuery("Select p from Plugin p where p.id =" + pluginId);
+		@SuppressWarnings("unchecked")
+		Plugin plugin = (Plugin) query.getSingleResult();
+		
+		return plugin;
+	}
+	
 }

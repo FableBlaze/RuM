@@ -25,14 +25,15 @@ import org.eclipse.swt.widgets.TableItem;
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.plugins.internal.Activator;
 import ee.ut.cs.rum.plugins.internal.util.PluginsData;
+import ee.ut.cs.rum.plugins.ui.PluginsManagementUI;
 
 public class PluginsTableViewer extends TableViewer {
 	private static final long serialVersionUID = -2085870762932626509L;
 
-	public PluginsTableViewer(OverviewTabContents overviewTabContents, CTabFolder pluginsManagementTabs) {
+	public PluginsTableViewer(OverviewTabContents overviewTabContents, PluginsManagementUI pluginsManagementUI) {
 		super(overviewTabContents, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 		
-		createColumns(this, pluginsManagementTabs);
+		createColumns(this, pluginsManagementUI);
 		
 		final Table table = this.getTable();
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -44,7 +45,7 @@ public class PluginsTableViewer extends TableViewer {
 	}
 	
 	
-	private static void createColumns(final TableViewer viewer, CTabFolder pluginsManagementTabs) {
+	private static void createColumns(final TableViewer viewer, PluginsManagementUI pluginsManagementUI) {
 		String[] titles = { "Name", "Description", "Details"};
 		int[] bounds = { 200, 400, 100 };
 
@@ -93,14 +94,12 @@ public class PluginsTableViewer extends TableViewer {
 
 						@Override
 						public void widgetSelected(SelectionEvent arg0) {
-							CTabItem item = new CTabItem (pluginsManagementTabs, SWT.NONE | SWT.CLOSE);
-							item.setText ("Plugin x");
-							Label label = new Label (pluginsManagementTabs, SWT.PUSH);
-							label.setText ("Plugin details");
-							item.setControl (label);
-							pluginsManagementTabs.setSelection(pluginsManagementTabs.getItemCount()-1);
+							Long pluginId = ((PluginDetailsButton) arg0.getSource()).getPluginId();
+							CTabItem cTabItem = new CTabItem (pluginsManagementUI, SWT.CLOSE);
+							cTabItem.setText ("Plugin " + pluginId.toString());
 							
-							Activator.getLogger().info("Opened deatils of plugin with id: " + ((PluginDetailsButton) arg0.getSource()).getPluginId());
+							cTabItem.setControl(new PluginDetails(pluginsManagementUI, pluginId));
+							pluginsManagementUI.setSelection(pluginsManagementUI.getItemCount()-1);
 						}
 
 						@Override
