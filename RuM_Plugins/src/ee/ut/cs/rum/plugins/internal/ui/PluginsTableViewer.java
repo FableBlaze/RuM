@@ -95,11 +95,25 @@ public class PluginsTableViewer extends TableViewer {
 						@Override
 						public void widgetSelected(SelectionEvent arg0) {
 							Long pluginId = ((PluginDetailsButton) arg0.getSource()).getPluginId();
-							CTabItem cTabItem = new CTabItem (pluginsManagementUI, SWT.CLOSE);
-							cTabItem.setText ("Plugin " + pluginId.toString());
+							CTabItem cTabItem = null;
 							
-							cTabItem.setControl(new PluginDetails(pluginsManagementUI, pluginId));
-							pluginsManagementUI.setSelection(pluginsManagementUI.getItemCount()-1);
+							//Checking if the tab is already open
+							for (CTabItem c : pluginsManagementUI.getItems()) {
+								if (c.getControl().getClass() == PluginDetails.class) {
+									if (((PluginDetails)c.getControl()).getPluginId() == pluginId) {
+										cTabItem = c;
+										pluginsManagementUI.setSelection(c);
+									}
+									
+								}
+							}
+							
+							if (cTabItem == null) {
+								cTabItem = new CTabItem (pluginsManagementUI, SWT.CLOSE);
+								cTabItem.setText ("Plugin " + pluginId.toString());
+								cTabItem.setControl(new PluginDetails(pluginsManagementUI, pluginId));
+								pluginsManagementUI.setSelection(cTabItem);	
+							}
 						}
 
 						@Override
