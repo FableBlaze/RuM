@@ -12,6 +12,5 @@ Import-Package: ee.ut.cs.rum.database,
  org.osgi.util.tracker;version="[1.5.1,1.5.1]",
  org.slf4j;version="1.7.2"
 Bundle-Activator: ee.ut.cs.rum.Activator
-Import-Bundle: org.eclipse.rap.rwt;version="[3.0.1.20150908-1130,3.0.1.20150908-1130]",
- org.eclipse.rap.ui.workbench;version="[3.0.1.20150709-1405,3.0.1.20150709-1405]"
+Import-Bundle: org.eclipse.rap.rwt;version="[3.0.1.20150908-1130,3.0.1.20150908-1130]"
 
