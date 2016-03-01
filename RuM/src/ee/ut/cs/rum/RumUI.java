@@ -4,6 +4,7 @@ import org.eclipse.rap.rwt.application.AbstractEntryPoint;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
@@ -19,12 +20,16 @@ public class RumUI extends AbstractEntryPoint {
 	public void createContents( Composite parent ) {
 		hiddenComponentsShell = new Shell();
 		
+		Button workspacesButton = new Button(parent, SWT.PUSH);
+		Button pluginsManagemenButton = new Button(parent, SWT.PUSH);
+		
 		Composite workspacesUI = new Composite(hiddenComponentsShell, SWT.BORDER);
+		workspacesUI.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		
 		Composite pluginsManagementUI = new PluginsManagementUI(parent);
 		visibleComponent=pluginsManagementUI;
 		
 		
-        Button workspacesButton = new Button(parent, SWT.PUSH);
         workspacesButton.setText("Workspaces");
         workspacesButton.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent event) {
@@ -32,11 +37,11 @@ public class RumUI extends AbstractEntryPoint {
                 	visibleComponent.setParent(hiddenComponentsShell);
                     workspacesUI.setParent(parent);
                     visibleComponent=workspacesUI;
+                    parent.layout();
                 }
             }
         });
 		
-        Button pluginsManagemenButton = new Button(parent, SWT.PUSH);
         pluginsManagemenButton.setText("Plugins management");
         pluginsManagemenButton.addSelectionListener(new SelectionAdapter() {
         	public void widgetSelected(SelectionEvent event) {
@@ -44,6 +49,7 @@ public class RumUI extends AbstractEntryPoint {
         			visibleComponent.setParent(hiddenComponentsShell);
         			pluginsManagementUI.setParent(parent);
                     visibleComponent=pluginsManagementUI;
+                    parent.layout();
         		}
         	}
         });
