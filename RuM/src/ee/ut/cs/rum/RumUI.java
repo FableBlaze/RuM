@@ -13,23 +13,40 @@ import ee.ut.cs.rum.plugins.ui.PluginsManagementUI;
 public class RumUI extends AbstractEntryPoint {
 	private static final long serialVersionUID = 1282027955721012064L;
 	
-	private PluginsManagementUI pluginsManagementUI;
+	private Composite visibleComponent;
+    private Shell hiddenComponentsShell;
 
 	public void createContents( Composite parent ) {
-		//TODO: Hidden shell does not seem like the correct way to handle navigation
-		Shell hiddenComponentsParent = new Shell();
+		hiddenComponentsShell = new Shell();
 		
-		Button b = new Button(parent, SWT.PUSH);
-		b.setText("Plugins management");
-		b.addSelectionListener(new SelectionAdapter() {
-			private static final long serialVersionUID = -7891195942424898731L;
-			public void widgetSelected(SelectionEvent event) {
-				if (pluginsManagementUI.getParent()==hiddenComponentsParent) {pluginsManagementUI.setParent(parent);}
-				else {pluginsManagementUI.setParent(hiddenComponentsParent);}
-			}
-		});
+		Composite workspacesUI = new Composite(hiddenComponentsShell, SWT.BORDER);
+		Composite pluginsManagementUI = new PluginsManagementUI(parent);
+		visibleComponent=pluginsManagementUI;
 		
-		pluginsManagementUI = new PluginsManagementUI(parent);
+		
+        Button workspacesButton = new Button(parent, SWT.PUSH);
+        workspacesButton.setText("Workspaces");
+        workspacesButton.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent event) {
+                if (visibleComponent!=workspacesUI) {
+                	visibleComponent.setParent(hiddenComponentsShell);
+                    workspacesUI.setParent(parent);
+                    visibleComponent=workspacesUI;
+                }
+            }
+        });
+		
+        Button pluginsManagemenButton = new Button(parent, SWT.PUSH);
+        pluginsManagemenButton.setText("Plugins management");
+        pluginsManagemenButton.addSelectionListener(new SelectionAdapter() {
+        	public void widgetSelected(SelectionEvent event) {
+        		if (visibleComponent!=pluginsManagementUI) {
+        			visibleComponent.setParent(hiddenComponentsShell);
+        			pluginsManagementUI.setParent(parent);
+                    visibleComponent=pluginsManagementUI;
+        		}
+        	}
+        });
 		
 		Activator.getLogger().info("Someone opened ee.ut.cs.rum.RumUI");
 	}
