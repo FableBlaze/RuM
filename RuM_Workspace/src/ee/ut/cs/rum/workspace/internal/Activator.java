@@ -13,11 +13,11 @@ public class Activator implements BundleActivator {
 		Activator.context = bundleContext;
 		logger = LoggerFactory.getLogger("ee.ut.cs.rum.virgoConsole");
 		
-		logger.info("RuM_database bundle started");
+		logger.info("RuM_workspace bundle started");
 	}
 
 	public void stop(BundleContext bundleContext) throws Exception {
-		logger.info("RuM_database bundle stopped");
+		logger.info("RuM_workspace bundle stopped");
 		Activator.context = null;
 	}
 
