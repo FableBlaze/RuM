@@ -30,8 +30,7 @@ public class Activator implements BundleActivator {
 		if (rumEmfService == null) {throw new Exception("Database service not found");}
 		emf = rumEmfService.getEmf("RuM");
 		if (emf == null) {throw new Exception("Database service not found");} 
-
-
+		
 		logger.info("RuM_plugins bundle started");
 	}
 
