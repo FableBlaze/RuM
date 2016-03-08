@@ -1,5 +1,7 @@
 package ee.ut.cs.rum.plugins.internal.ui.dialog;
 
+import java.util.Enumeration;
+
 import org.eclipse.rap.fileupload.DiskFileUploadReceiver;
 import org.eclipse.rap.fileupload.FileUploadEvent;
 import org.eclipse.rap.fileupload.FileUploadHandler;
@@ -17,7 +19,8 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-
+import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleException;
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.plugins.internal.Activator;
 import ee.ut.cs.rum.plugins.internal.ui.OverviewTabContents;
@@ -65,7 +68,33 @@ public class PluginUploadDialog extends Dialog {
 			public void uploadProgress(FileUploadEvent event) {}
 			public void uploadFailed(FileUploadEvent event) {}
 			public void uploadFinished(FileUploadEvent event) {
-				Activator.getLogger().info("Stored file: " + receiver.getTargetFiles()[0].getAbsolutePath());
+				Activator.getLogger().info("Uploaded file: " + receiver.getTargetFiles()[0].getAbsolutePath());
+				Bundle b = null;
+
+				try {
+					b = Activator.getContext().installBundle("file:///" + receiver.getTargetFiles()[0].getAbsolutePath());
+					b.start();
+					b.stop();
+				} catch (BundleException e1) {
+					Activator.getLogger().info("Temporary plugin loading failed");
+					try {
+						if (b!=null) {b.uninstall();}
+					} catch (BundleException e) {
+						Activator.getLogger().info("Temporary plugin uninstalling failed");
+					}
+				}
+				
+				
+				if (b!=null && b.getSymbolicName()!=null) {
+					for (Enumeration<String> e = b.getHeaders().keys(); e.hasMoreElements();) {
+						Object key = e.nextElement();
+						Activator.getLogger().info("Plugin headers: " + key + " - " + b.getHeaders().get(key));
+					}
+				} else {
+					Activator.getLogger().info("Uploaded file is not a valid plugin");
+				}
+
+				
 				Display.getDefault().syncExec(new Runnable() {
 				    public void run() {
 				    	if (!fileName.isDisposed()) {

@@ -18,6 +18,7 @@ public class EmfTrackerCustomizer implements ServiceTrackerCustomizer {
 	@Override
 	public Object addingService(ServiceReference reference) {
 		RumEmfService service = (RumEmfService) context.getService(reference);
+		Activator.getLogger().info("Emf registered in bundle: " + context.getBundle().getSymbolicName());
 		
 		return service;
 	}

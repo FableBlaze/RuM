@@ -16,11 +16,6 @@ public class Activator implements BundleActivator {
 		logger = LoggerFactory.getLogger("ee.ut.cs.rum.virgoConsole");
 		
 		logger.info("RuM_workspace bundle started");
-		
-		b = context.installBundle("file:///C:/MagRebootRap/ToyPlugin1-0.0.1.jar");
-		b.start();
-		
-		logger.info("RuM_workspace bundle started");
 	}
 
 	public void stop(BundleContext bundleContext) throws Exception {
