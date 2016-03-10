@@ -103,25 +103,17 @@ public class PluginUploadDialog extends Dialog {
 
 				try {
 					temporaryBundle = Activator.getContext().installBundle("file:///" + receiver.getTargetFiles()[receiver.getTargetFiles().length-1].getAbsolutePath());
-					temporaryBundle.start();
-					temporaryBundle.stop();
+					Activator.getLogger().info("Temporary plugin loaded");
+					
+					if (temporaryBundle!=null && temporaryBundle.getSymbolicName()!=null) {
+						temporaryBundle.start();
+						temporaryBundle.stop();
+						Activator.getLogger().info("Temporary plugin initial start/stop done");
+					} else {
+						Activator.getLogger().error("Uploaded file is not a valid plugin");
+					}
 				} catch (BundleException e1) {
-					Activator.getLogger().info("Temporary plugin loading failed");
-					try {
-						if (temporaryBundle!=null) {temporaryBundle.uninstall();}
-					} catch (BundleException e) {
-						Activator.getLogger().info("Temporary plugin uninstalling failed");
-					}
-				}
-
-
-				if (temporaryBundle==null || temporaryBundle.getSymbolicName()==null) {
-					Activator.getLogger().info("Uploaded file is not a valid plugin");
-					try {
-						if (temporaryBundle!=null) {temporaryBundle.uninstall();}
-					} catch (BundleException e) {
-						Activator.getLogger().info("Temporary plugin uninstalling failed");
-					}
+					Activator.getLogger().error("Temporary plugin loading failed");
 				}
 
 				//TODO: Consider refactoring this part of the code
@@ -163,7 +155,15 @@ public class PluginUploadDialog extends Dialog {
 						}
 					}
 				});
-
+				
+				if (temporaryBundle!=null) {
+					try {
+						 temporaryBundle.uninstall();
+						 Activator.getLogger().error("Temporary plugin uninstalled");
+					} catch (BundleException e) {
+						Activator.getLogger().error("Temporary plugin uninstalling failed");
+					}
+				}
 			}
 		} );
 
