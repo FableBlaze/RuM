@@ -5,7 +5,8 @@ Bundle-Name: RuM
 Bundle-ManifestVersion: 2
 Bundle-ClassPath: WEB-INF/classes
 Web-ContextPath: RuM
-Import-Package: ee.ut.cs.rum.database,
+Import-Package: ee.ut.cs.rum.administration.ui,
+ ee.ut.cs.rum.database,
  ee.ut.cs.rum.plugins.ui,
  ee.ut.cs.rum.workspace.ui,
  javax.persistence;version="[2.0.4,2.0.4]",

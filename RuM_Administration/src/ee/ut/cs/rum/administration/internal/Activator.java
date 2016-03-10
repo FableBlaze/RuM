@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.workspace.internal;
+package ee.ut.cs.rum.administration.internal;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
@@ -13,11 +13,11 @@ public class Activator implements BundleActivator {
 		Activator.context = bundleContext;
 		logger = LoggerFactory.getLogger("ee.ut.cs.rum.virgoConsole");
 		
-		logger.info("RuM_workspace bundle started");
+		logger.info("RuM_administration bundle started");
 	}
 
 	public void stop(BundleContext bundleContext) throws Exception {
-		logger.info("RuM_workspace bundle stoppped");
+		logger.info("RuM_administration bundle stoppped");
 		Activator.context = null;
 	}
 

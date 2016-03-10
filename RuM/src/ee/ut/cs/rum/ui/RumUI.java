@@ -6,6 +6,7 @@ import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import ee.ut.cs.rum.Activator;
+import ee.ut.cs.rum.administration.ui.SystemAdministrationUI;
 import ee.ut.cs.rum.plugins.ui.PluginsManagementUI;
 import ee.ut.cs.rum.workspace.ui.WorkspaceUI;
 
@@ -22,12 +23,14 @@ public class RumUI extends AbstractEntryPoint {
 		
 		Composite workspaceSection = new WorkspaceUI(container);
 		Composite pluginsManagementSection = new PluginsManagementUI(container);
+		Composite systemAdministrationSection = new SystemAdministrationUI(container);
 		
 		stackLayout.topControl = workspaceSection;
 		container.layout();
 
 		new NavigationButton(navigationMenu, "Workspace", workspaceSection, stackLayout, container);
 		new NavigationButton(navigationMenu, "Plugins management", pluginsManagementSection, stackLayout, container);
+		new NavigationButton(navigationMenu, "System administration", systemAdministrationSection, stackLayout, container);
 		
 		navigationMenu.layout();
 		

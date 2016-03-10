@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: RuM_SystemAdministration
+Bundle-Version: 0.0.1
+Bundle-Name: RuM_SystemAdministration
+Bundle-ManifestVersion: 2
+Bundle-Activator: ee.ut.cs.rum.administration.internal.Activator
+Import-Package: org.osgi.framework;version="[1.7.0,1.7.0]",
+ org.slf4j;version="[1.7.2,1.7.2]"
+Import-Bundle: org.eclipse.rap.rwt;version="[3.0.1.20150908-1130,3.0.1.20150908-1130]"
+Export-Package: ee.ut.cs.rum.administration.ui
+
