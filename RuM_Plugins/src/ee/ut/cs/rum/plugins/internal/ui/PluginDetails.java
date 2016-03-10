@@ -68,7 +68,11 @@ public class PluginDetails extends Composite {
 			label = new Label (importedPackagesContainer, SWT.NONE);
 			label.setText(importedPackage);
 		}
-		importedPackagesContainer.layout();
+		
+		label = new Label (this, SWT.NONE);
+		label.setText("Original filename:");
+		label = new Label (this, SWT.NONE);
+		label.setText(plugin.getOriginalFilename());
 	}
 	
 	public Long getPluginId() {

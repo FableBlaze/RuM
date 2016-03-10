@@ -211,6 +211,7 @@ public class PluginUploadDialog extends Dialog {
 				plugin.setName(nameValue.getText());
 				plugin.setActivator(activatorValue.getText());
 				plugin.setImportPackage(importPackageValue.getText());
+				plugin.setOriginalFilename(temporaryFile.getName());
 				PluginsData.addPluginDataToDb(plugin, overviewTabContents);
 				shell.close();
 			}

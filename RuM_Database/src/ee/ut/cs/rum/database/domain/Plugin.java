@@ -22,6 +22,8 @@ public class Plugin {
 	private String activator;
 	@Column(name = "import_package")
 	private String importPackage;
+	@Column(name = "original_filename")
+	private String originalFilename;
 
 	public Long getId() {
 		return id;
@@ -67,10 +69,19 @@ public class Plugin {
 		this.importPackage = importPackage;
 	}
 
+	public String getOriginalFilename() {
+		return originalFilename;
+	}
+
+	public void setOriginalFilename(String originalFilename) {
+		this.originalFilename = originalFilename;
+	}
+
 	@Override
 	public String toString() {
 		return "Plugin [id=" + id + ", symbolicName=" + symbolicName + ", version=" + version + ", name=" + name
-				+ ", activator=" + activator + ", importPackage=" + importPackage + "]";
+				+ ", activator=" + activator + ", importPackage=" + importPackage + ", originalFilename="
+				+ originalFilename + "]";
 	}
 	
 	
