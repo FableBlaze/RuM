@@ -1,7 +1,9 @@
 Manifest-Version: 1.0
 Bundle-SymbolicName: RuM_Workspace
+Bundle-Description: RuM workspace section
 Bundle-Version: 0.0.1
 Bundle-Name: RuM_Workspace
+Bundle-Vendor: University of Tartu
 Bundle-ManifestVersion: 2
 Import-Package: org.osgi.framework;version="[1.7.0,1.7.0]",
  org.slf4j;version="[1.7.2,1.7.2]"

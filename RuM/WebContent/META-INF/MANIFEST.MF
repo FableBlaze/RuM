@@ -1,7 +1,9 @@
 Manifest-Version: 1.0
 Bundle-SymbolicName: RuM
+Bundle-Description: RuM entrypoint which provides the general ui
 Bundle-Version: 0.0.1
 Bundle-Name: RuM
+Bundle-Vendor: University of Tartu
 Bundle-ManifestVersion: 2
 Bundle-ClassPath: WEB-INF/classes
 Web-ContextPath: RuM
