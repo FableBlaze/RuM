@@ -1,6 +1,7 @@
 package ee.ut.cs.rum.plugins.internal.ui.dialog;
 
 import java.io.File;
+import java.util.Date;
 import java.util.Enumeration;
 
 import org.eclipse.rap.fileupload.DiskFileUploadReceiver;
@@ -212,6 +213,8 @@ public class PluginUploadDialog extends Dialog {
 				plugin.setActivator(activatorValue.getText());
 				plugin.setImportPackage(importPackageValue.getText());
 				plugin.setOriginalFilename(temporaryFile.getName());
+				plugin.setUploadedAt(new Date());
+				plugin.setUploadedBy("TODO"); //TODO: Add reference to the user
 				PluginsData.addPluginDataToDb(plugin, overviewTabContents);
 				shell.close();
 			}

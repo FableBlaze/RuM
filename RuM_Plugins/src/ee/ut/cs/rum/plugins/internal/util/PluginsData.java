@@ -37,7 +37,7 @@ public final class PluginsData {
 		overviewTabContents.getPluginsTableViewer().setInput(plugins);
 		overviewTabContents.getPluginsOverview().getNumberOfPluginsLable().setText(Integer.toString(plugins.size()));
 		
-		Activator.getLogger().info("Added plugin to db: " + plugin.toString());
+		Activator.getLogger().info("Added plugin: " + plugin.toString());
 	}
 	
 	public static Plugin getPluginDataFromDb(Long pluginId) {

@@ -1,5 +1,7 @@
 package ee.ut.cs.rum.plugins.internal.ui;
 
+import java.text.SimpleDateFormat;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
@@ -73,6 +75,16 @@ public class PluginDetails extends Composite {
 		label.setText("Original filename:");
 		label = new Label (this, SWT.NONE);
 		label.setText(plugin.getOriginalFilename());
+		
+		label = new Label (this, SWT.NONE);
+		label.setText("Uploaded at:");
+		label = new Label (this, SWT.NONE);
+		label.setText(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(plugin.getUploadedAt()));
+		
+		label = new Label (this, SWT.NONE);
+		label.setText("Uploaded by:");
+		label = new Label (this, SWT.NONE);
+		label.setText(plugin.getUploadedBy());
 	}
 	
 	public Long getPluginId() {

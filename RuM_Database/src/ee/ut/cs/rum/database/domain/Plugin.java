@@ -1,10 +1,14 @@
 package ee.ut.cs.rum.database.domain;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class Plugin {
@@ -24,6 +28,11 @@ public class Plugin {
 	private String importPackage;
 	@Column(name = "original_filename")
 	private String originalFilename;
+	@Column(name = "uploaded_by")
+	private String uploadedBy;
+	@Column(name = "uploaded_at")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date uploadedAt;
 
 	public Long getId() {
 		return id;
@@ -77,12 +86,27 @@ public class Plugin {
 		this.originalFilename = originalFilename;
 	}
 
+	public String getUploadedBy() {
+		return uploadedBy;
+	}
+	
+	public void setUploadedBy(String uploadedBy) {
+		this.uploadedBy = uploadedBy;
+	}
+
+	public Date getUploadedAt() {
+		return uploadedAt;
+	}
+
+	public void setUploadedAt(Date date) {
+		this.uploadedAt = date;
+	}
+
+
 	@Override
 	public String toString() {
 		return "Plugin [id=" + id + ", symbolicName=" + symbolicName + ", version=" + version + ", name=" + name
 				+ ", activator=" + activator + ", importPackage=" + importPackage + ", originalFilename="
-				+ originalFilename + "]";
+				+ originalFilename + ", uploadedBy=" + uploadedBy + ", uploadedAt=" + uploadedAt + "]";
 	}
-	
-	
 }

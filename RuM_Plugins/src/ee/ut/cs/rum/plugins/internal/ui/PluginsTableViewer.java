@@ -1,5 +1,6 @@
 package ee.ut.cs.rum.plugins.internal.ui;
 
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,8 +40,8 @@ public class PluginsTableViewer extends TableViewer {
 	
 	
 	private static void createColumns(final TableViewer viewer, PluginsManagementUI pluginsManagementUI) {
-		String[] titles = { "Id", "Name", "Version", "Details"};
-		int[] bounds = { 200, 400, 100, 100 };
+		String[] titles = { "Id", "Name", "Version", "Uploaded by", "Uploaded at", "Details"};
+		int[] bounds = { 200, 400, 75, 125, 125, 100 };
 
 		TableViewerColumn idColumn = createTableViewerColumn(titles[0], bounds[0], viewer);
 		idColumn.setLabelProvider(new ColumnLabelProvider() {
@@ -63,7 +64,7 @@ public class PluginsTableViewer extends TableViewer {
 				return plugin.getName();
 			}
 		});
-		
+
 		TableViewerColumn versionColumn = createTableViewerColumn(titles[2], bounds[2], viewer);
 		versionColumn.setLabelProvider(new ColumnLabelProvider() {
 			private static final long serialVersionUID = 859768103676685673L;
@@ -75,7 +76,29 @@ public class PluginsTableViewer extends TableViewer {
 			}
 		});
 
-		TableViewerColumn detailsButtonColumn = createTableViewerColumn(titles[3], bounds[3], viewer);
+		TableViewerColumn uploadedByColumn = createTableViewerColumn(titles[3], bounds[3], viewer);
+		uploadedByColumn.setLabelProvider(new ColumnLabelProvider() {
+			private static final long serialVersionUID = 859768103676685673L;
+
+			@Override
+			public String getText(Object element) {
+				Plugin plugin = (Plugin) element;
+				return plugin.getUploadedBy();
+			}
+		});
+
+		TableViewerColumn uploadedAtColumn = createTableViewerColumn(titles[4], bounds[4], viewer);
+		uploadedAtColumn.setLabelProvider(new ColumnLabelProvider() {
+			private static final long serialVersionUID = 859768103676685673L;
+
+			@Override
+			public String getText(Object element) {
+				Plugin plugin = (Plugin) element;
+				return new SimpleDateFormat("dd-MM-yyyy").format(plugin.getUploadedAt());
+			}
+		});
+
+		TableViewerColumn detailsButtonColumn = createTableViewerColumn(titles[5], bounds[5], viewer);
 		detailsButtonColumn.setLabelProvider(new ColumnLabelProvider() {
 			private static final long serialVersionUID = -8762829711174270692L;
 			
