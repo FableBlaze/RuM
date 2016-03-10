@@ -1,5 +1,6 @@
 package ee.ut.cs.rum.plugins.internal.ui.dialog;
 
+import java.io.File;
 import java.util.Enumeration;
 
 import org.eclipse.rap.fileupload.DiskFileUploadReceiver;
@@ -31,7 +32,10 @@ public class PluginUploadDialog extends Dialog {
 	ServerPushSession pushSession;
 
 	private OverviewTabContents overviewTabContents;
-
+	
+	private Bundle temporaryBundle;
+	private File temporaryFile;
+	
 	private Label nameValue;
 	private Label symbolicNameValue;
 	private Label versionValue;
@@ -39,7 +43,7 @@ public class PluginUploadDialog extends Dialog {
 	private Label importPackageValue;
 	private Label feedbackTextValue;
 	private Label fileName;
-	private Bundle temporaryBundle;
+	
 	private Button okButton;
 
 	public PluginUploadDialog(Shell activeShell, OverviewTabContents overviewTabContents) {
@@ -98,11 +102,12 @@ public class PluginUploadDialog extends Dialog {
 			public void uploadProgress(FileUploadEvent event) {}
 			public void uploadFailed(FileUploadEvent event) {}
 			public void uploadFinished(FileUploadEvent event) {
-				Activator.getLogger().info("Uploaded file: " + receiver.getTargetFiles()[receiver.getTargetFiles().length-1].getAbsolutePath());
+				temporaryFile = receiver.getTargetFiles()[receiver.getTargetFiles().length-1];
+				Activator.getLogger().info("Uploaded file: " + temporaryFile.getAbsolutePath());
 				temporaryBundle = null;
 
 				try {
-					temporaryBundle = Activator.getContext().installBundle("file:///" + receiver.getTargetFiles()[receiver.getTargetFiles().length-1].getAbsolutePath());
+					temporaryBundle = Activator.getContext().installBundle("file:///" + temporaryFile.getAbsolutePath());
 					Activator.getLogger().info("Temporary plugin loaded");
 					
 					if (temporaryBundle!=null && temporaryBundle.getSymbolicName()!=null) {
@@ -151,7 +156,7 @@ public class PluginUploadDialog extends Dialog {
 						}
 						
 						if (!fileName.isDisposed()) {
-							fileName.setText(receiver.getTargetFiles()[receiver.getTargetFiles().length-1].getName());
+							fileName.setText(temporaryFile.getName());
 						}
 					}
 				});
@@ -191,7 +196,7 @@ public class PluginUploadDialog extends Dialog {
 		fileName = new Label(shell, SWT.NONE);
 		fileName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-
+		//okButton should be enabled only when a valid plugin is uploaded
 		okButton = new Button(shell, SWT.PUSH);
 		okButton.setText("OK");
 		okButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
