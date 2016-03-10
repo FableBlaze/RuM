@@ -40,6 +40,7 @@ public class PluginUploadDialog extends Dialog {
 	private Label nameValue;
 	private Label symbolicNameValue;
 	private Label versionValue;
+	private Label descriptionValue;
 	private Label activatorValue;
 	private Label importPackageValue;
 	private Label feedbackTextValue;
@@ -81,6 +82,11 @@ public class PluginUploadDialog extends Dialog {
 		bundleVersionLabel.setText("Bundle version:");
 		versionValue = new Label(shell, SWT.NONE);
 		versionValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		
+		Label descriptionLabel = new Label(shell, SWT.NONE);
+		descriptionLabel.setText("Bundle description:");
+		descriptionValue = new Label(shell, SWT.NONE);
+		descriptionValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
 		Label bundleActivatorLabel = new Label(shell, SWT.NONE);
 		bundleActivatorLabel.setText("Bundle activator:");
@@ -139,6 +145,8 @@ public class PluginUploadDialog extends Dialog {
 									versionValue.setText(temporaryBundle.getHeaders().get(key));
 								} else if (key.equals("Bundle-Name") && !nameValue.isDisposed()) {
 									nameValue.setText(temporaryBundle.getHeaders().get(key));
+								}else if (key.equals("Bundle-Description") && !descriptionValue.isDisposed()) {
+									descriptionValue.setText(temporaryBundle.getHeaders().get(key));
 								} else if (key.equals("Bundle-Activator") && !activatorValue.isDisposed()) {
 									activatorValue.setText(temporaryBundle.getHeaders().get(key));
 								} else if (key.equals("Import-Package") && !importPackageValue.isDisposed()) {
@@ -152,7 +160,8 @@ public class PluginUploadDialog extends Dialog {
 							if (!symbolicNameValue.isDisposed()) {symbolicNameValue.setText("");} 
 							if (!versionValue.isDisposed()) {versionValue.setText("");} 
 							if (!nameValue.isDisposed()) {nameValue.setText("");} 
-							if (!activatorValue.isDisposed()) {activatorValue.setText("");} 
+							if (!descriptionValue.isDisposed()) {descriptionValue.setText("");}
+							if (!activatorValue.isDisposed()) {activatorValue.setText("");}
 							if (!importPackageValue.isDisposed()) {importPackageValue.setText("");}
 						}
 						
@@ -210,6 +219,7 @@ public class PluginUploadDialog extends Dialog {
 				plugin.setSymbolicName(symbolicNameValue.getText());
 				plugin.setVersion(versionValue.getText());
 				plugin.setName(nameValue.getText());
+				plugin.setDescription(descriptionValue.getText());
 				plugin.setActivator(activatorValue.getText());
 				plugin.setImportPackage(importPackageValue.getText());
 				plugin.setOriginalFilename(temporaryFile.getName());

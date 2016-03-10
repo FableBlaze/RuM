@@ -40,8 +40,8 @@ public class PluginsTableViewer extends TableViewer {
 	
 	
 	private static void createColumns(final TableViewer viewer, PluginsManagementUI pluginsManagementUI) {
-		String[] titles = { "Id", "Name", "Version", "Uploaded by", "Uploaded at", "Details"};
-		int[] bounds = { 200, 400, 75, 125, 125, 100 };
+		String[] titles = { "Id", "Name", "Description", "Version", "Uploaded by", "Uploaded at", "Details"};
+		int[] bounds = { 50, 200, 400, 75, 125, 125, 100 };
 
 		TableViewerColumn idColumn = createTableViewerColumn(titles[0], bounds[0], viewer);
 		idColumn.setLabelProvider(new ColumnLabelProvider() {
@@ -64,8 +64,19 @@ public class PluginsTableViewer extends TableViewer {
 				return plugin.getName();
 			}
 		});
+		
+		TableViewerColumn descriptionColumn = createTableViewerColumn(titles[2], bounds[2], viewer);
+		descriptionColumn.setLabelProvider(new ColumnLabelProvider() {
+			private static final long serialVersionUID = 859768103676685673L;
 
-		TableViewerColumn versionColumn = createTableViewerColumn(titles[2], bounds[2], viewer);
+			@Override
+			public String getText(Object element) {
+				Plugin plugin = (Plugin) element;
+				return plugin.getDescription();
+			}
+		});
+		
+		TableViewerColumn versionColumn = createTableViewerColumn(titles[3], bounds[3], viewer);
 		versionColumn.setLabelProvider(new ColumnLabelProvider() {
 			private static final long serialVersionUID = 859768103676685673L;
 
@@ -76,7 +87,7 @@ public class PluginsTableViewer extends TableViewer {
 			}
 		});
 
-		TableViewerColumn uploadedByColumn = createTableViewerColumn(titles[3], bounds[3], viewer);
+		TableViewerColumn uploadedByColumn = createTableViewerColumn(titles[4], bounds[4], viewer);
 		uploadedByColumn.setLabelProvider(new ColumnLabelProvider() {
 			private static final long serialVersionUID = 859768103676685673L;
 
@@ -87,7 +98,7 @@ public class PluginsTableViewer extends TableViewer {
 			}
 		});
 
-		TableViewerColumn uploadedAtColumn = createTableViewerColumn(titles[4], bounds[4], viewer);
+		TableViewerColumn uploadedAtColumn = createTableViewerColumn(titles[5], bounds[5], viewer);
 		uploadedAtColumn.setLabelProvider(new ColumnLabelProvider() {
 			private static final long serialVersionUID = 859768103676685673L;
 
@@ -98,7 +109,7 @@ public class PluginsTableViewer extends TableViewer {
 			}
 		});
 
-		TableViewerColumn detailsButtonColumn = createTableViewerColumn(titles[5], bounds[5], viewer);
+		TableViewerColumn detailsButtonColumn = createTableViewerColumn(titles[6], bounds[6], viewer);
 		detailsButtonColumn.setLabelProvider(new ColumnLabelProvider() {
 			private static final long serialVersionUID = -8762829711174270692L;
 			

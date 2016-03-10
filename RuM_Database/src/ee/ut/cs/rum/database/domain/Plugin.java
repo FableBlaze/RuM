@@ -22,6 +22,8 @@ public class Plugin {
 	private String version;
 	@Column(name = "name")
 	private String name;
+	@Column(name = "description")
+	private String description;
 	@Column(name = "activator")
 	private String activator;
 	@Column(name = "import_package")
@@ -62,6 +64,14 @@ public class Plugin {
 		this.name = name;
 	}
 
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	public String getActivator() {
 		return activator;
 	}
@@ -89,7 +99,7 @@ public class Plugin {
 	public String getUploadedBy() {
 		return uploadedBy;
 	}
-	
+
 	public void setUploadedBy(String uploadedBy) {
 		this.uploadedBy = uploadedBy;
 	}
@@ -98,15 +108,15 @@ public class Plugin {
 		return uploadedAt;
 	}
 
-	public void setUploadedAt(Date date) {
-		this.uploadedAt = date;
+	public void setUploadedAt(Date uploadedAt) {
+		this.uploadedAt = uploadedAt;
 	}
-
 
 	@Override
 	public String toString() {
 		return "Plugin [id=" + id + ", symbolicName=" + symbolicName + ", version=" + version + ", name=" + name
-				+ ", activator=" + activator + ", importPackage=" + importPackage + ", originalFilename="
-				+ originalFilename + ", uploadedBy=" + uploadedBy + ", uploadedAt=" + uploadedAt + "]";
+				+ ", description=" + description + ", activator=" + activator + ", importPackage=" + importPackage
+				+ ", originalFilename=" + originalFilename + ", uploadedBy=" + uploadedBy + ", uploadedAt=" + uploadedAt
+				+ "]";
 	}
 }

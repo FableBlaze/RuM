@@ -1,6 +1,7 @@
 Manifest-Version: 1.0
+Bundle-Description: This is a toy plugin for RuM.
 Bundle-SymbolicName: ToyPlugin1
-Bundle-Version: 0.0.1
+Bundle-Version: 0.0.2
 Bundle-Name: ToyPlugin1
 Bundle-ManifestVersion: 2
 Bundle-Activator: ee.ut.cs.rum.example.plugin.v1.Activator
