@@ -26,22 +26,22 @@ public class PluginsTableViewer extends TableViewer {
 
 	public PluginsTableViewer(OverviewTabContents overviewTabContents, PluginsManagementUI pluginsManagementUI) {
 		super(overviewTabContents, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
-		
+
 		createColumns(this, pluginsManagementUI);
-		
+
 		final Table table = this.getTable();
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
-		
+
 		this.setContentProvider(new ArrayContentProvider());
 		this.setInput(PluginsData.getPluginsDataFromDb());
 	}
-	
-	
+
+
 	private static void createColumns(final TableViewer viewer, PluginsManagementUI pluginsManagementUI) {
-		String[] titles = { "Id", "Name", "Description", "Version", "Uploaded by", "Uploaded at", "Details"};
-		int[] bounds = { 50, 200, 400, 75, 125, 125, 100 };
+		String[] titles = { "Id", "Name", "Description", "Version", "Vendor", "Uploaded by", "Uploaded at", "Details"};
+		int[] bounds = { 50, 200, 400, 75, 200, 125, 125, 100 };
 
 		TableViewerColumn idColumn = createTableViewerColumn(titles[0], bounds[0], viewer);
 		idColumn.setLabelProvider(new ColumnLabelProvider() {
@@ -64,10 +64,10 @@ public class PluginsTableViewer extends TableViewer {
 				return plugin.getName();
 			}
 		});
-		
+
 		TableViewerColumn descriptionColumn = createTableViewerColumn(titles[2], bounds[2], viewer);
 		descriptionColumn.setLabelProvider(new ColumnLabelProvider() {
-			private static final long serialVersionUID = 859768103676685673L;
+			private static final long serialVersionUID = -6832957480315357307L;
 
 			@Override
 			public String getText(Object element) {
@@ -75,10 +75,10 @@ public class PluginsTableViewer extends TableViewer {
 				return plugin.getDescription();
 			}
 		});
-		
+
 		TableViewerColumn versionColumn = createTableViewerColumn(titles[3], bounds[3], viewer);
 		versionColumn.setLabelProvider(new ColumnLabelProvider() {
-			private static final long serialVersionUID = 859768103676685673L;
+			private static final long serialVersionUID = 7951912026066172553L;
 
 			@Override
 			public String getText(Object element) {
@@ -87,9 +87,20 @@ public class PluginsTableViewer extends TableViewer {
 			}
 		});
 
-		TableViewerColumn uploadedByColumn = createTableViewerColumn(titles[4], bounds[4], viewer);
+		TableViewerColumn vendorColumn = createTableViewerColumn(titles[4], bounds[4], viewer);
+		vendorColumn.setLabelProvider(new ColumnLabelProvider() {
+			private static final long serialVersionUID = 1678694658429600979L;
+
+			@Override
+			public String getText(Object element) {
+				Plugin plugin = (Plugin) element;
+				return plugin.getVendor();
+			}
+		});
+
+		TableViewerColumn uploadedByColumn = createTableViewerColumn(titles[5], bounds[5], viewer);
 		uploadedByColumn.setLabelProvider(new ColumnLabelProvider() {
-			private static final long serialVersionUID = 859768103676685673L;
+			private static final long serialVersionUID = -8587147235926895690L;
 
 			@Override
 			public String getText(Object element) {
@@ -98,9 +109,9 @@ public class PluginsTableViewer extends TableViewer {
 			}
 		});
 
-		TableViewerColumn uploadedAtColumn = createTableViewerColumn(titles[5], bounds[5], viewer);
+		TableViewerColumn uploadedAtColumn = createTableViewerColumn(titles[6], bounds[6], viewer);
 		uploadedAtColumn.setLabelProvider(new ColumnLabelProvider() {
-			private static final long serialVersionUID = 859768103676685673L;
+			private static final long serialVersionUID = -6962864367578702460L;
 
 			@Override
 			public String getText(Object element) {
@@ -109,10 +120,9 @@ public class PluginsTableViewer extends TableViewer {
 			}
 		});
 
-		TableViewerColumn detailsButtonColumn = createTableViewerColumn(titles[6], bounds[6], viewer);
+		TableViewerColumn detailsButtonColumn = createTableViewerColumn(titles[7], bounds[7], viewer);
 		detailsButtonColumn.setLabelProvider(new ColumnLabelProvider() {
-			private static final long serialVersionUID = -8762829711174270692L;
-			
+			private static final long serialVersionUID = 4559441071410857663L;
 			//TODO: The buttons are probably not disposed properly
 			Map<Object, PluginDetailsButton> pluginDetailsButtons = new HashMap<Object, PluginDetailsButton>();
 

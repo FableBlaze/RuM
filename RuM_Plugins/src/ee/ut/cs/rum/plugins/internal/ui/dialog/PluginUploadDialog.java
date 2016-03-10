@@ -33,19 +33,20 @@ public class PluginUploadDialog extends Dialog {
 	ServerPushSession pushSession;
 
 	private OverviewTabContents overviewTabContents;
-	
+
 	private Bundle temporaryBundle;
 	private File temporaryFile;
-	
+
 	private Label nameValue;
 	private Label symbolicNameValue;
 	private Label versionValue;
 	private Label descriptionValue;
+	private Label vendorValue;
 	private Label activatorValue;
 	private Label importPackageValue;
 	private Label feedbackTextValue;
 	private Label fileName;
-	
+
 	private Button okButton;
 
 	public PluginUploadDialog(Shell activeShell, OverviewTabContents overviewTabContents) {
@@ -82,7 +83,12 @@ public class PluginUploadDialog extends Dialog {
 		bundleVersionLabel.setText("Bundle version:");
 		versionValue = new Label(shell, SWT.NONE);
 		versionValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		
+
+		Label vendorLabel = new Label(shell, SWT.NONE);
+		vendorLabel.setText("Bundle vendor:");
+		vendorValue = new Label(shell, SWT.NONE);
+		vendorValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+
 		Label descriptionLabel = new Label(shell, SWT.NONE);
 		descriptionLabel.setText("Bundle description:");
 		descriptionValue = new Label(shell, SWT.NONE);
@@ -97,12 +103,12 @@ public class PluginUploadDialog extends Dialog {
 		bundleImportPackageLabel.setText("Bundle imported packages:");
 		importPackageValue = new Label(shell, SWT.NONE);
 		importPackageValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		
+
 		feedbackTextValue = new Label(shell, SWT.NONE);
 		feedbackTextValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		((GridData) feedbackTextValue.getLayoutData()).horizontalSpan = 2;
-		
-		
+
+
 		DiskFileUploadReceiver receiver = new DiskFileUploadReceiver();
 		FileUploadHandler uploadHandler = new FileUploadHandler(receiver);
 		uploadHandler.addUploadListener(new FileUploadListener() {
@@ -116,7 +122,7 @@ public class PluginUploadDialog extends Dialog {
 				try {
 					temporaryBundle = Activator.getContext().installBundle("file:///" + temporaryFile.getAbsolutePath());
 					Activator.getLogger().info("Temporary plugin loaded");
-					
+
 					if (temporaryBundle!=null && temporaryBundle.getSymbolicName()!=null) {
 						temporaryBundle.start();
 						temporaryBundle.stop();
@@ -131,12 +137,12 @@ public class PluginUploadDialog extends Dialog {
 				//TODO: Consider refactoring this part of the code
 				Display.getDefault().syncExec(new Runnable() {
 					public void run() {
-						
+
 						//TODO: Check for duplicates
 						if (temporaryBundle!=null && temporaryBundle.getSymbolicName()!=null) {
 							okButton.setEnabled(true);
 							feedbackTextValue.setText("");
-							
+
 							for (Enumeration<String> e = temporaryBundle.getHeaders().keys(); e.hasMoreElements();) {
 								Object key = e.nextElement();
 								if (key.equals("Bundle-SymbolicName") && !symbolicNameValue.isDisposed()) {
@@ -145,7 +151,9 @@ public class PluginUploadDialog extends Dialog {
 									versionValue.setText(temporaryBundle.getHeaders().get(key));
 								} else if (key.equals("Bundle-Name") && !nameValue.isDisposed()) {
 									nameValue.setText(temporaryBundle.getHeaders().get(key));
-								}else if (key.equals("Bundle-Description") && !descriptionValue.isDisposed()) {
+								} else if (key.equals("Bundle-Vendor") && !vendorValue.isDisposed()) {
+									vendorValue.setText(temporaryBundle.getHeaders().get(key));
+								} else if (key.equals("Bundle-Description") && !descriptionValue.isDisposed()) {
 									descriptionValue.setText(temporaryBundle.getHeaders().get(key));
 								} else if (key.equals("Bundle-Activator") && !activatorValue.isDisposed()) {
 									activatorValue.setText(temporaryBundle.getHeaders().get(key));
@@ -156,25 +164,26 @@ public class PluginUploadDialog extends Dialog {
 						} else {
 							okButton.setEnabled(false);
 							feedbackTextValue.setText("The selected file is not a valid plugin");
-							
+
 							if (!symbolicNameValue.isDisposed()) {symbolicNameValue.setText("");} 
 							if (!versionValue.isDisposed()) {versionValue.setText("");} 
 							if (!nameValue.isDisposed()) {nameValue.setText("");} 
+							if (!vendorValue.isDisposed()) {vendorValue.setText("");}
 							if (!descriptionValue.isDisposed()) {descriptionValue.setText("");}
 							if (!activatorValue.isDisposed()) {activatorValue.setText("");}
 							if (!importPackageValue.isDisposed()) {importPackageValue.setText("");}
 						}
-						
+
 						if (!fileName.isDisposed()) {
 							fileName.setText(temporaryFile.getName());
 						}
 					}
 				});
-				
+
 				if (temporaryBundle!=null) {
 					try {
-						 temporaryBundle.uninstall();
-						 Activator.getLogger().error("Temporary plugin uninstalled");
+						temporaryBundle.uninstall();
+						Activator.getLogger().error("Temporary plugin uninstalled");
 					} catch (BundleException e) {
 						Activator.getLogger().error("Temporary plugin uninstalling failed");
 					}
@@ -219,6 +228,7 @@ public class PluginUploadDialog extends Dialog {
 				plugin.setSymbolicName(symbolicNameValue.getText());
 				plugin.setVersion(versionValue.getText());
 				plugin.setName(nameValue.getText());
+				plugin.setVendor(vendorValue.getText());
 				plugin.setDescription(descriptionValue.getText());
 				plugin.setActivator(activatorValue.getText());
 				plugin.setImportPackage(importPackageValue.getText());

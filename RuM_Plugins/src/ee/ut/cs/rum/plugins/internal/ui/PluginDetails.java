@@ -55,6 +55,11 @@ public class PluginDetails extends Composite {
 		label.setText(plugin.getName());
 		
 		label = new Label (this, SWT.NONE);
+		label.setText("Vendor:");
+		label = new Label (this, SWT.NONE);
+		label.setText(plugin.getVendor());
+		
+		label = new Label (this, SWT.NONE);
 		label.setText("Description:");
 		label = new Label (this, SWT.NONE);
 		label.setText(plugin.getDescription());

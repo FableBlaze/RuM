@@ -22,6 +22,8 @@ public class Plugin {
 	private String version;
 	@Column(name = "name")
 	private String name;
+	@Column(name = "vendor")
+	private String vendor;
 	@Column(name = "description")
 	private String description;
 	@Column(name = "activator")
@@ -62,6 +64,14 @@ public class Plugin {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getVendor() {
+		return vendor;
+	}
+
+	public void setVendor(String vendor) {
+		this.vendor = vendor;
 	}
 
 	public String getDescription() {
@@ -115,8 +125,8 @@ public class Plugin {
 	@Override
 	public String toString() {
 		return "Plugin [id=" + id + ", symbolicName=" + symbolicName + ", version=" + version + ", name=" + name
-				+ ", description=" + description + ", activator=" + activator + ", importPackage=" + importPackage
-				+ ", originalFilename=" + originalFilename + ", uploadedBy=" + uploadedBy + ", uploadedAt=" + uploadedAt
-				+ "]";
+				+ ", vendor=" + vendor + ", description=" + description + ", activator=" + activator
+				+ ", importPackage=" + importPackage + ", originalFilename=" + originalFilename + ", uploadedBy="
+				+ uploadedBy + ", uploadedAt=" + uploadedAt + "]";
 	}
 }
