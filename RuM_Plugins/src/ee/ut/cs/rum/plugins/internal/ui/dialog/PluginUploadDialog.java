@@ -32,15 +32,15 @@ public class PluginUploadDialog extends Dialog {
 
 	private OverviewTabContents overviewTabContents;
 
-	private Label bundleNameValue;
-	private Label bundleSymbolicNameValue;
-	private Label bundleVersionValue;
-	private Label bundleActivatorValue;
-	private Label bundleImportPackageValue;
+	private Label nameValue;
+	private Label symbolicNameValue;
+	private Label versionValue;
+	private Label activatorValue;
+	private Label importPackageValue;
 	private Label feedbackTextValue;
 	private Label fileName;
-	private Bundle bundle;
-	private Button ok;
+	private Bundle temporaryBundle;
+	private Button okButton;
 
 	public PluginUploadDialog(Shell activeShell, OverviewTabContents overviewTabContents) {
 		super(activeShell, SWT.APPLICATION_MODAL | SWT.TITLE | SWT.BORDER);
@@ -64,28 +64,28 @@ public class PluginUploadDialog extends Dialog {
 
 		Label bundleNameLabel = new Label(shell, SWT.NONE);
 		bundleNameLabel.setText("Bundle name:");
-		bundleNameValue = new Label(shell, SWT.NONE);
-		bundleNameValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		nameValue = new Label(shell, SWT.NONE);
+		nameValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
 		Label bundleSymbolicNameLabel = new Label(shell, SWT.NONE);
 		bundleSymbolicNameLabel.setText("Bundle symbolic name:");
-		bundleSymbolicNameValue = new Label(shell, SWT.NONE);
-		bundleSymbolicNameValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		symbolicNameValue = new Label(shell, SWT.NONE);
+		symbolicNameValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
 		Label bundleVersionLabel = new Label(shell, SWT.NONE);
 		bundleVersionLabel.setText("Bundle version:");
-		bundleVersionValue = new Label(shell, SWT.NONE);
-		bundleVersionValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		versionValue = new Label(shell, SWT.NONE);
+		versionValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
 		Label bundleActivatorLabel = new Label(shell, SWT.NONE);
 		bundleActivatorLabel.setText("Bundle activator:");
-		bundleActivatorValue = new Label(shell, SWT.NONE);
-		bundleActivatorValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		activatorValue = new Label(shell, SWT.NONE);
+		activatorValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
 		Label bundleImportPackageLabel = new Label(shell, SWT.NONE);
 		bundleImportPackageLabel.setText("Bundle imported packages:");
-		bundleImportPackageValue = new Label(shell, SWT.NONE);
-		bundleImportPackageValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		importPackageValue = new Label(shell, SWT.NONE);
+		importPackageValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		
 		feedbackTextValue = new Label(shell, SWT.NONE);
 		feedbackTextValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -99,26 +99,26 @@ public class PluginUploadDialog extends Dialog {
 			public void uploadFailed(FileUploadEvent event) {}
 			public void uploadFinished(FileUploadEvent event) {
 				Activator.getLogger().info("Uploaded file: " + receiver.getTargetFiles()[receiver.getTargetFiles().length-1].getAbsolutePath());
-				bundle = null;
+				temporaryBundle = null;
 
 				try {
-					bundle = Activator.getContext().installBundle("file:///" + receiver.getTargetFiles()[receiver.getTargetFiles().length-1].getAbsolutePath());
-					bundle.start();
-					bundle.stop();
+					temporaryBundle = Activator.getContext().installBundle("file:///" + receiver.getTargetFiles()[receiver.getTargetFiles().length-1].getAbsolutePath());
+					temporaryBundle.start();
+					temporaryBundle.stop();
 				} catch (BundleException e1) {
 					Activator.getLogger().info("Temporary plugin loading failed");
 					try {
-						if (bundle!=null) {bundle.uninstall();}
+						if (temporaryBundle!=null) {temporaryBundle.uninstall();}
 					} catch (BundleException e) {
 						Activator.getLogger().info("Temporary plugin uninstalling failed");
 					}
 				}
 
 
-				if (bundle==null || bundle.getSymbolicName()==null) {
+				if (temporaryBundle==null || temporaryBundle.getSymbolicName()==null) {
 					Activator.getLogger().info("Uploaded file is not a valid plugin");
 					try {
-						if (bundle!=null) {bundle.uninstall();}
+						if (temporaryBundle!=null) {temporaryBundle.uninstall();}
 					} catch (BundleException e) {
 						Activator.getLogger().info("Temporary plugin uninstalling failed");
 					}
@@ -128,33 +128,34 @@ public class PluginUploadDialog extends Dialog {
 				Display.getDefault().syncExec(new Runnable() {
 					public void run() {
 						
-						if (bundle!=null && bundle.getSymbolicName()!=null) {
-							ok.setEnabled(true);
+						//TODO: Check for duplicates
+						if (temporaryBundle!=null && temporaryBundle.getSymbolicName()!=null) {
+							okButton.setEnabled(true);
 							feedbackTextValue.setText("");
 							
-							for (Enumeration<String> e = bundle.getHeaders().keys(); e.hasMoreElements();) {
+							for (Enumeration<String> e = temporaryBundle.getHeaders().keys(); e.hasMoreElements();) {
 								Object key = e.nextElement();
-								if (key.equals("Bundle-SymbolicName") && !bundleSymbolicNameValue.isDisposed()) {
-									bundleSymbolicNameValue.setText(bundle.getHeaders().get(key));
-								} else if (key.equals("Bundle-Version") && !bundleVersionValue.isDisposed()) {
-									bundleVersionValue.setText(bundle.getHeaders().get(key));
-								} else if (key.equals("Bundle-Name") && !bundleNameValue.isDisposed()) {
-									bundleNameValue.setText(bundle.getHeaders().get(key));
-								} else if (key.equals("Bundle-Activator") && !bundleActivatorValue.isDisposed()) {
-									bundleActivatorValue.setText(bundle.getHeaders().get(key));
-								} else if (key.equals("Import-Package") && !bundleImportPackageValue.isDisposed()) {
-									bundleImportPackageValue.setText(bundle.getHeaders().get(key));
+								if (key.equals("Bundle-SymbolicName") && !symbolicNameValue.isDisposed()) {
+									symbolicNameValue.setText(temporaryBundle.getHeaders().get(key));
+								} else if (key.equals("Bundle-Version") && !versionValue.isDisposed()) {
+									versionValue.setText(temporaryBundle.getHeaders().get(key));
+								} else if (key.equals("Bundle-Name") && !nameValue.isDisposed()) {
+									nameValue.setText(temporaryBundle.getHeaders().get(key));
+								} else if (key.equals("Bundle-Activator") && !activatorValue.isDisposed()) {
+									activatorValue.setText(temporaryBundle.getHeaders().get(key));
+								} else if (key.equals("Import-Package") && !importPackageValue.isDisposed()) {
+									importPackageValue.setText(temporaryBundle.getHeaders().get(key));
 								}
 							}
 						} else {
-							ok.setEnabled(false);
+							okButton.setEnabled(false);
 							feedbackTextValue.setText("The selected file is not a valid plugin");
 							
-							if (!bundleSymbolicNameValue.isDisposed()) {bundleSymbolicNameValue.setText("");} 
-							if (!bundleVersionValue.isDisposed()) {bundleVersionValue.setText("");} 
-							if (!bundleNameValue.isDisposed()) {bundleNameValue.setText("");} 
-							if (!bundleActivatorValue.isDisposed()) {bundleActivatorValue.setText("");} 
-							if (!bundleImportPackageValue.isDisposed()) {bundleImportPackageValue.setText("");}
+							if (!symbolicNameValue.isDisposed()) {symbolicNameValue.setText("");} 
+							if (!versionValue.isDisposed()) {versionValue.setText("");} 
+							if (!nameValue.isDisposed()) {nameValue.setText("");} 
+							if (!activatorValue.isDisposed()) {activatorValue.setText("");} 
+							if (!importPackageValue.isDisposed()) {importPackageValue.setText("");}
 						}
 						
 						if (!fileName.isDisposed()) {
@@ -180,7 +181,7 @@ public class PluginUploadDialog extends Dialog {
 					public void run() {
 						if (!fileName.isDisposed()) {
 							fileName.setText("");
-							ok.setEnabled(false);
+							okButton.setEnabled(false);
 						}
 					}
 				});
@@ -191,17 +192,20 @@ public class PluginUploadDialog extends Dialog {
 		fileName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
 
-		ok = new Button(shell, SWT.PUSH);
-		ok.setText("OK");
-		ok.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		ok.setEnabled(false);
-		ok.addSelectionListener(new SelectionAdapter() {
+		okButton = new Button(shell, SWT.PUSH);
+		okButton.setText("OK");
+		okButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		okButton.setEnabled(false);
+		okButton.addSelectionListener(new SelectionAdapter() {
 			private static final long serialVersionUID = -7891195942424898731L;
 
 			public void widgetSelected(SelectionEvent event) {
 				Plugin plugin = new Plugin();
-				plugin.setName("Name");
-				plugin.setDescription("Description");
+				plugin.setSymbolicName(symbolicNameValue.getText());
+				plugin.setVersion(versionValue.getText());
+				plugin.setName(nameValue.getText());
+				plugin.setActivator(activatorValue.getText());
+				plugin.setImportPackage(importPackageValue.getText());
 				PluginsData.addPluginDataToDb(plugin, overviewTabContents);
 				shell.close();
 			}
