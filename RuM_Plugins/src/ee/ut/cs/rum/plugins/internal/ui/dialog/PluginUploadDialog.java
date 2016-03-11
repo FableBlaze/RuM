@@ -230,15 +230,18 @@ public class PluginUploadDialog extends Dialog {
 
 			public void widgetSelected(SelectionEvent event) {
 				boolean copySucceeded = false;
-
-				File destinationFile = new File(SystemParameterAccess.getSystemParameterValue("plugin_path") + new SimpleDateFormat("ddMMyyyy_HHmmssSSS").format(new Date()) + ".jar");
-				try {
-					Files.copy( temporaryFile.toPath(), destinationFile.toPath());
-					copySucceeded = true;
-					Activator.getLogger().info("Copied uploaded plugin to: " + destinationFile.toPath());
-				} catch (IOException e) {
-					Activator.getLogger().info("Failed to copy uploaded plugin to: " + destinationFile.toPath());
-					e.printStackTrace();
+				File destinationFile = null;
+				
+				String plugin_path = SystemParameterAccess.getSystemParameterValue("plugin_path");
+				if (plugin_path!=null) {
+					destinationFile = new File(plugin_path + new SimpleDateFormat("ddMMyyyy_HHmmssSSS").format(new Date()) + ".jar");
+					try {
+						Files.copy( temporaryFile.toPath(), destinationFile.toPath());
+						copySucceeded = true;
+						Activator.getLogger().info("Copied uploaded plugin to: " + destinationFile.toPath());
+					} catch (IOException e) {
+						Activator.getLogger().info("Failed to copy uploaded plugin to: " + destinationFile.toPath());
+					}
 				}
 
 				if (copySucceeded) {
