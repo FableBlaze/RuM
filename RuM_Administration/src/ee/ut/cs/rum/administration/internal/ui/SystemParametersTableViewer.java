@@ -31,8 +31,8 @@ public class SystemParametersTableViewer extends TableViewer {
 	}
 
 	private void createColumns(final TableViewer viewer) {
-		String[] titles = { "Id", "Name", "Description", "Value"};
-		int[] bounds = { 50, 100, 400, 400 };
+		String[] titles = { "Id", "Name", "Description", "Value (Click on value to modify)"};
+		int[] bounds = { 50, 100, 400, 500 };
 		
 		TableViewerColumn idColumn = createTableViewerColumn(titles[0], bounds[0], viewer);
 		idColumn.setLabelProvider(new ColumnLabelProvider() {
@@ -66,6 +66,18 @@ public class SystemParametersTableViewer extends TableViewer {
 				return systemParameter.getDescription();
 			}
 		});
+		
+		TableViewerColumn valueColumn = createTableViewerColumn(titles[3], bounds[3], viewer);
+		valueColumn.setLabelProvider(new ColumnLabelProvider() {
+			private static final long serialVersionUID = -7106589879886336218L;
+
+			@Override
+			public String getText(Object element) {
+				SystemParameter systemParameter = (SystemParameter) element;
+				return systemParameter.getValue();
+			}
+		});
+		valueColumn.setEditingSupport(new SystemParameterValueEditingSupport(viewer));
 	}
 	
 	private static TableViewerColumn createTableViewerColumn(String title, int bound, final TableViewer viewer) {

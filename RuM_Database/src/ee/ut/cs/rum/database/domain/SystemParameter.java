@@ -30,7 +30,7 @@ public class SystemParameter {
 		return name;
 	}
 	
-	public void setParameterName(String name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 	

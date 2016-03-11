@@ -16,9 +16,9 @@ public final class SystemParametersData {
 	
 	public static void initializeSystemParameters() {
 		SystemParameter systemParameter = new SystemParameter();
-		systemParameter.setParameterName("plugin_path");
+		systemParameter.setName("plugin_path");
 		systemParameter.setDescription("Location of plugin jars");
-		SystemParametersData.addsystemParameterDataToDb(systemParameter);
+		SystemParametersData.addSystemParameterDataToDb(systemParameter);
 	}
 	
 	public static List<SystemParameter> getSystemParametersDataFromDb() {
@@ -32,19 +32,43 @@ public final class SystemParametersData {
 	}
 	
 	public static SystemParameter getSystemParameterDataFromDb(String name) {
-		SystemParameter system_parameter = null;
+		SystemParameter systemParameter = null;
 		EntityManagerFactory emf = Activator.getEmf();
 		EntityManager em = emf.createEntityManager();
 		Query query = em.createQuery("Select sp from SystemParameter sp where sp.name = '" + name + "'");
 		try {
-			system_parameter = (SystemParameter) query.getSingleResult();
+			systemParameter = (SystemParameter) query.getSingleResult();
 		} catch (Exception e) {
 			Activator.getLogger().info("Failed querying systemparameter with name: " + name);
 		}
-		return system_parameter;
+		return systemParameter;
 	}
 	
-	private static void addsystemParameterDataToDb(SystemParameter systemParameter) {
+	public static boolean updateParameterValue(String name, String newValue) {
+		boolean setValueSuccess = false;
+		SystemParameter systemParameter = getSystemParameterDataFromDb(name);
+		if (systemParameter!=null) {
+			systemParameter.setValue(newValue);
+			EntityManagerFactory emf = Activator.getEmf();
+			EntityManager em = emf.createEntityManager();
+			em.getTransaction().begin();
+			em.merge(systemParameter);
+			try {
+				em.getTransaction().commit();
+				setValueSuccess = true;
+				Activator.getLogger().info("Modified systemParameter: " + systemParameter.toString());
+			} catch (Exception e) {
+				Activator.getLogger().info("Failed modifiying systemParameter: " + systemParameter.toString());
+			} finally {
+				em.close();
+			}
+		} else {
+			Activator.getLogger().info("Can not get system parameter with name: " + name);
+		}
+		return setValueSuccess;
+	}
+	
+	private static void addSystemParameterDataToDb(SystemParameter systemParameter) {
 		SystemParameter existingSystemParameter = getSystemParameterDataFromDb(systemParameter.getName());
 		
 		if (existingSystemParameter==null) {
