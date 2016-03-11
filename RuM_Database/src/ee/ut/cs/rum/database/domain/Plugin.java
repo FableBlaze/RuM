@@ -39,6 +39,8 @@ public class Plugin {
 	@Column(name = "uploaded_at")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date uploadedAt;
+	@Column(name = "file_location")
+	private String fileLocation;
 
 	public Long getId() {
 		return id;
@@ -124,11 +126,20 @@ public class Plugin {
 		this.uploadedAt = uploadedAt;
 	}
 
+	public String getFileLocation() {
+		return fileLocation;
+	}
+
+	public void setFileLocation(String fileLocation) {
+		this.fileLocation = fileLocation;
+	}
+
 	@Override
 	public String toString() {
 		return "Plugin [id=" + id + ", symbolicName=" + symbolicName + ", version=" + version + ", name=" + name
 				+ ", vendor=" + vendor + ", description=" + description + ", activator=" + activator
 				+ ", importPackage=" + importPackage + ", originalFilename=" + originalFilename + ", uploadedBy="
-				+ uploadedBy + ", uploadedAt=" + uploadedAt + "]";
+				+ uploadedBy + ", uploadedAt=" + uploadedAt + ", fileLocation=" + fileLocation + "]";
 	}
+	
 }

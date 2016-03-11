@@ -253,6 +253,7 @@ public class PluginUploadDialog extends Dialog {
 					plugin.setOriginalFilename(temporaryFile.getName());
 					plugin.setUploadedAt(new Date());
 					plugin.setUploadedBy("TODO"); //TODO: Add reference to the user
+					plugin.setFileLocation(destinationFile.toPath().toString());
 					PluginsData.addPluginDataToDb(plugin, overviewTabContents);
 					shell.close();
 				} else {

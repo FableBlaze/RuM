@@ -95,6 +95,11 @@ public class PluginDetails extends Composite {
 		label.setText("Uploaded by:");
 		label = new Label (this, SWT.NONE);
 		label.setText(plugin.getUploadedBy());
+
+		label = new Label (this, SWT.NONE);
+		label.setText("File path:");
+		label = new Label (this, SWT.NONE);
+		label.setText(plugin.getFileLocation());
 	}
 	
 	public Long getPluginId() {
