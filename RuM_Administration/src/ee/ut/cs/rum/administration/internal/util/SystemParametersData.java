@@ -1,5 +1,7 @@
 package ee.ut.cs.rum.administration.internal.util;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
@@ -15,25 +17,35 @@ public final class SystemParametersData {
 	public static void initializeSystemParameters() {
 		SystemParameter systemParameter = new SystemParameter();
 		systemParameter.setParameterName("plugin_path");
-		systemParameter.setParameterDescription("Location of plugin jars");
+		systemParameter.setDescription("Location of plugin jars");
 		SystemParametersData.addsystemParameterDataToDb(systemParameter);
 	}
 	
-	public static SystemParameter getSystemParameterDataFromDb(String parameterName) {
+	public static List<SystemParameter> getSystemParametersDataFromDb() {
+		EntityManagerFactory emf = Activator.getEmf();
+		EntityManager em = emf.createEntityManager();
+		Query query = em.createQuery("Select sp from SystemParameter sp order by sp.id");
+		@SuppressWarnings("unchecked")
+		List<SystemParameter> systemParameters = query.getResultList();
+		
+		return systemParameters;
+	}
+	
+	public static SystemParameter getSystemParameterDataFromDb(String name) {
 		SystemParameter system_parameter = null;
 		EntityManagerFactory emf = Activator.getEmf();
 		EntityManager em = emf.createEntityManager();
-		Query query = em.createQuery("Select sp from SystemParameter sp where sp.parameterName = '" + parameterName + "'");
+		Query query = em.createQuery("Select sp from SystemParameter sp where sp.name = '" + name + "'");
 		try {
 			system_parameter = (SystemParameter) query.getSingleResult();
 		} catch (Exception e) {
-			Activator.getLogger().info("Failed querying systemparameter with name: " + parameterName);
+			Activator.getLogger().info("Failed querying systemparameter with name: " + name);
 		}
 		return system_parameter;
 	}
 	
 	private static void addsystemParameterDataToDb(SystemParameter systemParameter) {
-		SystemParameter existingSystemParameter = getSystemParameterDataFromDb(systemParameter.getParameterName());
+		SystemParameter existingSystemParameter = getSystemParameterDataFromDb(systemParameter.getName());
 		
 		if (existingSystemParameter==null) {
 			EntityManagerFactory emf = Activator.getEmf();

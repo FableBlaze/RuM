@@ -12,7 +12,7 @@ public class WorkspaceUI extends Composite {
 	public WorkspaceUI(Composite parent) {
 		super(parent, SWT.BORDER);
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		this.setLayout(new GridLayout(2, false));
+		this.setLayout(new GridLayout());
 		
 		Label l = new Label(this, SWT.NONE);
 		l.setText("Workspace contents (TODO)");

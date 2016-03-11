@@ -9,50 +9,50 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name="system_parameters", uniqueConstraints = {@UniqueConstraint(columnNames = { "parameter_name" }) })
+@Table(name="system_parameters", uniqueConstraints = {@UniqueConstraint(columnNames = { "name" }) })
 public class SystemParameter {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
-	@Column(name = "parameter_name")
-	private String parameterName;
-	@Column(name = "parameter_description")
-	private String parameterDescription;
-	@Column(name = "parameter_value")
-	private String parameterValue;
+	@Column(name = "name")
+	private String name;
+	@Column(name = "description")
+	private String description;
+	@Column(name = "value")
+	private String value;
 	
 	public Long getId() {
 		return id;
 	}
 	
-	public String getParameterName() {
-		return parameterName;
+	public String getName() {
+		return name;
 	}
 	
-	public void setParameterName(String parameterName) {
-		this.parameterName = parameterName;
+	public void setParameterName(String name) {
+		this.name = name;
 	}
 	
-	public String getParameterDescription() {
-		return parameterDescription;
+	public String getDescription() {
+		return description;
 	}
 	
-	public void setParameterDescription(String parameterDescription) {
-		this.parameterDescription = parameterDescription;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
-	public String getParameterValue() {
-		return parameterValue;
+	public String getValue() {
+		return value;
 	}
 	
-	public void setParameterValue(String parameterValue) {
-		this.parameterValue = parameterValue;
+	public void setValue(String value) {
+		this.value = value;
 	}
 	
 	@Override
 	public String toString() {
-		return "SystemParameter [id=" + id + ", parameterName=" + parameterName + ", parameterDescription="
-				+ parameterDescription + ", parameterValue=" + parameterValue + "]";
+		return "SystemParameter [id=" + id + ", name=" + name + ", description="
+				+ description + ", value=" + value + "]";
 	}
 }
