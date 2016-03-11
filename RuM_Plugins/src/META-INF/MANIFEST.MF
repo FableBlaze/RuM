@@ -6,7 +6,8 @@ Bundle-Name: RuM_Plugins
 Bundle-Vendor: University of Tartu
 Bundle-ManifestVersion: 2
 Bundle-Activator: ee.ut.cs.rum.plugins.internal.Activator
-Import-Package: ee.ut.cs.rum.database,
+Import-Package: ee.ut.cs.rum.administration.util,
+ ee.ut.cs.rum.database,
  ee.ut.cs.rum.database.domain,
  javax.persistence;version="[2.0.4,2.0.4]",
  org.osgi.framework;version="[1.7.0,1.7.0]",

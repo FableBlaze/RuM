@@ -1,6 +1,9 @@
 package ee.ut.cs.rum.plugins.internal.ui.dialog;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
 
@@ -22,6 +25,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleException;
+
+import ee.ut.cs.rum.administration.util.SystemParameterValue;
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.plugins.internal.Activator;
 import ee.ut.cs.rum.plugins.internal.ui.OverviewTabContents;
@@ -224,19 +229,39 @@ public class PluginUploadDialog extends Dialog {
 			private static final long serialVersionUID = -7891195942424898731L;
 
 			public void widgetSelected(SelectionEvent event) {
-				Plugin plugin = new Plugin();
-				plugin.setSymbolicName(symbolicNameValue.getText());
-				plugin.setVersion(versionValue.getText());
-				plugin.setName(nameValue.getText());
-				plugin.setVendor(vendorValue.getText());
-				plugin.setDescription(descriptionValue.getText());
-				plugin.setActivator(activatorValue.getText());
-				plugin.setImportPackage(importPackageValue.getText());
-				plugin.setOriginalFilename(temporaryFile.getName());
-				plugin.setUploadedAt(new Date());
-				plugin.setUploadedBy("TODO"); //TODO: Add reference to the user
-				PluginsData.addPluginDataToDb(plugin, overviewTabContents);
-				shell.close();
+				boolean copySucceeded = false;
+
+				File destinationFile = new File(SystemParameterValue.getSystemParameterValue("plugin_path") + new SimpleDateFormat("ddMMyyyy_HHmmssSSS").format(new Date()) + ".jar");
+				try {
+					Files.copy( temporaryFile.toPath(), destinationFile.toPath());
+					copySucceeded = true;
+					Activator.getLogger().info("Copied uploaded plugin to: " + destinationFile.toPath());
+				} catch (IOException e) {
+					Activator.getLogger().info("Failed to copy uploaded plugin to: " + destinationFile.toPath());
+					e.printStackTrace();
+				}
+
+				if (copySucceeded) {
+					Plugin plugin = new Plugin();
+					plugin.setSymbolicName(symbolicNameValue.getText());
+					plugin.setVersion(versionValue.getText());
+					plugin.setName(nameValue.getText());
+					plugin.setVendor(vendorValue.getText());
+					plugin.setDescription(descriptionValue.getText());
+					plugin.setActivator(activatorValue.getText());
+					plugin.setImportPackage(importPackageValue.getText());
+					plugin.setOriginalFilename(temporaryFile.getName());
+					plugin.setUploadedAt(new Date());
+					plugin.setUploadedBy("TODO"); //TODO: Add reference to the user
+					PluginsData.addPluginDataToDb(plugin, overviewTabContents);
+					shell.close();
+				} else {
+					Display.getDefault().syncExec(new Runnable() {
+						public void run() {
+							feedbackTextValue.setText("Plugin install failed");
+						}
+					});
+				}
 			}
 		});
 
