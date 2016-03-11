@@ -26,8 +26,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleException;
 
-import ee.ut.cs.rum.administration.util.SystemParameterValue;
 import ee.ut.cs.rum.database.domain.Plugin;
+import ee.ut.cs.rum.database.util.SystemParameterAccess;
 import ee.ut.cs.rum.plugins.internal.Activator;
 import ee.ut.cs.rum.plugins.internal.ui.OverviewTabContents;
 import ee.ut.cs.rum.plugins.internal.util.PluginsData;
@@ -231,7 +231,7 @@ public class PluginUploadDialog extends Dialog {
 			public void widgetSelected(SelectionEvent event) {
 				boolean copySucceeded = false;
 
-				File destinationFile = new File(SystemParameterValue.getSystemParameterValue("plugin_path") + new SimpleDateFormat("ddMMyyyy_HHmmssSSS").format(new Date()) + ".jar");
+				File destinationFile = new File(SystemParameterAccess.getSystemParameterValue("plugin_path") + new SimpleDateFormat("ddMMyyyy_HHmmssSSS").format(new Date()) + ".jar");
 				try {
 					Files.copy( temporaryFile.toPath(), destinationFile.toPath());
 					copySucceeded = true;

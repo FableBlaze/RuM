@@ -1,5 +1,7 @@
 package ee.ut.cs.rum.database.internal;
 
+import javax.persistence.EntityManagerFactory;
+
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
@@ -11,6 +13,7 @@ import ee.ut.cs.rum.database.RumEmfService;
 public class Activator implements BundleActivator {
 	private static BundleContext context;
 	private static Logger logger;
+	private static EntityManagerFactory emf;
 
 	private ServiceRegistration<?> dsfService;
 
@@ -20,10 +23,11 @@ public class Activator implements BundleActivator {
 		logger = LoggerFactory.getLogger("ee.ut.cs.rum.virgoConsole");
 		logger.info("Starting RuM_database bundle");
 		
+		RumEmfService rumEmfService = new RumEmfServiceImpl(context);
+
+		dsfService = context.registerService(RumEmfService.class.getName(), rumEmfService, null);
+		emf = rumEmfService.getEmf("RuM");
 		
-
-		dsfService = context.registerService(RumEmfService.class.getName(), new RumEmfServiceImpl(context), null);
-
 		logger.info("RuM_database bundle started");
 	}
 
@@ -41,5 +45,9 @@ public class Activator implements BundleActivator {
 
 	public static Logger getLogger() {
 		return logger;
+	}
+	
+	public static EntityManagerFactory getEmf() {
+		return emf;
 	}
 }
