@@ -6,7 +6,7 @@ import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 
-import ee.ut.cs.rum.plugins.internal.ui.OverviewTabContents;
+import ee.ut.cs.rum.plugins.internal.ui.overview.OverviewTabContents;
 
 public class PluginsManagementUI extends CTabFolder {
 	private static final long serialVersionUID = 2978902689070409076L;

@@ -29,7 +29,7 @@ import org.osgi.framework.BundleException;
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.database.util.SystemParameterAccess;
 import ee.ut.cs.rum.plugins.internal.Activator;
-import ee.ut.cs.rum.plugins.internal.ui.OverviewTabContents;
+import ee.ut.cs.rum.plugins.internal.ui.overview.OverviewTabContents;
 import ee.ut.cs.rum.plugins.internal.util.PluginsData;
 
 public class PluginUploadDialog extends Dialog {

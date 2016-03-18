@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import ee.ut.cs.rum.administration.internal.util.SystemParametersData;
 import ee.ut.cs.rum.database.EmfTrackerCustomizer;
 import ee.ut.cs.rum.database.RumEmfService;
-import ee.ut.cs.rum.database.domain.SystemParameter;
 
 public class Activator implements BundleActivator {
 	private static BundleContext context;

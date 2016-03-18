@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.plugins.internal.ui;
+package ee.ut.cs.rum.plugins.internal.ui.details;
 
 import java.text.SimpleDateFormat;
 

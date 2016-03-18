@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.plugins.internal.ui;
+package ee.ut.cs.rum.plugins.internal.ui.overview;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;

@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.plugins.internal.ui;
+package ee.ut.cs.rum.plugins.internal.ui.overview.pluginstable;
 
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -18,6 +18,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 import ee.ut.cs.rum.database.domain.Plugin;
+import ee.ut.cs.rum.plugins.internal.ui.overview.OverviewTabContents;
 import ee.ut.cs.rum.plugins.internal.util.PluginsData;
 import ee.ut.cs.rum.plugins.ui.PluginsManagementUI;
 

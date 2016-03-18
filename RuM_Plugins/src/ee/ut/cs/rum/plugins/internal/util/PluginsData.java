@@ -8,7 +8,7 @@ import javax.persistence.Query;
 
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.plugins.internal.Activator;
-import ee.ut.cs.rum.plugins.internal.ui.OverviewTabContents;
+import ee.ut.cs.rum.plugins.internal.ui.overview.OverviewTabContents;
 
 public final class PluginsData {
 	

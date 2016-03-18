@@ -1,9 +1,10 @@
-package ee.ut.cs.rum.plugins.internal.ui;
+package ee.ut.cs.rum.plugins.internal.ui.overview;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
+import ee.ut.cs.rum.plugins.internal.ui.overview.pluginstable.PluginsTableViewer;
 import ee.ut.cs.rum.plugins.ui.PluginsManagementUI;
 
 public class OverviewTabContents extends Composite {

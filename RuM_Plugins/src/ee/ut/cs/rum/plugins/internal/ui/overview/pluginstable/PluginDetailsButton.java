@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.plugins.internal.ui;
+package ee.ut.cs.rum.plugins.internal.ui.overview.pluginstable;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabItem;
@@ -7,6 +7,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
+import ee.ut.cs.rum.plugins.internal.ui.details.PluginDetails;
 import ee.ut.cs.rum.plugins.ui.PluginsManagementUI;
 
 public class PluginDetailsButton extends Button {
