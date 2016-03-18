@@ -18,15 +18,14 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 import ee.ut.cs.rum.database.domain.Plugin;
-import ee.ut.cs.rum.plugins.internal.ui.overview.OverviewTabContents;
 import ee.ut.cs.rum.plugins.internal.util.PluginsData;
 import ee.ut.cs.rum.plugins.ui.PluginsManagementUI;
 
 public class PluginsTableViewer extends TableViewer {
 	private static final long serialVersionUID = -2085870762932626509L;
 
-	public PluginsTableViewer(OverviewTabContents overviewTabContents, PluginsManagementUI pluginsManagementUI) {
-		super(overviewTabContents, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
+	public PluginsTableViewer(PluginsTableComposite pluginsTableComposite, PluginsManagementUI pluginsManagementUI) {
+		super(pluginsTableComposite, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 
 		createColumns(this, pluginsManagementUI);
 
@@ -42,7 +41,7 @@ public class PluginsTableViewer extends TableViewer {
 
 	private static void createColumns(final TableViewer viewer, PluginsManagementUI pluginsManagementUI) {
 		String[] titles = { "Id", "Name", "Description", "Version", "Vendor", "Uploaded by", "Uploaded at", "Details"};
-		int[] bounds = { 50, 200, 400, 75, 200, 125, 125, 100 };
+		int[] bounds = { 50, 200, 400, 75, 200, 125, 125, 75 };
 
 		TableViewerColumn idColumn = createTableViewerColumn(titles[0], bounds[0], viewer);
 		idColumn.setLabelProvider(new ColumnLabelProvider() {

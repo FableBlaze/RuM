@@ -34,7 +34,7 @@ public final class PluginsData {
 		em.close();
 		
 		List<Plugin> plugins = getPluginsDataFromDb();
-		overviewTabContents.getPluginsTableViewer().setInput(plugins);
+		overviewTabContents.getPluginsTableComposite().getPluginsTableViewer().setInput(plugins);
 		overviewTabContents.getPluginsOverview().getNumberOfPluginsLable().setText(Integer.toString(plugins.size()));
 		
 		Activator.getLogger().info("Added plugin: " + plugin.toString());
