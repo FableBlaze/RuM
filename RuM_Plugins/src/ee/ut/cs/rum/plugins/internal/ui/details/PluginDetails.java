@@ -10,7 +10,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
 import ee.ut.cs.rum.database.domain.Plugin;
-import ee.ut.cs.rum.plugins.internal.util.PluginsData;
+import ee.ut.cs.rum.database.util.PluginAccess;
 import ee.ut.cs.rum.plugins.ui.PluginsManagementUI;
 
 public class PluginDetails extends Composite {
@@ -23,7 +23,7 @@ public class PluginDetails extends Composite {
 		this.setLayout(new GridLayout(2, false));
 		this.pluginId = pluginId;
 		
-		Plugin plugin = PluginsData.getPluginDataFromDb(pluginId);
+		Plugin plugin = PluginAccess.getPluginDataFromDb(pluginId);
 		
 		createContents(plugin);
 	}

@@ -8,6 +8,7 @@ import ee.ut.cs.rum.database.domain.SystemParameter;
 import ee.ut.cs.rum.database.internal.Activator;
 
 public final class SystemParameterAccess {
+	
 	public static String getSystemParameterValue(String name) {
 		SystemParameter systemParameter = null;
 		String systemParameterValue = null;

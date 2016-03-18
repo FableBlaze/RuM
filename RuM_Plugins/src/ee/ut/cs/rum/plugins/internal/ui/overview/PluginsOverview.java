@@ -10,8 +10,8 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
+import ee.ut.cs.rum.database.util.PluginAccess;
 import ee.ut.cs.rum.plugins.internal.ui.dialog.PluginUploadDialog;
-import ee.ut.cs.rum.plugins.internal.util.PluginsData;
 
 public class PluginsOverview extends Composite {
 	private static final long serialVersionUID = 6363000997779117721L;
@@ -38,7 +38,7 @@ public class PluginsOverview extends Composite {
 		label.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, true, true));
 		
 		numberOfPluginsLable = new Label(this, SWT.NONE);
-		numberOfPluginsLable.setText(Integer.toString(PluginsData.getPluginsDataFromDb().size()));
+		numberOfPluginsLable.setText(Integer.toString(PluginAccess.getPluginsDataFromDb().size()));
 		numberOfPluginsLable.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, true, true));
 		
 		Button button = new Button(this, SWT.PUSH);
