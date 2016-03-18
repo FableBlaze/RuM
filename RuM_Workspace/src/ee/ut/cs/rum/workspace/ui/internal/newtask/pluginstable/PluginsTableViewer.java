@@ -30,8 +30,8 @@ public class PluginsTableViewer extends TableViewer {
 
 
 	private static void createColumns(final TableViewer viewer) {
-		String[] titles = { "Name", "Description", "Version"};
-		int[] bounds = { 200, 400, 75 };
+		String[] titles = { "Name", "Version"};
+		int[] bounds = { 200, 75 };
 
 		TableViewerColumn nameColumn = createTableViewerColumn(titles[0], bounds[0], viewer);
 		nameColumn.setLabelProvider(new ColumnLabelProvider() {
@@ -44,18 +44,7 @@ public class PluginsTableViewer extends TableViewer {
 			}
 		});
 
-		TableViewerColumn descriptionColumn = createTableViewerColumn(titles[1], bounds[1], viewer);
-		descriptionColumn.setLabelProvider(new ColumnLabelProvider() {
-			private static final long serialVersionUID = -6832957480315357307L;
-
-			@Override
-			public String getText(Object element) {
-				Plugin plugin = (Plugin) element;
-				return plugin.getDescription();
-			}
-		});
-
-		TableViewerColumn versionColumn = createTableViewerColumn(titles[2], bounds[2], viewer);
+		TableViewerColumn versionColumn = createTableViewerColumn(titles[1], bounds[1], viewer);
 		versionColumn.setLabelProvider(new ColumnLabelProvider() {
 			private static final long serialVersionUID = 7951912026066172553L;
 
