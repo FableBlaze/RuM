@@ -16,7 +16,6 @@ public class Activator implements BundleActivator {
 	private static Logger logger;
 	private static EntityManagerFactory emf;
 	
-	
 	public void start(BundleContext bundleContext) throws Exception {
 		Activator.context = bundleContext;
 		logger = LoggerFactory.getLogger("ee.ut.cs.rum.virgoConsole");

@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.plugins.internal.ui.overview.pluginstable;
+package ee.ut.cs.rum.workspace.ui.internal.newtask.pluginstable;
 
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
@@ -10,19 +10,18 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-import ee.ut.cs.rum.plugins.internal.ui.overview.OverviewTabContents;
-import ee.ut.cs.rum.plugins.ui.PluginsManagementUI;
+import ee.ut.cs.rum.workspace.ui.internal.newtask.NewTaskComposite;
 
 public class PluginsTableComposite extends Composite {
-	private static final long serialVersionUID = 6151369187697732888L;
+	private static final long serialVersionUID = 8625656134570039043L;
 	
 	private PluginsTableViewer pluginsTableViewer;
 	private ViewerFilter pluginsTableFilter;
 	
-	public PluginsTableComposite(OverviewTabContents overviewTabContents, PluginsManagementUI pluginsManagementUI) {
-		super(overviewTabContents, SWT.NONE);
+	public PluginsTableComposite(NewTaskComposite newTaskComposite) {
+		super(newTaskComposite, SWT.NONE);
 		
-		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		this.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, true));
 		this.setLayout(new GridLayout(2, false));
 		
 		Label pluginsSearchLabel = new Label(this, SWT.NONE);
@@ -41,16 +40,11 @@ public class PluginsTableComposite extends Composite {
 
 		    });
 		
-		this.pluginsTableViewer = new PluginsTableViewer(this, pluginsManagementUI);
+		this.pluginsTableViewer = new PluginsTableViewer(this);
 		((GridData) this.pluginsTableViewer.getTable().getLayoutData()).horizontalSpan=2;
 		
 		this.pluginsTableFilter = new PluginsTableFilter();
 		this.pluginsTableViewer.addFilter(pluginsTableFilter);
-		
-	}
-
-	public PluginsTableViewer getPluginsTableViewer() {
-		return pluginsTableViewer;
 	}
 
 }
