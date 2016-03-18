@@ -12,8 +12,11 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleException;
 
 import ee.ut.cs.rum.database.domain.Plugin;
+import ee.ut.cs.rum.workspace.internal.Activator;
 import ee.ut.cs.rum.workspace.ui.internal.newtask.NewTaskComposite;
 
 public class PluginsTableComposite extends Composite {
@@ -50,7 +53,19 @@ public class PluginsTableComposite extends Composite {
 		pluginsTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 		    public void selectionChanged(final SelectionChangedEvent event) {
 		        IStructuredSelection selection = (IStructuredSelection)event.getSelection();
-		        newTaskComposite.getSelectedPluginInfo().updateSelectedPluginInfo((Plugin) selection.getFirstElement());
+		        Plugin plugin = (Plugin) selection.getFirstElement();
+		        newTaskComposite.getSelectedPluginInfo().updateSelectedPluginInfo(plugin);
+		        if (plugin!=null) {
+		        	try {
+		        		Bundle temporaryBundle = Activator.getContext().installBundle("file:///" + plugin.getFileLocation());
+		        		temporaryBundle.start();
+						temporaryBundle.stop();
+		        		temporaryBundle.uninstall();
+					} catch (BundleException e) {
+						Activator.getLogger().info("Failed loading plugin: " + plugin.toString());
+						newTaskComposite.getSelectedPluginInfo().updateSelectedPluginInfo(null);
+					}
+		        }
 		    }
 		});
 		
