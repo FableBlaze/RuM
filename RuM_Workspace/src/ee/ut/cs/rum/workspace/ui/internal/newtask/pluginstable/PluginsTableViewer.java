@@ -25,7 +25,7 @@ public class PluginsTableViewer extends TableViewer {
 		table.setLinesVisible(true);
 
 		this.setContentProvider(new ArrayContentProvider());
-		this.setInput(PluginAccess.getPluginsDataFromDb());	
+		this.setInput(PluginAccess.getPluginsDataFromDb());
 	}
 
 

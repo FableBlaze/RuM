@@ -1,5 +1,8 @@
 package ee.ut.cs.rum.workspace.ui.internal.newtask.pluginstable;
 
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
@@ -10,6 +13,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
+import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.workspace.ui.internal.newtask.NewTaskComposite;
 
 public class PluginsTableComposite extends Composite {
@@ -42,6 +46,13 @@ public class PluginsTableComposite extends Composite {
 		
 		this.pluginsTableViewer = new PluginsTableViewer(this);
 		((GridData) this.pluginsTableViewer.getTable().getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
+		
+		pluginsTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+		    public void selectionChanged(final SelectionChangedEvent event) {
+		        IStructuredSelection selection = (IStructuredSelection)event.getSelection();
+		        newTaskComposite.getSelectedPluginInfo().updateSelectedPluginInfo((Plugin) selection.getFirstElement());
+		    }
+		});
 		
 		this.pluginsTableFilter = new PluginsTableFilter();
 		this.pluginsTableViewer.addFilter(pluginsTableFilter);
