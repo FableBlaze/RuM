@@ -12,14 +12,19 @@ import ee.ut.cs.rum.database.domain.Plugin;
 public class SelectedPluginInfo extends Composite {
 	private static final long serialVersionUID = 2323888161640392669L;
 
-	private Label initialLabel;
+	private Label headerLabel;
 	private boolean contentsInitialized = false;
 
 	private Label symbolicNameLabel;
+	private Label symbolicNameValueLabel;
 	private Label versionLabel;
+	private Label versionValueLabel;
 	private Label nameLabel;
+	private Label nameValueLabel;
 	private Label vendorLabel;
+	private Label vendorValueLabel;
 	private Label descriptionLabel;
+	private Label descriptionValueLabel;
 
 	SelectedPluginInfo(NewTaskComposite newTaskComposite) {
 		super(newTaskComposite, SWT.NONE);
@@ -28,61 +33,94 @@ public class SelectedPluginInfo extends Composite {
 		((GridData) this.getLayoutData()).widthHint=400;
 		this.setLayout(new GridLayout(2, false));
 
-		initialLabel = new Label(this, SWT.NONE);
-		initialLabel.setText("No plugin selected");
+		headerLabel = new Label(this, SWT.NONE);
+		headerLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		((GridData) headerLabel.getLayoutData()).horizontalSpan = ((GridLayout) this.getLayout()).numColumns;
+		headerLabel.setText("No plugin selected");
 	}
 
 	public void updateSelectedPluginInfo(Plugin plugin) {
-		
+
 		Display.getDefault().syncExec(new Runnable() {
 			public void run() {
 				if (!contentsInitialized) {
-					initializeContents();
+					createContents();
+					headerLabel.setText("Plugin details");
 					contentsInitialized=true;
+					updateContents(plugin);
+				} else if (contentsInitialized && plugin!=null) {
+					updateContents(plugin);
+				} else if (contentsInitialized && plugin==null) {
+					removeContents();
+					contentsInitialized=false;
+					headerLabel.setText("No plugin selected");
 				}
-				updateContents(plugin);
 				layout();
 			}
 		});
 	}
 
-	private void initializeContents() {
-		if (!this.initialLabel.isDisposed()) {
-			this.initialLabel.dispose();
-		}
-
-		Label label = new Label (this, SWT.NONE);
-		label.setText("Plugin details");
-		label.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		((GridData) label.getLayoutData()).horizontalSpan = ((GridLayout) this.getLayout()).numColumns;
-
-		label = new Label (this, SWT.NONE);
-		label.setText("Symbolic name:");
+	private void createContents() {
 		symbolicNameLabel = new Label (this, SWT.NONE);
+		symbolicNameLabel.setText("Symbolic name:");
+		symbolicNameValueLabel = new Label (this, SWT.NONE);
 
-		label = new Label (this, SWT.NONE);
-		label.setText("Version:");
 		versionLabel = new Label (this, SWT.NONE);
+		versionLabel.setText("Version:");
+		versionValueLabel = new Label (this, SWT.NONE);
 
-		label = new Label (this, SWT.NONE);
-		label.setText("Name:");
 		nameLabel = new Label (this, SWT.NONE);
+		nameLabel.setText("Name:");
+		nameValueLabel = new Label (this, SWT.NONE);
 
-		label = new Label (this, SWT.NONE);
-		label.setText("Vendor:");
 		vendorLabel = new Label (this, SWT.NONE);
+		vendorLabel.setText("Vendor:");
+		vendorValueLabel = new Label (this, SWT.NONE);
 
-		label = new Label (this, SWT.NONE);
-		label.setText("Description:");
 		descriptionLabel = new Label (this, SWT.NONE);
+		descriptionLabel.setText("Description:");
+		descriptionValueLabel = new Label (this, SWT.NONE);
 	}
-	
+
+	private void removeContents() {
+		if (!symbolicNameLabel.isDisposed()) {
+			symbolicNameLabel.dispose();
+		}
+		if (!symbolicNameValueLabel.isDisposed()) {
+			symbolicNameValueLabel.dispose();
+		}
+		if (!versionLabel.isDisposed()) {
+			versionLabel.dispose();
+		}
+		if (!versionValueLabel.isDisposed()) {
+			versionValueLabel.dispose();
+		}
+		if (!nameLabel.isDisposed()) {
+			nameLabel.dispose();
+		}
+		if (!nameValueLabel.isDisposed()) {
+			nameValueLabel.dispose();
+		}
+		if (!vendorLabel.isDisposed()) {
+			vendorLabel.dispose();
+		}
+		if (!vendorValueLabel.isDisposed()) {
+			vendorValueLabel.dispose();
+		}
+		if (!descriptionLabel.isDisposed()) {
+			descriptionLabel.dispose();
+		}
+		if (!descriptionValueLabel.isDisposed()) {
+			descriptionValueLabel.dispose();
+		}
+	}
+
 	private void updateContents(Plugin plugin) {
-		this.symbolicNameLabel.setText(plugin.getSymbolicName());
-		this.versionLabel.setText(plugin.getVersion());
-		this.nameLabel.setText(plugin.getName());
-		this.vendorLabel.setText(plugin.getVendor());
-		this.descriptionLabel.setText(plugin.getDescription());
+		this.symbolicNameValueLabel.setText(plugin.getSymbolicName());
+		this.versionValueLabel.setText(plugin.getVersion());
+		this.nameValueLabel.setText(plugin.getName());
+		this.vendorValueLabel.setText(plugin.getVendor());
+		this.descriptionValueLabel.setText(plugin.getDescription());
 	}
 
 }
