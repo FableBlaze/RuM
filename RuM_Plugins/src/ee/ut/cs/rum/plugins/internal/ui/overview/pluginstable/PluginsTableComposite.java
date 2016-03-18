@@ -42,7 +42,7 @@ public class PluginsTableComposite extends Composite {
 		    });
 		
 		this.pluginsTableViewer = new PluginsTableViewer(this, pluginsManagementUI);
-		((GridData) this.pluginsTableViewer.getTable().getLayoutData()).horizontalSpan=2;
+		((GridData) this.pluginsTableViewer.getTable().getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
 		
 		this.pluginsTableFilter = new PluginsTableFilter();
 		this.pluginsTableViewer.addFilter(pluginsTableFilter);

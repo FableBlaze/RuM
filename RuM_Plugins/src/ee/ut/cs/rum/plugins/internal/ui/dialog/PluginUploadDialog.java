@@ -111,7 +111,7 @@ public class PluginUploadDialog extends Dialog {
 
 		feedbackTextValue = new Label(shell, SWT.NONE);
 		feedbackTextValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		((GridData) feedbackTextValue.getLayoutData()).horizontalSpan = 2;
+		((GridData) feedbackTextValue.getLayoutData()).horizontalSpan = ((GridLayout) shell.getLayout()).numColumns;
 
 
 		DiskFileUploadReceiver receiver = new DiskFileUploadReceiver();
