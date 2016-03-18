@@ -11,6 +11,8 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
@@ -18,6 +20,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 import ee.ut.cs.rum.database.domain.Plugin;
+import ee.ut.cs.rum.plugins.internal.Activator;
 import ee.ut.cs.rum.plugins.internal.util.PluginsData;
 import ee.ut.cs.rum.plugins.ui.PluginsManagementUI;
 
@@ -123,21 +126,27 @@ public class PluginsTableViewer extends TableViewer {
 		TableViewerColumn detailsButtonColumn = createTableViewerColumn(titles[7], bounds[7], viewer);
 		detailsButtonColumn.setLabelProvider(new ColumnLabelProvider() {
 			private static final long serialVersionUID = 4559441071410857663L;
-			//TODO: The buttons are probably not disposed properly
-			Map<Object, PluginDetailsButton> pluginDetailsButtons = new HashMap<Object, PluginDetailsButton>();
-
+			
 			@Override
 			public void update(ViewerCell cell) {
 				TableItem item = (TableItem) cell.getItem();
 				PluginDetailsButton pluginDetailsButton;
-				if(pluginDetailsButtons.containsKey(cell.getElement())) {
-					pluginDetailsButton = pluginDetailsButtons.get(cell.getElement());
-				}
-				else {
-					Plugin plugin = (Plugin) cell.getElement();
-					pluginDetailsButton = new PluginDetailsButton((Composite) cell.getViewerRow().getControl(), plugin.getId(), pluginsManagementUI);
-					pluginDetailsButtons.put(cell.getElement(), pluginDetailsButton);
-				}
+				
+				Plugin plugin = (Plugin) cell.getElement();
+				pluginDetailsButton = new PluginDetailsButton((Composite) cell.getViewerRow().getControl(), plugin.getId(), pluginsManagementUI);
+				
+				item.addDisposeListener(new DisposeListener() {
+					private static final long serialVersionUID = -927877657358384078L;
+
+					@Override
+					public void widgetDisposed(DisposeEvent arg0) {
+						//TODO: Check why dispose() keeps the button in the UI
+						pluginDetailsButton.setVisible(false);
+						pluginDetailsButton.dispose();
+					}
+				});
+				
+				
 				TableEditor editor = new TableEditor(item.getParent());
 				editor.grabHorizontal  = true;
 				editor.grabVertical = true;
