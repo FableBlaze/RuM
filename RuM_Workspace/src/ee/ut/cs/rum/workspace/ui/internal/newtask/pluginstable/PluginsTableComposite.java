@@ -21,7 +21,7 @@ public class PluginsTableComposite extends Composite {
 	public PluginsTableComposite(NewTaskComposite newTaskComposite) {
 		super(newTaskComposite, SWT.NONE);
 		
-		this.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, true));
+		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
 		this.setLayout(new GridLayout(2, false));
 		
 		Label pluginsSearchLabel = new Label(this, SWT.NONE);

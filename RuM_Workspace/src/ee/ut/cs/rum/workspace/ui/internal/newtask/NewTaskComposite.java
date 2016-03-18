@@ -20,7 +20,7 @@ public class NewTaskComposite extends Composite {
 		this.setLayout(new GridLayout(3, false));
 		
 		new PluginsTableComposite(this);
-		new Composite(this, SWT.NONE);
+		new SelectedPluginInfo(this);
 		new Composite(this, SWT.NONE);
 		
 		FooterButtonsComposite footerButtonsComposite = new FooterButtonsComposite(this);

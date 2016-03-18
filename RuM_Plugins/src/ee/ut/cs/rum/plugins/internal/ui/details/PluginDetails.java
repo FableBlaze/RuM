@@ -32,7 +32,7 @@ public class PluginDetails extends Composite {
 		Label label = new Label (this, SWT.NONE);
 		label.setText("Plugin details");
 		label.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		((GridData) label.getLayoutData()).horizontalSpan = 2;
+		((GridData) label.getLayoutData()).horizontalSpan = ((GridLayout) this.getLayout()).numColumns;
 		
 		label = new Label (this, SWT.NONE);
 		label.setText("Id:");
