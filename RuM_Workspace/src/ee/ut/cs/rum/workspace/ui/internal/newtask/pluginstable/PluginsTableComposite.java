@@ -55,7 +55,8 @@ public class PluginsTableComposite extends Composite {
 		        IStructuredSelection selection = (IStructuredSelection)event.getSelection();
 		        Plugin plugin = (Plugin) selection.getFirstElement();
 		        newTaskComposite.getSelectedPluginInfo().updateSelectedPluginInfo(plugin);
-		        if (plugin!=null) {
+		        //TODO: Check if plugin provided services are available
+		        if (plugin!=null && !isPluginInstalled(plugin)) {
 		        	try {
 		        		Bundle temporaryBundle = Activator.getContext().installBundle("file:///" + plugin.getFileLocation());
 		        		temporaryBundle.start();
@@ -71,6 +72,16 @@ public class PluginsTableComposite extends Composite {
 		
 		this.pluginsTableFilter = new PluginsTableFilter();
 		this.pluginsTableViewer.addFilter(pluginsTableFilter);
+	}
+	
+	//TODO: This check seems to already be done by the framework
+	private boolean isPluginInstalled(Plugin plugin) {
+		for (Bundle b : Activator.getContext().getBundles()) {
+			if (b.getLocation().equals("file:///" + plugin.getFileLocation())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }
