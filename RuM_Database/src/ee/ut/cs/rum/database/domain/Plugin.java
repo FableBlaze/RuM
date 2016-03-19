@@ -30,7 +30,7 @@ public class Plugin {
 	private String description;
 	@Column(name = "activator")
 	private String activator;
-	@Column(name = "import_package")
+	@Column(name = "import_package", columnDefinition = "TEXT")
 	private String importPackage;
 	@Column(name = "original_filename")
 	private String originalFilename;
