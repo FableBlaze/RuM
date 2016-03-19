@@ -23,7 +23,7 @@ public class Activator implements BundleActivator {
 		logger = LoggerFactory.getLogger("ee.ut.cs.rum.virgoConsole");
 		logger.info("Starting RuM_database bundle");
 		
-		RumEmfService rumEmfService = new RumEmfServiceImpl(context);
+		RumEmfService rumEmfService = new RumEmfServiceImpl();
 
 		dsfService = context.registerService(RumEmfService.class.getName(), rumEmfService, null);
 		emf = rumEmfService.getEmf("RuM");
