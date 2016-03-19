@@ -1,11 +1,14 @@
 Manifest-Version: 1.0
 Bundle-Description: This is a toy plugin for RuM
 Bundle-SymbolicName: ToyPlugin1
-Bundle-Version: 0.0.3
+Bundle-Version: 0.0.4
 Bundle-Name: ToyPlugin1
 Bundle-Vendor: University of Tartu
 Bundle-ManifestVersion: 2
 Bundle-Activator: ee.ut.cs.rum.example.plugin.v1.Activator
-Import-Package: org.osgi.framework;version="[1.7.0,1.7.0]",
+Import-Package: ee.ut.cs.rum.plugins.interfaces,
+ ee.ut.cs.rum.plugins.interfaces.factory,
+ org.osgi.framework;version="[1.7.0,1.7.0]",
  org.slf4j;version="[1.7.2,1.7.2]"
+Import-Bundle: org.eclipse.rap.rwt;version="[3.0.1.20150908-1130,3.0.1.20150908-1130]"
 
