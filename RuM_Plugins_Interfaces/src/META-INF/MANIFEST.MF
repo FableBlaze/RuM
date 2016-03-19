@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-Description: Intercafes that RuM plugins must implement
+Bundle-SymbolicName: RuM_Plugins_Interfaces
+Bundle-Version: 0.0.1
+Bundle-Name: RuM_Plugins_Interfaces
+Bundle-ManifestVersion: 2
+Import-Bundle: org.eclipse.rap.rwt;version="[3.0.1.20150908-1130,3.0.1.20150908-1130]"
+
