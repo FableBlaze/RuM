@@ -5,6 +5,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleException;
+import org.osgi.framework.ServiceReference;
 
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.workspace.internal.Activator;
@@ -40,6 +41,10 @@ public class PluginSelectionChangedListener implements ISelectionChangedListener
 		private boolean isPluginInstalled(Plugin plugin) {
 			for (Bundle b : Activator.getContext().getBundles()) {
 				if (b.getLocation().equals("file:///" + plugin.getFileLocation())) {
+					for (ServiceReference<?> iterable_element : b.getRegisteredServices()) {
+						Activator.getLogger().info(iterable_element.toString());
+					}
+					
 					return true;
 				}
 			}

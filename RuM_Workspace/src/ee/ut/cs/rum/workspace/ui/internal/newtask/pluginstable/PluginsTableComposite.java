@@ -13,37 +13,37 @@ import ee.ut.cs.rum.workspace.ui.internal.newtask.NewTaskComposite;
 
 public class PluginsTableComposite extends Composite {
 	private static final long serialVersionUID = 8625656134570039043L;
-	
+
 	private PluginsTableViewer pluginsTableViewer;
 	private ViewerFilter pluginsTableFilter;
-	
+
 	public PluginsTableComposite(NewTaskComposite newTaskComposite) {
 		super(newTaskComposite, SWT.NONE);
-		
+
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
 		this.setLayout(new GridLayout(2, false));
-		
+
 		Label pluginsSearchLabel = new Label(this, SWT.NONE);
 		pluginsSearchLabel.setText("Filter: ");
-		
+
 		Text pluginsSearchInput = new Text(this, SWT.BORDER);
 		pluginsSearchInput.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
-		
+
 		pluginsSearchInput.addKeyListener(new KeyAdapter() {
-		    private static final long serialVersionUID = 6791829930254798544L;
+			private static final long serialVersionUID = 6791829930254798544L;
 
 			public void keyReleased(KeyEvent ke) {
-		    	  ((PluginsTableFilter) pluginsTableFilter).setSearchText(pluginsSearchInput.getText());
-		        pluginsTableViewer.refresh();
-		      }
+				((PluginsTableFilter) pluginsTableFilter).setSearchText(pluginsSearchInput.getText());
+				pluginsTableViewer.refresh();
+			}
 
-		    });
-		
+		});
+
 		this.pluginsTableViewer = new PluginsTableViewer(this);
 		((GridData) this.pluginsTableViewer.getTable().getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
-		
+
 		pluginsTableViewer.addSelectionChangedListener(new PluginSelectionChangedListener(newTaskComposite));
-		
+
 		this.pluginsTableFilter = new PluginsTableFilter();
 		this.pluginsTableViewer.addFilter(pluginsTableFilter);
 	}
