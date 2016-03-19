@@ -27,6 +27,7 @@ public class PluginsOverview extends Composite {
 		
 		this.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, true));
 		this.setLayout(new GridLayout(2, false));
+		((GridData) this.getLayoutData()).widthHint=200;
 		
 		createContents();
 	}
@@ -35,14 +36,14 @@ public class PluginsOverview extends Composite {
 	private void createContents() {
 		Label label = new Label(this, SWT.NONE);
 		label.setText("Total plugins:");
-		label.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, true, true));
+		label.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, true));
 		
 		numberOfPluginsLable = new Label(this, SWT.NONE);
 		numberOfPluginsLable.setText(Integer.toString(PluginAccess.getPluginsDataFromDb().size()));
 		numberOfPluginsLable.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, true, true));
 		
 		Button button = new Button(this, SWT.PUSH);
-		button.setText("Add plugin (TODO)");
+		button.setText("Add plugin");
 		GridData gridData = new GridData(SWT.CENTER, SWT.BOTTOM, true, true);
 		gridData.horizontalSpan = 2;
 		button.setLayoutData(gridData);
