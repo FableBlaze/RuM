@@ -4,6 +4,7 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Control;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleException;
 import org.osgi.framework.ServiceReference;
@@ -23,42 +24,59 @@ public class PluginSelectionChangedListener implements ISelectionChangedListener
 	@Override
 	public void selectionChanged(final SelectionChangedEvent event) {
 		IStructuredSelection selection = (IStructuredSelection)event.getSelection();
-		Plugin plugin = (Plugin) selection.getFirstElement();
-		newTaskComposite.getSelectedPluginInfo().updateSelectedPluginInfo(plugin);
-		//TODO: Check if plugin provided services are available
-		if (plugin!=null && !isPluginInstalled(plugin)) {
-			try {
-				Bundle temporaryBundle = Activator.getContext().installBundle("file:///" + plugin.getFileLocation());
-				temporaryBundle.start();
-				//temporaryBundle.stop();
-				//temporaryBundle.uninstall();
-			} catch (BundleException e) {
-				Activator.getLogger().info("Failed loading plugin: " + plugin.toString());
-				newTaskComposite.getSelectedPluginInfo().updateSelectedPluginInfo(null);
+		Plugin selectedPlugin = (Plugin) selection.getFirstElement();
+		Bundle selectedPluginBundle = null;
+		
+		if (selectedPlugin!=null) {
+			selectedPluginBundle = findSelectedPluginBundle(selectedPlugin);
+			if (selectedPluginBundle==null) {
+				selectedPluginBundle = installSelectedPluginBundle(selectedPlugin);
 			}
 		}
+		
+		newTaskComposite.getSelectedPluginInfo().updateSelectedPluginInfo(selectedPlugin);
+		updateNewTaskPluginConfigurationUi(selectedPluginBundle);
 	}
 
-	//TODO: This check seems to already be done by the framework
-	private boolean isPluginInstalled(Plugin plugin) {
-		for (Bundle b : Activator.getContext().getBundles()) {
-			if (b.getLocation().equals("file:///" + plugin.getFileLocation())) {
-				//TODO: Proper service usage
-				if (b.getRegisteredServices()!=null) {
-					for (ServiceReference<?> iterable_element : b.getRegisteredServices()) {
-						Activator.getLogger().info(iterable_element.toString());
 
-						RumPluginFactory rpm = (RumPluginFactory) b.getBundleContext().getService(iterable_element);
-						rpm.getRumPluginConfiguration().createConfigurationUi(newTaskComposite.getSelectedPluginConfigurationUi());
-						newTaskComposite.getSelectedPluginConfigurationUi().setSize(newTaskComposite.getSelectedPluginConfigurationUi().computeSize(SWT.DEFAULT, SWT.DEFAULT));
+	private Bundle findSelectedPluginBundle(Plugin selectedPlugin) {
+		for (Bundle bundle : Activator.getContext().getBundles()) {
+			if (bundle.getLocation().equals("file:///" + selectedPlugin.getFileLocation())) {
+				return bundle;
+			}
+		}
+		return null;
+	}
 
-					}
+	private Bundle installSelectedPluginBundle(Plugin selectedPlugin) {
+		Bundle selectedPluginBundle = null;
+		try {
+			selectedPluginBundle = Activator.getContext().installBundle("file:///" + selectedPlugin.getFileLocation());
+			selectedPluginBundle.start();
+			//temporaryBundle.stop();
+			//temporaryBundle.uninstall();
+		} catch (BundleException e) {
+			Activator.getLogger().info("Failed loading plugin: " + selectedPlugin.toString());
+		}
+		return selectedPluginBundle;
+	}
+
+
+	private void updateNewTaskPluginConfigurationUi(Bundle selectedPluginBundle) {
+		if (selectedPluginBundle==null || selectedPluginBundle.getRegisteredServices()==null) {
+			for (Control child : newTaskComposite.getSelectedPluginConfigurationUi().getChildren()) {
+				if (!child.isDisposed()) {
+					child.dispose();
 				}
+			}
+		} else {
+			for (ServiceReference<?> iterable_element : selectedPluginBundle.getRegisteredServices()) {
+				Activator.getLogger().info(iterable_element.toString());
 
-				return true;
+				RumPluginFactory rpm = (RumPluginFactory) selectedPluginBundle.getBundleContext().getService(iterable_element);
+				rpm.getRumPluginConfiguration().createConfigurationUi(newTaskComposite.getSelectedPluginConfigurationUi());
+				newTaskComposite.getSelectedPluginConfigurationUi().setSize(newTaskComposite.getSelectedPluginConfigurationUi().computeSize(SWT.DEFAULT, SWT.DEFAULT));
 			}
 		}
-		return false;
 	}
-
 }
