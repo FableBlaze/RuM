@@ -42,19 +42,18 @@ public class PluginsOverview extends Composite {
 		numberOfPluginsLable.setText(Integer.toString(PluginAccess.getPluginsDataFromDb().size()));
 		numberOfPluginsLable.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, true, true));
 		
-		Button button = new Button(this, SWT.PUSH);
-		button.setText("Add plugin");
-		GridData gridData = new GridData(SWT.CENTER, SWT.BOTTOM, true, true);
-		gridData.horizontalSpan = 2;
-		button.setLayoutData(gridData);
+		Button addPluginDialogueButton = new Button(this, SWT.PUSH);
+		addPluginDialogueButton.setText("Add plugin");
+		addPluginDialogueButton.setLayoutData(new GridData(SWT.CENTER, SWT.BOTTOM, true, true));
+		((GridData) addPluginDialogueButton.getLayoutData()).horizontalSpan = ((GridLayout) this.getLayout()).numColumns;
 
-		button.addListener(SWT.Selection, new Listener() {
+		addPluginDialogueButton.addListener(SWT.Selection, new Listener() {
 			private static final long serialVersionUID = 5362888762173659283L;
 
 			@Override
 			public void handleEvent(Event arg0) {
-				PluginUploadDialog pud = new PluginUploadDialog(Display.getCurrent().getActiveShell(), overviewTabContents);
-				pud.open();
+				PluginUploadDialog pluginUploadDialog = new PluginUploadDialog(Display.getCurrent().getActiveShell(), overviewTabContents);
+				pluginUploadDialog.open();
 			}
 		});
 	}
