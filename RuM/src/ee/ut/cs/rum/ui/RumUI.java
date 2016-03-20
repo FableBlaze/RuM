@@ -28,7 +28,7 @@ public class RumUI extends AbstractEntryPoint {
 		stackLayout.topControl = workspaceSection;
 		container.layout();
 
-		new NavigationButton(navigationMenu, "Workspace", workspaceSection, stackLayout, container);
+		new NavigationButton(navigationMenu, "Workspaces", workspaceSection, stackLayout, container);
 		new NavigationButton(navigationMenu, "Plugins management", pluginsManagementSection, stackLayout, container);
 		new NavigationButton(navigationMenu, "System administration", systemAdministrationSection, stackLayout, container);
 		

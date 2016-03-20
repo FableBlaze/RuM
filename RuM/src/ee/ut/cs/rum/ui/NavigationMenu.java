@@ -9,7 +9,7 @@ public class NavigationMenu extends Composite {
 	private static final long serialVersionUID = -7229992311867297026L;
 	
 	public NavigationMenu(Composite parent) {
-		super(parent, SWT.BORDER);
+		super(parent, SWT.NONE);
 		
 		this.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 	}
