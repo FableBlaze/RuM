@@ -1,6 +1,7 @@
 package ee.ut.cs.rum.workspaces.ui;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -16,13 +17,20 @@ public class WorkspacesUI extends Composite {
 
 	public WorkspacesUI(Composite parent) {
 		super(parent, SWT.BORDER);
-
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		this.setLayout(new GridLayout());
-
+		
 		workspacesHeader = new WorkspacesHeader(this);
+		
+		Composite workspaceContainer = new Composite(this, SWT.NONE);
+		workspaceContainer.setLayoutData( new GridData(SWT.FILL, SWT.FILL, true, true));
+		StackLayout stackLayout = new StackLayout();
+		workspaceContainer.setLayout(stackLayout);
 
-		workspacesOverview = new WorkspacesOverview(this);
+		workspacesOverview = new WorkspacesOverview(workspaceContainer, this);
+		
+		stackLayout.topControl = workspacesOverview;
+		workspaceContainer.layout();
 	}
 	
 	public WorkspacesHeader getWorkspacesHeader() {

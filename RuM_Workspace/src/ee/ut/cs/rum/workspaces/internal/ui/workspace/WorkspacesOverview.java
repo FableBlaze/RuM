@@ -16,8 +16,9 @@ public class WorkspacesOverview extends Composite {
 	private static final long serialVersionUID = -2991325315513334549L;
 	
 	private WorkspacesTableViewer workspacesTableViewer;
-	public WorkspacesOverview(WorkspacesUI workspacesUI) {
-		super(workspacesUI, SWT.NONE);
+	
+	public WorkspacesOverview(Composite container, WorkspacesUI workspacesUI) {
+		super(container, SWT.NONE);
 
 		this.setLayout(new GridLayout());
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
