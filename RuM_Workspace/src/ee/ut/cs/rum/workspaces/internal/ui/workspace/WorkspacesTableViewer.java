@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.workspaces.ui.internal.task.newtask.pluginstable;
+package ee.ut.cs.rum.workspaces.internal.ui.workspace;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
@@ -8,50 +8,51 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import ee.ut.cs.rum.database.domain.Plugin;
-import ee.ut.cs.rum.database.util.PluginAccess;
 
-public class PluginsTableViewer extends TableViewer {
-	private static final long serialVersionUID = -2467863870428087617L;
+import ee.ut.cs.rum.database.domain.Workspace;
+import ee.ut.cs.rum.database.util.WorkspaceAccess;
 
-	public PluginsTableViewer(PluginsTableComposite pluginsTableComposite) {
-		super(pluginsTableComposite, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 
+public class WorkspacesTableViewer extends TableViewer {
+	private static final long serialVersionUID = -4856474442900733174L;
+
+	public WorkspacesTableViewer(WorkspacesOverview workspacesOverview) {
+		super(workspacesOverview, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
+		
 		createColumns(this);
-
+		
 		final Table table = this.getTable();
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
-
+		
 		this.setContentProvider(new ArrayContentProvider());
-		this.setInput(PluginAccess.getPluginsDataFromDb());
+		this.setInput(WorkspaceAccess.getWorkspacesDataFromDb());
 	}
-
-
+	
 	private static void createColumns(final TableViewer viewer) {
-		String[] titles = { "Name", "Version"};
-		int[] bounds = { 200, 75 };
+		String[] titles = { "Name", "Description"};
+		int[] bounds = { 200, 700 };
 
 		TableViewerColumn nameColumn = createTableViewerColumn(titles[0], bounds[0], viewer);
 		nameColumn.setLabelProvider(new ColumnLabelProvider() {
-			private static final long serialVersionUID = 859768103676685673L;
+			private static final long serialVersionUID = -6627398148604308908L;
 
 			@Override
 			public String getText(Object element) {
-				Plugin plugin = (Plugin) element;
-				return plugin.getName();
+				Workspace workspace = (Workspace) element;
+				return workspace.getName();
 			}
 		});
 
-		TableViewerColumn versionColumn = createTableViewerColumn(titles[1], bounds[1], viewer);
-		versionColumn.setLabelProvider(new ColumnLabelProvider() {
-			private static final long serialVersionUID = 7951912026066172553L;
+		TableViewerColumn descriptionColumn = createTableViewerColumn(titles[1], bounds[1], viewer);
+		descriptionColumn.setLabelProvider(new ColumnLabelProvider() {
+			private static final long serialVersionUID = 3978700864805271863L;
 
 			@Override
 			public String getText(Object element) {
-				Plugin plugin = (Plugin) element;
-				return plugin.getVersion();
+				Workspace workspace = (Workspace) element;
+				return workspace.getDescription();
 			}
 		});
 	}
@@ -64,5 +65,4 @@ public class PluginsTableViewer extends TableViewer {
 		column.setResizable(true);
 		return viewerColumn;
 	}
-
 }

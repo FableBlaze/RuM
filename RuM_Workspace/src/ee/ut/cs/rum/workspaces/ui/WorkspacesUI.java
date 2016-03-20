@@ -5,8 +5,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
-import ee.ut.cs.rum.workspaces.ui.internal.WorkspacesHeader;
-import ee.ut.cs.rum.workspaces.ui.internal.workspace.WorkspacesOverview;
+import ee.ut.cs.rum.workspaces.internal.ui.WorkspacesHeader;
+import ee.ut.cs.rum.workspaces.internal.ui.workspace.WorkspacesOverview;
 
 public class WorkspacesUI extends Composite {
 	private static final long serialVersionUID = 7689615370877170628L;

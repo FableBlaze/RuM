@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.workspaces.ui.internal;
+package ee.ut.cs.rum.workspaces.internal.ui;
 
 import org.eclipse.swt.widgets.Composite;
 

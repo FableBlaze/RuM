@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.workspaces.ui.internal.task.newtask;
+package ee.ut.cs.rum.workspaces.internal.ui.task.newtask;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -7,8 +7,8 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
 import ee.ut.cs.rum.plugins.interfaces.factory.RumPluginConfiguration;
+import ee.ut.cs.rum.workspaces.internal.ui.task.newtask.pluginstable.PluginsTableComposite;
 import ee.ut.cs.rum.workspaces.ui.WorkspacesUI;
-import ee.ut.cs.rum.workspaces.ui.internal.task.newtask.pluginstable.PluginsTableComposite;
 
 public class NewTaskComposite extends Composite {
 	private static final long serialVersionUID = -6828414895866044855L;
