@@ -6,7 +6,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
 import ee.ut.cs.rum.workspaces.ui.internal.WorkspacesHeader;
-import ee.ut.cs.rum.workspaces.ui.internal.task.newtask.NewTaskComposite;
+import ee.ut.cs.rum.workspaces.ui.internal.workspace.WorkspacesOverview;
 
 public class WorkspacesUI extends Composite {
 	private static final long serialVersionUID = 7689615370877170628L;
@@ -21,7 +21,7 @@ public class WorkspacesUI extends Composite {
 
 		workspacesHeader = new WorkspacesHeader(this);
 
-		new NewTaskComposite(this);
+		new WorkspacesOverview(this);
 	}
 	
 	public WorkspacesHeader getWorkspacesHeader() {
