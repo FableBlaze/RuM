@@ -25,9 +25,11 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleException;
+import org.osgi.framework.ServiceReference;
 
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.database.util.SystemParameterAccess;
+import ee.ut.cs.rum.plugins.interfaces.RumPluginFactory;
 import ee.ut.cs.rum.plugins.internal.Activator;
 import ee.ut.cs.rum.plugins.internal.ui.overview.OverviewTabContents;
 import ee.ut.cs.rum.plugins.internal.util.PluginsData;
@@ -41,6 +43,7 @@ public class PluginUploadDialog extends Dialog {
 
 	private Bundle temporaryBundle;
 	private File temporaryFile;
+	boolean serviceCheck;
 
 	private Label nameValue;
 	private Label symbolicNameValue;
@@ -123,13 +126,14 @@ public class PluginUploadDialog extends Dialog {
 				temporaryFile = receiver.getTargetFiles()[receiver.getTargetFiles().length-1];
 				Activator.getLogger().info("Uploaded file: " + temporaryFile.getAbsolutePath());
 				temporaryBundle = null;
-
+				serviceCheck = false;
 				try {
 					temporaryBundle = Activator.getContext().installBundle("file:///" + temporaryFile.getAbsolutePath());
 					Activator.getLogger().info("Temporary plugin loaded");
 
 					if (temporaryBundle!=null && temporaryBundle.getSymbolicName()!=null) {
 						temporaryBundle.start();
+						serviceCheck = implementsRumPluginFactory(temporaryBundle);
 						temporaryBundle.stop();
 						Activator.getLogger().info("Temporary plugin initial start/stop done");
 					} else {
@@ -144,7 +148,7 @@ public class PluginUploadDialog extends Dialog {
 					public void run() {
 
 						//TODO: Check for duplicates
-						if (temporaryBundle!=null && temporaryBundle.getSymbolicName()!=null) {
+						if (temporaryBundle!=null && temporaryBundle.getSymbolicName()!=null && serviceCheck) {
 							okButton.setEnabled(true);
 							feedbackTextValue.setText("");
 
@@ -231,7 +235,7 @@ public class PluginUploadDialog extends Dialog {
 			public void widgetSelected(SelectionEvent event) {
 				boolean copySucceeded = false;
 				File destinationFile = null;
-				
+
 				String plugin_path = SystemParameterAccess.getSystemParameterValue("plugin_path");
 				if (plugin_path!=null) {
 					destinationFile = new File(plugin_path + new SimpleDateFormat("ddMMyyyy_HHmmssSSS").format(new Date()) + ".jar");
@@ -280,6 +284,20 @@ public class PluginUploadDialog extends Dialog {
 				shell.close();
 			}
 		});
+	}
+
+	private boolean implementsRumPluginFactory(Bundle temporaryBundle) {
+		if (temporaryBundle.getRegisteredServices()!=null) {
+			for (ServiceReference<?> serviceReference : temporaryBundle.getRegisteredServices()) {
+				String[] objectClasses = (String[])serviceReference.getProperty("objectClass");
+				for (String objectClass : objectClasses) {
+					if (objectClass.equals(RumPluginFactory.class.getName())) {
+						return true;
+					}
+				}	
+			}
+		}
+		return false;
 	}
 }
 
