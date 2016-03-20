@@ -11,17 +11,17 @@ import ee.ut.cs.rum.plugins.interfaces.factory.RumPluginWorker;
 public class RumPluginFactoryImpl implements RumPluginFactory {
 
 	@Override
-	public RumPluginConfiguration getRumPluginConfiguration() {
+	public RumPluginConfiguration createRumPluginConfiguration() {
 		return new RumPluginConfigurationImpl();
 	}
 
 	@Override
-	public RumPluginWorker getRumPluginWorker() {
+	public RumPluginWorker createRumPluginWorker() {
 		return new RumPluginWorkerImpl();
 	}
 
 	@Override
-	public RumPluginResultsVisualizer getRumPluginResultsVisualizer() {
+	public RumPluginResultsVisualizer createRumPluginResultsVisualizer() {
 		return new RumPluginResultsVisualizerImpl();
 	}
 

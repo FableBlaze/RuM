@@ -21,7 +21,7 @@ public class RumPluginConfigurationImpl implements RumPluginConfiguration {
 	}
 
 	@Override
-	public Object getConfiguration() {
+	public Object getConfigurationFromUi() {
 		Activator.getLogger().info("RuM_ToyPlugin1 returned parameter: " + t.getText());
 		return t.getText();
 	}
