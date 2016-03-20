@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.workspace.ui.internal.newtask;
+package ee.ut.cs.rum.workspaces.ui.internal.newtask;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -8,7 +8,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
-import ee.ut.cs.rum.workspace.internal.Activator;
+import ee.ut.cs.rum.workspaces.internal.Activator;
 
 public class FooterButtonsComposite extends Composite {
 	private static final long serialVersionUID = 688156596045927568L;

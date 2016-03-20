@@ -8,7 +8,7 @@ import org.eclipse.swt.widgets.Composite;
 import ee.ut.cs.rum.Activator;
 import ee.ut.cs.rum.administration.ui.SystemAdministrationUI;
 import ee.ut.cs.rum.plugins.ui.PluginsManagementUI;
-import ee.ut.cs.rum.workspace.ui.WorkspaceUI;
+import ee.ut.cs.rum.workspaces.ui.WorkspacesUI;
 
 public class RumUI extends AbstractEntryPoint {
 	private static final long serialVersionUID = 1282027955721012064L;
@@ -21,7 +21,7 @@ public class RumUI extends AbstractEntryPoint {
 		StackLayout stackLayout = new StackLayout();
 		container.setLayout(stackLayout);
 		
-		Composite workspaceSection = new WorkspaceUI(container);
+		Composite workspaceSection = new WorkspacesUI(container);
 		Composite pluginsManagementSection = new PluginsManagementUI(container);
 		Composite systemAdministrationSection = new SystemAdministrationUI(container);
 		

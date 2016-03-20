@@ -6,7 +6,7 @@
 		<project>RuM_Administration</project>
 		<project>RuM_Database</project>
 		<project>RuM_Plugins</project>
-		<project>RuM_Workspace</project>
+		<project>RuM_Workspaces</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

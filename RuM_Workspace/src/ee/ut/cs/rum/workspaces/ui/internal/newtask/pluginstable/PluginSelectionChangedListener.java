@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.workspace.ui.internal.newtask.pluginstable;
+package ee.ut.cs.rum.workspaces.ui.internal.newtask.pluginstable;
 
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -13,9 +13,9 @@ import org.osgi.framework.ServiceReference;
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.plugins.interfaces.RumPluginFactory;
 import ee.ut.cs.rum.plugins.interfaces.factory.RumPluginConfiguration;
-import ee.ut.cs.rum.workspace.internal.Activator;
-import ee.ut.cs.rum.workspace.ui.internal.PluginContentComposite;
-import ee.ut.cs.rum.workspace.ui.internal.newtask.NewTaskComposite;
+import ee.ut.cs.rum.workspaces.internal.Activator;
+import ee.ut.cs.rum.workspaces.ui.internal.PluginContentComposite;
+import ee.ut.cs.rum.workspaces.ui.internal.newtask.NewTaskComposite;
 
 public class PluginSelectionChangedListener implements ISelectionChangedListener {
 	private NewTaskComposite newTaskComposite;
