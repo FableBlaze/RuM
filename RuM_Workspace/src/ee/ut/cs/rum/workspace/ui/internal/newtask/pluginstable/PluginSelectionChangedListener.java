@@ -28,14 +28,14 @@ public class PluginSelectionChangedListener implements ISelectionChangedListener
 		IStructuredSelection selection = (IStructuredSelection)event.getSelection();
 		Plugin selectedPlugin = (Plugin) selection.getFirstElement();
 		Bundle selectedPluginBundle = null;
-		
+
 		if (selectedPlugin!=null) {
 			selectedPluginBundle = findSelectedPluginBundle(selectedPlugin);
 			if (selectedPluginBundle==null) {
 				selectedPluginBundle = installSelectedPluginBundle(selectedPlugin);
 			}
 		}
-		
+
 		newTaskComposite.getSelectedPluginInfo().updateSelectedPluginInfo(selectedPlugin);
 		updateNewTaskPluginConfigurationUi(selectedPluginBundle);
 	}
@@ -64,21 +64,33 @@ public class PluginSelectionChangedListener implements ISelectionChangedListener
 
 	private void updateNewTaskPluginConfigurationUi(Bundle selectedPluginBundle) {
 		ScrolledComposite selectedPluginConfigurationUi = newTaskComposite.getSelectedPluginConfigurationUi();
-		
+
 		if (selectedPluginConfigurationUi.getContent()!=null && !selectedPluginConfigurationUi.getContent().isDisposed()) {
-			newTaskComposite.getSelectedPluginConfigurationUi().getContent().dispose();
+			selectedPluginConfigurationUi.getContent().dispose();
 		}
-		
+
 		if (selectedPluginBundle!=null && selectedPluginBundle.getRegisteredServices()!=null) {
-			Composite content = new Composite(selectedPluginConfigurationUi, SWT.NONE);
-			content.setLayout(new GridLayout());
-			
-			for (ServiceReference<?> iterable_element : selectedPluginBundle.getRegisteredServices()) {
-				RumPluginFactory rpm = (RumPluginFactory) selectedPluginBundle.getBundleContext().getService(iterable_element);
-				rpm.getRumPluginConfiguration().createConfigurationUi(content);
-				content.setSize(content.computeSize(SWT.DEFAULT, SWT.DEFAULT));
-				selectedPluginConfigurationUi.setContent(content);
+			for (ServiceReference<?> serviceReference : selectedPluginBundle.getRegisteredServices()) {
+				if (implementsRumPluginFactory(serviceReference)) {
+					Composite content = new Composite(selectedPluginConfigurationUi, SWT.NONE);
+					content.setLayout(new GridLayout());
+					
+					RumPluginFactory rumPluginFactory = (RumPluginFactory) selectedPluginBundle.getBundleContext().getService(serviceReference);
+					rumPluginFactory.getRumPluginConfiguration().createConfigurationUi(content);
+					content.setSize(content.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+					selectedPluginConfigurationUi.setContent(content);
+				}
 			}
 		}
+	}
+
+	private boolean implementsRumPluginFactory(ServiceReference<?> serviceReference) {
+		String[] objectClasses = (String[])serviceReference.getProperty("objectClass");
+		for (String objectClass : objectClasses) {
+			if (objectClass.equals(RumPluginFactory.class.getName())) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
