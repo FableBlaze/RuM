@@ -4,7 +4,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 
 import ee.ut.cs.rum.database.domain.Plugin;
@@ -40,24 +39,19 @@ public class SelectedPluginInfo extends Composite {
 	}
 
 	public void updateSelectedPluginInfo(Plugin plugin) {
-
-		Display.getDefault().syncExec(new Runnable() {
-			public void run() {
-				if (!contentsInitialized) {
-					createContents();
-					headerLabel.setText("Plugin details");
-					contentsInitialized=true;
-					updateContents(plugin);
-				} else if (contentsInitialized && plugin!=null) {
-					updateContents(plugin);
-				} else if (contentsInitialized && plugin==null) {
-					removeContents();
-					contentsInitialized=false;
-					headerLabel.setText("No plugin selected");
-				}
-				layout();
-			}
-		});
+		if (!contentsInitialized) {
+			createContents();
+			headerLabel.setText("Plugin details");
+			contentsInitialized=true;
+			updateContents(plugin);
+		} else if (contentsInitialized && plugin!=null) {
+			updateContents(plugin);
+		} else if (contentsInitialized && plugin==null) {
+			removeContents();
+			contentsInitialized=false;
+			headerLabel.setText("No plugin selected");
+		}
+		layout();
 	}
 
 	private void createContents() {
