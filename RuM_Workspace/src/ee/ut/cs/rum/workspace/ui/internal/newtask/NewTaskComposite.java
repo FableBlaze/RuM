@@ -1,6 +1,7 @@
 package ee.ut.cs.rum.workspace.ui.internal.newtask;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -24,9 +25,14 @@ public class NewTaskComposite extends Composite {
 		
 		selectedPluginInfo = new SelectedPluginInfo(this);
 		
-		selectedPluginConfigurationUi = new Composite(this, SWT.NONE);
+		ScrolledComposite sc = new ScrolledComposite(this, SWT.H_SCROLL | SWT.V_SCROLL);
+		sc.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		
+		selectedPluginConfigurationUi = new Composite(sc, SWT.NONE);
 		selectedPluginConfigurationUi.setLayout(new GridLayout());
 		selectedPluginConfigurationUi.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		
+		sc.setContent(selectedPluginConfigurationUi);
 		
 		FooterButtonsComposite footerButtonsComposite = new FooterButtonsComposite(this);
 		((GridData) footerButtonsComposite.getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;

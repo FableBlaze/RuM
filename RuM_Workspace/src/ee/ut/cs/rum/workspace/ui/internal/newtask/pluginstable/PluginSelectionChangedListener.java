@@ -3,6 +3,7 @@ package ee.ut.cs.rum.workspace.ui.internal.newtask.pluginstable;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.swt.SWT;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleException;
 import org.osgi.framework.ServiceReference;
@@ -49,7 +50,7 @@ public class PluginSelectionChangedListener implements ISelectionChangedListener
 
 						RumPluginFactory rpm = (RumPluginFactory) b.getBundleContext().getService(iterable_element);
 						rpm.getRumPluginConfiguration().createConfigurationUi(newTaskComposite.getSelectedPluginConfigurationUi());
-						newTaskComposite.getSelectedPluginConfigurationUi().layout();
+						newTaskComposite.getSelectedPluginConfigurationUi().setSize(newTaskComposite.getSelectedPluginConfigurationUi().computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
 					}
 				}
