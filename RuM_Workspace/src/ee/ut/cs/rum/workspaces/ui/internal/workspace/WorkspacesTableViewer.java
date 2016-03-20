@@ -13,10 +13,10 @@ import ee.ut.cs.rum.database.domain.Workspace;
 import ee.ut.cs.rum.database.util.WorkspaceAccess;
 
 
-public class WorkspaceTableViewer extends TableViewer {
+public class WorkspacesTableViewer extends TableViewer {
 	private static final long serialVersionUID = -4856474442900733174L;
 
-	public WorkspaceTableViewer(WorkspacesOverview workspacesOverview) {
+	public WorkspacesTableViewer(WorkspacesOverview workspacesOverview) {
 		super(workspacesOverview, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 		
 		createColumns(this);

@@ -14,7 +14,7 @@ public class WorkspacesOverview extends Composite {
 		this.setLayout(new GridLayout());
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		
-		new WorkspaceTableViewer(this);
+		new WorkspacesTableViewer(this);
 	}
 
 }
