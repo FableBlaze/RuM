@@ -11,6 +11,9 @@ import ee.ut.cs.rum.database.internal.Activator;
 
 public final class PluginAccess {
 	
+	private PluginAccess() {
+	}
+	
 	public static List<Plugin> getPluginsDataFromDb() {
 		EntityManagerFactory emf = Activator.getEmf();
 		EntityManager em = emf.createEntityManager();

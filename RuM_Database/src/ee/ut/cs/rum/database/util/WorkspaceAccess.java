@@ -10,6 +10,10 @@ import ee.ut.cs.rum.database.domain.Workspace;
 import ee.ut.cs.rum.database.internal.Activator;
 
 public final class WorkspaceAccess {
+	
+	private WorkspaceAccess() {
+	}
+	
 	public static List<Workspace> getWorkspacesDataFromDb() {
 		EntityManagerFactory emf = Activator.getEmf();
 		EntityManager em = emf.createEntityManager();
