@@ -15,6 +15,7 @@ import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.plugins.interfaces.RumPluginFactory;
 import ee.ut.cs.rum.plugins.interfaces.factory.RumPluginConfiguration;
 import ee.ut.cs.rum.workspace.internal.Activator;
+import ee.ut.cs.rum.workspace.ui.internal.PluginContentComposite;
 import ee.ut.cs.rum.workspace.ui.internal.newtask.NewTaskComposite;
 
 public class PluginSelectionChangedListener implements ISelectionChangedListener {
@@ -73,7 +74,7 @@ public class PluginSelectionChangedListener implements ISelectionChangedListener
 		if (selectedPluginBundle!=null && selectedPluginBundle.getRegisteredServices()!=null) {
 			for (ServiceReference<?> serviceReference : selectedPluginBundle.getRegisteredServices()) {
 				if (implementsRumPluginFactory(serviceReference)) {
-					Composite content = new Composite(selectedPluginConfigurationUi, SWT.NONE);
+					PluginContentComposite content = new PluginContentComposite(selectedPluginConfigurationUi, SWT.NONE);
 					content.setLayout(new GridLayout());
 					
 					RumPluginFactory rumPluginFactory = (RumPluginFactory) selectedPluginBundle.getBundleContext().getService(serviceReference);
