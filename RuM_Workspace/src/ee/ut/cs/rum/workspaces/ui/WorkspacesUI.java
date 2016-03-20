@@ -12,6 +12,7 @@ public class WorkspacesUI extends Composite {
 	private static final long serialVersionUID = 7689615370877170628L;
 
 	private WorkspacesHeader workspacesHeader;
+	private WorkspacesOverview workspacesOverview;
 
 	public WorkspacesUI(Composite parent) {
 		super(parent, SWT.BORDER);
@@ -21,10 +22,14 @@ public class WorkspacesUI extends Composite {
 
 		workspacesHeader = new WorkspacesHeader(this);
 
-		new WorkspacesOverview(this);
+		workspacesOverview = new WorkspacesOverview(this);
 	}
 	
 	public WorkspacesHeader getWorkspacesHeader() {
 		return workspacesHeader;
+	}
+	
+	public WorkspacesOverview getWorkspacesOverview() {
+		return workspacesOverview;
 	}
 }
