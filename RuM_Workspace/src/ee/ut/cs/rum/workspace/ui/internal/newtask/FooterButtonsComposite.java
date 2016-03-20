@@ -1,10 +1,14 @@
 package ee.ut.cs.rum.workspace.ui.internal.newtask;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+
+import ee.ut.cs.rum.workspace.internal.Activator;
 
 public class FooterButtonsComposite extends Composite {
 	private static final long serialVersionUID = 688156596045927568L;
@@ -18,6 +22,14 @@ public class FooterButtonsComposite extends Composite {
 		Button startButton = new Button(this, SWT.PUSH);
 		startButton.setText("Start");
 		startButton.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, true, true));
+		
+		startButton.addSelectionListener(new SelectionAdapter() {
+			private static final long serialVersionUID = 5694975289507094763L;
+
+			public void widgetSelected(SelectionEvent event) {
+				Activator.getLogger().info(newTaskComposite.getRumPluginConfiguration().getConfiguration().toString());
+			}
+		});
 		
 		Button cancelButton = new Button(this, SWT.PUSH);
 		cancelButton.setText("Cancel");
