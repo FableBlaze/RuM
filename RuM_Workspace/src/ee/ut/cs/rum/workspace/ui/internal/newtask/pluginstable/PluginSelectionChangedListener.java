@@ -13,6 +13,7 @@ import org.osgi.framework.ServiceReference;
 
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.plugins.interfaces.RumPluginFactory;
+import ee.ut.cs.rum.plugins.interfaces.factory.RumPluginConfiguration;
 import ee.ut.cs.rum.workspace.internal.Activator;
 import ee.ut.cs.rum.workspace.ui.internal.newtask.NewTaskComposite;
 
@@ -76,9 +77,12 @@ public class PluginSelectionChangedListener implements ISelectionChangedListener
 					content.setLayout(new GridLayout());
 					
 					RumPluginFactory rumPluginFactory = (RumPluginFactory) selectedPluginBundle.getBundleContext().getService(serviceReference);
-					rumPluginFactory.getRumPluginConfiguration().createConfigurationUi(content);
+					RumPluginConfiguration rumPluginConfiguration = rumPluginFactory.getRumPluginConfiguration();
+					rumPluginConfiguration.createConfigurationUi(content);
 					content.setSize(content.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 					selectedPluginConfigurationUi.setContent(content);
+					
+					newTaskComposite.setRumPluginConfiguration(rumPluginConfiguration);
 				}
 			}
 		}

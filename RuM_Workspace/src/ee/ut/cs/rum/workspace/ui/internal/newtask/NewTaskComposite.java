@@ -6,6 +6,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
+import ee.ut.cs.rum.plugins.interfaces.factory.RumPluginConfiguration;
 import ee.ut.cs.rum.workspace.ui.WorkspaceUI;
 import ee.ut.cs.rum.workspace.ui.internal.newtask.pluginstable.PluginsTableComposite;
 
@@ -14,6 +15,7 @@ public class NewTaskComposite extends Composite {
 	
 	private SelectedPluginInfo selectedPluginInfo;
 	private ScrolledComposite selectedPluginConfigurationUi;
+	RumPluginConfiguration rumPluginConfiguration;
 
 	public NewTaskComposite(WorkspaceUI workspaceUI) {
 		super(workspaceUI, SWT.NONE);
@@ -39,5 +41,13 @@ public class NewTaskComposite extends Composite {
 
 	public ScrolledComposite getSelectedPluginConfigurationUi() {
 		return selectedPluginConfigurationUi;
+	}
+
+	public RumPluginConfiguration getRumPluginConfiguration() {
+		return rumPluginConfiguration;
+	}
+
+	public void setRumPluginConfiguration(RumPluginConfiguration rumPluginConfiguration) {
+		this.rumPluginConfiguration = rumPluginConfiguration;
 	}
 }
