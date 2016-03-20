@@ -25,6 +25,6 @@ public class WorkspacesData {
 		
 		List<Workspace> workspaces = WorkspaceAccess.getWorkspacesDataFromDb();
 		workspacesUI.getWorkspacesOverview().getWorkspacesTableViewer().setInput(workspaces);
-		workspacesUI.getWorkspacesHeader().updateWorkspaceSelector(workspaces);
+		workspacesUI.getWorkspacesHeader().getWorkspaceSelectorCombo().updateWorkspaceSelector(workspaces);
 	}
 }
