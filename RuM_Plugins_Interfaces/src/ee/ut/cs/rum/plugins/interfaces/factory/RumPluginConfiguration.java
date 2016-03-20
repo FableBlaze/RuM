@@ -4,5 +4,7 @@ import org.eclipse.swt.widgets.Composite;
 
 public interface RumPluginConfiguration {
 	public void createConfigurationUi(Composite parent);
-	public Object getConfigurationFromUi();
+	public void setConfigurationUiEnabled(boolean enabled);
+	public Object getConfiguration();
+	public void setConfiguration(Object configuration);
 }

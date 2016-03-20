@@ -27,7 +27,7 @@ public class FooterButtonsComposite extends Composite {
 			private static final long serialVersionUID = 5694975289507094763L;
 
 			public void widgetSelected(SelectionEvent event) {
-				Activator.getLogger().info(newTaskComposite.getRumPluginConfiguration().getConfigurationFromUi().toString());
+				Activator.getLogger().info(newTaskComposite.getRumPluginConfiguration().getConfiguration().toString());
 			}
 		});
 		

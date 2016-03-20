@@ -21,8 +21,19 @@ public class RumPluginConfigurationImpl implements RumPluginConfiguration {
 	}
 
 	@Override
-	public Object getConfigurationFromUi() {
+	public void setConfigurationUiEnabled(boolean enabled) {
+		Activator.getLogger().info("RuM_ToyPlugin2 configuration ui enabled: " + enabled);
+		t.setEnabled(enabled);
+	}
+
+	@Override
+	public Object getConfiguration() {
 		Activator.getLogger().info("RuM_ToyPlugin2 returned parameter: " + t.getText());
 		return t.getText();
+	}
+
+	@Override
+	public void setConfiguration(Object configuration) {
+		t.setText((String) configuration);
 	}
 }
