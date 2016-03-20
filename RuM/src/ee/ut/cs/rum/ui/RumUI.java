@@ -16,21 +16,20 @@ public class RumUI extends AbstractEntryPoint {
 	public void createContents(Composite parent) {
 		NavigationMenu navigationMenu = new NavigationMenu(parent);
 
-		Composite container = new Composite(parent, SWT.NONE);
-		container.setLayoutData( new GridData(SWT.FILL, SWT.FILL, true, true));
-		StackLayout stackLayout = new StackLayout();
-		container.setLayout(stackLayout);
+		Composite sectionContainer = new Composite(parent, SWT.NONE);
+		sectionContainer.setLayoutData( new GridData(SWT.FILL, SWT.FILL, true, true));
+		sectionContainer.setLayout(new StackLayout());
 		
-		Composite workspaceSection = new WorkspacesUI(container);
-		Composite pluginsManagementSection = new PluginsManagementUI(container);
-		Composite systemAdministrationSection = new SystemAdministrationUI(container);
+		Composite workspaceSection = new WorkspacesUI(sectionContainer);
+		Composite pluginsManagementSection = new PluginsManagementUI(sectionContainer);
+		Composite systemAdministrationSection = new SystemAdministrationUI(sectionContainer);
 		
-		stackLayout.topControl = workspaceSection;
-		container.layout();
+		((StackLayout)sectionContainer.getLayout()).topControl = workspaceSection;
+		sectionContainer.layout();
 
-		new NavigationButton(navigationMenu, "Workspaces", workspaceSection, stackLayout, container);
-		new NavigationButton(navigationMenu, "Plugins management", pluginsManagementSection, stackLayout, container);
-		new NavigationButton(navigationMenu, "System administration", systemAdministrationSection, stackLayout, container);
+		new NavigationButton(navigationMenu, "Workspaces", workspaceSection, sectionContainer);
+		new NavigationButton(navigationMenu, "Plugins management", pluginsManagementSection, sectionContainer);
+		new NavigationButton(navigationMenu, "System administration", systemAdministrationSection, sectionContainer);
 		
 		navigationMenu.layout();
 		

@@ -24,12 +24,11 @@ public class WorkspacesUI extends Composite {
 		
 		Composite workspaceContainer = new Composite(this, SWT.NONE);
 		workspaceContainer.setLayoutData( new GridData(SWT.FILL, SWT.FILL, true, true));
-		StackLayout stackLayout = new StackLayout();
-		workspaceContainer.setLayout(stackLayout);
+		workspaceContainer.setLayout(new StackLayout());
 
 		workspacesOverview = new WorkspacesOverview(workspaceContainer, this);
 		
-		stackLayout.topControl = workspacesOverview;
+		((StackLayout)workspaceContainer.getLayout()).topControl = workspacesOverview;
 		workspaceContainer.layout();
 	}
 	

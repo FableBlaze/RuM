@@ -11,7 +11,7 @@ import org.eclipse.swt.widgets.Control;
 public class NavigationButton extends Button {
 	private static final long serialVersionUID = -2540683688422371891L;
 
-	public NavigationButton(Composite parent, String buttonText, Control topControl, StackLayout stackLayout, Composite container) {
+	public NavigationButton(Composite parent, String buttonText, Control topControl, Composite sectionContainer) {
 		super(parent, SWT.PUSH);
 		
 		this.setText(buttonText);
@@ -19,8 +19,8 @@ public class NavigationButton extends Button {
 			private static final long serialVersionUID = -7714989063610717365L;
 
 			public void widgetSelected( SelectionEvent event ) {
-				stackLayout.topControl = topControl;
-				container.layout();
+				((StackLayout)sectionContainer.getLayout()).topControl = topControl;
+				sectionContainer.layout();
 			}
 		});
 	}
