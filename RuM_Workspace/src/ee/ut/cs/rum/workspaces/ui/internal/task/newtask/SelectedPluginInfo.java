@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.workspaces.ui.internal.newtask;
+package ee.ut.cs.rum.workspaces.ui.internal.task.newtask;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
