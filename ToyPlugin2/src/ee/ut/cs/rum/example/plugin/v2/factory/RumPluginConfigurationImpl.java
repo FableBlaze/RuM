@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.example.plugin.v1.factory;
+package ee.ut.cs.rum.example.plugin.v2.factory;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -11,7 +11,7 @@ public class RumPluginConfigurationImpl implements RumPluginConfiguration {
 	@Override
 	public void createConfigurationUi(Composite parent) {
 		Label l = new Label(parent, SWT.BORDER);
-		l.setText("ToyPlugin1 Configuration (TODO)");
+		l.setText("ToyPlugin2 Configuration (TODO)");
 	}
 
 	@Override

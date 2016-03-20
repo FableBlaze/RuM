@@ -1,12 +1,12 @@
 Manifest-Version: 1.0
-Bundle-Description: This is the first toy plugin for RuM
-Bundle-SymbolicName: ToyPlugin1
-Bundle-Version: 0.0.5
-Bundle-Name: ToyPlugin1
+Bundle-Description: This is the second toy plugin for RuM
+Bundle-SymbolicName: ToyPlugin2
+Bundle-Version: 0.0.1
+Bundle-Name: ToyPlugin2
 Bundle-Vendor: University of Tartu
 Bundle-ManifestVersion: 2
-Bundle-Activator: ee.ut.cs.rum.example.plugin.v1.Activator
-Service-Component: OSGI-INF/ToyPlugin1Factory.xml
+Bundle-Activator: ee.ut.cs.rum.example.plugin.v2.Activator
+Service-Component: OSGI-INF/ToyPlugin2Factory.xml
 Import-Package: ee.ut.cs.rum.plugins.interfaces,
  ee.ut.cs.rum.plugins.interfaces.factory,
  org.osgi.framework;version="[1.7.0,1.7.0]",
