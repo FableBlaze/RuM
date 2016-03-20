@@ -7,14 +7,16 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
+import ee.ut.cs.rum.workspaces.ui.WorkspacesUI;
+
 public class WorkspacesHeader extends Composite {
 	private static final long serialVersionUID = -6786154655313853465L;
 
 	private Label workspaceTitle;
 	private Combo workspaceSelector;
 
-	public WorkspacesHeader(Composite parent) {
-		super(parent, SWT.NONE);
+	public WorkspacesHeader(WorkspacesUI workspacesUI) {
+		super(workspacesUI, SWT.NONE);
 
 		this.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 		this.setLayout(new GridLayout(3, false));
