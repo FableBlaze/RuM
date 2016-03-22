@@ -21,6 +21,7 @@ public class NewTaskDialogShell extends Shell {
 	}
 
 	public void setRumPluginConfiguration(RumPluginConfiguration rumPluginConfiguration) {
+		this.pack();
 		this.rumPluginConfiguration = rumPluginConfiguration;
 	}
 	
