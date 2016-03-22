@@ -34,16 +34,16 @@ public class WorkspaceDetails extends Composite {
 		
 		new TasksTableViewer(this);
 		
-		Button addPluginDialogueButton = new Button(this, SWT.PUSH);
-		addPluginDialogueButton.setText("Add task");
-		addPluginDialogueButton.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, true, true));
+		Button addTaskDialogueButton = new Button(this, SWT.PUSH);
+		addTaskDialogueButton.setText("Add task");
+		addTaskDialogueButton.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, true, true));
 		
-		addPluginDialogueButton.addListener(SWT.Selection, new Listener() {
+		addTaskDialogueButton.addListener(SWT.Selection, new Listener() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void handleEvent(Event arg0) {
-				NewTaskDialog newTaskDialog = new NewTaskDialog(Display.getCurrent().getActiveShell());
+				NewTaskDialog newTaskDialog = new NewTaskDialog(Display.getCurrent().getActiveShell(), workspace.getId());
 				newTaskDialog.open();
 			}
 		});

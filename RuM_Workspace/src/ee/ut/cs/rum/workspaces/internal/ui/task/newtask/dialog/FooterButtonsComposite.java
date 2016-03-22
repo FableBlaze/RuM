@@ -43,11 +43,11 @@ public class FooterButtonsComposite extends Composite {
 				Plugin selectedPlugin = (Plugin) selection.getFirstElement();
 				task.setName("TODO");
 				task.setStatus("TODO");
-				task.setPluginId(selectedPlugin.getId().toString());
+				task.setPluginId(selectedPlugin.getId());
 				task.setDescription("TODO");
 				task.setCreatedBy("TODO");
 				task.setCreatedAt(new Date());
-				task.setWorkspaceId(new Long(1));
+				task.setWorkspaceId(newTaskDialogShell.getNewTaskDialog().getWorkspaceId());
 				TasksData.addTaskDataToDb(task);
 				
 				newTaskDialogShell.close();

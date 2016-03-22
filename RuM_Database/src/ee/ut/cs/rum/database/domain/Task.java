@@ -23,7 +23,7 @@ public class Task {
 	@Column(name = "status")
 	private String status;
 	@Column(name = "plugin_id")
-	private String pluginId;
+	private Long pluginId;
 	@Column(name = "description")
 	private String description;
 	@Column(name = "created_by")
@@ -46,10 +46,10 @@ public class Task {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public String getPluginId() {
+	public Long getPluginId() {
 		return pluginId;
 	}
-	public void setPluginId(String pluginId) {
+	public void setPluginId(Long pluginId) {
 		this.pluginId = pluginId;
 	}
 	public String getDescription() {

@@ -12,13 +12,16 @@ import ee.ut.cs.rum.workspaces.internal.ui.task.newtask.pluginstable.PluginsTabl
 public class NewTaskDialog extends Dialog {
 	private static final long serialVersionUID = -6828414895866044855L;
 	
+	private Long workspaceId;
 	private SelectedPluginInfo selectedPluginInfo;
 	private ScrolledComposite selectedPluginConfigurationUi;
 	private FooterButtonsComposite footerButtonsComposite;
 	private PluginsTableComposite pluginsTableComposite;
 
-	public NewTaskDialog(Shell activeShell) {
+	public NewTaskDialog(Shell activeShell, Long workspaceId) {
 		super(activeShell, SWT.APPLICATION_MODAL | SWT.TITLE | SWT.BORDER);
+		
+		this.workspaceId=workspaceId;
 	}
 	
 	public String open() {
@@ -57,5 +60,9 @@ public class NewTaskDialog extends Dialog {
 	
 	public PluginsTableComposite getPluginsTableComposite() {
 		return pluginsTableComposite;
+	}
+	
+	public Long getWorkspaceId() {
+		return workspaceId;
 	}
 }
