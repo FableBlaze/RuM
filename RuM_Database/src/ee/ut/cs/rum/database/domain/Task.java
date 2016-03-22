@@ -32,7 +32,7 @@ public class Task {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdAt;
 	@Column(name = "workspace_id")
-	private String workspaceId;
+	private Long workspaceId;
 	
 	public String getName() {
 		return name;
@@ -73,10 +73,10 @@ public class Task {
 	public Long getId() {
 		return id;
 	}
-	public String getWorkspaceId() {
+	public Long getWorkspaceId() {
 		return workspaceId;
 	}
-	public void setWorkspaceId(String workspaceId) {
+	public void setWorkspaceId(Long workspaceId) {
 		this.workspaceId = workspaceId;
 	}
 	@Override
