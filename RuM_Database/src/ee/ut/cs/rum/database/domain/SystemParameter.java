@@ -9,7 +9,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name="system_parameters", uniqueConstraints = {@UniqueConstraint(columnNames = { "name" }) })
+@Table(name="system_parameter", uniqueConstraints = {@UniqueConstraint(columnNames = { "name" }) })
 public class SystemParameter {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
