@@ -18,6 +18,7 @@ public class WorkspaceDetails extends Composite {
 	private static final long serialVersionUID = 3261215361750051333L;
 	
 	private Workspace workspace;
+	private TasksTableViewer tasksTableViewer;
 
 	WorkspaceDetails(Composite workspaceContainer, Workspace workspace) {
 		super(workspaceContainer, SWT.BORDER);
@@ -36,7 +37,7 @@ public class WorkspaceDetails extends Composite {
 			l.setText(workspace.getDescription());
 		}
 		
-		new TasksTableViewer(this);
+		tasksTableViewer = new TasksTableViewer(this);
 		
 		Button addTaskDialogueButton = new Button(this, SWT.PUSH);
 		addTaskDialogueButton.setText("Add task");
@@ -47,7 +48,7 @@ public class WorkspaceDetails extends Composite {
 
 			@Override
 			public void handleEvent(Event arg0) {
-				NewTaskDialog newTaskDialog = new NewTaskDialog(Display.getCurrent().getActiveShell(), workspace.getId());
+				NewTaskDialog newTaskDialog = new NewTaskDialog(Display.getCurrent().getActiveShell(), WorkspaceDetails.this);
 				newTaskDialog.open();
 			}
 		});
@@ -55,5 +56,9 @@ public class WorkspaceDetails extends Composite {
 	
 	public Workspace getWorkspace() {
 		return workspace;
+	}
+	
+	public TasksTableViewer getTasksTableViewer() {
+		return tasksTableViewer;
 	}
 }
