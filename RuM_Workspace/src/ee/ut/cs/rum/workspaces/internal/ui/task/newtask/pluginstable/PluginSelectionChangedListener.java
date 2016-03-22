@@ -15,13 +15,13 @@ import ee.ut.cs.rum.plugins.interfaces.RumPluginFactory;
 import ee.ut.cs.rum.plugins.interfaces.factory.RumPluginConfiguration;
 import ee.ut.cs.rum.workspaces.internal.Activator;
 import ee.ut.cs.rum.workspaces.internal.ui.PluginContentComposite;
-import ee.ut.cs.rum.workspaces.internal.ui.task.newtask.NewTaskComposite;
+import ee.ut.cs.rum.workspaces.internal.ui.task.newtask.dialog.NewTaskDialogShell;
 
 public class PluginSelectionChangedListener implements ISelectionChangedListener {
-	private NewTaskComposite newTaskComposite;
+	private NewTaskDialogShell newTaskDialogShell;
 
-	public PluginSelectionChangedListener(NewTaskComposite newTaskComposite) {
-		this.newTaskComposite=newTaskComposite;
+	public PluginSelectionChangedListener(NewTaskDialogShell newTaskDialogShell) {
+		this.newTaskDialogShell=newTaskDialogShell;
 	}
 
 	@Override
@@ -37,7 +37,7 @@ public class PluginSelectionChangedListener implements ISelectionChangedListener
 			}
 		}
 
-		newTaskComposite.getSelectedPluginInfo().updateSelectedPluginInfo(selectedPlugin);
+		newTaskDialogShell.getNewTaskDialog().getSelectedPluginInfo().updateSelectedPluginInfo(selectedPlugin);
 		updateNewTaskPluginConfigurationUi(selectedPluginBundle);
 	}
 
@@ -64,7 +64,7 @@ public class PluginSelectionChangedListener implements ISelectionChangedListener
 
 
 	private void updateNewTaskPluginConfigurationUi(Bundle selectedPluginBundle) {
-		ScrolledComposite selectedPluginConfigurationUi = newTaskComposite.getSelectedPluginConfigurationUi();
+		ScrolledComposite selectedPluginConfigurationUi = newTaskDialogShell.getNewTaskDialog().getSelectedPluginConfigurationUi();
 
 		if (selectedPluginConfigurationUi.getContent()!=null && !selectedPluginConfigurationUi.getContent().isDisposed()) {
 			selectedPluginConfigurationUi.getContent().dispose();
@@ -82,7 +82,7 @@ public class PluginSelectionChangedListener implements ISelectionChangedListener
 					content.setSize(content.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 					selectedPluginConfigurationUi.setContent(content);
 					
-					newTaskComposite.setRumPluginConfiguration(rumPluginConfiguration);
+					newTaskDialogShell.setRumPluginConfiguration(rumPluginConfiguration);
 				}
 			}
 		}

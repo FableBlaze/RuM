@@ -1,0 +1,53 @@
+package ee.ut.cs.rum.workspaces.internal.ui.task.newtask.dialog;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Dialog;
+import org.eclipse.swt.widgets.Shell;
+
+import ee.ut.cs.rum.plugins.interfaces.factory.RumPluginConfiguration;
+import ee.ut.cs.rum.workspaces.internal.ui.task.newtask.pluginstable.PluginsTableComposite;
+
+public class NewTaskDialog extends Dialog {
+	private static final long serialVersionUID = -6828414895866044855L;
+	
+	private SelectedPluginInfo selectedPluginInfo;
+	private ScrolledComposite selectedPluginConfigurationUi;
+	RumPluginConfiguration rumPluginConfiguration;
+
+	public NewTaskDialog(Shell activeShell) {
+		super(activeShell, SWT.APPLICATION_MODAL | SWT.TITLE | SWT.BORDER);
+	}
+	
+	public String open() {
+		NewTaskDialogShell newTaskDialogShell = new NewTaskDialogShell(getParent(), getStyle(), this);
+		newTaskDialogShell.setText("Add plugin");
+		createContents(newTaskDialogShell);
+		newTaskDialogShell.pack();
+		newTaskDialogShell.setLocation (100, 100);
+		newTaskDialogShell.open();
+		return null;
+	}
+	
+	private void createContents(final NewTaskDialogShell newTaskDialogShell) {
+		newTaskDialogShell.setLayout(new GridLayout(3, false));
+		new PluginsTableComposite(newTaskDialogShell);
+		selectedPluginInfo = new SelectedPluginInfo(newTaskDialogShell);
+		
+		selectedPluginConfigurationUi = new ScrolledComposite(newTaskDialogShell, SWT.H_SCROLL | SWT.V_SCROLL);
+		selectedPluginConfigurationUi.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		
+		FooterButtonsComposite footerButtonsComposite = new FooterButtonsComposite(newTaskDialogShell);
+		((GridData) footerButtonsComposite.getLayoutData()).horizontalSpan=((GridLayout) newTaskDialogShell.getLayout()).numColumns;
+	}
+	
+	public SelectedPluginInfo getSelectedPluginInfo() {
+		return selectedPluginInfo;
+	}
+
+	public ScrolledComposite getSelectedPluginConfigurationUi() {
+		return selectedPluginConfigurationUi;
+	}
+}
