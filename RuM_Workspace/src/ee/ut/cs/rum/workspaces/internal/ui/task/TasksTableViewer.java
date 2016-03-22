@@ -29,7 +29,7 @@ public class TasksTableViewer extends TableViewer {
 		table.setLinesVisible(true);
 		
 		this.setContentProvider(new ArrayContentProvider());
-		this.setInput(TaskAccess.getTasksDataFromDb());
+		this.setInput(TaskAccess.getWorkspaceTasksDataFromDb(workspaceDetails.getWorkspace().getId()));
 	}
 	
 	private static void createColumns(final TableViewer viewer) {

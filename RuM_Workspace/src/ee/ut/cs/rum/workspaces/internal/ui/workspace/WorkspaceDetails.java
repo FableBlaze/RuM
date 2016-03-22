@@ -16,9 +16,13 @@ import ee.ut.cs.rum.workspaces.internal.ui.task.newtask.dialog.NewTaskDialog;
 
 public class WorkspaceDetails extends Composite {
 	private static final long serialVersionUID = 3261215361750051333L;
+	
+	private Workspace workspace;
 
 	WorkspaceDetails(Composite workspaceContainer, Workspace workspace) {
 		super(workspaceContainer, SWT.BORDER);
+		
+		this.workspace=workspace;
 
 		this.setLayout(new GridLayout());
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -48,5 +52,8 @@ public class WorkspaceDetails extends Composite {
 			}
 		});
 	}
-
+	
+	public Workspace getWorkspace() {
+		return workspace;
+	}
 }
