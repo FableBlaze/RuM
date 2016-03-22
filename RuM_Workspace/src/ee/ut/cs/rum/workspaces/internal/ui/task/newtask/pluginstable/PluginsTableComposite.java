@@ -44,7 +44,7 @@ public class PluginsTableComposite extends Composite {
 		this.pluginsTableViewer = new PluginsTableViewer(this);
 		((GridData) this.pluginsTableViewer.getTable().getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
 
-		pluginsTableViewer.addSelectionChangedListener(new PluginSelectionChangedListener(newTaskDialogShell, newTaskDialog));
+		pluginsTableViewer.addSelectionChangedListener(new PluginSelectionChangedListener(newTaskDialogShell));
 
 		this.pluginsTableFilter = new PluginsTableFilter();
 		this.pluginsTableViewer.addFilter(pluginsTableFilter);

@@ -15,16 +15,13 @@ import ee.ut.cs.rum.plugins.interfaces.RumPluginFactory;
 import ee.ut.cs.rum.plugins.interfaces.factory.RumPluginConfiguration;
 import ee.ut.cs.rum.workspaces.internal.Activator;
 import ee.ut.cs.rum.workspaces.internal.ui.PluginContentComposite;
-import ee.ut.cs.rum.workspaces.internal.ui.task.newtask.dialog.NewTaskDialog;
 import ee.ut.cs.rum.workspaces.internal.ui.task.newtask.dialog.NewTaskDialogShell;
 
 public class PluginSelectionChangedListener implements ISelectionChangedListener {
 	private NewTaskDialogShell newTaskDialogShell;
-	private NewTaskDialog newTaskDialog;
 
-	public PluginSelectionChangedListener(NewTaskDialogShell newTaskDialogShell, NewTaskDialog newTaskDialog) {
+	public PluginSelectionChangedListener(NewTaskDialogShell newTaskDialogShell) {
 		this.newTaskDialogShell=newTaskDialogShell;
-		this.newTaskDialog=newTaskDialog;
 	}
 
 	@Override
@@ -41,9 +38,9 @@ public class PluginSelectionChangedListener implements ISelectionChangedListener
 		}
 		
 		if (selectedPluginBundle==null) {
-			newTaskDialog.getFooterButtonsComposite().getStartButton().setEnabled(false);
+			newTaskDialogShell.getNewTaskDialog().getFooterButtonsComposite().getStartButton().setEnabled(false);
 		} else {
-			newTaskDialog.getFooterButtonsComposite().getStartButton().setEnabled(true);
+			newTaskDialogShell.getNewTaskDialog().getFooterButtonsComposite().getStartButton().setEnabled(true);
 		}
 
 		newTaskDialogShell.getNewTaskDialog().getSelectedPluginInfo().updateSelectedPluginInfo(selectedPlugin);
