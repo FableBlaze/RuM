@@ -31,6 +31,8 @@ public class Task {
 	@Column(name = "created_at")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdAt;
+	@Column(name = "workspace_id")
+	private String workspaceId;
 	
 	public String getName() {
 		return name;
@@ -71,9 +73,16 @@ public class Task {
 	public Long getId() {
 		return id;
 	}
+	public String getWorkspaceId() {
+		return workspaceId;
+	}
+	public void setWorkspaceId(String workspaceId) {
+		this.workspaceId = workspaceId;
+	}
 	@Override
 	public String toString() {
 		return "Task [id=" + id + ", name=" + name + ", status=" + status + ", pluginId=" + pluginId + ", description="
-				+ description + ", createdBy=" + createdBy + ", createdAt=" + createdAt + "]";
+				+ description + ", createdBy=" + createdBy + ", createdAt=" + createdAt + ", workspaceId=" + workspaceId
+				+ "]";
 	}
 }
