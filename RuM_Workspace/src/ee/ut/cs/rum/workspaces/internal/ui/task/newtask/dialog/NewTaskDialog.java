@@ -15,6 +15,7 @@ public class NewTaskDialog extends Dialog {
 	private SelectedPluginInfo selectedPluginInfo;
 	private ScrolledComposite selectedPluginConfigurationUi;
 	private FooterButtonsComposite footerButtonsComposite;
+	private PluginsTableComposite pluginsTableComposite;
 
 	public NewTaskDialog(Shell activeShell) {
 		super(activeShell, SWT.APPLICATION_MODAL | SWT.TITLE | SWT.BORDER);
@@ -32,7 +33,7 @@ public class NewTaskDialog extends Dialog {
 	
 	private void createContents(final NewTaskDialogShell newTaskDialogShell) {
 		newTaskDialogShell.setLayout(new GridLayout(3, false));
-		new PluginsTableComposite(newTaskDialogShell, this);
+		pluginsTableComposite = new PluginsTableComposite(newTaskDialogShell, this);
 		selectedPluginInfo = new SelectedPluginInfo(newTaskDialogShell);
 		
 		selectedPluginConfigurationUi = new ScrolledComposite(newTaskDialogShell, SWT.H_SCROLL | SWT.V_SCROLL);
@@ -52,5 +53,9 @@ public class NewTaskDialog extends Dialog {
 	
 	public FooterButtonsComposite getFooterButtonsComposite() {
 		return footerButtonsComposite;
+	}
+	
+	public PluginsTableComposite getPluginsTableComposite() {
+		return pluginsTableComposite;
 	}
 }

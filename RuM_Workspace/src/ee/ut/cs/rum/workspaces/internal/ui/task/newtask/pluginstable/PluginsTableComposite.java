@@ -49,5 +49,9 @@ public class PluginsTableComposite extends Composite {
 		this.pluginsTableFilter = new PluginsTableFilter();
 		this.pluginsTableViewer.addFilter(pluginsTableFilter);
 	}
+	
+	public PluginsTableViewer getPluginsTableViewer() {
+		return pluginsTableViewer;
+	}
 
 }

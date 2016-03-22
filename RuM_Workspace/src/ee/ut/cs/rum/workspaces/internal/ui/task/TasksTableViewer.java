@@ -1,5 +1,7 @@
 package ee.ut.cs.rum.workspaces.internal.ui.task;
 
+import java.text.SimpleDateFormat;
+
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
@@ -85,7 +87,7 @@ public class TasksTableViewer extends TableViewer {
 			@Override
 			public String getText(Object element) {
 				Task task = (Task) element;
-				return task.getName();
+				return new SimpleDateFormat("dd-MM-yyyy").format(task.getCreatedAt());
 			}
 		});
 		
