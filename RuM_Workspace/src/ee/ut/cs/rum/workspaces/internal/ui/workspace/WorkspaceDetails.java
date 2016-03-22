@@ -7,6 +7,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
 import ee.ut.cs.rum.database.domain.Workspace;
+import ee.ut.cs.rum.workspaces.internal.ui.task.TasksTableViewer;
 
 public class WorkspaceDetails extends Composite {
 	private static final long serialVersionUID = 3261215361750051333L;
@@ -25,6 +26,8 @@ public class WorkspaceDetails extends Composite {
 		if (workspace.getDescription()!=null) {
 			l.setText(workspace.getDescription());
 		}
+		
+		new TasksTableViewer(this);
 	}
 
 }
