@@ -7,7 +7,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Shell;
 
-import ee.ut.cs.rum.plugins.interfaces.factory.RumPluginConfiguration;
 import ee.ut.cs.rum.workspaces.internal.ui.task.newtask.pluginstable.PluginsTableComposite;
 
 public class NewTaskDialog extends Dialog {
@@ -15,7 +14,7 @@ public class NewTaskDialog extends Dialog {
 	
 	private SelectedPluginInfo selectedPluginInfo;
 	private ScrolledComposite selectedPluginConfigurationUi;
-	RumPluginConfiguration rumPluginConfiguration;
+	private FooterButtonsComposite footerButtonsComposite;
 
 	public NewTaskDialog(Shell activeShell) {
 		super(activeShell, SWT.APPLICATION_MODAL | SWT.TITLE | SWT.BORDER);
@@ -23,7 +22,7 @@ public class NewTaskDialog extends Dialog {
 	
 	public String open() {
 		NewTaskDialogShell newTaskDialogShell = new NewTaskDialogShell(getParent(), getStyle(), this);
-		newTaskDialogShell.setText("Add plugin");
+		newTaskDialogShell.setText("Add new task");
 		createContents(newTaskDialogShell);
 		newTaskDialogShell.pack();
 		newTaskDialogShell.setLocation (100, 100);
@@ -33,13 +32,13 @@ public class NewTaskDialog extends Dialog {
 	
 	private void createContents(final NewTaskDialogShell newTaskDialogShell) {
 		newTaskDialogShell.setLayout(new GridLayout(3, false));
-		new PluginsTableComposite(newTaskDialogShell);
+		new PluginsTableComposite(newTaskDialogShell, this);
 		selectedPluginInfo = new SelectedPluginInfo(newTaskDialogShell);
 		
 		selectedPluginConfigurationUi = new ScrolledComposite(newTaskDialogShell, SWT.H_SCROLL | SWT.V_SCROLL);
 		selectedPluginConfigurationUi.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		
-		FooterButtonsComposite footerButtonsComposite = new FooterButtonsComposite(newTaskDialogShell);
+		footerButtonsComposite = new FooterButtonsComposite(newTaskDialogShell);
 		((GridData) footerButtonsComposite.getLayoutData()).horizontalSpan=((GridLayout) newTaskDialogShell.getLayout()).numColumns;
 	}
 	
@@ -49,5 +48,9 @@ public class NewTaskDialog extends Dialog {
 
 	public ScrolledComposite getSelectedPluginConfigurationUi() {
 		return selectedPluginConfigurationUi;
+	}
+	
+	public FooterButtonsComposite getFooterButtonsComposite() {
+		return footerButtonsComposite;
 	}
 }

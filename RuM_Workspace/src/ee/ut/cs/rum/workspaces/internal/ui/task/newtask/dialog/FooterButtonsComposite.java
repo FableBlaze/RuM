@@ -12,6 +12,8 @@ import ee.ut.cs.rum.workspaces.internal.Activator;
 
 public class FooterButtonsComposite extends Composite {
 	private static final long serialVersionUID = 688156596045927568L;
+	
+	private Button startButton;
 
 	public FooterButtonsComposite(NewTaskDialogShell newTaskDialogShell) {
 		super(newTaskDialogShell, SWT.NONE);
@@ -19,9 +21,10 @@ public class FooterButtonsComposite extends Composite {
 		this.setLayoutData(new GridData(SWT.FILL, SWT.BOTTOM, true, false));
 		this.setLayout(new GridLayout(2, false));
 		
-		Button startButton = new Button(this, SWT.PUSH);
+		startButton = new Button(this, SWT.PUSH);
 		startButton.setText("Start");
 		startButton.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, true, true));
+		startButton.setEnabled(false);
 		
 		startButton.addSelectionListener(new SelectionAdapter() {
 			private static final long serialVersionUID = 5694975289507094763L;
@@ -42,5 +45,9 @@ public class FooterButtonsComposite extends Composite {
 				newTaskDialogShell.close();
 			}
 		});
+	}
+	
+	public Button getStartButton() {
+		return startButton;
 	}
 }
