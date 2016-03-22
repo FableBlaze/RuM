@@ -28,7 +28,7 @@ public class WorkspacesHeader extends Composite {
 		workspaceSelectorLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, true));
 		workspaceSelectorLabel.setText("Select workspace: ");
 
-		this.workspaceSelectorCombo = new WorkspaceSelectorCombo(this);
+		this.workspaceSelectorCombo = new WorkspaceSelectorCombo(this, workspacesUI);
 		
 		workspaceTitle.setText("Workspaces overview");
 	}

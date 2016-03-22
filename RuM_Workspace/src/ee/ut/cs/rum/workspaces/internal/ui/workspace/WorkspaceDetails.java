@@ -13,14 +13,18 @@ public class WorkspaceDetails extends Composite {
 
 	WorkspaceDetails(Composite workspaceContainer, Workspace workspace) {
 		super(workspaceContainer, SWT.BORDER);
-		
+
 		this.setLayout(new GridLayout());
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		
+
 		Label l = new Label(this, SWT.BORDER);
-		l.setText(workspace.getName());
+		if (workspace.getName()!=null) {
+			l.setText(workspace.getName());
+		}
 		l = new Label(this, SWT.BORDER);
-		l.setText(workspace.getDescription());
+		if (workspace.getDescription()!=null) {
+			l.setText(workspace.getDescription());
+		}
 	}
 
 }
