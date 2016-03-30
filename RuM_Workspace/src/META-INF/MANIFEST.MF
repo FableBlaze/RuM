@@ -16,6 +16,6 @@ Import-Package: ee.ut.cs.rum.database,
  org.slf4j;version="[1.7.2,1.7.2]"
 Bundle-Activator: ee.ut.cs.rum.workspaces.internal.Activator
 Export-Package: ee.ut.cs.rum.workspaces.ui
-Import-Bundle: org.eclipse.rap.jface;version="[3.0.1.20150709-1405,3.0.1.20150709-1405]",
- org.eclipse.rap.rwt;version="[3.0.1.20150908-1130,3.0.1.20150908-1130]"
+Import-Bundle: org.eclipse.rap.rwt;version="[3.0.1.20150908-1130,3.0.1.20150908-1130]",
+ org.eclipse.rap.jface;version="[3.0.1.20150709-1405,3.0.1.20150709-1405]"
 
