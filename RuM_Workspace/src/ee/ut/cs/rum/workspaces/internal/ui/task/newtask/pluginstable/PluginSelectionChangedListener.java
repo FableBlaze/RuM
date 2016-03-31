@@ -6,13 +6,13 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Label;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleException;
 import org.osgi.framework.ServiceReference;
 
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.plugins.interfaces.RumPluginFactory;
-import ee.ut.cs.rum.plugins.interfaces.factory.RumPluginConfiguration;
 import ee.ut.cs.rum.workspaces.internal.Activator;
 import ee.ut.cs.rum.workspaces.internal.ui.PluginContentComposite;
 import ee.ut.cs.rum.workspaces.internal.ui.task.newtask.dialog.NewTaskDialogShell;
@@ -83,12 +83,13 @@ public class PluginSelectionChangedListener implements ISelectionChangedListener
 					content.setLayout(new GridLayout());
 					
 					RumPluginFactory rumPluginFactory = (RumPluginFactory) selectedPluginBundle.getBundleContext().getService(serviceReference);
-					RumPluginConfiguration rumPluginConfiguration = rumPluginFactory.createRumPluginConfiguration();
-					rumPluginConfiguration.createConfigurationUi(content);
+					String configurationParameters = rumPluginFactory.getConfigurationParameters();
+					Label configurationUI = new Label(content, SWT.NONE);
+					configurationUI.setText(configurationParameters);
 					content.setSize(content.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 					selectedPluginConfigurationUi.setContent(content);
 					
-					newTaskDialogShell.setRumPluginConfiguration(rumPluginConfiguration);
+					newTaskDialogShell.setRumPluginConfiguration(configurationUI);
 				}
 			}
 		}

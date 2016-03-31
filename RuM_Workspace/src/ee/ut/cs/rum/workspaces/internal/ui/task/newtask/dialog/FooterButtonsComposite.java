@@ -13,7 +13,6 @@ import org.eclipse.swt.widgets.Composite;
 
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.database.domain.Task;
-import ee.ut.cs.rum.workspaces.internal.Activator;
 import ee.ut.cs.rum.workspaces.internal.util.TasksData;
 
 public class FooterButtonsComposite extends Composite {
@@ -36,7 +35,7 @@ public class FooterButtonsComposite extends Composite {
 			private static final long serialVersionUID = 5694975289507094763L;
 
 			public void widgetSelected(SelectionEvent event) {
-				Activator.getLogger().info(newTaskDialogShell.getRumPluginConfiguration().getConfiguration().toString());
+				//Activator.getLogger().info(newTaskDialogShell.getRumPluginConfiguration().getConfiguration().toString());
 				Task task = new Task();
 				IStructuredSelection selection = (IStructuredSelection) newTaskDialogShell.getNewTaskDialog().getPluginsTableComposite().getPluginsTableViewer().getSelection();
 				

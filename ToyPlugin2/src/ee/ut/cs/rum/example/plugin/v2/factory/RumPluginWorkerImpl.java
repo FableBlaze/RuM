@@ -5,7 +5,7 @@ import ee.ut.cs.rum.plugins.interfaces.factory.RumPluginWorker;
 public class RumPluginWorkerImpl implements RumPluginWorker {
 
 	@Override
-	public Object runWork(Object configuration) {
+	public Object runWork(String configuration) {
 		// TODO Auto-generated method stub
 		return null;
 	}

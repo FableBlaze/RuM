@@ -1,18 +1,17 @@
 package ee.ut.cs.rum.example.plugin.v1;
 
-import ee.ut.cs.rum.example.plugin.v1.factory.RumPluginConfigurationImpl;
 import ee.ut.cs.rum.example.plugin.v1.factory.RumPluginResultsVisualizerImpl;
 import ee.ut.cs.rum.example.plugin.v1.factory.RumPluginWorkerImpl;
 import ee.ut.cs.rum.plugins.interfaces.RumPluginFactory;
-import ee.ut.cs.rum.plugins.interfaces.factory.RumPluginConfiguration;
 import ee.ut.cs.rum.plugins.interfaces.factory.RumPluginResultsVisualizer;
 import ee.ut.cs.rum.plugins.interfaces.factory.RumPluginWorker;
 
 public class RumPluginFactoryImpl implements RumPluginFactory {
 
 	@Override
-	public RumPluginConfiguration createRumPluginConfiguration() {
-		return new RumPluginConfigurationImpl();
+	public String getConfigurationParameters() {
+		//TODO: Return parameters in JSON format
+		return "Plugin1";
 	}
 
 	@Override
@@ -24,5 +23,4 @@ public class RumPluginFactoryImpl implements RumPluginFactory {
 	public RumPluginResultsVisualizer createRumPluginResultsVisualizer() {
 		return new RumPluginResultsVisualizerImpl();
 	}
-
 }
