@@ -43,7 +43,7 @@ public class WorkspaceSelectorCombo extends Combo {
 				Composite selectedWorkspaceDetails = workspaceDetails.get(selectedIndex);
 				
 				if (selectedWorkspaceDetails==null) {
-					selectedWorkspaceDetails = new WorkspaceDetails(workspacesUI.getWorkspaceContainer(), workspaces.get(selectedIndex));
+					selectedWorkspaceDetails = new WorkspaceTabFolder(workspacesUI.getWorkspaceContainer(), workspaces.get(selectedIndex));
 					workspaceDetails.add(selectedIndex, selectedWorkspaceDetails);
 				}
 				

@@ -1,6 +1,7 @@
 package ee.ut.cs.rum.workspaces.internal.ui.workspace;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -14,14 +15,14 @@ import ee.ut.cs.rum.database.domain.Workspace;
 import ee.ut.cs.rum.workspaces.internal.ui.task.TasksTableViewer;
 import ee.ut.cs.rum.workspaces.internal.ui.task.newtask.dialog.NewTaskDialog;
 
-public class WorkspaceDetails extends Composite {
-	private static final long serialVersionUID = 3261215361750051333L;
+public class WorkspaceDetailsTabContents extends Composite {
+	private static final long serialVersionUID = 1649148279320216160L;
 	
 	private Workspace workspace;
 	private TasksTableViewer tasksTableViewer;
 
-	WorkspaceDetails(Composite workspaceContainer, Workspace workspace) {
-		super(workspaceContainer, SWT.BORDER);
+	WorkspaceDetailsTabContents(CTabFolder workspaceTabFolder, Composite workspaceContainer, Workspace workspace) {
+		super(workspaceTabFolder, SWT.BORDER);
 		
 		this.workspace=workspace;
 
@@ -48,7 +49,7 @@ public class WorkspaceDetails extends Composite {
 
 			@Override
 			public void handleEvent(Event arg0) {
-				NewTaskDialog newTaskDialog = new NewTaskDialog(Display.getCurrent().getActiveShell(), WorkspaceDetails.this);
+				NewTaskDialog newTaskDialog = new NewTaskDialog(Display.getCurrent().getActiveShell(), WorkspaceDetailsTabContents.this);
 				newTaskDialog.open();
 			}
 		});
@@ -61,4 +62,5 @@ public class WorkspaceDetails extends Composite {
 	public TasksTableViewer getTasksTableViewer() {
 		return tasksTableViewer;
 	}
+
 }

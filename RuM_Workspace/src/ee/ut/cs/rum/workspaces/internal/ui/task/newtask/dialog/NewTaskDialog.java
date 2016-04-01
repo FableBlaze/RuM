@@ -8,18 +8,19 @@ import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Shell;
 
 import ee.ut.cs.rum.workspaces.internal.ui.task.newtask.pluginstable.PluginsTableComposite;
-import ee.ut.cs.rum.workspaces.internal.ui.workspace.WorkspaceDetails;
+import ee.ut.cs.rum.workspaces.internal.ui.workspace.WorkspaceDetailsTabContents;
+import ee.ut.cs.rum.workspaces.internal.ui.workspace.WorkspaceTabFolder;
 
 public class NewTaskDialog extends Dialog {
 	private static final long serialVersionUID = -6828414895866044855L;
 	
-	private WorkspaceDetails workspaceDetails;
+	private WorkspaceDetailsTabContents workspaceDetails;
 	private SelectedPluginInfo selectedPluginInfo;
 	private ScrolledComposite selectedPluginConfigurationUi;
 	private FooterButtonsComposite footerButtonsComposite;
 	private PluginsTableComposite pluginsTableComposite;
 
-	public NewTaskDialog(Shell activeShell, WorkspaceDetails workspaceDetails) {
+	public NewTaskDialog(Shell activeShell, WorkspaceDetailsTabContents workspaceDetails) {
 		super(activeShell, SWT.APPLICATION_MODAL | SWT.TITLE | SWT.BORDER);
 		
 		this.workspaceDetails=workspaceDetails;
@@ -63,7 +64,7 @@ public class NewTaskDialog extends Dialog {
 		return pluginsTableComposite;
 	}
 	
-	public WorkspaceDetails getWorkspaceDetails() {
+	public WorkspaceDetailsTabContents getWorkspaceDetails() {
 		return workspaceDetails;
 	}
 }

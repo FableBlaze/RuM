@@ -13,12 +13,12 @@ import org.eclipse.swt.widgets.TableColumn;
 
 import ee.ut.cs.rum.database.domain.Task;
 import ee.ut.cs.rum.database.util.TaskAccess;
-import ee.ut.cs.rum.workspaces.internal.ui.workspace.WorkspaceDetails;
+import ee.ut.cs.rum.workspaces.internal.ui.workspace.WorkspaceDetailsTabContents;
 
 public class TasksTableViewer extends TableViewer {
 	private static final long serialVersionUID = -3241294193014510267L;
 
-	public TasksTableViewer(WorkspaceDetails workspaceDetails) {
+	public TasksTableViewer(WorkspaceDetailsTabContents workspaceDetails) {
 		super(workspaceDetails, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 		
 		createColumns(this);
