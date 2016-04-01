@@ -16,13 +16,13 @@ import ee.ut.cs.rum.workspaces.internal.ui.task.newtask.NewTaskDetails;
 
 public class WorkspaceDetailsTabContents extends Composite {
 	private static final long serialVersionUID = 1649148279320216160L;
-	
+
 	private Workspace workspace;
 	private TasksTableViewer tasksTableViewer;
 
 	WorkspaceDetailsTabContents(WorkspaceTabFolder workspaceTabFolder, Composite workspaceContainer, Workspace workspace) {
 		super(workspaceTabFolder, SWT.BORDER);
-		
+
 		this.workspace=workspace;
 
 		this.setLayout(new GridLayout());
@@ -36,35 +36,41 @@ public class WorkspaceDetailsTabContents extends Composite {
 		if (workspace.getDescription()!=null) {
 			l.setText(workspace.getDescription());
 		}
-		
+
 		tasksTableViewer = new TasksTableViewer(this);
-		
+
 		Button addTaskDialogueButton = new Button(this, SWT.PUSH);
 		addTaskDialogueButton.setText("Add task");
 		addTaskDialogueButton.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, true, true));
-		
+
 		addTaskDialogueButton.addListener(SWT.Selection, new Listener() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void handleEvent(Event arg0) {
 				CTabItem cTabItem = null;
-				
-				cTabItem = new CTabItem (workspaceTabFolder, SWT.CLOSE);
-				cTabItem.setText ("New task");
-				cTabItem.setControl(new NewTaskDetails(workspaceTabFolder));
-				workspaceTabFolder.setSelection(cTabItem);
-				
-				//NewTaskDialog newTaskDialog = new NewTaskDialog(Display.getCurrent().getActiveShell(), WorkspaceDetailsTabContents.this);
-				//newTaskDialog.open();
+
+				for (CTabItem c : workspaceTabFolder.getItems()) {
+					if (c.getControl().getClass() == NewTaskDetails.class) {
+						cTabItem = c;
+						workspaceTabFolder.setSelection(c);
+					}
+				}
+
+				if (cTabItem == null) {
+					cTabItem = new CTabItem (workspaceTabFolder, SWT.CLOSE);
+					cTabItem.setText ("New task");
+					cTabItem.setControl(new NewTaskDetails(workspaceTabFolder));
+					workspaceTabFolder.setSelection(cTabItem);
+				}
 			}
 		});
 	}
-	
+
 	public Workspace getWorkspace() {
 		return workspace;
 	}
-	
+
 	public TasksTableViewer getTasksTableViewer() {
 		return tasksTableViewer;
 	}
