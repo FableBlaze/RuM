@@ -10,7 +10,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-import ee.ut.cs.rum.workspaces.internal.ui.task.newtask.dialog.NewTaskDialogShell;
+import ee.ut.cs.rum.workspaces.internal.ui.task.newtask.NewTaskDetails;
 
 public class PluginsTableComposite extends Composite {
 	private static final long serialVersionUID = 8625656134570039043L;
@@ -18,8 +18,8 @@ public class PluginsTableComposite extends Composite {
 	private PluginsTableViewer pluginsTableViewer;
 	private ViewerFilter pluginsTableFilter;
 
-	public PluginsTableComposite(NewTaskDialogShell newTaskDialogShell) {
-		super(newTaskDialogShell, SWT.NONE);
+	public PluginsTableComposite(Composite content, NewTaskDetails newTaskDetails) {
+		super(content, SWT.NONE);
 
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
 		this.setLayout(new GridLayout(2, false));
@@ -43,7 +43,7 @@ public class PluginsTableComposite extends Composite {
 		this.pluginsTableViewer = new PluginsTableViewer(this);
 		((GridData) this.pluginsTableViewer.getTable().getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
 
-		pluginsTableViewer.addSelectionChangedListener(new PluginSelectionChangedListener(newTaskDialogShell));
+		pluginsTableViewer.addSelectionChangedListener(new PluginSelectionChangedListener(newTaskDetails));
 
 		this.pluginsTableFilter = new PluginsTableFilter();
 		this.pluginsTableViewer.addFilter(pluginsTableFilter);

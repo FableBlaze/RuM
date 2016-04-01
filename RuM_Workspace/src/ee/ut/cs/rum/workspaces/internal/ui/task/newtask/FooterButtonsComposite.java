@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.workspaces.internal.ui.task.newtask.dialog;
+package ee.ut.cs.rum.workspaces.internal.ui.task.newtask;
 
 import java.util.Date;
 
@@ -20,8 +20,8 @@ public class FooterButtonsComposite extends Composite {
 	
 	private Button startButton;
 
-	public FooterButtonsComposite(NewTaskDialogShell newTaskDialogShell) {
-		super(newTaskDialogShell, SWT.NONE);
+	public FooterButtonsComposite(Composite content, NewTaskDetails newTaskDetails) {
+		super(content, SWT.NONE);
 		
 		this.setLayoutData(new GridData(SWT.FILL, SWT.BOTTOM, true, false));
 		this.setLayout(new GridLayout(2, false));
@@ -37,7 +37,7 @@ public class FooterButtonsComposite extends Composite {
 			public void widgetSelected(SelectionEvent event) {
 				//Activator.getLogger().info(newTaskDialogShell.getRumPluginConfiguration().getConfiguration().toString());
 				Task task = new Task();
-				IStructuredSelection selection = (IStructuredSelection) newTaskDialogShell.getNewTaskDialog().getPluginsTableComposite().getPluginsTableViewer().getSelection();
+				IStructuredSelection selection = (IStructuredSelection) newTaskDetails.getPluginsTableComposite().getPluginsTableViewer().getSelection();
 				
 				Plugin selectedPlugin = (Plugin) selection.getFirstElement();
 				task.setName("TODO");
@@ -46,22 +46,11 @@ public class FooterButtonsComposite extends Composite {
 				task.setDescription("TODO");
 				task.setCreatedBy("TODO");
 				task.setCreatedAt(new Date());
-				task.setWorkspaceId(newTaskDialogShell.getNewTaskDialog().getWorkspaceDetails().getWorkspace().getId());
-				TasksData.addTaskDataToDb(task, newTaskDialogShell.getNewTaskDialog());
+				task.setWorkspaceId(newTaskDetails.getWorkspaceTabFolder().getWorkspace().getId());
+				TasksData.addTaskDataToDb(task, newTaskDetails);
 				
-				newTaskDialogShell.close();
-			}
-		});
-		
-		Button cancelButton = new Button(this, SWT.PUSH);
-		cancelButton.setText("Cancel");
-		cancelButton.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, true));
-		
-		cancelButton.addSelectionListener(new SelectionAdapter() {
-			private static final long serialVersionUID = -415016060227564447L;
-
-			public void widgetSelected(SelectionEvent event) {
-				newTaskDialogShell.close();
+				//TODO: Close tab after task is added
+				//newTaskDetails.close();
 			}
 		});
 	}

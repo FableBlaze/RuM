@@ -8,13 +8,13 @@ import javax.persistence.EntityManagerFactory;
 import ee.ut.cs.rum.database.domain.Task;
 import ee.ut.cs.rum.database.util.TaskAccess;
 import ee.ut.cs.rum.workspaces.internal.Activator;
-import ee.ut.cs.rum.workspaces.internal.ui.task.newtask.dialog.NewTaskDialog;
+import ee.ut.cs.rum.workspaces.internal.ui.task.newtask.NewTaskDetails;
 
 public final class TasksData {
 	private TasksData() {
 	}
 	
-	public static void addTaskDataToDb(Task task, NewTaskDialog newTaskDialog) {
+	public static void addTaskDataToDb(Task task, NewTaskDetails newTaskDetails) {
 		EntityManagerFactory emf = Activator.getEmf();
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
@@ -22,7 +22,7 @@ public final class TasksData {
 		em.getTransaction().commit();
 		em.close();
 		
-		List<Task> workspaceTasks = TaskAccess.getWorkspaceTasksDataFromDb(newTaskDialog.getWorkspaceDetails().getWorkspace().getId());
-		newTaskDialog.getWorkspaceDetails().getTasksTableViewer().setInput(workspaceTasks);;
+		List<Task> workspaceTasks = TaskAccess.getWorkspaceTasksDataFromDb(newTaskDetails.getWorkspaceTabFolder().getWorkspace().getId());
+		newTaskDetails.getWorkspaceTabFolder().getWorkspaceDetailsTabContents().getTasksTableViewer().setInput(workspaceTasks);;
 	}
 }

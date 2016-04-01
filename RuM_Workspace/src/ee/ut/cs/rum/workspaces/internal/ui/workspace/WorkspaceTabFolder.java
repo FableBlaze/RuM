@@ -16,7 +16,7 @@ public class WorkspaceTabFolder extends CTabFolder {
 	private Workspace workspace;
 	
 	public WorkspaceTabFolder(Composite workspaceContainer, Workspace workspace) {
-		super(workspaceContainer, SWT.NONE);
+		super(workspaceContainer, SWT.BORDER);
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		
 		this.workspace=workspace;
@@ -32,5 +32,9 @@ public class WorkspaceTabFolder extends CTabFolder {
 	
 	public Workspace getWorkspace() {
 		return workspace;
+	}
+	
+	public WorkspaceDetailsTabContents getWorkspaceDetailsTabContents() {
+		return workspaceDetailsTabContents;
 	}
 }

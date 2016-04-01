@@ -15,13 +15,13 @@ import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.plugins.interfaces.RumPluginFactory;
 import ee.ut.cs.rum.workspaces.internal.Activator;
 import ee.ut.cs.rum.workspaces.internal.ui.PluginContentComposite;
-import ee.ut.cs.rum.workspaces.internal.ui.task.newtask.dialog.NewTaskDialogShell;
+import ee.ut.cs.rum.workspaces.internal.ui.task.newtask.NewTaskDetails;
 
 public class PluginSelectionChangedListener implements ISelectionChangedListener {
-	private NewTaskDialogShell newTaskDialogShell;
+	private NewTaskDetails newTaskDetails;
 
-	public PluginSelectionChangedListener(NewTaskDialogShell newTaskDialogShell) {
-		this.newTaskDialogShell=newTaskDialogShell;
+	public PluginSelectionChangedListener(NewTaskDetails newTaskDetails) {
+		this.newTaskDetails=newTaskDetails;
 	}
 
 	@Override
@@ -38,12 +38,12 @@ public class PluginSelectionChangedListener implements ISelectionChangedListener
 		}
 		
 		if (selectedPluginBundle==null) {
-			newTaskDialogShell.getNewTaskDialog().getFooterButtonsComposite().getStartButton().setEnabled(false);
+			newTaskDetails.getFooterButtonsComposite().getStartButton().setEnabled(false);
 		} else {
-			newTaskDialogShell.getNewTaskDialog().getFooterButtonsComposite().getStartButton().setEnabled(true);
+			newTaskDetails.getFooterButtonsComposite().getStartButton().setEnabled(true);
 		}
 
-		newTaskDialogShell.getNewTaskDialog().getSelectedPluginInfo().updateSelectedPluginInfo(selectedPlugin);
+		newTaskDetails.getSelectedPluginInfo().updateSelectedPluginInfo(selectedPlugin);
 		updateNewTaskPluginConfigurationUi(selectedPluginBundle);
 	}
 
@@ -70,7 +70,7 @@ public class PluginSelectionChangedListener implements ISelectionChangedListener
 
 
 	private void updateNewTaskPluginConfigurationUi(Bundle selectedPluginBundle) {
-		ScrolledComposite selectedPluginConfigurationUi = newTaskDialogShell.getNewTaskDialog().getSelectedPluginConfigurationUi();
+		ScrolledComposite selectedPluginConfigurationUi = newTaskDetails.getSelectedPluginConfigurationUi();
 
 		if (selectedPluginConfigurationUi.getContent()!=null && !selectedPluginConfigurationUi.getContent().isDisposed()) {
 			selectedPluginConfigurationUi.getContent().dispose();
@@ -89,7 +89,8 @@ public class PluginSelectionChangedListener implements ISelectionChangedListener
 					content.setSize(content.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 					selectedPluginConfigurationUi.setContent(content);
 					
-					newTaskDialogShell.setRumPluginConfiguration(configurationUI);
+					//TODO: Update configuration on plugin change
+					//newTaskDialogShell.setRumPluginConfiguration(configurationUI);
 				}
 			}
 		}

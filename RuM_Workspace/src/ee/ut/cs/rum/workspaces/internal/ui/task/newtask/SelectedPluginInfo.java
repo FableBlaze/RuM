@@ -1,11 +1,10 @@
-package ee.ut.cs.rum.workspaces.internal.ui.task.newtask.dialog;
+package ee.ut.cs.rum.workspaces.internal.ui.task.newtask;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Shell;
 
 import ee.ut.cs.rum.database.domain.Plugin;
 
@@ -26,8 +25,8 @@ public class SelectedPluginInfo extends Composite {
 	private Label descriptionLabel;
 	private Label descriptionValueLabel;
 
-	SelectedPluginInfo(Shell shell) {
-		super(shell, SWT.NONE);
+	public SelectedPluginInfo(Composite content, NewTaskDetails newTaskDetails) {
+		super(content, SWT.NONE);
 
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
 		((GridData) this.getLayoutData()).widthHint=400;
