@@ -14,6 +14,7 @@ import ee.ut.cs.rum.database.EmfTrackerCustomizer;
 import ee.ut.cs.rum.database.RumEmfService;
 import ee.ut.cs.rum.plugins.description.PluginInfo;
 import ee.ut.cs.rum.plugins.description.PluginParameterInfo;
+import ee.ut.cs.rum.plugins.description.PluginParameterTypeEnum;
 
 public class Activator implements BundleActivator {
 	private static BundleContext context;
@@ -37,7 +38,7 @@ public class Activator implements BundleActivator {
 		logger.info("RuM_workspace bundle started");
 		
 		//TODO: Remove gson testing code
-		PluginParameterInfo[] parameters = {new PluginParameterInfo("aa"),new PluginParameterInfo("bb"),new PluginParameterInfo("cc")};
+		PluginParameterInfo[] parameters = {new PluginParameterInfo("aa", "bb", "cc", PluginParameterTypeEnum.STRING, false, "ff")};
 		PluginInfo pi = new PluginInfo("1", "12", parameters);
 		Gson gson = new Gson();
 		String json = gson.toJson(pi);
