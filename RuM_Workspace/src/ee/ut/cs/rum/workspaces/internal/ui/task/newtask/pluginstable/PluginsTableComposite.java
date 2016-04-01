@@ -10,7 +10,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-import ee.ut.cs.rum.workspaces.internal.ui.task.newtask.dialog.NewTaskDialog;
 import ee.ut.cs.rum.workspaces.internal.ui.task.newtask.dialog.NewTaskDialogShell;
 
 public class PluginsTableComposite extends Composite {
@@ -19,7 +18,7 @@ public class PluginsTableComposite extends Composite {
 	private PluginsTableViewer pluginsTableViewer;
 	private ViewerFilter pluginsTableFilter;
 
-	public PluginsTableComposite(NewTaskDialogShell newTaskDialogShell, NewTaskDialog newTaskDialog) {
+	public PluginsTableComposite(NewTaskDialogShell newTaskDialogShell) {
 		super(newTaskDialogShell, SWT.NONE);
 
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));

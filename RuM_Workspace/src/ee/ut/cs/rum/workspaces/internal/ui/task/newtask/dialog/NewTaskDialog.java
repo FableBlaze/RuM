@@ -9,7 +9,6 @@ import org.eclipse.swt.widgets.Shell;
 
 import ee.ut.cs.rum.workspaces.internal.ui.task.newtask.pluginstable.PluginsTableComposite;
 import ee.ut.cs.rum.workspaces.internal.ui.workspace.WorkspaceDetailsTabContents;
-import ee.ut.cs.rum.workspaces.internal.ui.workspace.WorkspaceTabFolder;
 
 public class NewTaskDialog extends Dialog {
 	private static final long serialVersionUID = -6828414895866044855L;
@@ -38,7 +37,7 @@ public class NewTaskDialog extends Dialog {
 	
 	private void createContents(final NewTaskDialogShell newTaskDialogShell) {
 		newTaskDialogShell.setLayout(new GridLayout(3, false));
-		pluginsTableComposite = new PluginsTableComposite(newTaskDialogShell, this);
+		pluginsTableComposite = new PluginsTableComposite(newTaskDialogShell);
 		selectedPluginInfo = new SelectedPluginInfo(newTaskDialogShell);
 		
 		selectedPluginConfigurationUi = new ScrolledComposite(newTaskDialogShell, SWT.H_SCROLL | SWT.V_SCROLL);
