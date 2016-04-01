@@ -3,7 +3,7 @@
 	<name>ToyPlugin2</name>
 	<comment></comment>
 	<projects>
-		<project>RuM_Plugins_Interfaces</project>
+		<project>RuM_Plugin_Development</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

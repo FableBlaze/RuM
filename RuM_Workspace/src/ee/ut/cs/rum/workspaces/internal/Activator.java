@@ -8,8 +8,12 @@ import org.osgi.util.tracker.ServiceTracker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.gson.Gson;
+
 import ee.ut.cs.rum.database.EmfTrackerCustomizer;
 import ee.ut.cs.rum.database.RumEmfService;
+import ee.ut.cs.rum.plugins.description.PluginInfo;
+import ee.ut.cs.rum.plugins.description.PluginParameterInfo;
 
 public class Activator implements BundleActivator {
 	private static BundleContext context;
@@ -31,6 +35,20 @@ public class Activator implements BundleActivator {
 		if (emf == null) {throw new Exception("Database service not found");} 
 		
 		logger.info("RuM_workspace bundle started");
+		
+		//TODO: Remove gson testing code
+		PluginParameterInfo[] parameters = {new PluginParameterInfo("aa"),new PluginParameterInfo("bb"),new PluginParameterInfo("cc")};
+		PluginInfo pi = new PluginInfo("1", "12", parameters);
+		Gson gson = new Gson();
+		String json = gson.toJson(pi);
+		Activator.getLogger().info(json);
+		
+		PluginInfo pi2 = gson.fromJson(json, PluginInfo.class);
+		pi2.setName("testing");
+		pi2.getParameters()[0].setInternalName("testing");
+		String json2 = gson.toJson(pi2);
+		Activator.getLogger().info(json2);
+		
 	}
 
 	public void stop(BundleContext bundleContext) throws Exception {

@@ -4,7 +4,7 @@ import ee.ut.cs.rum.plugins.interfaces.factory.RumPluginResultsVisualizer;
 import ee.ut.cs.rum.plugins.interfaces.factory.RumPluginWorker;
 
 public interface RumPluginFactory {
-	public String getConfigurationParameters();
+	public String getPluginInfoJSON();
 	public RumPluginWorker createRumPluginWorker();
 	public RumPluginResultsVisualizer createRumPluginResultsVisualizer();
 }

@@ -83,7 +83,7 @@ public class PluginSelectionChangedListener implements ISelectionChangedListener
 					content.setLayout(new GridLayout());
 					
 					RumPluginFactory rumPluginFactory = (RumPluginFactory) selectedPluginBundle.getBundleContext().getService(serviceReference);
-					String configurationParameters = rumPluginFactory.getConfigurationParameters();
+					String configurationParameters = rumPluginFactory.getPluginInfoJSON();
 					Label configurationUI = new Label(content, SWT.NONE);
 					configurationUI.setText(configurationParameters);
 					content.setSize(content.computeSize(SWT.DEFAULT, SWT.DEFAULT));

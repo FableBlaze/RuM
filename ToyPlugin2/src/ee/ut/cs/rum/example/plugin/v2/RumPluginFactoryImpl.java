@@ -9,7 +9,7 @@ import ee.ut.cs.rum.plugins.interfaces.factory.RumPluginWorker;
 public class RumPluginFactoryImpl implements RumPluginFactory {
 
 	@Override
-	public String getConfigurationParameters() {
+	public String getPluginInfoJSON() {
 		//TODO: Return parameters in JSON format
 		return "Plugin2";
 	}
