@@ -15,7 +15,7 @@ public class PluginsManagementUI extends CTabFolder {
 	private OverviewTabContents overviewTabContents;
 	
 	public PluginsManagementUI(Composite parent) {
-		super(parent, SWT.BORDER);
+		super(parent, SWT.NONE);
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		
 		this.overviewTab = new CTabItem (this, SWT.NONE);
