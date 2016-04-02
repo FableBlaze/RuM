@@ -1,8 +1,6 @@
 package ee.ut.cs.rum.plugins.internal.ui.dialog;
 
 import java.io.File;
-import java.util.Enumeration;
-
 import org.eclipse.rap.fileupload.DiskFileUploadReceiver;
 import org.eclipse.rap.fileupload.FileUploadEvent;
 import org.eclipse.rap.fileupload.FileUploadListener;
@@ -58,25 +56,14 @@ public class PluginUploadListener implements FileUploadListener {
 		if (temporaryBundle!=null && temporaryBundle.getSymbolicName()!=null && serviceCheck) {
 			Plugin temporaryPlugin = new Plugin();
 			
-			for (Enumeration<String> e = temporaryBundle.getHeaders().keys(); e.hasMoreElements();) {
-				Object key = e.nextElement();
-				String value = temporaryBundle.getHeaders().get(key);
-				if (key.equals("Bundle-SymbolicName")) {
-					temporaryPlugin.setBundleSymbolicName(value);
-				} else if (key.equals("Bundle-Version")) {
-					temporaryPlugin.setBundleVersion(value);
-				} else if (key.equals("Bundle-Name")) {
-					temporaryPlugin.setBundleName(value);
-				} else if (key.equals("Bundle-Vendor")) {
-					temporaryPlugin.setBundleVendor(value);
-				} else if (key.equals("Bundle-Description")) {
-					temporaryPlugin.setBundleDescription(value);
-				} else if (key.equals("Bundle-Activator")) {
-					temporaryPlugin.setBundleActivator(value);
-				} else if (key.equals("Import-Package")) {
-					temporaryPlugin.setBundleImportPackage(value);
-				}
-			}
+			temporaryPlugin.setBundleSymbolicName(temporaryBundle.getHeaders().get("Bundle-SymbolicName"));
+			temporaryPlugin.setBundleVersion(temporaryBundle.getHeaders().get("Bundle-Version"));
+			temporaryPlugin.setBundleName(temporaryBundle.getHeaders().get("Bundle-Name"));
+			temporaryPlugin.setBundleVendor(temporaryBundle.getHeaders().get("Bundle-Vendor"));
+			temporaryPlugin.setBundleDescription(temporaryBundle.getHeaders().get("Bundle-Description"));
+			temporaryPlugin.setBundleActivator(temporaryBundle.getHeaders().get("Bundle-Activator"));
+			temporaryPlugin.setBundleImportPackage(temporaryBundle.getHeaders().get("Import-Package"));
+			
 			temporaryPlugin.setOriginalFilename(temporaryFile.getName());
 			pluginUploadDialog.setTemporaryPlugin(temporaryPlugin);
 			
