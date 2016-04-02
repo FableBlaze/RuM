@@ -52,7 +52,6 @@ public class PluginUploadDialog extends Dialog {
 	private Label descriptionValue;
 	private Label vendorValue;
 	private Label activatorValue;
-	private Label importPackageValue;
 	private Label feedbackTextValue;
 	private Label fileName;
 
@@ -107,11 +106,6 @@ public class PluginUploadDialog extends Dialog {
 		bundleActivatorLabel.setText("Bundle activator:");
 		activatorValue = new Label(shell, SWT.NONE);
 		activatorValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-
-		Label bundleImportPackageLabel = new Label(shell, SWT.NONE);
-		bundleImportPackageLabel.setText("Bundle imported packages:");
-		importPackageValue = new Label(shell, SWT.NONE);
-		importPackageValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
 		feedbackTextValue = new Label(shell, SWT.NONE);
 		feedbackTextValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -175,8 +169,7 @@ public class PluginUploadDialog extends Dialog {
 								} else if (key.equals("Bundle-Activator") && !activatorValue.isDisposed()) {
 									activatorValue.setText(value);
 									temporaryPlugin.setActivator(value);
-								} else if (key.equals("Import-Package") && !importPackageValue.isDisposed()) {
-									importPackageValue.setText(value);
+								} else if (key.equals("Import-Package")) {
 									temporaryPlugin.setImportPackage(value);
 								}
 							}
@@ -193,7 +186,6 @@ public class PluginUploadDialog extends Dialog {
 							if (!vendorValue.isDisposed()) {vendorValue.setText("");}
 							if (!descriptionValue.isDisposed()) {descriptionValue.setText("");}
 							if (!activatorValue.isDisposed()) {activatorValue.setText("");}
-							if (!importPackageValue.isDisposed()) {importPackageValue.setText("");}
 						}
 
 						if (!fileName.isDisposed()) {
