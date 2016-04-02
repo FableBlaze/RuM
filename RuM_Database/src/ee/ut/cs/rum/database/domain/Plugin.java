@@ -37,8 +37,8 @@ public class Plugin {
 	private String pluginName;
 	@Column(name = "plugin_description")
 	private String pluginDescription;
-	@Column(name = "plugin_parameters")
-	private String pluginParameters;
+	@Column(name = "plugin_info", columnDefinition = "TEXT")
+	private String plugininfo;
 	
 	@Column(name = "original_filename")
 	private String originalFilename;
@@ -126,12 +126,12 @@ public class Plugin {
 		this.pluginDescription = pluginDescription;
 	}
 	
-	public String getPluginParameters() {
-		return pluginParameters;
+	public String getPluginInfo() {
+		return plugininfo;
 	}
 
-	public void setPluginParameters(String pluginParameters) {
-		this.pluginParameters = pluginParameters;
+	public void setPluginInfo(String plugininfo) {
+		this.plugininfo = plugininfo;
 	}
 
 	public String getOriginalFilename() {
@@ -172,7 +172,7 @@ public class Plugin {
 				+ ", bundleName=" + bundleName + ", bundleVendor=" + bundleVendor + ", bundleDescription="
 				+ bundleDescription + ", bundleActivator=" + bundleActivator + ", bundleImportPackage="
 				+ bundleImportPackage + ", pluginName=" + pluginName + ", pluginDescription=" + pluginDescription
-				+ ", pluginParameters=" + pluginParameters + ", originalFilename=" + originalFilename + ", uploadedBy="
+				+ ", plugininfo=" + plugininfo + ", originalFilename=" + originalFilename + ", uploadedBy="
 				+ uploadedBy + ", uploadedAt=" + uploadedAt + ", fileLocation=" + fileLocation + "]";
 	}
 	

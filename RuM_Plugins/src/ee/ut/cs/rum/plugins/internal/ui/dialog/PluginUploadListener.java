@@ -20,7 +20,7 @@ public class PluginUploadListener implements FileUploadListener {
 	private PluginUploadDialog pluginUploadDialog;
 	
 	private Bundle temporaryBundle;
-	private PluginInfo pluginInfo;
+	private String pluginInfoJson;
 	
 	public PluginUploadListener(DiskFileUploadReceiver receiver, PluginUploadDialog pluginUploadDialog) {
 		this.receiver=receiver;
@@ -38,14 +38,14 @@ public class PluginUploadListener implements FileUploadListener {
 		pluginUploadDialog.setTemporaryFile(temporaryFile);
 		Activator.getLogger().info("Uploaded file: " + temporaryFile.getAbsolutePath());
 		temporaryBundle = null;
-		pluginInfo = null;
+		pluginInfoJson = null;
 		try {
 			temporaryBundle = Activator.getContext().installBundle("file:///" + temporaryFile.getAbsolutePath());
 			Activator.getLogger().info("Temporary plugin loaded");
 
 			if (temporaryBundle!=null && temporaryBundle.getSymbolicName()!=null) {
 				temporaryBundle.start();
-				pluginInfo = getPluginInfoFromBundle(temporaryBundle);
+				pluginInfoJson = getPluginInfoFromBundle(temporaryBundle);
 				temporaryBundle.stop();
 				Activator.getLogger().info("Temporary plugin initial start/stop done");
 			} else {
@@ -56,7 +56,7 @@ public class PluginUploadListener implements FileUploadListener {
 		}
 
 		//TODO: Check for duplicates
-		if (temporaryBundle!=null && temporaryBundle.getSymbolicName()!=null && pluginInfo!=null) {
+		if (temporaryBundle!=null && temporaryBundle.getSymbolicName()!=null && pluginInfoJson!=null) {
 			Plugin temporaryPlugin = new Plugin();
 			
 			temporaryPlugin.setBundleSymbolicName(temporaryBundle.getHeaders().get("Bundle-SymbolicName"));
@@ -67,8 +67,12 @@ public class PluginUploadListener implements FileUploadListener {
 			temporaryPlugin.setBundleActivator(temporaryBundle.getHeaders().get("Bundle-Activator"));
 			temporaryPlugin.setBundleImportPackage(temporaryBundle.getHeaders().get("Import-Package"));
 			
+			Gson gson = new Gson();
+			PluginInfo pluginInfo = gson.fromJson(pluginInfoJson, PluginInfo.class);
+			
 			temporaryPlugin.setPluginName(pluginInfo.getName());
 			temporaryPlugin.setPluginDescription(pluginInfo.getDescription());
+			temporaryPlugin.setPluginInfo(pluginInfoJson);
 			
 			temporaryPlugin.setOriginalFilename(temporaryFile.getName());
 			pluginUploadDialog.setTemporaryPlugin(temporaryPlugin);
@@ -87,17 +91,14 @@ public class PluginUploadListener implements FileUploadListener {
 		}
 	}
 
-	private PluginInfo getPluginInfoFromBundle(Bundle temporaryBundle) {
+	private String getPluginInfoFromBundle(Bundle temporaryBundle) {
 		if (temporaryBundle.getRegisteredServices()!=null) {
 			for (ServiceReference<?> serviceReference : temporaryBundle.getRegisteredServices()) {
 				String[] objectClasses = (String[])serviceReference.getProperty("objectClass");
 				for (String objectClass : objectClasses) {
 					if (objectClass.equals(RumPluginFactory.class.getName())) {
 						RumPluginFactory rumPluginFactory = (RumPluginFactory) temporaryBundle.getBundleContext().getService(serviceReference);
-						Gson gson = new Gson();
-						PluginInfo pluginInfo = gson.fromJson(rumPluginFactory.getPluginInfoJSON(), PluginInfo.class);
-						Activator.getLogger().info(pluginInfo.toString());
-						return pluginInfo;
+						return rumPluginFactory.getPluginInfoJSON();
 					}
 				}	
 			}
