@@ -20,10 +20,10 @@ public class PluginsTableFilter extends ViewerFilter {
 			return true;
 		}
 		Plugin plugin = (Plugin) element;
-		if (plugin.getName().toLowerCase().contains(searchString)) {
+		if (plugin.getBundleName().toLowerCase().contains(searchString)) {
 			return true;
 		}
-		if (plugin.getDescription().toLowerCase().contains(searchString)) {
+		if (plugin.getBundleDescription().toLowerCase().contains(searchString)) {
 			return true;
 		}
 

@@ -153,24 +153,24 @@ public class PluginUploadDialog extends Dialog {
 								String value = temporaryBundle.getHeaders().get(key);
 								if (key.equals("Bundle-SymbolicName") && !symbolicNameValue.isDisposed()) {
 									symbolicNameValue.setText(value);
-									temporaryPlugin.setSymbolicName(value);
+									temporaryPlugin.setBundleSymbolicName(value);
 								} else if (key.equals("Bundle-Version") && !versionValue.isDisposed()) {
 									versionValue.setText(value);
-									temporaryPlugin.setVersion(value);
+									temporaryPlugin.setBundleVersion(value);
 								} else if (key.equals("Bundle-Name") && !nameValue.isDisposed()) {
 									nameValue.setText(value);
-									temporaryPlugin.setName(value);
+									temporaryPlugin.setBundleName(value);
 								} else if (key.equals("Bundle-Vendor") && !vendorValue.isDisposed()) {
 									vendorValue.setText(value);
-									temporaryPlugin.setVendor(value);
+									temporaryPlugin.setBundleVendor(value);
 								} else if (key.equals("Bundle-Description") && !descriptionValue.isDisposed()) {
 									descriptionValue.setText(value);
-									temporaryPlugin.setDescription(value);
+									temporaryPlugin.setBundleDescription(value);
 								} else if (key.equals("Bundle-Activator") && !activatorValue.isDisposed()) {
 									activatorValue.setText(value);
-									temporaryPlugin.setActivator(value);
+									temporaryPlugin.setBundleActivator(value);
 								} else if (key.equals("Import-Package")) {
-									temporaryPlugin.setImportPackage(value);
+									temporaryPlugin.setBundleImportPackage(value);
 								}
 							}
 							temporaryPlugin.setOriginalFilename(temporaryFile.getName());

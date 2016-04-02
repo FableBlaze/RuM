@@ -18,20 +18,28 @@ public class Plugin {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
-	@Column(name = "symbolic_name")
-	private String symbolicName;
-	@Column(name = "version")
-	private String version;
-	@Column(name = "name")
-	private String name;
-	@Column(name = "vendor")
-	private String vendor;
-	@Column(name = "description")
-	private String description;
-	@Column(name = "activator")
-	private String activator;
-	@Column(name = "import_package", columnDefinition = "TEXT")
-	private String importPackage;
+	@Column(name = "bundle_symbolic_name")
+	private String bundleSymbolicName;
+	@Column(name = "bundle_version")
+	private String bundleVersion;
+	@Column(name = "bundle_name")
+	private String bundleName;
+	@Column(name = "bundle_vendor")
+	private String bundleVendor;
+	@Column(name = "bundle_description")
+	private String bundleDescription;
+	@Column(name = "bundle_activator")
+	private String bundleActivator;
+	@Column(name = "bundle_import_package", columnDefinition = "TEXT")
+	private String bundleImportPackage;
+	
+	@Column(name = "plugin_name")
+	private String pluginName;
+	@Column(name = "plugin_description")
+	private String pluginDescription;
+	@Column(name = "plugin_parameters")
+	private String pluginParameters;
+	
 	@Column(name = "original_filename")
 	private String originalFilename;
 	@Column(name = "uploaded_by")
@@ -41,104 +49,130 @@ public class Plugin {
 	private Date uploadedAt;
 	@Column(name = "file_location")
 	private String fileLocation;
-
+	
 	public Long getId() {
 		return id;
 	}
-
-	public String getSymbolicName() {
-		return symbolicName;
+	
+	public String getBundleSymbolicName() {
+		return bundleSymbolicName;
+	}
+	
+	public void setBundleSymbolicName(String bundleSymbolicName) {
+		this.bundleSymbolicName = bundleSymbolicName;
+	}
+	
+	public String getBundleVersion() {
+		return bundleVersion;
+	}
+	
+	public void setBundleVersion(String bundleVersion) {
+		this.bundleVersion = bundleVersion;
+	}
+	
+	public String getBundleName() {
+		return bundleName;
+	}
+	
+	public void setBundleName(String bundleName) {
+		this.bundleName = bundleName;
+	}
+	
+	public String getBundleVendor() {
+		return bundleVendor;
+	}
+	
+	public void setBundleVendor(String bundleVendor) {
+		this.bundleVendor = bundleVendor;
+	}
+	
+	public String getBundleDescription() {
+		return bundleDescription;
+	}
+	
+	public void setBundleDescription(String bundleDescription) {
+		this.bundleDescription = bundleDescription;
+	}
+	
+	public String getBundleActivator() {
+		return bundleActivator;
+	}
+	
+	public void setBundleActivator(String bundleActivator) {
+		this.bundleActivator = bundleActivator;
+	}
+	
+	public String getBundleImportPackage() {
+		return bundleImportPackage;
+	}
+	
+	public void setBundleImportPackage(String bundleImportPackage) {
+		this.bundleImportPackage = bundleImportPackage;
+	}
+	
+	public String getPluginName() {
+		return pluginName;
+	}
+	
+	public void setPluginName(String pluginName) {
+		this.pluginName = pluginName;
+	}
+	
+	public String getPluginDescription() {
+		return pluginDescription;
+	}
+	
+	public void setPluginDescription(String pluginDescription) {
+		this.pluginDescription = pluginDescription;
+	}
+	
+	public String getPluginParameters() {
+		return pluginParameters;
 	}
 
-	public void setSymbolicName(String symbolicName) {
-		this.symbolicName = symbolicName;
-	}
-
-	public String getVersion() {
-		return version;
-	}
-
-	public void setVersion(String version) {
-		this.version = version;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getVendor() {
-		return vendor;
-	}
-
-	public void setVendor(String vendor) {
-		this.vendor = vendor;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getActivator() {
-		return activator;
-	}
-
-	public void setActivator(String activator) {
-		this.activator = activator;
-	}
-
-	public String getImportPackage() {
-		return importPackage;
-	}
-
-	public void setImportPackage(String importPackage) {
-		this.importPackage = importPackage;
+	public void setPluginParameters(String pluginParameters) {
+		this.pluginParameters = pluginParameters;
 	}
 
 	public String getOriginalFilename() {
 		return originalFilename;
 	}
-
+	
 	public void setOriginalFilename(String originalFilename) {
 		this.originalFilename = originalFilename;
 	}
-
+	
 	public String getUploadedBy() {
 		return uploadedBy;
 	}
-
+	
 	public void setUploadedBy(String uploadedBy) {
 		this.uploadedBy = uploadedBy;
 	}
-
+	
 	public Date getUploadedAt() {
 		return uploadedAt;
 	}
-
+	
 	public void setUploadedAt(Date uploadedAt) {
 		this.uploadedAt = uploadedAt;
 	}
-
+	
 	public String getFileLocation() {
 		return fileLocation;
 	}
-
+	
 	public void setFileLocation(String fileLocation) {
 		this.fileLocation = fileLocation;
 	}
 
 	@Override
 	public String toString() {
-		return "Plugin [id=" + id + ", symbolicName=" + symbolicName + ", version=" + version + ", name=" + name
-				+ ", vendor=" + vendor + ", description=" + description + ", activator=" + activator
-				+ ", importPackage=" + importPackage + ", originalFilename=" + originalFilename + ", uploadedBy="
+		return "Plugin [id=" + id + ", bundleSymbolicName=" + bundleSymbolicName + ", bundleVersion=" + bundleVersion
+				+ ", bundleName=" + bundleName + ", bundleVendor=" + bundleVendor + ", bundleDescription="
+				+ bundleDescription + ", bundleActivator=" + bundleActivator + ", bundleImportPackage="
+				+ bundleImportPackage + ", pluginName=" + pluginName + ", pluginDescription=" + pluginDescription
+				+ ", pluginParameters=" + pluginParameters + ", originalFilename=" + originalFilename + ", uploadedBy="
 				+ uploadedBy + ", uploadedAt=" + uploadedAt + ", fileLocation=" + fileLocation + "]";
 	}
 	

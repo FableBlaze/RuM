@@ -8,16 +8,8 @@ import org.osgi.util.tracker.ServiceTracker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.gson.Gson;
-
 import ee.ut.cs.rum.database.EmfTrackerCustomizer;
 import ee.ut.cs.rum.database.RumEmfService;
-import ee.ut.cs.rum.plugins.description.PluginInfo;
-import ee.ut.cs.rum.plugins.description.parameter.PluginParameter;
-import ee.ut.cs.rum.plugins.description.parameter.PluginParameterSelection;
-import ee.ut.cs.rum.plugins.description.parameter.PluginParameterSelectionItem;
-import ee.ut.cs.rum.plugins.description.parameter.PluginParameterString;
-import ee.ut.cs.rum.plugins.description.parameter.PluginParameterType;
 
 public class Activator implements BundleActivator {
 	private static BundleContext context;

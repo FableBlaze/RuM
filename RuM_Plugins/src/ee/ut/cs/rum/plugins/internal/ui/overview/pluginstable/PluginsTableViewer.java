@@ -61,7 +61,7 @@ public class PluginsTableViewer extends TableViewer {
 			@Override
 			public String getText(Object element) {
 				Plugin plugin = (Plugin) element;
-				return plugin.getName();
+				return plugin.getBundleName();
 			}
 		});
 
@@ -72,7 +72,7 @@ public class PluginsTableViewer extends TableViewer {
 			@Override
 			public String getText(Object element) {
 				Plugin plugin = (Plugin) element;
-				return plugin.getDescription();
+				return plugin.getBundleDescription();
 			}
 		});
 
@@ -83,7 +83,7 @@ public class PluginsTableViewer extends TableViewer {
 			@Override
 			public String getText(Object element) {
 				Plugin plugin = (Plugin) element;
-				return plugin.getVersion();
+				return plugin.getBundleVersion();
 			}
 		});
 
@@ -94,7 +94,7 @@ public class PluginsTableViewer extends TableViewer {
 			@Override
 			public String getText(Object element) {
 				Plugin plugin = (Plugin) element;
-				return plugin.getVendor();
+				return plugin.getBundleVendor();
 			}
 		});
 

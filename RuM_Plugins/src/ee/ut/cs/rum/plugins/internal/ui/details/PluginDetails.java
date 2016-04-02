@@ -50,32 +50,32 @@ public class PluginDetails extends ScrolledComposite {
 		label = new Label (content, SWT.NONE);
 		label.setText("Symbolic name:");
 		label = new Label (content, SWT.NONE);
-		label.setText(plugin.getSymbolicName());
+		label.setText(plugin.getBundleSymbolicName());
 
 		label = new Label (content, SWT.NONE);
 		label.setText("Version:");
 		label = new Label (content, SWT.NONE);
-		label.setText(plugin.getVersion());
+		label.setText(plugin.getBundleVersion());
 
 		label = new Label (content, SWT.NONE);
 		label.setText("Name:");
 		label = new Label (content, SWT.NONE);
-		label.setText(plugin.getName());
+		label.setText(plugin.getBundleName());
 		
 		label = new Label (content, SWT.NONE);
 		label.setText("Vendor:");
 		label = new Label (content, SWT.NONE);
-		label.setText(plugin.getVendor());
+		label.setText(plugin.getBundleVendor());
 		
 		label = new Label (content, SWT.NONE);
 		label.setText("Description:");
 		label = new Label (content, SWT.NONE);
-		label.setText(plugin.getDescription());
+		label.setText(plugin.getBundleDescription());
 
 		label = new Label (content, SWT.NONE);
 		label.setText("Activator:");
 		label = new Label (content, SWT.NONE);
-		label.setText(plugin.getActivator());
+		label.setText(plugin.getBundleActivator());
 
 		label = new Label (content, SWT.NONE);
 		label.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));
@@ -84,7 +84,7 @@ public class PluginDetails extends ScrolledComposite {
 		//TODO: Should parse import packages list better
 		Composite importedPackagesContainer = new Composite(content, SWT.NONE);
 		importedPackagesContainer.setLayout(new FillLayout(SWT.VERTICAL));
-		for (String importedPackage : plugin.getImportPackage().split("\",")) {
+		for (String importedPackage : plugin.getBundleImportPackage().split("\",")) {
 			label = new Label (importedPackagesContainer, SWT.NONE);
 			label.setText(importedPackage);
 		}

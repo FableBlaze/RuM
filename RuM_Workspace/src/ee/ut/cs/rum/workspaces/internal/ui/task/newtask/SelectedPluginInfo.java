@@ -110,11 +110,11 @@ public class SelectedPluginInfo extends Composite {
 	}
 
 	private void updateContents(Plugin plugin) {
-		this.symbolicNameValueLabel.setText(plugin.getSymbolicName());
-		this.versionValueLabel.setText(plugin.getVersion());
-		this.nameValueLabel.setText(plugin.getName());
-		this.vendorValueLabel.setText(plugin.getVendor());
-		this.descriptionValueLabel.setText(plugin.getDescription());
+		this.symbolicNameValueLabel.setText(plugin.getBundleSymbolicName());
+		this.versionValueLabel.setText(plugin.getBundleVersion());
+		this.nameValueLabel.setText(plugin.getBundleName());
+		this.vendorValueLabel.setText(plugin.getBundleVendor());
+		this.descriptionValueLabel.setText(plugin.getBundleDescription());
 	}
 
 }
