@@ -43,6 +43,7 @@ public class PluginUploadDialog extends Dialog {
 
 	private Bundle temporaryBundle;
 	private File temporaryFile;
+	private Plugin temporaryPlugin;
 	boolean serviceCheck;
 
 	private Label nameValue;
@@ -149,28 +150,40 @@ public class PluginUploadDialog extends Dialog {
 
 						//TODO: Check for duplicates
 						if (temporaryBundle!=null && temporaryBundle.getSymbolicName()!=null && serviceCheck) {
+							temporaryPlugin = new Plugin();
 							okButton.setEnabled(true);
 							feedbackTextValue.setText("");
-
+							
 							for (Enumeration<String> e = temporaryBundle.getHeaders().keys(); e.hasMoreElements();) {
 								Object key = e.nextElement();
+								String value = temporaryBundle.getHeaders().get(key);
 								if (key.equals("Bundle-SymbolicName") && !symbolicNameValue.isDisposed()) {
-									symbolicNameValue.setText(temporaryBundle.getHeaders().get(key));
+									symbolicNameValue.setText(value);
+									temporaryPlugin.setSymbolicName(value);
 								} else if (key.equals("Bundle-Version") && !versionValue.isDisposed()) {
-									versionValue.setText(temporaryBundle.getHeaders().get(key));
+									versionValue.setText(value);
+									temporaryPlugin.setVersion(value);
 								} else if (key.equals("Bundle-Name") && !nameValue.isDisposed()) {
-									nameValue.setText(temporaryBundle.getHeaders().get(key));
+									nameValue.setText(value);
+									temporaryPlugin.setName(value);
 								} else if (key.equals("Bundle-Vendor") && !vendorValue.isDisposed()) {
-									vendorValue.setText(temporaryBundle.getHeaders().get(key));
+									vendorValue.setText(value);
+									temporaryPlugin.setVendor(value);
 								} else if (key.equals("Bundle-Description") && !descriptionValue.isDisposed()) {
-									descriptionValue.setText(temporaryBundle.getHeaders().get(key));
+									descriptionValue.setText(value);
+									temporaryPlugin.setDescription(value);
 								} else if (key.equals("Bundle-Activator") && !activatorValue.isDisposed()) {
-									activatorValue.setText(temporaryBundle.getHeaders().get(key));
+									activatorValue.setText(value);
+									temporaryPlugin.setActivator(value);
 								} else if (key.equals("Import-Package") && !importPackageValue.isDisposed()) {
-									importPackageValue.setText(temporaryBundle.getHeaders().get(key));
+									importPackageValue.setText(value);
+									temporaryPlugin.setImportPackage(value);
 								}
 							}
+							temporaryPlugin.setOriginalFilename(temporaryFile.getName());
+							
 						} else {
+							temporaryPlugin = null;
 							okButton.setEnabled(false);
 							feedbackTextValue.setText("The selected file is not a valid plugin");
 
@@ -249,19 +262,10 @@ public class PluginUploadDialog extends Dialog {
 				}
 
 				if (copySucceeded) {
-					Plugin plugin = new Plugin();
-					plugin.setSymbolicName(symbolicNameValue.getText());
-					plugin.setVersion(versionValue.getText());
-					plugin.setName(nameValue.getText());
-					plugin.setVendor(vendorValue.getText());
-					plugin.setDescription(descriptionValue.getText());
-					plugin.setActivator(activatorValue.getText());
-					plugin.setImportPackage(importPackageValue.getText());
-					plugin.setOriginalFilename(temporaryFile.getName());
-					plugin.setUploadedAt(new Date());
-					plugin.setUploadedBy("TODO"); //TODO: Add reference to the user
-					plugin.setFileLocation(destinationFile.toPath().toString());
-					PluginsData.addPluginDataToDb(plugin, overviewTabContents);
+					temporaryPlugin.setUploadedAt(new Date());
+					temporaryPlugin.setUploadedBy("TODO"); //TODO: Add reference to the user
+					temporaryPlugin.setFileLocation(destinationFile.toPath().toString());
+					PluginsData.addPluginDataToDb(temporaryPlugin, overviewTabContents);
 					shell.close();
 				} else {
 					Display.getDefault().syncExec(new Runnable() {
