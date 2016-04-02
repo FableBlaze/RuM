@@ -10,9 +10,9 @@ import ee.ut.cs.rum.database.util.PluginAccess;
 import ee.ut.cs.rum.plugins.internal.Activator;
 import ee.ut.cs.rum.plugins.internal.ui.overview.OverviewTabContents;
 
-public final class PluginsData {
+public final class PluginsUtil {
 	
-	private PluginsData() {
+	private PluginsUtil() {
 	}
 	
 	public static void addPluginDataToDb(Plugin plugin, OverviewTabContents overviewTabContents) {

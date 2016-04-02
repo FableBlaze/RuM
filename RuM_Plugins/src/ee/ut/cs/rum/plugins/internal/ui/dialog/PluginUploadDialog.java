@@ -23,7 +23,7 @@ import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.database.util.SystemParameterAccess;
 import ee.ut.cs.rum.plugins.internal.Activator;
 import ee.ut.cs.rum.plugins.internal.ui.overview.OverviewTabContents;
-import ee.ut.cs.rum.plugins.internal.util.PluginsData;
+import ee.ut.cs.rum.plugins.internal.util.PluginsUtil;
 
 public class PluginUploadDialog extends Dialog {
 	private static final long serialVersionUID = 3382119816602279394L;
@@ -158,7 +158,7 @@ public class PluginUploadDialog extends Dialog {
 					temporaryPlugin.setUploadedAt(new Date());
 					temporaryPlugin.setUploadedBy("TODO"); //TODO: Add reference to the user
 					temporaryPlugin.setFileLocation(destinationFile.toPath().toString());
-					PluginsData.addPluginDataToDb(temporaryPlugin, overviewTabContents);
+					PluginsUtil.addPluginDataToDb(temporaryPlugin, overviewTabContents);
 					shell.close();
 				} else {
 					Display.getDefault().syncExec(new Runnable() {
