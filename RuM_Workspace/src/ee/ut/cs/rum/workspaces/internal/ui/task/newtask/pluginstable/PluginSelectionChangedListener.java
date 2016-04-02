@@ -6,6 +6,7 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleException;
@@ -14,7 +15,6 @@ import org.osgi.framework.ServiceReference;
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.plugins.interfaces.RumPluginFactory;
 import ee.ut.cs.rum.workspaces.internal.Activator;
-import ee.ut.cs.rum.workspaces.internal.ui.PluginContentComposite;
 import ee.ut.cs.rum.workspaces.internal.ui.task.newtask.NewTaskDetails;
 
 public class PluginSelectionChangedListener implements ISelectionChangedListener {
@@ -79,7 +79,7 @@ public class PluginSelectionChangedListener implements ISelectionChangedListener
 		if (selectedPluginBundle!=null && selectedPluginBundle.getRegisteredServices()!=null) {
 			for (ServiceReference<?> serviceReference : selectedPluginBundle.getRegisteredServices()) {
 				if (implementsRumPluginFactory(serviceReference)) {
-					PluginContentComposite content = new PluginContentComposite(selectedPluginConfigurationUi, SWT.NONE);
+					Composite content = new Composite(selectedPluginConfigurationUi, SWT.NONE);
 					content.setLayout(new GridLayout());
 					
 					RumPluginFactory rumPluginFactory = (RumPluginFactory) selectedPluginBundle.getBundleContext().getService(serviceReference);
