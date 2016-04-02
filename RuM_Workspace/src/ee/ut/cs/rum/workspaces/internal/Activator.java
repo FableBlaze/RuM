@@ -13,8 +13,11 @@ import com.google.gson.Gson;
 import ee.ut.cs.rum.database.EmfTrackerCustomizer;
 import ee.ut.cs.rum.database.RumEmfService;
 import ee.ut.cs.rum.plugins.description.PluginInfo;
-import ee.ut.cs.rum.plugins.description.PluginParameterInfo;
-import ee.ut.cs.rum.plugins.description.PluginParameterTypeEnum;
+import ee.ut.cs.rum.plugins.description.parameter.PluginParameter;
+import ee.ut.cs.rum.plugins.description.parameter.PluginParameterSelection;
+import ee.ut.cs.rum.plugins.description.parameter.PluginParameterSelectionItem;
+import ee.ut.cs.rum.plugins.description.parameter.PluginParameterString;
+import ee.ut.cs.rum.plugins.description.parameter.PluginParameterType;
 
 public class Activator implements BundleActivator {
 	private static BundleContext context;
@@ -38,17 +41,32 @@ public class Activator implements BundleActivator {
 		logger.info("RuM_workspace bundle started");
 		
 		//TODO: Remove gson testing code
-		PluginParameterInfo[] parameters = {new PluginParameterInfo("aa", "bb", "cc", PluginParameterTypeEnum.STRING, false, "ff")};
+		
+		PluginParameterSelectionItem si = new PluginParameterSelectionItem();
+		si.setDescription("First selection");
+		si.setDisplayName("visiName");
+		si.setInternalName("thecode");
+		PluginParameterSelectionItem si2 = new PluginParameterSelectionItem();
+		si2.setDescription("Second selection");
+		si2.setDisplayName("visiName2");
+		si2.setInternalName("thecode2");
+		
+		PluginParameterSelection ps1 = new PluginParameterSelection();
+		
+		ps1.setDescription("select params");
+		ps1.setDisplayName("selName");
+		ps1.setInternalName("selnInternale");
+		ps1.setMultiSelection(false);
+		ps1.setRequired(true);
+		
+		PluginParameterSelectionItem[] psi = {si,si2};
+		ps1.setSelectionItems(psi);
+		
+		PluginParameter[] parameters = {ps1};
 		PluginInfo pi = new PluginInfo("1", "12", parameters);
 		Gson gson = new Gson();
 		String json = gson.toJson(pi);
 		Activator.getLogger().info(json);
-		
-		PluginInfo pi2 = gson.fromJson(json, PluginInfo.class);
-		pi2.setName("testing");
-		pi2.getParameters()[0].setInternalName("testing");
-		String json2 = gson.toJson(pi2);
-		Activator.getLogger().info(json2);
 		
 	}
 

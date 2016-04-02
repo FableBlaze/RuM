@@ -2,16 +2,18 @@ package ee.ut.cs.rum.plugins.description;
 
 import java.util.Arrays;
 
+import ee.ut.cs.rum.plugins.description.parameter.PluginParameter;
+
 public class PluginInfo {
 	
 	private String name;
 	private String description;
-	private PluginParameterInfo[] parameters;
+	private PluginParameter[] parameters;
 
 	public PluginInfo() {
 	}
 	
-	public PluginInfo(String name, String description, PluginParameterInfo[] parameters) {
+	public PluginInfo(String name, String description, PluginParameter[] parameters) {
 		this.name=name;
 		this.description=description;
 		this.parameters=parameters;
@@ -33,11 +35,11 @@ public class PluginInfo {
 		this.description = description;
 	}
 
-	public PluginParameterInfo[] getParameters() {
+	public PluginParameter[] getParameters() {
 		return parameters;
 	}
 
-	public void setParameters(PluginParameterInfo[] parameters) {
+	public void setParameters(PluginParameter[] parameters) {
 		this.parameters = parameters;
 	}
 
