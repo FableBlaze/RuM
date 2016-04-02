@@ -12,12 +12,6 @@ public class PluginInfo {
 
 	public PluginInfo() {
 	}
-	
-	public PluginInfo(String name, String description, PluginParameter[] parameters) {
-		this.name=name;
-		this.description=description;
-		this.parameters=parameters;
-	}
 
 	public String getName() {
 		return name;

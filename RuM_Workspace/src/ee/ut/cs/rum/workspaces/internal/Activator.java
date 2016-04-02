@@ -63,7 +63,10 @@ public class Activator implements BundleActivator {
 		ps1.setSelectionItems(psi);
 		
 		PluginParameter[] parameters = {ps1};
-		PluginInfo pi = new PluginInfo("1", "12", parameters);
+		PluginInfo pi = new PluginInfo();
+		pi.setDescription("plugindescr");
+		pi.setName("pluginName");
+		pi.setParameters(parameters);
 		Gson gson = new Gson();
 		String json = gson.toJson(pi);
 		Activator.getLogger().info(json);
