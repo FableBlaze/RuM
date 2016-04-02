@@ -5,12 +5,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Enumeration;
-
 import org.eclipse.rap.fileupload.DiskFileUploadReceiver;
-import org.eclipse.rap.fileupload.FileUploadEvent;
 import org.eclipse.rap.fileupload.FileUploadHandler;
-import org.eclipse.rap.fileupload.FileUploadListener;
 import org.eclipse.rap.rwt.service.ServerPushSession;
 import org.eclipse.rap.rwt.widgets.FileUpload;
 import org.eclipse.swt.SWT;
@@ -23,13 +19,8 @@ import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
-import org.osgi.framework.Bundle;
-import org.osgi.framework.BundleException;
-import org.osgi.framework.ServiceReference;
-
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.database.util.SystemParameterAccess;
-import ee.ut.cs.rum.plugins.interfaces.RumPluginFactory;
 import ee.ut.cs.rum.plugins.internal.Activator;
 import ee.ut.cs.rum.plugins.internal.ui.overview.OverviewTabContents;
 import ee.ut.cs.rum.plugins.internal.util.PluginsData;
@@ -41,10 +32,8 @@ public class PluginUploadDialog extends Dialog {
 
 	private OverviewTabContents overviewTabContents;
 
-	private Bundle temporaryBundle;
 	private File temporaryFile;
 	private Plugin temporaryPlugin;
-	boolean serviceCheck;
 
 	private Label nameValue;
 	private Label symbolicNameValue;
@@ -114,96 +103,7 @@ public class PluginUploadDialog extends Dialog {
 
 		DiskFileUploadReceiver receiver = new DiskFileUploadReceiver();
 		FileUploadHandler uploadHandler = new FileUploadHandler(receiver);
-		uploadHandler.addUploadListener(new FileUploadListener() {
-			public void uploadProgress(FileUploadEvent event) {}
-			public void uploadFailed(FileUploadEvent event) {}
-			public void uploadFinished(FileUploadEvent event) {
-				temporaryFile = receiver.getTargetFiles()[receiver.getTargetFiles().length-1];
-				Activator.getLogger().info("Uploaded file: " + temporaryFile.getAbsolutePath());
-				temporaryBundle = null;
-				serviceCheck = false;
-				try {
-					temporaryBundle = Activator.getContext().installBundle("file:///" + temporaryFile.getAbsolutePath());
-					Activator.getLogger().info("Temporary plugin loaded");
-
-					if (temporaryBundle!=null && temporaryBundle.getSymbolicName()!=null) {
-						temporaryBundle.start();
-						serviceCheck = implementsRumPluginFactory(temporaryBundle);
-						temporaryBundle.stop();
-						Activator.getLogger().info("Temporary plugin initial start/stop done");
-					} else {
-						Activator.getLogger().error("Uploaded file is not a valid plugin");
-					}
-				} catch (BundleException e1) {
-					Activator.getLogger().error("Temporary plugin loading failed");
-				}
-
-				//TODO: Consider refactoring this part of the code
-				Display.getDefault().syncExec(new Runnable() {
-					public void run() {
-
-						//TODO: Check for duplicates
-						if (temporaryBundle!=null && temporaryBundle.getSymbolicName()!=null && serviceCheck) {
-							temporaryPlugin = new Plugin();
-							okButton.setEnabled(true);
-							feedbackTextValue.setText("");
-							
-							for (Enumeration<String> e = temporaryBundle.getHeaders().keys(); e.hasMoreElements();) {
-								Object key = e.nextElement();
-								String value = temporaryBundle.getHeaders().get(key);
-								if (key.equals("Bundle-SymbolicName") && !symbolicNameValue.isDisposed()) {
-									symbolicNameValue.setText(value);
-									temporaryPlugin.setBundleSymbolicName(value);
-								} else if (key.equals("Bundle-Version") && !versionValue.isDisposed()) {
-									versionValue.setText(value);
-									temporaryPlugin.setBundleVersion(value);
-								} else if (key.equals("Bundle-Name") && !nameValue.isDisposed()) {
-									nameValue.setText(value);
-									temporaryPlugin.setBundleName(value);
-								} else if (key.equals("Bundle-Vendor") && !vendorValue.isDisposed()) {
-									vendorValue.setText(value);
-									temporaryPlugin.setBundleVendor(value);
-								} else if (key.equals("Bundle-Description") && !descriptionValue.isDisposed()) {
-									descriptionValue.setText(value);
-									temporaryPlugin.setBundleDescription(value);
-								} else if (key.equals("Bundle-Activator") && !activatorValue.isDisposed()) {
-									activatorValue.setText(value);
-									temporaryPlugin.setBundleActivator(value);
-								} else if (key.equals("Import-Package")) {
-									temporaryPlugin.setBundleImportPackage(value);
-								}
-							}
-							temporaryPlugin.setOriginalFilename(temporaryFile.getName());
-							
-						} else {
-							temporaryPlugin = null;
-							okButton.setEnabled(false);
-							feedbackTextValue.setText("The selected file is not a valid plugin");
-
-							if (!symbolicNameValue.isDisposed()) {symbolicNameValue.setText("");} 
-							if (!versionValue.isDisposed()) {versionValue.setText("");} 
-							if (!nameValue.isDisposed()) {nameValue.setText("");} 
-							if (!vendorValue.isDisposed()) {vendorValue.setText("");}
-							if (!descriptionValue.isDisposed()) {descriptionValue.setText("");}
-							if (!activatorValue.isDisposed()) {activatorValue.setText("");}
-						}
-
-						if (!fileName.isDisposed()) {
-							fileName.setText(temporaryFile.getName());
-						}
-					}
-				});
-
-				if (temporaryBundle!=null) {
-					try {
-						temporaryBundle.uninstall();
-						Activator.getLogger().error("Temporary plugin uninstalled");
-					} catch (BundleException e) {
-						Activator.getLogger().error("Temporary plugin uninstalling failed");
-					}
-				}
-			}
-		} );
+		uploadHandler.addUploadListener(new PluginUploadListener(receiver, this));
 
 		FileUpload fileUpload = new FileUpload(shell, SWT.NONE);
 		fileUpload.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -218,6 +118,7 @@ public class PluginUploadDialog extends Dialog {
 				Display.getDefault().syncExec(new Runnable() {
 					public void run() {
 						if (!fileName.isDisposed()) {
+							resetValues();
 							fileName.setText("");
 							okButton.setEnabled(false);
 						}
@@ -281,19 +182,51 @@ public class PluginUploadDialog extends Dialog {
 			}
 		});
 	}
-
-	private boolean implementsRumPluginFactory(Bundle temporaryBundle) {
-		if (temporaryBundle.getRegisteredServices()!=null) {
-			for (ServiceReference<?> serviceReference : temporaryBundle.getRegisteredServices()) {
-				String[] objectClasses = (String[])serviceReference.getProperty("objectClass");
-				for (String objectClass : objectClasses) {
-					if (objectClass.equals(RumPluginFactory.class.getName())) {
-						return true;
-					}
-				}	
-			}
-		}
-		return false;
+	
+	private void resetValues() {
+		if (!symbolicNameValue.isDisposed()) {symbolicNameValue.setText("");} 
+		if (!versionValue.isDisposed()) {versionValue.setText("");} 
+		if (!nameValue.isDisposed()) {nameValue.setText("");} 
+		if (!vendorValue.isDisposed()) {vendorValue.setText("");}
+		if (!descriptionValue.isDisposed()) {descriptionValue.setText("");}
+		if (!activatorValue.isDisposed()) {activatorValue.setText("");}
 	}
+
+	public void setTemporaryFile(File temporaryFile) {
+		this.temporaryFile = temporaryFile;
+
+		if (!fileName.isDisposed()) {
+			Display.getDefault().syncExec(new Runnable() {
+				public void run() {
+					fileName.setText(temporaryFile.getName());
+				}
+			});
+		}
+	}
+
+	public void setTemporaryPlugin(Plugin temporaryPlugin) {
+		this.temporaryPlugin = temporaryPlugin;
+
+		Display.getDefault().syncExec(new Runnable() {
+			public void run() {
+				if (temporaryPlugin==null) {
+					resetValues();
+					okButton.setEnabled(false);
+					feedbackTextValue.setText("The selected file is not a valid plugin");
+				} else {
+					if (!symbolicNameValue.isDisposed()) {symbolicNameValue.setText(temporaryPlugin.getBundleSymbolicName());} 
+					if (!versionValue.isDisposed()) {versionValue.setText(temporaryPlugin.getBundleVersion());} 
+					if (!nameValue.isDisposed()) {nameValue.setText(temporaryPlugin.getBundleName());} 
+					if (!vendorValue.isDisposed()) {vendorValue.setText(temporaryPlugin.getBundleVendor());}
+					if (!descriptionValue.isDisposed()) {descriptionValue.setText(temporaryPlugin.getBundleDescription());}
+					if (!activatorValue.isDisposed()) {activatorValue.setText(temporaryPlugin.getBundleActivator());}
+					
+					okButton.setEnabled(true);
+					feedbackTextValue.setText("");
+				}
+			}
+		});
+	}
+
 }
 
