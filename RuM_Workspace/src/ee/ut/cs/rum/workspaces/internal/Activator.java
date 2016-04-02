@@ -39,38 +39,6 @@ public class Activator implements BundleActivator {
 		if (emf == null) {throw new Exception("Database service not found");} 
 		
 		logger.info("RuM_workspace bundle started");
-		
-		//TODO: Remove gson testing code
-		
-		PluginParameterSelectionItem si = new PluginParameterSelectionItem();
-		si.setDescription("First selection");
-		si.setDisplayName("visiName");
-		si.setInternalName("thecode");
-		PluginParameterSelectionItem si2 = new PluginParameterSelectionItem();
-		si2.setDescription("Second selection");
-		si2.setDisplayName("visiName2");
-		si2.setInternalName("thecode2");
-		
-		PluginParameterSelection ps1 = new PluginParameterSelection();
-		
-		ps1.setDescription("select params");
-		ps1.setDisplayName("selName");
-		ps1.setInternalName("selnInternale");
-		ps1.setMultiSelection(false);
-		ps1.setRequired(true);
-		
-		PluginParameterSelectionItem[] psi = {si,si2};
-		ps1.setSelectionItems(psi);
-		
-		PluginParameter[] parameters = {ps1};
-		PluginInfo pi = new PluginInfo();
-		pi.setDescription("plugindescr");
-		pi.setName("pluginName");
-		pi.setParameters(parameters);
-		Gson gson = new Gson();
-		String json = gson.toJson(pi);
-		Activator.getLogger().info(json);
-		
 	}
 
 	public void stop(BundleContext bundleContext) throws Exception {
