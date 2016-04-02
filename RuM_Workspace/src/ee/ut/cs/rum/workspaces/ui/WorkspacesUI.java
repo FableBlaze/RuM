@@ -22,7 +22,7 @@ public class WorkspacesUI extends Composite {
 		this.setLayout(new GridLayout());
 		
 		//TODO: Fix the limitation that WorkspacesOverview has to be created before WorkspacesHeader
-		workspacesOverview = new WorkspacesOverview(this, this);
+		workspacesOverview = new WorkspacesOverview(this);
 		
 		workspacesHeader = new WorkspacesHeader(this);
 		

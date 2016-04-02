@@ -17,8 +17,8 @@ public class WorkspacesOverview extends Composite {
 	
 	private WorkspacesTableViewer workspacesTableViewer;
 	
-	public WorkspacesOverview(Composite container, WorkspacesUI workspacesUI) {
-		super(container, SWT.NONE);
+	public WorkspacesOverview(WorkspacesUI workspacesUI) {
+		super(workspacesUI, SWT.NONE);
 
 		this.setLayout(new GridLayout());
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
