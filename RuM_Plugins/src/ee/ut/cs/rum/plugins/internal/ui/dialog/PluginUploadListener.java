@@ -8,7 +8,10 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleException;
 import org.osgi.framework.ServiceReference;
 
+import com.google.gson.Gson;
+
 import ee.ut.cs.rum.database.domain.Plugin;
+import ee.ut.cs.rum.plugins.description.PluginInfo;
 import ee.ut.cs.rum.plugins.interfaces.RumPluginFactory;
 import ee.ut.cs.rum.plugins.internal.Activator;
 
@@ -17,7 +20,7 @@ public class PluginUploadListener implements FileUploadListener {
 	private PluginUploadDialog pluginUploadDialog;
 	
 	private Bundle temporaryBundle;
-	private boolean serviceCheck;
+	private PluginInfo pluginInfo;
 	
 	public PluginUploadListener(DiskFileUploadReceiver receiver, PluginUploadDialog pluginUploadDialog) {
 		this.receiver=receiver;
@@ -35,14 +38,14 @@ public class PluginUploadListener implements FileUploadListener {
 		pluginUploadDialog.setTemporaryFile(temporaryFile);
 		Activator.getLogger().info("Uploaded file: " + temporaryFile.getAbsolutePath());
 		temporaryBundle = null;
-		serviceCheck = false;
+		pluginInfo = null;
 		try {
 			temporaryBundle = Activator.getContext().installBundle("file:///" + temporaryFile.getAbsolutePath());
 			Activator.getLogger().info("Temporary plugin loaded");
 
 			if (temporaryBundle!=null && temporaryBundle.getSymbolicName()!=null) {
 				temporaryBundle.start();
-				serviceCheck = implementsRumPluginFactory(temporaryBundle);
+				pluginInfo = getPluginInfoFromBundle(temporaryBundle);
 				temporaryBundle.stop();
 				Activator.getLogger().info("Temporary plugin initial start/stop done");
 			} else {
@@ -53,7 +56,7 @@ public class PluginUploadListener implements FileUploadListener {
 		}
 
 		//TODO: Check for duplicates
-		if (temporaryBundle!=null && temporaryBundle.getSymbolicName()!=null && serviceCheck) {
+		if (temporaryBundle!=null && temporaryBundle.getSymbolicName()!=null && pluginInfo!=null) {
 			Plugin temporaryPlugin = new Plugin();
 			
 			temporaryPlugin.setBundleSymbolicName(temporaryBundle.getHeaders().get("Bundle-SymbolicName"));
@@ -63,6 +66,9 @@ public class PluginUploadListener implements FileUploadListener {
 			temporaryPlugin.setBundleDescription(temporaryBundle.getHeaders().get("Bundle-Description"));
 			temporaryPlugin.setBundleActivator(temporaryBundle.getHeaders().get("Bundle-Activator"));
 			temporaryPlugin.setBundleImportPackage(temporaryBundle.getHeaders().get("Import-Package"));
+			
+			temporaryPlugin.setPluginName(pluginInfo.getName());
+			temporaryPlugin.setPluginDescription(pluginInfo.getDescription());
 			
 			temporaryPlugin.setOriginalFilename(temporaryFile.getName());
 			pluginUploadDialog.setTemporaryPlugin(temporaryPlugin);
@@ -81,17 +87,21 @@ public class PluginUploadListener implements FileUploadListener {
 		}
 	}
 
-	private boolean implementsRumPluginFactory(Bundle temporaryBundle) {
+	private PluginInfo getPluginInfoFromBundle(Bundle temporaryBundle) {
 		if (temporaryBundle.getRegisteredServices()!=null) {
 			for (ServiceReference<?> serviceReference : temporaryBundle.getRegisteredServices()) {
 				String[] objectClasses = (String[])serviceReference.getProperty("objectClass");
 				for (String objectClass : objectClasses) {
 					if (objectClass.equals(RumPluginFactory.class.getName())) {
-						return true;
+						RumPluginFactory rumPluginFactory = (RumPluginFactory) temporaryBundle.getBundleContext().getService(serviceReference);
+						Gson gson = new Gson();
+						PluginInfo pluginInfo = gson.fromJson(rumPluginFactory.getPluginInfoJSON(), PluginInfo.class);
+						Activator.getLogger().info(pluginInfo.toString());
+						return pluginInfo;
 					}
 				}	
 			}
 		}
-		return false;
+		return null;
 	}
 }
