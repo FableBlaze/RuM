@@ -3,7 +3,11 @@ package ee.ut.cs.rum.workspaces.internal.ui.task.newtask.pluginstable;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleException;
 import org.osgi.framework.ServiceReference;
@@ -15,6 +19,7 @@ import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.plugins.development.description.PluginInfo;
 import ee.ut.cs.rum.plugins.development.description.deserializer.PluginInfoDeserializer;
 import ee.ut.cs.rum.plugins.development.interfaces.RumPluginFactory;
+import ee.ut.cs.rum.plugins.development.ui.PluginConfigurationUi;
 import ee.ut.cs.rum.workspaces.internal.Activator;
 import ee.ut.cs.rum.workspaces.internal.ui.task.newtask.NewTaskDetails;
 
@@ -88,12 +93,10 @@ public class PluginSelectionChangedListener implements ISelectionChangedListener
 					Gson gson = gsonBuilder.create();
 					PluginInfo pluginInfo = gson.fromJson(pluginInfoJson, PluginInfo.class);
 					
-//					PluginConfigurationUi pluginConfigurationUi = new PluginConfigurationUi(selectedPluginConfigurationUi, pluginInfo);
-//					selectedPluginConfigurationUi.setContent(pluginConfigurationUi);
-//					pluginConfigurationUi.setSize(pluginConfigurationUi.computeSize(SWT.DEFAULT, SWT.DEFAULT));
-					
-					//TODO: Update configuration on plugin change
-					//newTaskDialogShell.setRumPluginConfiguration(configurationUI);
+					PluginConfigurationUi pluginConfigurationUi = new PluginConfigurationUi(selectedPluginConfigurationUi, pluginInfo);
+					selectedPluginConfigurationUi.setContent(pluginConfigurationUi);
+					selectedPluginConfigurationUi.setSize(selectedPluginConfigurationUi.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+					selectedPluginConfigurationUi.getParent().setSize(selectedPluginConfigurationUi.getParent().computeSize(SWT.DEFAULT, SWT.DEFAULT));
 				}
 			}
 		}

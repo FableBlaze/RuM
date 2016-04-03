@@ -11,5 +11,6 @@ Export-Package: ee.ut.cs.rum.plugins.development.description,
  ee.ut.cs.rum.plugins.development.description.deserializer,
  ee.ut.cs.rum.plugins.development.description.parameter,
  ee.ut.cs.rum.plugins.development.interfaces,
- ee.ut.cs.rum.plugins.development.interfaces.factory
+ ee.ut.cs.rum.plugins.development.interfaces.factory,
+ ee.ut.cs.rum.plugins.development.ui
 
