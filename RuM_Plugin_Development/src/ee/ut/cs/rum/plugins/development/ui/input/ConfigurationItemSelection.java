@@ -1,5 +1,7 @@
 package ee.ut.cs.rum.plugins.development.ui.input;
 
+import java.util.List;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Combo;
@@ -11,27 +13,32 @@ import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterSel
 public class ConfigurationItemSelection extends Combo implements ConfigurationItemInterface {
 	private static final long serialVersionUID = -4510159560743563899L;
 
+	private List<PluginParameterSelectionItem> selectionItems;
+
 	public ConfigurationItemSelection(Composite parent, PluginParameterSelection parameterSelection) {
 		super(parent, SWT.READ_ONLY);
-		
+
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		this.setToolTipText(parameterSelection.getDescription());
-		
+
 		for (PluginParameterSelectionItem parameterSelectionItem : parameterSelection.getSelectionItems()) {
 			this.add(parameterSelectionItem.getDisplayName());
+			selectionItems.add(parameterSelectionItem);
 		}
 	}
 
 	@Override
 	public void setValue(String value) {
-		// TODO Auto-generated method stub
-		
+		for (int i = 0; i < selectionItems.size(); i++) {
+			if (selectionItems.get(i).getInternalName().equals(value)) {
+				this.select(i);
+			}
+		}
 	}
 
 	@Override
 	public String getValue() {
-		// TODO Auto-generated method stub
-		return null;
+		return selectionItems.get(this.getSelectionIndex()).getInternalName();
 	}
 
 	@Override
