@@ -74,7 +74,7 @@ public final class PluginConfiguration {
 		
 		PluginParameterDouble pluginParameterDouble = new PluginParameterDouble();
 		pluginParameterDouble.setDecimalPlaces(2);
-		pluginParameterDouble.setDefaultValue(2.2);
+		pluginParameterDouble.setDefaultValue(1.987);
 		pluginParameterDouble.setDescription("Testing the double parameter");
 		pluginParameterDouble.setDisplayName("Double");
 		pluginParameterDouble.setInternalName("doub1");
@@ -91,7 +91,7 @@ public final class PluginConfiguration {
 		
 		
 		PluginParameterInteger pluginParameterInteger = new PluginParameterInteger();
-		pluginParameterInteger.setDefaultValue(22);
+		pluginParameterInteger.setDefaultValue(122);
 		pluginParameterInteger.setDescription("Thesting integer parameter");
 		pluginParameterInteger.setDisplayName("Integer");
 		pluginParameterInteger.setInternalName("inte1");
@@ -101,7 +101,7 @@ public final class PluginConfiguration {
 		
 		
 		PluginParameterString pluginParameterString = new PluginParameterString();
-		pluginParameterString.setDefaultValue("default");
+		pluginParameterString.setDefaultValue("defaultTextOfPlugin1");
 		pluginParameterString.setDescription("Testing string parameter");
 		pluginParameterString.setDisplayName("String");
 		pluginParameterString.setInternalName("str1");
