@@ -1,5 +1,6 @@
 package ee.ut.cs.rum.plugins.development.ui.input;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
@@ -17,6 +18,8 @@ public class ConfigurationItemSelection extends Combo implements ConfigurationIt
 
 	public ConfigurationItemSelection(Composite parent, PluginParameterSelection parameterSelection) {
 		super(parent, SWT.READ_ONLY);
+		
+		selectionItems = new ArrayList<PluginParameterSelectionItem>();
 
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		this.setToolTipText(parameterSelection.getDescription());
