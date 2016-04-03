@@ -44,6 +44,10 @@ public class PluginSelectionChangedListener implements ISelectionChangedListener
 			selectedPluginConfigurationUi.setContent(pluginConfigurationUi);
 			selectedPluginConfigurationUi.setSize(selectedPluginConfigurationUi.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 			selectedPluginConfigurationUi.getParent().setSize(selectedPluginConfigurationUi.getParent().computeSize(SWT.DEFAULT, SWT.DEFAULT));
-		}		
+			
+			newTaskDetails.getFooterButtonsComposite().getStartButton().setEnabled(false);
+		} else {
+			newTaskDetails.getFooterButtonsComposite().getStartButton().setEnabled(false);
+		}
 	}
 }
