@@ -3,6 +3,7 @@ package ee.ut.cs.rum.plugins.development.ui;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
@@ -13,6 +14,7 @@ import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterDou
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterFile;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterInteger;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterSelection;
+import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterSelectionItem;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterString;
 
 public class PluginConfigurationUi extends Composite {
@@ -68,7 +70,10 @@ public class PluginConfigurationUi extends Composite {
 				break; 
 			case SELECTION:
 				PluginParameterSelection parameterSelection = (PluginParameterSelection) pluginParameter;
-				Text selectionInput = new Text(this, SWT.BORDER);
+				Combo selectionInput = new Combo(this, SWT.READ_ONLY);
+				for (PluginParameterSelectionItem parameterSelectionItem : parameterSelection.getSelectionItems()) {
+					selectionInput.add(parameterSelectionItem.getDisplayName());
+				}
 				selectionInput.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 				selectionInput.setToolTipText(parameterSelection.getDescription());
 				break; 
