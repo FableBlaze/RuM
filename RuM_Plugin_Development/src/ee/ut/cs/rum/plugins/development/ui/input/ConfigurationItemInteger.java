@@ -20,14 +20,12 @@ public class ConfigurationItemInteger extends Text implements ConfigurationItemI
 
 	@Override
 	public void setValue(String value) {
-		// TODO Auto-generated method stub
-		
+		this.setText(value);
 	}
 
 	@Override
 	public String getValue() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getText();
 	}
 
 	@Override
