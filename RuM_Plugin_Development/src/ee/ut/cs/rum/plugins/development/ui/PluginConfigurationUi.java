@@ -38,7 +38,7 @@ public class PluginConfigurationUi extends Composite {
 	}
 
 	private void createContents(PluginInfo pluginInfo) {
-		configurationItems =  new  HashMap<String, ConfigurationItemInterface>();
+		configurationItems = new HashMap<String, ConfigurationItemInterface>();
 		
 		
 		Label label = new Label (this, SWT.NONE);
@@ -84,12 +84,19 @@ public class PluginConfigurationUi extends Composite {
 	}
 	
 	public Map<String, String> getConfigurationValues() {
-		return null;
+		Map<String, String> configurationValues = new HashMap<String, String>();
+		for (String key : configurationItems.keySet()) {
+			configurationValues.put(key, configurationItems.get(key).getValue());
+		}
+		
+		return configurationValues;
 		
 	}
 	
 	public void setConfigurationValues(Map<String, String> configurationValues) {
-		
+		for (String key : configurationValues.keySet()) {
+			configurationItems.get(key).setValue(configurationValues.get(key));
+		}
 	}
 	
 	@Override
