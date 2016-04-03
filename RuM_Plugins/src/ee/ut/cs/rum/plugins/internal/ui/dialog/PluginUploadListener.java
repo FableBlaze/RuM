@@ -9,9 +9,11 @@ import org.osgi.framework.BundleException;
 import org.osgi.framework.ServiceReference;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.plugins.description.PluginInfo;
+import ee.ut.cs.rum.plugins.description.deserializer.PluginInfoDeserializer;
 import ee.ut.cs.rum.plugins.interfaces.RumPluginFactory;
 import ee.ut.cs.rum.plugins.internal.Activator;
 
@@ -67,14 +69,18 @@ public class PluginUploadListener implements FileUploadListener {
 			temporaryPlugin.setBundleActivator(temporaryBundle.getHeaders().get("Bundle-Activator"));
 			temporaryPlugin.setBundleImportPackage(temporaryBundle.getHeaders().get("Import-Package"));
 			
-			Gson gson = new Gson();
+			GsonBuilder gsonBuilder = new GsonBuilder();
+			gsonBuilder.registerTypeAdapter(PluginInfo.class, new PluginInfoDeserializer());
+			Gson gson = gsonBuilder.create();
 			PluginInfo pluginInfo = gson.fromJson(pluginInfoJson, PluginInfo.class);
+			
+			Activator.getLogger().info("UploadListener" + gson.toJson(pluginInfo));
 			
 			temporaryPlugin.setPluginName(pluginInfo.getName());
 			temporaryPlugin.setPluginDescription(pluginInfo.getDescription());
 			temporaryPlugin.setPluginInfo(pluginInfoJson);
 			
-			temporaryPlugin.setOriginalFilename(temporaryFile.getName());
+			temporaryPlugin.setOriginalFilename(gson.toJson(pluginInfo));
 			pluginUploadDialog.setTemporaryPlugin(temporaryPlugin);
 			
 		} else {
