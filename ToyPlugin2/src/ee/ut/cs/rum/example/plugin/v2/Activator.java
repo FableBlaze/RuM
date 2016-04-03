@@ -5,8 +5,6 @@ import org.osgi.framework.BundleContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ee.ut.cs.rum.plugins.interfaces.RumPluginFactory;
-
 public class Activator implements BundleActivator {
 	private static BundleContext context;
 	private static Logger logger;
@@ -14,14 +12,11 @@ public class Activator implements BundleActivator {
 	public void start(BundleContext bundleContext) throws Exception {
 		Activator.context = bundleContext;
 		logger = LoggerFactory.getLogger("ee.ut.cs.rum.virgoConsole");
-		
-		logger.info("RuM_ToyPlugin1 started");
-		RumPluginFactory rumPluginFactory = new RumPluginFactoryImpl();
-		logger.info(rumPluginFactory.getPluginInfoJSON());
+		logger.info("RuM_ToyPlugin2 started");
 	}
 
 	public void stop(BundleContext bundleContext) throws Exception {
-		logger.info("RuM_ToyPlugin1 bundle stopped");
+		logger.info("RuM_ToyPlugin2 bundle stopped");
 		Activator.context = null;
 	}
 
