@@ -3,17 +3,18 @@ package ee.ut.cs.rum.workspaces.internal.ui.task.newtask.pluginstable;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleException;
 import org.osgi.framework.ServiceReference;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import ee.ut.cs.rum.database.domain.Plugin;
-import ee.ut.cs.rum.plugins.interfaces.RumPluginFactory;
+import ee.ut.cs.rum.plugins.development.description.PluginInfo;
+import ee.ut.cs.rum.plugins.development.description.deserializer.PluginInfoDeserializer;
+import ee.ut.cs.rum.plugins.development.interfaces.RumPluginFactory;
 import ee.ut.cs.rum.workspaces.internal.Activator;
 import ee.ut.cs.rum.workspaces.internal.ui.task.newtask.NewTaskDetails;
 
@@ -79,15 +80,17 @@ public class PluginSelectionChangedListener implements ISelectionChangedListener
 		if (selectedPluginBundle!=null && selectedPluginBundle.getRegisteredServices()!=null) {
 			for (ServiceReference<?> serviceReference : selectedPluginBundle.getRegisteredServices()) {
 				if (implementsRumPluginFactory(serviceReference)) {
-					Composite content = new Composite(selectedPluginConfigurationUi, SWT.NONE);
-					content.setLayout(new GridLayout());
-					
 					RumPluginFactory rumPluginFactory = (RumPluginFactory) selectedPluginBundle.getBundleContext().getService(serviceReference);
 					String pluginInfoJson = rumPluginFactory.getPluginInfoJSON();
-					Label configurationUI = new Label(content, SWT.NONE);
-					configurationUI.setText(pluginInfoJson);
-					content.setSize(content.computeSize(SWT.DEFAULT, SWT.DEFAULT));
-					selectedPluginConfigurationUi.setContent(content);
+					
+					GsonBuilder gsonBuilder = new GsonBuilder();
+					gsonBuilder.registerTypeAdapter(PluginInfo.class, new PluginInfoDeserializer());
+					Gson gson = gsonBuilder.create();
+					PluginInfo pluginInfo = gson.fromJson(pluginInfoJson, PluginInfo.class);
+					
+//					PluginConfigurationUi pluginConfigurationUi = new PluginConfigurationUi(selectedPluginConfigurationUi, pluginInfo);
+//					selectedPluginConfigurationUi.setContent(pluginConfigurationUi);
+//					pluginConfigurationUi.setSize(pluginConfigurationUi.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 					
 					//TODO: Update configuration on plugin change
 					//newTaskDialogShell.setRumPluginConfiguration(configurationUI);

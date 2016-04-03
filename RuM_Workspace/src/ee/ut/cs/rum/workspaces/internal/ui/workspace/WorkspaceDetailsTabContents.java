@@ -21,7 +21,7 @@ public class WorkspaceDetailsTabContents extends Composite {
 	private TasksTableViewer tasksTableViewer;
 
 	WorkspaceDetailsTabContents(WorkspaceTabFolder workspaceTabFolder, Composite workspaceContainer, Workspace workspace) {
-		super(workspaceTabFolder, SWT.BORDER);
+		super(workspaceTabFolder, SWT.NONE);
 
 		this.workspace=workspace;
 

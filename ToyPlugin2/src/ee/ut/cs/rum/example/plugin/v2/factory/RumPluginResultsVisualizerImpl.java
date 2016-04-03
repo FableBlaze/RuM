@@ -2,7 +2,7 @@ package ee.ut.cs.rum.example.plugin.v2.factory;
 
 import org.eclipse.swt.widgets.Composite;
 
-import ee.ut.cs.rum.plugins.interfaces.factory.RumPluginResultsVisualizer;
+import ee.ut.cs.rum.plugins.development.interfaces.factory.RumPluginResultsVisualizer;
 
 public class RumPluginResultsVisualizerImpl implements RumPluginResultsVisualizer {
 

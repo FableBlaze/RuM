@@ -1,8 +1,8 @@
-package ee.ut.cs.rum.plugins.description;
+package ee.ut.cs.rum.plugins.development.description;
 
 import java.util.Arrays;
 
-import ee.ut.cs.rum.plugins.description.parameter.PluginParameter;
+import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameter;
 
 public class PluginInfo {
 	

@@ -1,6 +1,6 @@
 package ee.ut.cs.rum.example.plugin.v2.factory;
 
-import ee.ut.cs.rum.plugins.interfaces.factory.RumPluginWorker;
+import ee.ut.cs.rum.plugins.development.interfaces.factory.RumPluginWorker;
 
 public class RumPluginWorkerImpl implements RumPluginWorker {
 

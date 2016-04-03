@@ -12,9 +12,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import ee.ut.cs.rum.database.domain.Plugin;
-import ee.ut.cs.rum.plugins.description.PluginInfo;
-import ee.ut.cs.rum.plugins.description.deserializer.PluginInfoDeserializer;
-import ee.ut.cs.rum.plugins.interfaces.RumPluginFactory;
+import ee.ut.cs.rum.plugins.development.description.PluginInfo;
+import ee.ut.cs.rum.plugins.development.description.deserializer.PluginInfoDeserializer;
+import ee.ut.cs.rum.plugins.development.interfaces.RumPluginFactory;
 import ee.ut.cs.rum.plugins.internal.Activator;
 
 public class PluginUploadListener implements FileUploadListener {

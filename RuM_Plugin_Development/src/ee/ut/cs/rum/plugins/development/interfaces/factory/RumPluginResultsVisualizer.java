@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.plugins.interfaces.factory;
+package ee.ut.cs.rum.plugins.development.interfaces.factory;
 
 import org.eclipse.swt.widgets.Composite;
 

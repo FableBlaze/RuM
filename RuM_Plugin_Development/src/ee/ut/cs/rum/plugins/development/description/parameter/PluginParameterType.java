@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.plugins.description.parameter;
+package ee.ut.cs.rum.plugins.development.description.parameter;
 
 public enum PluginParameterType {
 	STRING,
