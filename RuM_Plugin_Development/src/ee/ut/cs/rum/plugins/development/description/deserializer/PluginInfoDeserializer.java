@@ -64,10 +64,10 @@ public class PluginInfoDeserializer implements JsonDeserializer<PluginInfo> {
 			case SELECTION:
 				PluginParameterSelection pluginParameterSelection = new PluginParameterSelection();
 				pluginParameterSelection.setMultiSelection(pluginParameterJsonObject.get("multiSelection").getAsBoolean());
-				
+
 				JsonArray selectionItemsJsonArray = pluginParameterJsonObject.get("selectionItems").getAsJsonArray();
 				PluginParameterSelectionItem[] selectionItems = new PluginParameterSelectionItem[selectionItemsJsonArray.size()];
-				
+
 				for (int j = 0; j < selectionItems.length; j++) {
 					JsonObject selectionItemJsonObject = selectionItemsJsonArray.get(j).getAsJsonObject();
 					PluginParameterSelectionItem parameterSelectionItem = new PluginParameterSelectionItem();
