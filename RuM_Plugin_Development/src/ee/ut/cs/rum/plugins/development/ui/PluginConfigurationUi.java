@@ -6,7 +6,6 @@ import java.util.Map;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import ee.ut.cs.rum.plugins.development.description.PluginInfo;
@@ -15,7 +14,6 @@ import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterDou
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterFile;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterInteger;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterSelection;
-import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterSelectionItem;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterString;
 import ee.ut.cs.rum.plugins.development.ui.input.ConfigurationItemDouble;
 import ee.ut.cs.rum.plugins.development.ui.input.ConfigurationItemFile;
@@ -94,8 +92,11 @@ public class PluginConfigurationUi extends Composite {
 		
 	}
 	
+	@Override
 	public void setEnabled(boolean enabled) {
-		
+		for (ConfigurationItemInterface configurationItem : configurationItems.values()) {
+			configurationItem.setEnabled(enabled);
+		}
 	}
 	
 	

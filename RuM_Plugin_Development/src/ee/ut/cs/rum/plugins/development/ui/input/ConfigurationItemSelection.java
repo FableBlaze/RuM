@@ -35,9 +35,8 @@ public class ConfigurationItemSelection extends Combo implements ConfigurationIt
 	}
 
 	@Override
-	public void setEnabled() {
-		// TODO Auto-generated method stub
-		
+	public void setEnabled(boolean enabled) {
+		super.setEnabled(enabled);
 	}
 
 }

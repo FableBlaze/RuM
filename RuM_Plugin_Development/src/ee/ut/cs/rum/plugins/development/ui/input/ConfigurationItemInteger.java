@@ -31,9 +31,8 @@ public class ConfigurationItemInteger extends Text implements ConfigurationItemI
 	}
 
 	@Override
-	public void setEnabled() {
-		// TODO Auto-generated method stub
-		
+	public void setEnabled(boolean enabled) {
+		super.setEnabled(enabled);
 	}
 
 }
