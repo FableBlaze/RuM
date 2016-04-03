@@ -1,6 +1,6 @@
 {
-	"name": "ToyPluginV1",
-	"description": "This is the first toy plugin for RuM. This description is loaded form JSON.",
+	"name": "ToyPluginV2",
+	"description": "This is the second toy plugin for RuM. This description is loaded form JSON.",
 	"parameters": [{
 		"multiSelection": false,
 		"selectionItems": [{
