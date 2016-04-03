@@ -88,9 +88,7 @@ public class PluginConfigurationUi extends Composite {
 		for (String key : configurationItems.keySet()) {
 			configurationValues.put(key, configurationItems.get(key).getValue());
 		}
-		
 		return configurationValues;
-		
 	}
 	
 	public void setConfigurationValues(Map<String, String> configurationValues) {
@@ -105,6 +103,5 @@ public class PluginConfigurationUi extends Composite {
 			configurationItem.setEnabled(enabled);
 		}
 	}
-	
 	
 }

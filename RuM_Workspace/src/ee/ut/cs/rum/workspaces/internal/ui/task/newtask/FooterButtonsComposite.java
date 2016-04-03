@@ -1,6 +1,7 @@
 package ee.ut.cs.rum.workspaces.internal.ui.task.newtask;
 
 import java.util.Date;
+import java.util.Map;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
@@ -11,8 +12,11 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
+import com.google.gson.Gson;
+
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.database.domain.Task;
+import ee.ut.cs.rum.plugins.development.ui.PluginConfigurationUi;
 import ee.ut.cs.rum.workspaces.internal.util.TasksData;
 
 public class FooterButtonsComposite extends Composite {
@@ -39,11 +43,17 @@ public class FooterButtonsComposite extends Composite {
 				Task task = new Task();
 				IStructuredSelection selection = (IStructuredSelection) newTaskDetails.getPluginsTableComposite().getPluginsTableViewer().getSelection();
 				
+				PluginConfigurationUi pluginConfigurationUi = (PluginConfigurationUi)newTaskDetails.getSelectedPluginConfigurationUi().getContent();
+				Map<String, String> configurationValues = pluginConfigurationUi.getConfigurationValues();
+				Gson gson = new Gson();
+				String configurationValuesString = gson.toJson(configurationValues);
+				
 				Plugin selectedPlugin = (Plugin) selection.getFirstElement();
 				task.setName("TODO");
 				task.setStatus("TODO");
 				task.setPluginId(selectedPlugin.getId());
 				task.setDescription("TODO");
+				task.setConfigurationValues(configurationValuesString);
 				task.setCreatedBy("TODO");
 				task.setCreatedAt(new Date());
 				task.setWorkspaceId(newTaskDetails.getWorkspaceTabFolder().getWorkspace().getId());

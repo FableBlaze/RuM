@@ -26,6 +26,8 @@ public class Task {
 	private Long pluginId;
 	@Column(name = "description")
 	private String description;
+	@Column(name = "configuration_values", columnDefinition = "TEXT")
+	private String configurationValues;
 	@Column(name = "created_by")
 	private String createdBy;
 	@Column(name = "created_at")
@@ -58,6 +60,12 @@ public class Task {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	public String getConfigurationValues() {
+		return configurationValues;
+	}
+	public void setConfigurationValues(String configurationValues) {
+		this.configurationValues = configurationValues;
+	}
 	public String getCreatedBy() {
 		return createdBy;
 	}
@@ -82,7 +90,7 @@ public class Task {
 	@Override
 	public String toString() {
 		return "Task [id=" + id + ", name=" + name + ", status=" + status + ", pluginId=" + pluginId + ", description="
-				+ description + ", createdBy=" + createdBy + ", createdAt=" + createdAt + ", workspaceId=" + workspaceId
-				+ "]";
+				+ description + ", configurationValues=" + configurationValues + ", createdBy=" + createdBy + ", createdAt="
+				+ createdAt + ", workspaceId=" + workspaceId + "]";
 	}
 }
