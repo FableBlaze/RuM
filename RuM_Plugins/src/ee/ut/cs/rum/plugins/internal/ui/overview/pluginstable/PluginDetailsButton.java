@@ -42,7 +42,6 @@ public class PluginDetailsButton extends Button {
 							cTabItem = c;
 							pluginsManagementUI.setSelection(c);
 						}
-
 					}
 				}
 

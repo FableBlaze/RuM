@@ -6,22 +6,29 @@ import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.TableEditor;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 
 import ee.ut.cs.rum.database.domain.Task;
 import ee.ut.cs.rum.database.util.TaskAccess;
 import ee.ut.cs.rum.workspaces.internal.ui.workspace.WorkspaceDetailsTabContents;
+import ee.ut.cs.rum.workspaces.internal.ui.workspace.WorkspaceTabFolder;
 
 public class TasksTableViewer extends TableViewer {
 	private static final long serialVersionUID = -3241294193014510267L;
 
-	public TasksTableViewer(WorkspaceDetailsTabContents workspaceDetails) {
+	public TasksTableViewer(WorkspaceDetailsTabContents workspaceDetails, WorkspaceTabFolder workspaceTabFolder) {
 		super(workspaceDetails, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 		
-		createColumns(this);
+		createColumns(this, workspaceTabFolder);
 		
 		final Table table = this.getTable();
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -32,9 +39,9 @@ public class TasksTableViewer extends TableViewer {
 		this.setInput(TaskAccess.getWorkspaceTasksDataFromDb(workspaceDetails.getWorkspace().getId()));
 	}
 	
-	private static void createColumns(final TableViewer viewer) {
-		String[] titles = { "Name", "Status", "Plugin", "Description", "Created At"};
-		int[] bounds = { 200, 100, 200, 500, 100 };
+	private static void createColumns(final TableViewer viewer, WorkspaceTabFolder workspaceTabFolder) {
+		String[] titles = { "Name", "Status", "Plugin", "Description", "Created At", "Details"};
+		int[] bounds = { 200, 100, 200, 500, 100, 75 };
 		
 		TableViewerColumn nameColumn = createTableViewerColumn(titles[0], bounds[0], viewer);
 		nameColumn.setLabelProvider(new ColumnLabelProvider() {
@@ -88,6 +95,35 @@ public class TasksTableViewer extends TableViewer {
 			public String getText(Object element) {
 				Task task = (Task) element;
 				return new SimpleDateFormat("dd-MM-yyyy").format(task.getCreatedAt());
+			}
+		});
+		
+		TableViewerColumn detailsButtonColumn = createTableViewerColumn(titles[5], bounds[5], viewer);
+		detailsButtonColumn.setLabelProvider(new ColumnLabelProvider() {
+			private static final long serialVersionUID = 8214777456827687556L;
+			
+			@Override
+			public void update(ViewerCell cell) {
+				TableItem item = (TableItem) cell.getItem();
+				Task task = (Task)cell.getElement();
+				TaskDetailsButton taskDetailsButton = new TaskDetailsButton((Composite) cell.getViewerRow().getControl(), task.getId(), workspaceTabFolder);
+				
+				item.addDisposeListener(new DisposeListener() {
+					private static final long serialVersionUID = -927877657358384078L;
+
+					@Override
+					public void widgetDisposed(DisposeEvent arg0) {
+						//TODO: Check why dispose() keeps the button in the UI
+						taskDetailsButton.setVisible(false);
+						taskDetailsButton.dispose();
+					}
+				});
+				
+				TableEditor editor = new TableEditor(item.getParent());
+				editor.grabHorizontal  = true;
+				editor.grabVertical = true;
+				editor.setEditor(taskDetailsButton , item, cell.getColumnIndex());
+				editor.layout();
 			}
 		});
 		

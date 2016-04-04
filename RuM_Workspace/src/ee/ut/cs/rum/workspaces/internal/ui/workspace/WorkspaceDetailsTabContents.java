@@ -37,7 +37,7 @@ public class WorkspaceDetailsTabContents extends Composite {
 			l.setText(workspace.getDescription());
 		}
 
-		tasksTableViewer = new TasksTableViewer(this);
+		tasksTableViewer = new TasksTableViewer(this, workspaceTabFolder);
 
 		Button addTaskDialogueButton = new Button(this, SWT.PUSH);
 		addTaskDialogueButton.setText("Add task");
