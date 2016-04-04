@@ -15,10 +15,12 @@ import ee.ut.cs.rum.workspaces.ui.WorkspacesUI;
 public class WorkspacesOverview extends Composite {
 	private static final long serialVersionUID = -2991325315513334549L;
 	
+	private WorkspacesUI workspacesUI;
 	private WorkspacesTableViewer workspacesTableViewer;
 	
 	public WorkspacesOverview(WorkspacesUI workspacesUI) {
 		super(workspacesUI, SWT.NONE);
+		this.workspacesUI=workspacesUI;
 
 		this.setLayout(new GridLayout());
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -41,5 +43,9 @@ public class WorkspacesOverview extends Composite {
 	
 	public WorkspacesTableViewer getWorkspacesTableViewer() {
 		return workspacesTableViewer;
+	}
+	
+	public WorkspacesUI getWorkspacesUI() {
+		return workspacesUI;
 	}
 }

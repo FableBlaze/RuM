@@ -23,11 +23,12 @@ public class WorkspaceSelectorCombo extends Combo {
 	private List<Workspace> workspaces;
 	private List<Composite> workspaceDetails;
 	private WorkspacesUI workspacesUI;
+	private WorkspacesHeader workspacesHeader;
 
 	public WorkspaceSelectorCombo(WorkspacesHeader workspacesHeader, WorkspacesUI workspacesUI) {
 		super(workspacesHeader, SWT.READ_ONLY);
-
 		this.workspacesUI=workspacesUI;
+		this.workspacesHeader=workspacesHeader;
 
 		this.add("Overview");
 		this.setVisibleItemCount(10);
@@ -38,29 +39,11 @@ public class WorkspaceSelectorCombo extends Combo {
 			private static final long serialVersionUID = -5264275242878279673L;
 
 			public void widgetSelected( SelectionEvent event ) {
-				int selectedIndex = WorkspaceSelectorCombo.this.getSelectionIndex();
-				StackLayout workspaceContainerLayout = (StackLayout)workspacesUI.getWorkspaceContainer().getLayout();
-				Composite selectedWorkspaceDetails = workspaceDetails.get(selectedIndex);
-				
-				if (selectedWorkspaceDetails==null) {
-					selectedWorkspaceDetails = new WorkspaceTabFolder(workspacesUI.getWorkspaceContainer(), workspaces.get(selectedIndex));
-					workspaceDetails.add(selectedIndex, selectedWorkspaceDetails);
-				}
-				
-				workspaceContainerLayout.topControl=selectedWorkspaceDetails;
-				workspacesUI.getWorkspaceContainer().layout();
-				
-				if (workspaces.get(selectedIndex)!=null) {
-					workspacesHeader.setWorkspaceTitle(workspaces.get(selectedIndex).getName());
-					Activator.getLogger().info("Opened workspace: " + workspaces.get(selectedIndex).toString());
-				} else {
-					workspacesHeader.setWorkspaceTitle("Workspaces overview");
-					Activator.getLogger().info("Opened workspaces overview");
-				}
+				updateSelectedWorkspaceDetails();
 			}
 		});
 	}
-
+	
 	private void updateWorkspaceSelector() {
 		this.workspaces = new ArrayList<Workspace>();
 		this.workspaces.add(null);
@@ -74,6 +57,28 @@ public class WorkspaceSelectorCombo extends Combo {
 		}
 	}
 
+	public void updateSelectedWorkspaceDetails() {
+		int selectedIndex = WorkspaceSelectorCombo.this.getSelectionIndex();
+		StackLayout workspaceContainerLayout = (StackLayout)workspacesUI.getWorkspaceContainer().getLayout();
+		Composite selectedWorkspaceDetails = workspaceDetails.get(selectedIndex);
+		
+		if (selectedWorkspaceDetails==null) {
+			selectedWorkspaceDetails = new WorkspaceTabFolder(workspacesUI.getWorkspaceContainer(), workspaces.get(selectedIndex));
+			workspaceDetails.add(selectedIndex, selectedWorkspaceDetails);
+		}
+		
+		workspaceContainerLayout.topControl=selectedWorkspaceDetails;
+		workspacesUI.getWorkspaceContainer().layout();
+		
+		if (workspaces.get(selectedIndex)!=null) {
+			workspacesHeader.setWorkspaceTitle(workspaces.get(selectedIndex).getName());
+			Activator.getLogger().info("Opened workspace: " + workspaces.get(selectedIndex).toString());
+		} else {
+			workspacesHeader.setWorkspaceTitle("Workspaces overview");
+			Activator.getLogger().info("Opened workspaces overview");
+		}
+	}
+	
 	private void createWorkspaceDetailsList(int size) {
 		this.workspaceDetails = new ArrayList<Composite>();
 		workspaceDetails.add(workspacesUI.getWorkspacesOverview());
