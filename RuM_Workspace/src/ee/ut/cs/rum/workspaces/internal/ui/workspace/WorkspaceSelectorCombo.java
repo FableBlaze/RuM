@@ -92,7 +92,7 @@ public class WorkspaceSelectorCombo extends Combo {
 		this.workspaces.add(null);
 		this.workspaces.addAll(workspaces);
 		//TODO: Update indexes instead of creating a new list
-		createWorkspaceDetailsList(workspaces.size());
+		createWorkspaceDetailsList(this.workspaces.size());
 		if (this.getItemCount()>1) {
 			this.remove(1, this.getItemCount()-1);
 		}
