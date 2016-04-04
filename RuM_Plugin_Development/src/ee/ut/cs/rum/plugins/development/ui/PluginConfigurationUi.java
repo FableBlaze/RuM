@@ -86,14 +86,20 @@ public class PluginConfigurationUi extends Composite {
 	public Map<String, String> getConfigurationValues() {
 		Map<String, String> configurationValues = new HashMap<String, String>();
 		for (String key : configurationItems.keySet()) {
-			configurationValues.put(key, configurationItems.get(key).getValue());
+			if (configurationItems.get(key).getValue()!=null) {
+				configurationValues.put(key, configurationItems.get(key).getValue());
+			} else {
+				configurationValues.put(key, "");
+			}
 		}
 		return configurationValues;
 	}
 	
 	public void setConfigurationValues(Map<String, String> configurationValues) {
 		for (String key : configurationValues.keySet()) {
-			configurationItems.get(key).setValue(configurationValues.get(key));
+			if (!configurationItems.get(key).equals("")) {
+				configurationItems.get(key).setValue(configurationValues.get(key));	
+			}
 		}
 	}
 	
