@@ -5,10 +5,10 @@ import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 
 import ee.ut.cs.rum.database.domain.Workspace;
 import ee.ut.cs.rum.database.util.WorkspaceAccess;
@@ -35,10 +35,10 @@ public class WorkspaceSelectorCombo extends Combo {
 		this.select(0);
 		updateWorkspaceSelector();
 
-		this.addSelectionListener(new SelectionAdapter() {
-			private static final long serialVersionUID = -5264275242878279673L;
+		this.addListener(SWT.Selection, new Listener() {
+			private static final long serialVersionUID = -1752969541573951231L;
 
-			public void widgetSelected( SelectionEvent event ) {
+			public void handleEvent(Event e) {
 				updateSelectedWorkspaceDetails();
 			}
 		});
