@@ -4,10 +4,12 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 
+import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.database.domain.Task;
+import ee.ut.cs.rum.database.util.PluginAccess;
 import ee.ut.cs.rum.database.util.TaskAccess;
+import ee.ut.cs.rum.workspaces.internal.ui.task.newtask.SelectedPluginInfo;
 import ee.ut.cs.rum.workspaces.internal.ui.workspace.WorkspaceTabFolder;
 
 public class TaskDetails extends ScrolledComposite {
@@ -31,8 +33,9 @@ public class TaskDetails extends ScrolledComposite {
 	}
 
 	private void createContents(Task task) {
-		Label label = new Label(content, SWT.BORDER);
-		label.setText(task.getName()+ " " +task.getId());
+		SelectedPluginInfo selectedPluginInfo = new SelectedPluginInfo(content);
+		Plugin plugin = PluginAccess.getPluginDataFromDb(task.getPluginId());
+		selectedPluginInfo.updateSelectedPluginInfo(plugin);
 	}
 	
 	public Long getTaskId() {
