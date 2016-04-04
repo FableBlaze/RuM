@@ -30,6 +30,8 @@ public class TaskDetails extends ScrolledComposite {
 	public TaskDetails(WorkspaceTabFolder workspaceTabFolder, Long taskId) {
 		super(workspaceTabFolder, SWT.CLOSE | SWT.H_SCROLL | SWT.V_SCROLL);
 		
+		this.taskId=taskId;
+		
 		this.content = new Composite(this, SWT.NONE);
 		content.setLayout(new GridLayout(2, false));
 		this.setContent(content);
