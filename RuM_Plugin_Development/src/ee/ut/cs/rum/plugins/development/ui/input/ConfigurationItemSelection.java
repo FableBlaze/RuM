@@ -41,7 +41,10 @@ public class ConfigurationItemSelection extends Combo implements ConfigurationIt
 
 	@Override
 	public String getValue() {
-		return selectionItems.get(this.getSelectionIndex()).getInternalName();
+		if (this.getSelectionIndex()!=-1) {
+			return selectionItems.get(this.getSelectionIndex()).getInternalName();
+		}
+		return null;
 	}
 
 	@Override
