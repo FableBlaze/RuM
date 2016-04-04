@@ -59,6 +59,9 @@ public class FooterButtonsComposite extends Composite {
 				task.setWorkspaceId(newTaskDetails.getWorkspaceTabFolder().getWorkspace().getId());
 				TasksData.addTaskDataToDb(task, newTaskDetails);
 				
+				newTaskDetails.getWorkspaceTabFolder().getSelection().dispose();
+				newTaskDetails.getWorkspaceTabFolder().setSelection(0);
+				
 				//TODO: Close tab after task is added
 				//newTaskDetails.close();
 			}
