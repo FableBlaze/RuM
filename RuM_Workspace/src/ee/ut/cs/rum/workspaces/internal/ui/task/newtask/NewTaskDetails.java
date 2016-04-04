@@ -35,7 +35,7 @@ public class NewTaskDetails extends ScrolledComposite {
 
 	private void createContents() {
 		pluginsTableComposite = new PluginsTableComposite(content, this);
-		selectedPluginInfo = new SelectedPluginInfo(content, this);
+		selectedPluginInfo = new SelectedPluginInfo(content);
 		
 		selectedPluginConfigurationUi = new ScrolledComposite(content, SWT.H_SCROLL | SWT.V_SCROLL);
 		selectedPluginConfigurationUi.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));

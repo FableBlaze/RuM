@@ -25,7 +25,7 @@ public class SelectedPluginInfo extends Composite {
 	private Label descriptionLabel;
 	private Label descriptionValueLabel;
 
-	public SelectedPluginInfo(Composite content, NewTaskDetails newTaskDetails) {
+	public SelectedPluginInfo(Composite content) {
 		super(content, SWT.NONE);
 
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
