@@ -27,7 +27,7 @@ public final class TaskAccess {
 	public static List<Task> getWorkspaceTasksDataFromDb(Long workspaceId) {
 		EntityManagerFactory emf = Activator.getEmf();
 		EntityManager em = emf.createEntityManager();
-		Query query = em.createQuery("Select t from Task t where t.workspaceId = " + workspaceId + " order by t.id desc");
+		Query query = em.createQuery("Select t from Task t where t.workspaceId = " + workspaceId + " order by t.id");
 		@SuppressWarnings("unchecked")
 		List<Task> tasks = query.getResultList();
 		
