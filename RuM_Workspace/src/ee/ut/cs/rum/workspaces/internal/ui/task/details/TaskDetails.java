@@ -1,5 +1,8 @@
 package ee.ut.cs.rum.workspaces.internal.ui.task.details;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.layout.GridLayout;
@@ -38,6 +41,7 @@ public class TaskDetails extends ScrolledComposite {
 		content.setSize(content.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 	}
 
+	@SuppressWarnings("unchecked")
 	private void createContents(Task task) {
 		SelectedPluginInfo selectedPluginInfo = new SelectedPluginInfo(content);
 		Plugin plugin = PluginAccess.getPluginDataFromDb(task.getPluginId());
@@ -50,6 +54,10 @@ public class TaskDetails extends ScrolledComposite {
 		
 		PluginConfigurationUi pluginConfigurationUi = new PluginConfigurationUi(content, pluginInfo);
 		pluginConfigurationUi.setEnabled(false);
+		
+		Map<String,String> configurationValues = new HashMap<String,String>();
+		configurationValues = gson.fromJson(task.getConfigurationValues(), configurationValues.getClass());
+		pluginConfigurationUi.setConfigurationValues(configurationValues);
 	}
 	
 	public Long getTaskId() {
