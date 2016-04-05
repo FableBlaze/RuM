@@ -6,7 +6,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
-
 import ee.ut.cs.rum.database.domain.Plugin;
 
 public class SelectedPluginInfo extends ScrolledComposite {
@@ -14,7 +13,7 @@ public class SelectedPluginInfo extends ScrolledComposite {
 
 	private Label headerLabel;
 	private boolean contentsInitialized = false;
-	
+
 	private Composite content;
 
 	private Label symbolicNameLabel;
@@ -30,17 +29,17 @@ public class SelectedPluginInfo extends ScrolledComposite {
 
 	public SelectedPluginInfo(Composite parent) {
 		super(parent, SWT.H_SCROLL | SWT.V_SCROLL);
-		
+
 		this.content = new Composite(this, SWT.NONE);
 		content.setLayout(new GridLayout(2, false));
 		this.setContent(content);
-		this.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, true, true));
-		
+		this.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, true));
+
 		headerLabel = new Label(content, SWT.NONE);
 		headerLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		((GridData) headerLabel.getLayoutData()).horizontalSpan = ((GridLayout) content.getLayout()).numColumns;
 		headerLabel.setText("No plugin selected");
-		
+
 		content.setSize(content.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 	}
 
