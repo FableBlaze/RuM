@@ -10,14 +10,11 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.database.util.PluginAccess;
 import ee.ut.cs.rum.plugins.development.description.PluginInfo;
-import ee.ut.cs.rum.plugins.development.description.deserializer.PluginInfoDeserializer;
 import ee.ut.cs.rum.plugins.development.ui.PluginConfigurationUi;
+import ee.ut.cs.rum.plugins.internal.util.PluginUtils;
 import ee.ut.cs.rum.plugins.ui.PluginsManagementUI;
 
 public class PluginDetails extends ScrolledComposite {
@@ -106,10 +103,8 @@ public class PluginDetails extends ScrolledComposite {
 		label = new Label (content, SWT.NONE);
 		label.setText("Configuration UI:");
 		label.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));
-		GsonBuilder gsonBuilder = new GsonBuilder();
-		gsonBuilder.registerTypeAdapter(PluginInfo.class, new PluginInfoDeserializer());
-		Gson gson = gsonBuilder.create();
-		PluginInfo pluginInfo = gson.fromJson(plugin.getPluginInfo(), PluginInfo.class);
+		
+		PluginInfo pluginInfo = PluginUtils.deserializePluginInfo(plugin);
 		PluginConfigurationUi pluginConfigurationUi = new PluginConfigurationUi(content, pluginInfo);
 		pluginConfigurationUi.setEnabled(false);
 

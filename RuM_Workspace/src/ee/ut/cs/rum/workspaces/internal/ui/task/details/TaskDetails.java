@@ -9,17 +9,15 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.database.domain.Task;
 import ee.ut.cs.rum.database.util.PluginAccess;
 import ee.ut.cs.rum.database.util.TaskAccess;
 import ee.ut.cs.rum.plugins.development.description.PluginInfo;
-import ee.ut.cs.rum.plugins.development.description.deserializer.PluginInfoDeserializer;
 import ee.ut.cs.rum.plugins.development.ui.PluginConfigurationUi;
 import ee.ut.cs.rum.workspaces.internal.ui.task.newtask.SelectedPluginInfo;
 import ee.ut.cs.rum.workspaces.internal.ui.workspace.WorkspaceTabFolder;
+import ee.ut.cs.rum.workspaces.internal.util.PluginUtils;
 
 public class TaskDetails extends ScrolledComposite {
 	private static final long serialVersionUID = 5855252537558430818L;
@@ -49,14 +47,12 @@ public class TaskDetails extends ScrolledComposite {
 		Plugin plugin = PluginAccess.getPluginDataFromDb(task.getPluginId());
 		selectedPluginInfo.updateSelectedPluginInfo(plugin);
 		
-		GsonBuilder gsonBuilder = new GsonBuilder();
-		gsonBuilder.registerTypeAdapter(PluginInfo.class, new PluginInfoDeserializer());
-		Gson gson = gsonBuilder.create();
-		PluginInfo pluginInfo = gson.fromJson(plugin.getPluginInfo(), PluginInfo.class);
+		PluginInfo pluginInfo = PluginUtils.deserializePluginInfo(plugin);
 		
 		PluginConfigurationUi pluginConfigurationUi = new PluginConfigurationUi(content, pluginInfo);
 		pluginConfigurationUi.setEnabled(false);
 		
+		Gson gson = new Gson();
 		Map<String,String> configurationValues = new HashMap<String,String>();
 		configurationValues = gson.fromJson(task.getConfigurationValues(), configurationValues.getClass());
 		pluginConfigurationUi.setConfigurationValues(configurationValues);
