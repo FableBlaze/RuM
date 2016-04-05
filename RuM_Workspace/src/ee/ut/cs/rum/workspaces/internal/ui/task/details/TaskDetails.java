@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
@@ -19,37 +18,32 @@ import ee.ut.cs.rum.workspaces.internal.ui.task.newtask.SelectedPluginInfo;
 import ee.ut.cs.rum.workspaces.internal.ui.workspace.WorkspaceTabFolder;
 import ee.ut.cs.rum.workspaces.internal.util.PluginUtils;
 
-public class TaskDetails extends ScrolledComposite {
+public class TaskDetails extends Composite {
 	private static final long serialVersionUID = 5855252537558430818L;
 	
 	private Long taskId;
-	private Composite content;
-
+	
 	public TaskDetails(WorkspaceTabFolder workspaceTabFolder, Long taskId) {
-		super(workspaceTabFolder, SWT.CLOSE | SWT.H_SCROLL | SWT.V_SCROLL);
+		super(workspaceTabFolder, SWT.CLOSE);
 		
 		this.taskId=taskId;
 		
-		this.content = new Composite(this, SWT.NONE);
-		content.setLayout(new GridLayout(2, false));
-		this.setContent(content);
+		this.setLayout(new GridLayout(2, false));
 		
 		Task task = TaskAccess.getTaskDataFromDb(taskId);
 		
 		createContents(task);
-		
-		content.setSize(content.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 	}
 
 	@SuppressWarnings("unchecked")
 	private void createContents(Task task) {
-		SelectedPluginInfo selectedPluginInfo = new SelectedPluginInfo(content);
+		SelectedPluginInfo selectedPluginInfo = new SelectedPluginInfo(this);
 		Plugin plugin = PluginAccess.getPluginDataFromDb(task.getPluginId());
 		selectedPluginInfo.updateSelectedPluginInfo(plugin);
 		
 		PluginInfo pluginInfo = PluginUtils.deserializePluginInfo(plugin);
 		
-		PluginConfigurationUi pluginConfigurationUi = new PluginConfigurationUi(content, pluginInfo);
+		PluginConfigurationUi pluginConfigurationUi = new PluginConfigurationUi(this, pluginInfo);
 		pluginConfigurationUi.setEnabled(false);
 		
 		Gson gson = new Gson();

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -22,60 +23,64 @@ import ee.ut.cs.rum.plugins.development.ui.input.ConfigurationItemInterface;
 import ee.ut.cs.rum.plugins.development.ui.input.ConfigurationItemSelection;
 import ee.ut.cs.rum.plugins.development.ui.input.ConfigurationItemString;
 
-public class PluginConfigurationUi extends Composite {
+public class PluginConfigurationUi extends ScrolledComposite {
 	private static final long serialVersionUID = -5475837154117723386L;
 	
+	private Composite content;
 	private Map<String, ConfigurationItemInterface> configurationItems;
 	
 	public PluginConfigurationUi(Composite parent, PluginInfo pluginInfo) {
-		super(parent, SWT.CLOSE | SWT.H_SCROLL | SWT.V_SCROLL);
+		super(parent, SWT.H_SCROLL | SWT.V_SCROLL);
 		
-		this.setLayout(new GridLayout(2, false));
+		this.content = new Composite(this, SWT.NONE);
+		content.setLayout(new GridLayout(2, false));
+		this.setContent(content);
+		this.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, true, true));
 		
 		createContents(pluginInfo);
 		
-		this.setSize(this.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+		content.setSize(content.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 	}
 
 	private void createContents(PluginInfo pluginInfo) {
 		configurationItems = new HashMap<String, ConfigurationItemInterface>();
 		
 		
-		Label label = new Label (this, SWT.NONE);
+		Label label = new Label (content, SWT.NONE);
 		label.setText(pluginInfo.getName());
 		label.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		((GridData) label.getLayoutData()).horizontalSpan = ((GridLayout) this.getLayout()).numColumns;
+		((GridData) label.getLayoutData()).horizontalSpan = ((GridLayout) content.getLayout()).numColumns;
 
-		label = new Label (this, SWT.NONE);
+		label = new Label (content, SWT.NONE);
 		label.setText(pluginInfo.getDescription());
 		label.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		((GridData) label.getLayoutData()).horizontalSpan = ((GridLayout) this.getLayout()).numColumns;
+		((GridData) label.getLayoutData()).horizontalSpan = ((GridLayout) content.getLayout()).numColumns;
 		
 		for (PluginParameter pluginParameter : pluginInfo.getParameters()) {
 			
-			label = new Label (this, SWT.NONE);
+			label = new Label (content, SWT.NONE);
 			label.setText(pluginParameter.getDisplayName());
 			
 			switch (pluginParameter.getParameterType()) {
 			case STRING:
 				PluginParameterString parameterString = (PluginParameterString) pluginParameter;
-				configurationItems.put(parameterString.getInternalName(), new ConfigurationItemString(this, parameterString));
+				configurationItems.put(parameterString.getInternalName(), new ConfigurationItemString(content, parameterString));
 				break; 
 			case INTEGER:
 				PluginParameterInteger parameterInteger = (PluginParameterInteger) pluginParameter;
-				configurationItems.put(parameterInteger.getInternalName(), new ConfigurationItemInteger(this, parameterInteger));
+				configurationItems.put(parameterInteger.getInternalName(), new ConfigurationItemInteger(content, parameterInteger));
 				break; 
 			case DOUBLE:
 				PluginParameterDouble parameterDouble = (PluginParameterDouble) pluginParameter;
-				configurationItems.put(parameterDouble.getInternalName(), new ConfigurationItemDouble(this, parameterDouble));
+				configurationItems.put(parameterDouble.getInternalName(), new ConfigurationItemDouble(content, parameterDouble));
 				break; 
 			case SELECTION:
 				PluginParameterSelection parameterSelection = (PluginParameterSelection) pluginParameter;
-				configurationItems.put(parameterSelection.getInternalName(), new ConfigurationItemSelection(this, parameterSelection));
+				configurationItems.put(parameterSelection.getInternalName(), new ConfigurationItemSelection(content, parameterSelection));
 				break; 
 			case FILE:
 				PluginParameterFile parameterFile = (PluginParameterFile) pluginParameter;
-				configurationItems.put(parameterFile.getInternalName(), new ConfigurationItemFile(this, parameterFile));
+				configurationItems.put(parameterFile.getInternalName(), new ConfigurationItemFile(content, parameterFile));
 				break; 
 			default:
 				break;
