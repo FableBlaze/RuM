@@ -62,13 +62,17 @@ public class FooterButtonsComposite extends Composite {
 			}
 		});
 		
+		//TODO: Implement functionality
 		button = new Button(this, SWT.PUSH);
-		button.setText("Start and enter new");
+		button.setText("Start and add next");
 		button.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, true));
+		button.setEnabled(false); //Remove once implemented
 		
+		//TODO: Implement functionality
 		button = new Button(this, SWT.PUSH);
 		button.setText("Start and show details");
 		button.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, true));
+		button.setEnabled(false); //Remove once implemented
 		
 		this.setEnabled(false);
 	}
