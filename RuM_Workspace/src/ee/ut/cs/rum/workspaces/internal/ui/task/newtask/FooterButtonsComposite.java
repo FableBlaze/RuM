@@ -31,7 +31,7 @@ public class FooterButtonsComposite extends Composite {
 		Button button;
 		
 		button = new Button(this, SWT.PUSH);
-		button.setText("Start");
+		button.setText("Start and show tasks");
 		button.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, true, true));
 		
 		button.addSelectionListener(new SelectionAdapter() {
@@ -61,6 +61,14 @@ public class FooterButtonsComposite extends Composite {
 				newTaskDetails.getWorkspaceTabFolder().setSelection(0);
 			}
 		});
+		
+		button = new Button(this, SWT.PUSH);
+		button.setText("Start and enter new");
+		button.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, true));
+		
+		button = new Button(this, SWT.PUSH);
+		button.setText("Start and show details");
+		button.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, true));
 		
 		this.setEnabled(false);
 	}
