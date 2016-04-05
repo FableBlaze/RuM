@@ -22,25 +22,22 @@ import ee.ut.cs.rum.workspaces.internal.util.TasksData;
 public class FooterButtonsComposite extends Composite {
 	private static final long serialVersionUID = 688156596045927568L;
 	
-	private Button startButton;
-
 	public FooterButtonsComposite(Composite content, NewTaskDetails newTaskDetails) {
 		super(content, SWT.NONE);
 		
 		this.setLayoutData(new GridData(SWT.FILL, SWT.BOTTOM, true, false));
-		this.setLayout(new GridLayout(2, false));
+		this.setLayout(new GridLayout(3, false));
 		
-		startButton = new Button(this, SWT.PUSH);
-		startButton.setText("Start");
-		startButton.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, true, true));
-		startButton.setEnabled(false);
+		Button button;
 		
-		startButton.addSelectionListener(new SelectionAdapter() {
+		button = new Button(this, SWT.PUSH);
+		button.setText("Start");
+		button.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, true, true));
+		
+		button.addSelectionListener(new SelectionAdapter() {
 			private static final long serialVersionUID = 5694975289507094763L;
 
 			public void widgetSelected(SelectionEvent event) {
-				//Activator.getLogger().info(newTaskDialogShell.getRumPluginConfiguration().getConfiguration().toString());
-				Task task = new Task();
 				IStructuredSelection selection = (IStructuredSelection) newTaskDetails.getPluginsTableComposite().getPluginsTableViewer().getSelection();
 				
 				PluginConfigurationUi pluginConfigurationUi = (PluginConfigurationUi)newTaskDetails.getSelectedPluginConfigurationUi().getContent();
@@ -49,6 +46,7 @@ public class FooterButtonsComposite extends Composite {
 				String configurationValuesString = gson.toJson(configurationValues);
 				
 				Plugin selectedPlugin = (Plugin) selection.getFirstElement();
+				Task task = new Task();
 				task.setName("TODO");
 				task.setStatus("TODO");
 				task.setPluginId(selectedPlugin.getId());
@@ -61,14 +59,9 @@ public class FooterButtonsComposite extends Composite {
 				
 				newTaskDetails.getWorkspaceTabFolder().getSelection().dispose();
 				newTaskDetails.getWorkspaceTabFolder().setSelection(0);
-				
-				//TODO: Close tab after task is added
-				//newTaskDetails.close();
 			}
 		});
-	}
-	
-	public Button getStartButton() {
-		return startButton;
+		
+		this.setEnabled(false);
 	}
 }
