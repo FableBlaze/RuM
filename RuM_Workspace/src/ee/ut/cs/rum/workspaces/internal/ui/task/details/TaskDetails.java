@@ -23,21 +23,21 @@ import ee.ut.cs.rum.workspaces.internal.util.PluginUtils;
 
 public class TaskDetails extends Composite {
 	private static final long serialVersionUID = 5855252537558430818L;
-	
+
 	private Long taskId;
 	private SelectedPluginInfo selectedPluginInfo;
 	PluginConfigurationUi pluginConfigurationUi;
-	
+
 	public TaskDetails(WorkspaceTabFolder workspaceTabFolder, Long taskId) {
 		super(workspaceTabFolder, SWT.CLOSE);
-		
+
 		this.taskId=taskId;
 		this.setLayout(new GridLayout(2, false));
-		
+
 		Task task = TaskAccess.getTaskDataFromDb(taskId);
-		
+
 		createContents(task);
-		
+
 		//TODO: Should look into a better way of doing this (maybe a feature request for Eclipse RAP)
 		this.addListener(SWT.Resize, new Listener() {
 			private static final long serialVersionUID = -8815015925218184274L;
@@ -45,20 +45,20 @@ public class TaskDetails extends Composite {
 			public void handleEvent(Event e) {
 				int selectedPluginInfoSizeX = selectedPluginInfo.getContent().getSize().x;
 				int pluginConfigurationUiSizeX = pluginConfigurationUi.getContent().getSize().x;
-				
+
 				if (TaskDetails.this.getSize().x > selectedPluginInfoSizeX+pluginConfigurationUiSizeX) {
 					if (((GridData)selectedPluginInfo.getLayoutData()).grabExcessHorizontalSpace) {
-						selectedPluginInfo.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, true));						
+						((GridData)selectedPluginInfo.getLayoutData()).grabExcessHorizontalSpace=false;
 					}
 				} else {
 					if (!((GridData)selectedPluginInfo.getLayoutData()).grabExcessHorizontalSpace) {
-						selectedPluginInfo.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, true, true));						
+						((GridData)selectedPluginInfo.getLayoutData()).grabExcessHorizontalSpace=true;
 					}
 				}
 				TaskDetails.this.layout();
 			}
 		});
-		
+
 	}
 
 	@SuppressWarnings("unchecked")
@@ -66,18 +66,18 @@ public class TaskDetails extends Composite {
 		selectedPluginInfo = new SelectedPluginInfo(this);
 		Plugin plugin = PluginAccess.getPluginDataFromDb(task.getPluginId());
 		selectedPluginInfo.updateSelectedPluginInfo(plugin);
-		
+
 		PluginInfo pluginInfo = PluginUtils.deserializePluginInfo(plugin);
-		
+
 		pluginConfigurationUi = new PluginConfigurationUi(this, pluginInfo);
 		pluginConfigurationUi.setEnabled(false);
-		
+
 		Gson gson = new Gson();
 		Map<String,String> configurationValues = new HashMap<String,String>();
 		configurationValues = gson.fromJson(task.getConfigurationValues(), configurationValues.getClass());
 		pluginConfigurationUi.setConfigurationValues(configurationValues);
 	}
-	
+
 	public Long getTaskId() {
 		return taskId;
 	}
