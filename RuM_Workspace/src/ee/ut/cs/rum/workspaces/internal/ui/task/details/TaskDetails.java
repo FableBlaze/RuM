@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -44,17 +45,17 @@ public class TaskDetails extends Composite {
 
 			public void handleEvent(Event e) {
 				int selectedPluginInfoSizeX = selectedPluginInfo.getContent().getSize().x;
-//				int pluginConfigurationUiSizeX = pluginConfigurationUi.getContent().getSize().x;
-//
-//				if (TaskDetails.this.getSize().x > selectedPluginInfoSizeX+pluginConfigurationUiSizeX) {
-//					if (((GridData)selectedPluginInfo.getLayoutData()).grabExcessHorizontalSpace) {
-//						((GridData)selectedPluginInfo.getLayoutData()).grabExcessHorizontalSpace=false;
-//					}
-//				} else {
-//					if (!((GridData)selectedPluginInfo.getLayoutData()).grabExcessHorizontalSpace) {
-//						((GridData)selectedPluginInfo.getLayoutData()).grabExcessHorizontalSpace=true;
-//					}
-//				}
+				int pluginConfigurationUiSizeX = pluginConfigurationUi.getSize().x;
+
+				if (TaskDetails.this.getSize().x > selectedPluginInfoSizeX+pluginConfigurationUiSizeX) {
+					if (((GridData)selectedPluginInfo.getLayoutData()).grabExcessHorizontalSpace) {
+						((GridData)selectedPluginInfo.getLayoutData()).grabExcessHorizontalSpace=false;
+					}
+				} else {
+					if (!((GridData)selectedPluginInfo.getLayoutData()).grabExcessHorizontalSpace) {
+						((GridData)selectedPluginInfo.getLayoutData()).grabExcessHorizontalSpace=true;
+					}
+				}
 				TaskDetails.this.layout();
 			}
 		});
@@ -69,8 +70,12 @@ public class TaskDetails extends Composite {
 
 		PluginInfo pluginInfo = PluginUtils.deserializePluginInfo(plugin);
 
-		pluginConfigurationUi = new PluginConfigurationUi(this, pluginInfo);
+		ScrolledComposite selectedPluginConfigurationUi = new ScrolledComposite(this, SWT.H_SCROLL | SWT.V_SCROLL);
+		selectedPluginConfigurationUi.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		pluginConfigurationUi = new PluginConfigurationUi(selectedPluginConfigurationUi, pluginInfo);
 		pluginConfigurationUi.setEnabled(false);
+		selectedPluginConfigurationUi.setContent(pluginConfigurationUi);
+		pluginConfigurationUi.setSize(pluginConfigurationUi.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
 		Gson gson = new Gson();
 		Map<String,String> configurationValues = new HashMap<String,String>();
