@@ -67,6 +67,7 @@ public class TaskDetails extends Composite {
 		selectedPluginInfo = new SelectedPluginInfo(this);
 		Plugin plugin = PluginAccess.getPluginDataFromDb(task.getPluginId());
 		selectedPluginInfo.updateSelectedPluginInfo(plugin);
+		selectedPluginInfo.getContent().setSize(selectedPluginInfo.getContent().computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
 		PluginInfo pluginInfo = PluginUtils.deserializePluginInfo(plugin);
 

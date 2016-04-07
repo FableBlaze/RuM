@@ -39,8 +39,6 @@ public class SelectedPluginInfo extends ScrolledComposite {
 		headerLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		((GridData) headerLabel.getLayoutData()).horizontalSpan = ((GridLayout) content.getLayout()).numColumns;
 		headerLabel.setText("No plugin selected");
-
-		content.setSize(content.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 	}
 
 	public void updateSelectedPluginInfo(Plugin plugin) {
@@ -56,7 +54,6 @@ public class SelectedPluginInfo extends ScrolledComposite {
 			contentsInitialized=false;
 			headerLabel.setText("No plugin selected");
 		}
-		content.setSize(content.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 	}
 
 	private void createContents() {

@@ -10,6 +10,7 @@ import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.plugins.development.description.PluginInfo;
 import ee.ut.cs.rum.plugins.development.ui.PluginConfigurationUi;
 import ee.ut.cs.rum.workspaces.internal.ui.task.newtask.NewTaskDetails;
+import ee.ut.cs.rum.workspaces.internal.ui.task.newtask.SelectedPluginInfo;
 import ee.ut.cs.rum.workspaces.internal.util.PluginUtils;
 
 public class PluginSelectionChangedListener implements ISelectionChangedListener {
@@ -25,7 +26,10 @@ public class PluginSelectionChangedListener implements ISelectionChangedListener
 		Plugin selectedPlugin = (Plugin) selection.getFirstElement();
 
 		if (selectedPlugin!=null) {
-			newTaskDetails.getSelectedPluginInfo().updateSelectedPluginInfo(selectedPlugin);
+			SelectedPluginInfo selectedPluginInfo = newTaskDetails.getSelectedPluginInfo();
+			selectedPluginInfo.updateSelectedPluginInfo(selectedPlugin);
+			selectedPluginInfo.getContent().setSize(selectedPluginInfo.getContent().computeSize(SWT.DEFAULT, SWT.DEFAULT));
+			
 			ScrolledComposite selectedPluginConfigurationUi = newTaskDetails.getSelectedPluginConfigurationUi();
 
 			if (selectedPluginConfigurationUi.getContent()!=null && !selectedPluginConfigurationUi.getContent().isDisposed()) {
@@ -37,6 +41,8 @@ public class PluginSelectionChangedListener implements ISelectionChangedListener
 			PluginConfigurationUi pluginConfigurationUi = new PluginConfigurationUi(selectedPluginConfigurationUi, pluginInfo);
 			selectedPluginConfigurationUi.setContent(pluginConfigurationUi);
 			pluginConfigurationUi.setSize(pluginConfigurationUi.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+			
+			newTaskDetails.layout();
 			
 			newTaskDetails.getFooterButtonsComposite().setEnabled(true);
 		} else {
