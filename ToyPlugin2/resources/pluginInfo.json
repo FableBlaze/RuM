@@ -27,7 +27,7 @@
 	},
 	{
 		"multiSelection": true,
-		"defaultValue": "23",
+		"defaultValue": "21",
 		"selectionItems": [{
 			"internalName": "21",
 			"displayName": "First",

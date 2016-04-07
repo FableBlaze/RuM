@@ -8,6 +8,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import ee.ut.cs.rum.database.domain.Plugin;
 
+//TODO: Change to Composite
 public class SelectedPluginInfo extends ScrolledComposite {
 	private static final long serialVersionUID = 2323888161640392669L;
 
