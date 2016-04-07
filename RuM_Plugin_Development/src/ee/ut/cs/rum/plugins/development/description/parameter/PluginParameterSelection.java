@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 public class PluginParameterSelection extends PluginParameter {
 	private boolean multiSelection;
+	private String defaultValue;
 	private PluginParameterSelectionItem[] selectionItems;
 	
 	public PluginParameterSelection() {
@@ -19,6 +20,14 @@ public class PluginParameterSelection extends PluginParameter {
 		this.multiSelection = multiSelection;
 	}
 
+	public String getDefaultValue() {
+		return defaultValue;
+	}
+
+	public void setDefaultValue(String defaultValue) {
+		this.defaultValue = defaultValue;
+	}
+
 	public PluginParameterSelectionItem[] getSelectionItems() {
 		return selectionItems;
 	}
@@ -29,7 +38,7 @@ public class PluginParameterSelection extends PluginParameter {
 
 	@Override
 	public String toString() {
-		return "PluginParameterSelection [multiSelection=" + multiSelection + ", selectionItems="
-				+ Arrays.toString(selectionItems) + "]";
+		return "PluginParameterSelection [multiSelection=" + multiSelection + ", defaultValue=" + defaultValue
+				+ ", selectionItems=" + Arrays.toString(selectionItems) + "]";
 	}
 }

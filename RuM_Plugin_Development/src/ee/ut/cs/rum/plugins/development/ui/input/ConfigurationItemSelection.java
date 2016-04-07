@@ -27,6 +27,9 @@ public class ConfigurationItemSelection extends Combo implements ConfigurationIt
 		for (PluginParameterSelectionItem parameterSelectionItem : parameterSelection.getSelectionItems()) {
 			this.add(parameterSelectionItem.getDisplayName());
 			selectionItems.add(parameterSelectionItem);
+			if (parameterSelectionItem.getInternalName().equals(parameterSelection.getDefaultValue())) {
+				this.select(selectionItems.size()-1);
+			}
 		}
 	}
 
