@@ -44,17 +44,17 @@ public class TaskDetails extends Composite {
 
 			public void handleEvent(Event e) {
 				int selectedPluginInfoSizeX = selectedPluginInfo.getContent().getSize().x;
-				int pluginConfigurationUiSizeX = pluginConfigurationUi.getContent().getSize().x;
-
-				if (TaskDetails.this.getSize().x > selectedPluginInfoSizeX+pluginConfigurationUiSizeX) {
-					if (((GridData)selectedPluginInfo.getLayoutData()).grabExcessHorizontalSpace) {
-						((GridData)selectedPluginInfo.getLayoutData()).grabExcessHorizontalSpace=false;
-					}
-				} else {
-					if (!((GridData)selectedPluginInfo.getLayoutData()).grabExcessHorizontalSpace) {
-						((GridData)selectedPluginInfo.getLayoutData()).grabExcessHorizontalSpace=true;
-					}
-				}
+//				int pluginConfigurationUiSizeX = pluginConfigurationUi.getContent().getSize().x;
+//
+//				if (TaskDetails.this.getSize().x > selectedPluginInfoSizeX+pluginConfigurationUiSizeX) {
+//					if (((GridData)selectedPluginInfo.getLayoutData()).grabExcessHorizontalSpace) {
+//						((GridData)selectedPluginInfo.getLayoutData()).grabExcessHorizontalSpace=false;
+//					}
+//				} else {
+//					if (!((GridData)selectedPluginInfo.getLayoutData()).grabExcessHorizontalSpace) {
+//						((GridData)selectedPluginInfo.getLayoutData()).grabExcessHorizontalSpace=true;
+//					}
+//				}
 				TaskDetails.this.layout();
 			}
 		});

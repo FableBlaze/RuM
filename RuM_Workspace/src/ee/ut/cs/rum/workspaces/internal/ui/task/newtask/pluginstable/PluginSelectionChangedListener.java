@@ -5,6 +5,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
+
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.plugins.development.description.PluginInfo;
 import ee.ut.cs.rum.plugins.development.ui.PluginConfigurationUi;
@@ -25,7 +26,6 @@ public class PluginSelectionChangedListener implements ISelectionChangedListener
 
 		if (selectedPlugin!=null) {
 			newTaskDetails.getSelectedPluginInfo().updateSelectedPluginInfo(selectedPlugin);
-
 			ScrolledComposite selectedPluginConfigurationUi = newTaskDetails.getSelectedPluginConfigurationUi();
 
 			if (selectedPluginConfigurationUi.getContent()!=null && !selectedPluginConfigurationUi.getContent().isDisposed()) {
@@ -33,10 +33,10 @@ public class PluginSelectionChangedListener implements ISelectionChangedListener
 			}
 
 			PluginInfo pluginInfo = PluginUtils.deserializePluginInfo(selectedPlugin);
-
+			
 			PluginConfigurationUi pluginConfigurationUi = new PluginConfigurationUi(selectedPluginConfigurationUi, pluginInfo);
 			selectedPluginConfigurationUi.setContent(pluginConfigurationUi);
-			selectedPluginConfigurationUi.setSize(selectedPluginConfigurationUi.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+			pluginConfigurationUi.setSize(pluginConfigurationUi.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 			
 			newTaskDetails.getFooterButtonsComposite().setEnabled(true);
 		} else {
