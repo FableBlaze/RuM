@@ -44,7 +44,7 @@ public class NewTaskDetails extends Composite {
 		selectedPluginConfigurationUi.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		
 		//footerButtonsComposite = new FooterButtonsComposite(content, this);
-		footerButtonsComposite = new FooterButtonsComposite(this, this);
+		footerButtonsComposite = new FooterButtonsComposite(this);
 		//((GridData) footerButtonsComposite.getLayoutData()).horizontalSpan=((GridLayout) content.getLayout()).numColumns;
 		((GridData) footerButtonsComposite.getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
 	}

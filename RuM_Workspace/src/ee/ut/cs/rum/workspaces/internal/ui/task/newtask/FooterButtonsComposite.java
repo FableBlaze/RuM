@@ -22,8 +22,8 @@ import ee.ut.cs.rum.workspaces.internal.util.TasksData;
 public class FooterButtonsComposite extends Composite {
 	private static final long serialVersionUID = 688156596045927568L;
 	
-	public FooterButtonsComposite(Composite content, NewTaskDetails newTaskDetails) {
-		super(content, SWT.NONE);
+	public FooterButtonsComposite(NewTaskDetails newTaskDetails) {
+		super(newTaskDetails, SWT.NONE);
 		
 		this.setLayoutData(new GridData(SWT.FILL, SWT.BOTTOM, true, false));
 		this.setLayout(new GridLayout(3, false));
