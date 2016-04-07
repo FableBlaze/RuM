@@ -18,8 +18,8 @@ public class PluginsTableComposite extends Composite {
 	private PluginsTableViewer pluginsTableViewer;
 	private ViewerFilter pluginsTableFilter;
 
-	public PluginsTableComposite(Composite content, NewTaskDetails newTaskDetails) {
-		super(content, SWT.NONE);
+	public PluginsTableComposite(NewTaskDetails newTaskDetails) {
+		super(newTaskDetails, SWT.NONE);
 
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
 		this.setLayout(new GridLayout(2, false));

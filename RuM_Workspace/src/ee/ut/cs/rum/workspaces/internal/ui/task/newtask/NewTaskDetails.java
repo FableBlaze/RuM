@@ -36,7 +36,7 @@ public class NewTaskDetails extends Composite {
 
 	private void createContents() {
 		//pluginsTableComposite = new PluginsTableComposite(content, this);
-		pluginsTableComposite = new PluginsTableComposite(this, this);
+		pluginsTableComposite = new PluginsTableComposite(this);
 		selectedPluginInfo = new SelectedPluginInfo(this);
 		
 		//selectedPluginConfigurationUi = new ScrolledComposite(content, SWT.H_SCROLL | SWT.V_SCROLL);
