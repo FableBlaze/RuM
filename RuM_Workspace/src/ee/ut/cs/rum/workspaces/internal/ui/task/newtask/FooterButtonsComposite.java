@@ -22,8 +22,12 @@ import ee.ut.cs.rum.workspaces.internal.util.TasksData;
 public class FooterButtonsComposite extends Composite {
 	private static final long serialVersionUID = 688156596045927568L;
 	
+	private NewTaskDetails newTaskDetails;
+	
 	public FooterButtonsComposite(NewTaskDetails newTaskDetails) {
 		super(newTaskDetails, SWT.NONE);
+		
+		this.newTaskDetails=newTaskDetails;
 		
 		this.setLayoutData(new GridData(SWT.FILL, SWT.BOTTOM, true, false));
 		this.setLayout(new GridLayout(3, false));
@@ -38,24 +42,7 @@ public class FooterButtonsComposite extends Composite {
 			private static final long serialVersionUID = 5694975289507094763L;
 
 			public void widgetSelected(SelectionEvent event) {
-				IStructuredSelection selection = (IStructuredSelection) newTaskDetails.getPluginsTableComposite().getPluginsTableViewer().getSelection();
-				
-				PluginConfigurationUi pluginConfigurationUi = (PluginConfigurationUi)newTaskDetails.getSelectedPluginConfigurationUi().getContent();
-				Map<String, String> configurationValues = pluginConfigurationUi.getConfigurationValues();
-				Gson gson = new Gson();
-				String configurationValuesString = gson.toJson(configurationValues);
-				
-				Plugin selectedPlugin = (Plugin) selection.getFirstElement();
-				Task task = new Task();
-				task.setName("TODO");
-				task.setStatus("TODO");
-				task.setPluginId(selectedPlugin.getId());
-				task.setDescription("TODO");
-				task.setConfigurationValues(configurationValuesString);
-				task.setCreatedBy("TODO");
-				task.setCreatedAt(new Date());
-				task.setWorkspaceId(newTaskDetails.getWorkspaceTabFolder().getWorkspace().getId());
-				TasksData.addTaskDataToDb(task, newTaskDetails);
+				createNewTask();
 				
 				newTaskDetails.getWorkspaceTabFolder().getSelection().dispose();
 				newTaskDetails.getWorkspaceTabFolder().setSelection(0);
@@ -75,5 +62,26 @@ public class FooterButtonsComposite extends Composite {
 		button.setEnabled(false); //Remove once implemented
 		
 		this.setEnabled(false);
+	}
+	
+	private void createNewTask(){
+		IStructuredSelection selection = (IStructuredSelection) newTaskDetails.getPluginsTableComposite().getPluginsTableViewer().getSelection();
+		
+		PluginConfigurationUi pluginConfigurationUi = (PluginConfigurationUi)newTaskDetails.getSelectedPluginConfigurationUi().getContent();
+		Map<String, String> configurationValues = pluginConfigurationUi.getConfigurationValues();
+		Gson gson = new Gson();
+		String configurationValuesString = gson.toJson(configurationValues);
+		
+		Plugin selectedPlugin = (Plugin) selection.getFirstElement();
+		Task task = new Task();
+		task.setName("TODO");
+		task.setStatus("TODO");
+		task.setPluginId(selectedPlugin.getId());
+		task.setDescription("TODO");
+		task.setConfigurationValues(configurationValuesString);
+		task.setCreatedBy("TODO");
+		task.setCreatedAt(new Date());
+		task.setWorkspaceId(newTaskDetails.getWorkspaceTabFolder().getWorkspace().getId());
+		TasksData.addTaskDataToDb(task, newTaskDetails);
 	}
 }
