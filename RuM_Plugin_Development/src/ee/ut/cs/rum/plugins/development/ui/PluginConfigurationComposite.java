@@ -22,12 +22,12 @@ import ee.ut.cs.rum.plugins.development.ui.input.ConfigurationItemInterface;
 import ee.ut.cs.rum.plugins.development.ui.input.ConfigurationItemSelection;
 import ee.ut.cs.rum.plugins.development.ui.input.ConfigurationItemString;
 
-public class PluginConfigurationUi extends Composite {
+public class PluginConfigurationComposite extends Composite {
 	private static final long serialVersionUID = -5475837154117723386L;
 	
 	private Map<String, ConfigurationItemInterface> configurationItems;
 	
-	public PluginConfigurationUi(Composite parent, PluginInfo pluginInfo) {
+	public PluginConfigurationComposite(Composite parent, PluginInfo pluginInfo) {
 		super(parent, SWT.NONE);
 		this.setLayout(new GridLayout(2, false));
 		

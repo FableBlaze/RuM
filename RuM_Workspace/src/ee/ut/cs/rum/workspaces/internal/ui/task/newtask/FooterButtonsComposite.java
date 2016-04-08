@@ -16,7 +16,7 @@ import com.google.gson.Gson;
 
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.database.domain.Task;
-import ee.ut.cs.rum.plugins.development.ui.PluginConfigurationUi;
+import ee.ut.cs.rum.plugins.development.ui.PluginConfigurationComposite;
 import ee.ut.cs.rum.workspaces.internal.ui.task.details.TaskDetails;
 import ee.ut.cs.rum.workspaces.internal.util.TasksData;
 
@@ -84,7 +84,7 @@ public class FooterButtonsComposite extends Composite {
 	private Task createNewTask(){
 		IStructuredSelection selection = (IStructuredSelection) newTaskDetails.getPluginsTableComposite().getPluginsTableViewer().getSelection();
 
-		PluginConfigurationUi pluginConfigurationUi = (PluginConfigurationUi)newTaskDetails.getSelectedPluginConfigurationUi().getContent();
+		PluginConfigurationComposite pluginConfigurationUi = (PluginConfigurationComposite)newTaskDetails.getScrolledPluginConfigurationComposite().getContent();
 		Map<String, String> configurationValues = pluginConfigurationUi.getConfigurationValues();
 		Gson gson = new Gson();
 		String configurationValuesString = gson.toJson(configurationValues);

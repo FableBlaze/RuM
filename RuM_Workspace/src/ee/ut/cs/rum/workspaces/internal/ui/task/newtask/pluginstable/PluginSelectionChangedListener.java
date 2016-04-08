@@ -8,8 +8,8 @@ import org.eclipse.swt.custom.ScrolledComposite;
 
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.plugins.development.description.PluginInfo;
-import ee.ut.cs.rum.plugins.development.ui.PluginConfigurationUi;
-import ee.ut.cs.rum.workspaces.internal.ui.task.SelectedPluginInfo;
+import ee.ut.cs.rum.plugins.development.ui.PluginConfigurationComposite;
+import ee.ut.cs.rum.workspaces.internal.ui.task.PluginInfoComposite;
 import ee.ut.cs.rum.workspaces.internal.ui.task.newtask.NewTaskDetails;
 import ee.ut.cs.rum.workspaces.internal.util.PluginUtils;
 
@@ -30,21 +30,21 @@ public class PluginSelectionChangedListener implements ISelectionChangedListener
 		}
 
 		if (selectedPlugin!=null) {
-			SelectedPluginInfo selectedPluginInfo = newTaskDetails.getSelectedPluginInfo();
+			PluginInfoComposite selectedPluginInfo = newTaskDetails.getPluginInfoComposite();
 			selectedPluginInfo.updateSelectedPluginInfo(selectedPlugin);
 			selectedPluginInfo.getContent().setSize(selectedPluginInfo.getContent().computeSize(SWT.DEFAULT, SWT.DEFAULT));
 			
-			ScrolledComposite selectedPluginConfigurationUi = newTaskDetails.getSelectedPluginConfigurationUi();
+			ScrolledComposite scrolledPluginConfigurationComposite = newTaskDetails.getScrolledPluginConfigurationComposite();
 
-			if (selectedPluginConfigurationUi.getContent()!=null && !selectedPluginConfigurationUi.getContent().isDisposed()) {
-				selectedPluginConfigurationUi.getContent().dispose();
+			if (scrolledPluginConfigurationComposite.getContent()!=null && !scrolledPluginConfigurationComposite.getContent().isDisposed()) {
+				scrolledPluginConfigurationComposite.getContent().dispose();
 			}
 
 			PluginInfo pluginInfo = PluginUtils.deserializePluginInfo(selectedPlugin);
 			
-			PluginConfigurationUi pluginConfigurationUi = new PluginConfigurationUi(selectedPluginConfigurationUi, pluginInfo);
-			selectedPluginConfigurationUi.setContent(pluginConfigurationUi);
-			pluginConfigurationUi.setSize(pluginConfigurationUi.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+			PluginConfigurationComposite pluginConfigurationComposite = new PluginConfigurationComposite(scrolledPluginConfigurationComposite, pluginInfo);
+			scrolledPluginConfigurationComposite.setContent(pluginConfigurationComposite);
+			pluginConfigurationComposite.setSize(pluginConfigurationComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 			
 			newTaskDetails.layout();
 			

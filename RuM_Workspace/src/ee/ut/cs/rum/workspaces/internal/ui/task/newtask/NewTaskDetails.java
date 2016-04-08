@@ -8,7 +8,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
-import ee.ut.cs.rum.workspaces.internal.ui.task.SelectedPluginInfo;
+import ee.ut.cs.rum.workspaces.internal.ui.task.PluginInfoComposite;
 import ee.ut.cs.rum.workspaces.internal.ui.task.newtask.pluginstable.PluginsTableComposite;
 import ee.ut.cs.rum.workspaces.internal.ui.workspace.WorkspaceTabFolder;
 
@@ -17,8 +17,8 @@ public class NewTaskDetails extends Composite {
 
 	//private Composite content;
 	private WorkspaceTabFolder workspaceTabFolder;
-	private SelectedPluginInfo selectedPluginInfo;
-	private ScrolledComposite selectedPluginConfigurationUi;
+	private PluginInfoComposite pluginInfoComposite;
+	private ScrolledComposite scrolledPluginConfigurationComposite;
 	private FooterButtonsComposite footerButtonsComposite;
 	private PluginsTableComposite pluginsTableComposite;
 
@@ -37,16 +37,16 @@ public class NewTaskDetails extends Composite {
 			public void handleEvent(Event e) {
 				if (!pluginsTableComposite.getPluginsTableViewer().getSelection().isEmpty()) {
 					int pluginsTableCompositeSizeX = pluginsTableComposite.getSize().x;
-					int selectedPluginInfoSizeX = selectedPluginInfo.getContent().getSize().x;
-					int pluginConfigurationUiSizeX = selectedPluginConfigurationUi.getContent().getSize().x;
+					int selectedPluginInfoSizeX = pluginInfoComposite.getContent().getSize().x;
+					int pluginConfigurationUiSizeX = scrolledPluginConfigurationComposite.getContent().getSize().x;
 
 					if (NewTaskDetails.this.getSize().x > pluginsTableCompositeSizeX+selectedPluginInfoSizeX+pluginConfigurationUiSizeX) {
-						if (((GridData)selectedPluginInfo.getLayoutData()).grabExcessHorizontalSpace) {
-							((GridData)selectedPluginInfo.getLayoutData()).grabExcessHorizontalSpace=false;
+						if (((GridData)pluginInfoComposite.getLayoutData()).grabExcessHorizontalSpace) {
+							((GridData)pluginInfoComposite.getLayoutData()).grabExcessHorizontalSpace=false;
 						}
 					} else {
-						if (!((GridData)selectedPluginInfo.getLayoutData()).grabExcessHorizontalSpace) {
-							((GridData)selectedPluginInfo.getLayoutData()).grabExcessHorizontalSpace=true;
+						if (!((GridData)pluginInfoComposite.getLayoutData()).grabExcessHorizontalSpace) {
+							((GridData)pluginInfoComposite.getLayoutData()).grabExcessHorizontalSpace=true;
 						}
 					}
 					NewTaskDetails.this.layout();
@@ -57,21 +57,21 @@ public class NewTaskDetails extends Composite {
 
 	private void createContents() {
 		pluginsTableComposite = new PluginsTableComposite(this);
-		selectedPluginInfo = new SelectedPluginInfo(this);
+		pluginInfoComposite = new PluginInfoComposite(this);
 
-		selectedPluginConfigurationUi = new ScrolledComposite(this, SWT.H_SCROLL | SWT.V_SCROLL);
-		selectedPluginConfigurationUi.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		scrolledPluginConfigurationComposite = new ScrolledComposite(this, SWT.H_SCROLL | SWT.V_SCROLL);
+		scrolledPluginConfigurationComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
 		footerButtonsComposite = new FooterButtonsComposite(this);
 		((GridData) footerButtonsComposite.getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
 	}
 
-	public SelectedPluginInfo getSelectedPluginInfo() {
-		return selectedPluginInfo;
+	public PluginInfoComposite getPluginInfoComposite() {
+		return pluginInfoComposite;
 	}
 
-	public ScrolledComposite getSelectedPluginConfigurationUi() {
-		return selectedPluginConfigurationUi;
+	public ScrolledComposite getScrolledPluginConfigurationComposite() {
+		return scrolledPluginConfigurationComposite;
 	}
 
 	public FooterButtonsComposite getFooterButtonsComposite() {

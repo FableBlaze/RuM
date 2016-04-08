@@ -13,7 +13,7 @@ import org.eclipse.swt.widgets.Label;
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.database.util.PluginAccess;
 import ee.ut.cs.rum.plugins.development.description.PluginInfo;
-import ee.ut.cs.rum.plugins.development.ui.PluginConfigurationUi;
+import ee.ut.cs.rum.plugins.development.ui.PluginConfigurationComposite;
 import ee.ut.cs.rum.plugins.internal.util.PluginUtils;
 import ee.ut.cs.rum.plugins.ui.PluginsManagementUI;
 
@@ -105,8 +105,8 @@ public class PluginDetails extends ScrolledComposite {
 		label.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));
 		
 		PluginInfo pluginInfo = PluginUtils.deserializePluginInfo(plugin);
-		PluginConfigurationUi pluginConfigurationUi = new PluginConfigurationUi(content, pluginInfo);
-		pluginConfigurationUi.setEnabled(false);
+		PluginConfigurationComposite pluginConfigurationComposite = new PluginConfigurationComposite(content, pluginInfo);
+		pluginConfigurationComposite.setEnabled(false);
 
 		label = new Label (content, SWT.NONE);
 		label.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));

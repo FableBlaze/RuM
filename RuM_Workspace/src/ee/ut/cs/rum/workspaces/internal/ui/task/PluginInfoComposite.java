@@ -9,7 +9,7 @@ import org.eclipse.swt.widgets.Label;
 import ee.ut.cs.rum.database.domain.Plugin;
 
 //TODO: Change to Composite
-public class SelectedPluginInfo extends ScrolledComposite {
+public class PluginInfoComposite extends ScrolledComposite {
 	private static final long serialVersionUID = 2323888161640392669L;
 
 	private Label headerLabel;
@@ -28,7 +28,7 @@ public class SelectedPluginInfo extends ScrolledComposite {
 	private Label descriptionLabel;
 	private Label descriptionValueLabel;
 
-	public SelectedPluginInfo(Composite parent) {
+	public PluginInfoComposite(Composite parent) {
 		super(parent, SWT.H_SCROLL | SWT.V_SCROLL);
 
 		this.content = new Composite(this, SWT.NONE);
