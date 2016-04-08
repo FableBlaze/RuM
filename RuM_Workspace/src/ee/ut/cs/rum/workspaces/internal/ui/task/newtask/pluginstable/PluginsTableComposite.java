@@ -17,6 +17,7 @@ public class PluginsTableComposite extends Composite {
 
 	private PluginsTableViewer pluginsTableViewer;
 	private ViewerFilter pluginsTableFilter;
+	private PluginSelectionChangedListener pluginSelectionChangedListener;
 
 	public PluginsTableComposite(NewTaskDetails newTaskDetails) {
 		super(newTaskDetails, SWT.NONE);
@@ -42,8 +43,9 @@ public class PluginsTableComposite extends Composite {
 
 		this.pluginsTableViewer = new PluginsTableViewer(this);
 		((GridData) this.pluginsTableViewer.getTable().getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
-
-		pluginsTableViewer.addSelectionChangedListener(new PluginSelectionChangedListener(newTaskDetails));
+		
+		pluginSelectionChangedListener = new PluginSelectionChangedListener(newTaskDetails);
+		pluginsTableViewer.addSelectionChangedListener(pluginSelectionChangedListener);
 
 		this.pluginsTableFilter = new PluginsTableFilter();
 		this.pluginsTableViewer.addFilter(pluginsTableFilter);
@@ -51,6 +53,10 @@ public class PluginsTableComposite extends Composite {
 	
 	public PluginsTableViewer getPluginsTableViewer() {
 		return pluginsTableViewer;
+	}
+	
+	public PluginSelectionChangedListener getPluginSelectionChangedListener() {
+		return pluginSelectionChangedListener;
 	}
 
 }
