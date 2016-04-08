@@ -18,7 +18,7 @@ import ee.ut.cs.rum.database.util.PluginAccess;
 import ee.ut.cs.rum.database.util.TaskAccess;
 import ee.ut.cs.rum.plugins.development.description.PluginInfo;
 import ee.ut.cs.rum.plugins.development.ui.PluginConfigurationUi;
-import ee.ut.cs.rum.workspaces.internal.ui.task.newtask.SelectedPluginInfo;
+import ee.ut.cs.rum.workspaces.internal.ui.task.SelectedPluginInfo;
 import ee.ut.cs.rum.workspaces.internal.ui.workspace.WorkspaceTabFolder;
 import ee.ut.cs.rum.workspaces.internal.util.PluginUtils;
 

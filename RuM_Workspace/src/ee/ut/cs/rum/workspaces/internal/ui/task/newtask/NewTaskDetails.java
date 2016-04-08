@@ -8,6 +8,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
+import ee.ut.cs.rum.workspaces.internal.ui.task.SelectedPluginInfo;
 import ee.ut.cs.rum.workspaces.internal.ui.task.newtask.pluginstable.PluginsTableComposite;
 import ee.ut.cs.rum.workspaces.internal.ui.workspace.WorkspaceTabFolder;
 
