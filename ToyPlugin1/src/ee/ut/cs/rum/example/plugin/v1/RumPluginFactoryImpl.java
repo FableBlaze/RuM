@@ -11,7 +11,6 @@ public class RumPluginFactoryImpl implements RumPluginFactory {
 
 	@Override
 	public String getPluginInfoJSON() {
-		//TODO: Return parameters in JSON format
 		return PluginConfiguration.generatePluginInfoJSON();
 	}
 
