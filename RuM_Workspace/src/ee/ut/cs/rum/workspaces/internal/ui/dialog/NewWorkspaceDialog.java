@@ -71,7 +71,7 @@ public class NewWorkspaceDialog extends Dialog {
 					Workspace workspace = new Workspace();
 					workspace.setName(nameValue.getText());
 					workspace.setDescription(descriptionValue.getText());
-					WorkspacesData.addWorkspaceDataToDb(workspace, workspacesUI);
+					workspace = WorkspacesData.addWorkspaceDataToDb(workspace, workspacesUI);
 					shell.close();
 				}
 			}

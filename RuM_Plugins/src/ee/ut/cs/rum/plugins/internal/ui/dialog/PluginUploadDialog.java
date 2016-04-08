@@ -158,7 +158,7 @@ public class PluginUploadDialog extends Dialog {
 					temporaryPlugin.setUploadedAt(new Date());
 					temporaryPlugin.setUploadedBy("TODO"); //TODO: Add reference to the user
 					temporaryPlugin.setFileLocation(destinationFile.toPath().toString());
-					PluginsData.addPluginDataToDb(temporaryPlugin, overviewTabContents);
+					temporaryPlugin = PluginsData.addPluginDataToDb(temporaryPlugin, overviewTabContents);
 					shell.close();
 				} else {
 					Display.getDefault().syncExec(new Runnable() {
