@@ -14,7 +14,7 @@ public final class TasksData {
 	private TasksData() {
 	}
 	
-	public static void addTaskDataToDb(Task task, NewTaskDetails newTaskDetails) {
+	public static Task addTaskDataToDb(Task task, NewTaskDetails newTaskDetails) {
 		EntityManagerFactory emf = Activator.getEmf();
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
@@ -23,6 +23,8 @@ public final class TasksData {
 		em.close();
 		
 		List<Task> workspaceTasks = TaskAccess.getWorkspaceTasksDataFromDb(newTaskDetails.getWorkspaceTabFolder().getWorkspace().getId());
-		newTaskDetails.getWorkspaceTabFolder().getWorkspaceDetailsTabContents().getTasksTableViewer().setInput(workspaceTasks);;
+		newTaskDetails.getWorkspaceTabFolder().getWorkspaceDetailsTabContents().getTasksTableViewer().setInput(workspaceTasks);
+		
+		return task;
 	}
 }

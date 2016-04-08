@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
@@ -16,6 +17,7 @@ import com.google.gson.Gson;
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.database.domain.Task;
 import ee.ut.cs.rum.plugins.development.ui.PluginConfigurationUi;
+import ee.ut.cs.rum.workspaces.internal.ui.task.details.TaskDetails;
 import ee.ut.cs.rum.workspaces.internal.util.TasksData;
 
 public class FooterButtonsComposite extends Composite {
@@ -59,16 +61,27 @@ public class FooterButtonsComposite extends Composite {
 			}
 		});
 
-		//TODO: Implement functionality
 		button = new Button(this, SWT.PUSH);
 		button.setText("Start and show details");
 		button.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, true));
-		button.setEnabled(false); //Remove once implemented
+		button.addSelectionListener(new SelectionAdapter() {
+			private static final long serialVersionUID = 5694975289507094763L;
 
+			public void widgetSelected(SelectionEvent event) {
+				Task task = createNewTask();
+				newTaskDetails.getWorkspaceTabFolder().getSelection().dispose();
+				
+				CTabItem cTabItem = new CTabItem (newTaskDetails.getWorkspaceTabFolder(), SWT.CLOSE);
+				cTabItem.setText ("Task " + task.getId().toString());
+				cTabItem.setControl(new TaskDetails(newTaskDetails.getWorkspaceTabFolder(), task.getId()));
+				newTaskDetails.getWorkspaceTabFolder().setSelection(cTabItem);
+			}
+		});
+		
 		this.setEnabled(false);
 	}
 
-	private void createNewTask(){
+	private Task createNewTask(){
 		IStructuredSelection selection = (IStructuredSelection) newTaskDetails.getPluginsTableComposite().getPluginsTableViewer().getSelection();
 
 		PluginConfigurationUi pluginConfigurationUi = (PluginConfigurationUi)newTaskDetails.getSelectedPluginConfigurationUi().getContent();
@@ -86,6 +99,7 @@ public class FooterButtonsComposite extends Composite {
 		task.setCreatedBy("TODO");
 		task.setCreatedAt(new Date());
 		task.setWorkspaceId(newTaskDetails.getWorkspaceTabFolder().getWorkspace().getId());
-		TasksData.addTaskDataToDb(task, newTaskDetails);
+		
+		return TasksData.addTaskDataToDb(task, newTaskDetails);
 	}
 }
