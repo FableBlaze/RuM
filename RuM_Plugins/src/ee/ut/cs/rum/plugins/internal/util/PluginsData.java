@@ -15,7 +15,7 @@ public final class PluginsData {
 	private PluginsData() {
 	}
 	
-	public static void addPluginDataToDb(Plugin plugin, OverviewTabContents overviewTabContents) {
+	public static Plugin addPluginDataToDb(Plugin plugin, OverviewTabContents overviewTabContents) {
 		EntityManagerFactory emf = Activator.getEmf();
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
@@ -28,6 +28,8 @@ public final class PluginsData {
 		overviewTabContents.getPluginsOverview().getNumberOfPluginsLable().setText(Integer.toString(plugins.size()));
 		
 		Activator.getLogger().info("Added plugin: " + plugin.toString());
+		
+		return plugin;
 	}
 	
 }

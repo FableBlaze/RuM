@@ -15,7 +15,7 @@ public class WorkspacesData {
 	private WorkspacesData() {
 	}
 	
-	public static void addWorkspaceDataToDb(Workspace workspace, WorkspacesUI workspacesUI) {
+	public static Workspace addWorkspaceDataToDb(Workspace workspace, WorkspacesUI workspacesUI) {
 		EntityManagerFactory emf = Activator.getEmf();
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
@@ -26,5 +26,7 @@ public class WorkspacesData {
 		List<Workspace> workspaces = WorkspaceAccess.getWorkspacesDataFromDb();
 		workspacesUI.getWorkspacesOverview().getWorkspacesTableViewer().setInput(workspaces);
 		workspacesUI.getWorkspacesHeader().getWorkspaceSelectorCombo().updateWorkspaceSelector(workspaces);
+		
+		return workspace;
 	}
 }
