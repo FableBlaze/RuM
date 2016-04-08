@@ -71,11 +71,11 @@ public class TaskDetails extends Composite {
 
 		PluginInfo pluginInfo = PluginUtils.deserializePluginInfo(plugin);
 
-		ScrolledComposite selectedPluginConfigurationUi = new ScrolledComposite(this, SWT.H_SCROLL | SWT.V_SCROLL);
-		selectedPluginConfigurationUi.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		pluginConfigurationComposite = new PluginConfigurationComposite(selectedPluginConfigurationUi, pluginInfo);
+		ScrolledComposite scrolledPluginConfigurationComposite = new ScrolledComposite(this, SWT.H_SCROLL | SWT.V_SCROLL);
+		scrolledPluginConfigurationComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		pluginConfigurationComposite = new PluginConfigurationComposite(scrolledPluginConfigurationComposite, pluginInfo);
 		pluginConfigurationComposite.setEnabled(false);
-		selectedPluginConfigurationUi.setContent(pluginConfigurationComposite);
+		scrolledPluginConfigurationComposite.setContent(pluginConfigurationComposite);
 		pluginConfigurationComposite.setSize(pluginConfigurationComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
 		Gson gson = new Gson();
