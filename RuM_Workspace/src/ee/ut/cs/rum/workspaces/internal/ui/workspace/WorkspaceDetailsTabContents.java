@@ -41,7 +41,7 @@ public class WorkspaceDetailsTabContents extends Composite {
 
 		Button addTaskDialogueButton = new Button(this, SWT.PUSH);
 		addTaskDialogueButton.setText("Add task");
-		addTaskDialogueButton.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, true, true));
+		addTaskDialogueButton.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, true, false));
 
 		addTaskDialogueButton.addListener(SWT.Selection, new Listener() {
 			private static final long serialVersionUID = 1L;
