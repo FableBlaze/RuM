@@ -18,6 +18,7 @@ public class NewTaskDetails extends Composite {
 	//private Composite content;
 	private WorkspaceTabFolder workspaceTabFolder;
 	private PluginInfoComposite pluginInfoComposite;
+	private ScrolledComposite scrolledPluginInfoComposite;
 	private ScrolledComposite scrolledPluginConfigurationComposite;
 	private FooterButtonsComposite footerButtonsComposite;
 	private PluginsTableComposite pluginsTableComposite;
@@ -37,16 +38,16 @@ public class NewTaskDetails extends Composite {
 			public void handleEvent(Event e) {
 				if (!pluginsTableComposite.getPluginsTableViewer().getSelection().isEmpty()) {
 					int pluginsTableCompositeSizeX = pluginsTableComposite.getSize().x;
-					int selectedPluginInfoSizeX = pluginInfoComposite.getContent().getSize().x;
+					int pluginInfoCompositeSizeX = pluginInfoComposite.getSize().x;
 					int pluginConfigurationUiSizeX = scrolledPluginConfigurationComposite.getContent().getSize().x;
 
-					if (NewTaskDetails.this.getSize().x > pluginsTableCompositeSizeX+selectedPluginInfoSizeX+pluginConfigurationUiSizeX) {
-						if (((GridData)pluginInfoComposite.getLayoutData()).grabExcessHorizontalSpace) {
-							((GridData)pluginInfoComposite.getLayoutData()).grabExcessHorizontalSpace=false;
+					if (NewTaskDetails.this.getSize().x > pluginsTableCompositeSizeX+pluginInfoCompositeSizeX+pluginConfigurationUiSizeX) {
+						if (((GridData)scrolledPluginInfoComposite.getLayoutData()).grabExcessHorizontalSpace) {
+							((GridData)scrolledPluginInfoComposite.getLayoutData()).grabExcessHorizontalSpace=false;
 						}
 					} else {
-						if (!((GridData)pluginInfoComposite.getLayoutData()).grabExcessHorizontalSpace) {
-							((GridData)pluginInfoComposite.getLayoutData()).grabExcessHorizontalSpace=true;
+						if (!((GridData)scrolledPluginInfoComposite.getLayoutData()).grabExcessHorizontalSpace) {
+							((GridData)scrolledPluginInfoComposite.getLayoutData()).grabExcessHorizontalSpace=true;
 						}
 					}
 					NewTaskDetails.this.layout();
@@ -57,7 +58,12 @@ public class NewTaskDetails extends Composite {
 
 	private void createContents() {
 		pluginsTableComposite = new PluginsTableComposite(this);
-		pluginInfoComposite = new PluginInfoComposite(this);
+		
+		scrolledPluginInfoComposite = new ScrolledComposite(this, SWT.H_SCROLL | SWT.V_SCROLL);
+		scrolledPluginInfoComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		pluginInfoComposite = new PluginInfoComposite(scrolledPluginInfoComposite);
+		scrolledPluginInfoComposite.setContent(pluginInfoComposite);
+		pluginInfoComposite.setSize(pluginInfoComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
 		scrolledPluginConfigurationComposite = new ScrolledComposite(this, SWT.H_SCROLL | SWT.V_SCROLL);
 		scrolledPluginConfigurationComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));

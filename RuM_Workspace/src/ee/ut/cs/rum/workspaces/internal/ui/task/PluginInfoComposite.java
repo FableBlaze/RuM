@@ -1,21 +1,17 @@
 package ee.ut.cs.rum.workspaces.internal.ui.task;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import ee.ut.cs.rum.database.domain.Plugin;
 
-//TODO: Change to Composite
-public class PluginInfoComposite extends ScrolledComposite {
+public class PluginInfoComposite extends Composite {
 	private static final long serialVersionUID = 2323888161640392669L;
 
 	private Label headerLabel;
 	private boolean contentsInitialized = false;
-
-	private Composite content;
 
 	private Label symbolicNameLabel;
 	private Label symbolicNameValueLabel;
@@ -29,16 +25,13 @@ public class PluginInfoComposite extends ScrolledComposite {
 	private Label descriptionValueLabel;
 
 	public PluginInfoComposite(Composite parent) {
-		super(parent, SWT.H_SCROLL | SWT.V_SCROLL);
+		super(parent, SWT.NONE);
 
-		this.content = new Composite(this, SWT.NONE);
-		content.setLayout(new GridLayout(2, false));
-		this.setContent(content);
-		this.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, true));
+		this.setLayout(new GridLayout(2, false));
 
-		headerLabel = new Label(content, SWT.NONE);
+		headerLabel = new Label(this, SWT.NONE);
 		headerLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		((GridData) headerLabel.getLayoutData()).horizontalSpan = ((GridLayout) content.getLayout()).numColumns;
+		((GridData) headerLabel.getLayoutData()).horizontalSpan = ((GridLayout) this.getLayout()).numColumns;
 		headerLabel.setText("No plugin selected");
 	}
 
@@ -58,25 +51,25 @@ public class PluginInfoComposite extends ScrolledComposite {
 	}
 
 	private void createContents() {
-		symbolicNameLabel = new Label (content, SWT.NONE);
+		symbolicNameLabel = new Label (this, SWT.NONE);
 		symbolicNameLabel.setText("Symbolic name:");
-		symbolicNameValueLabel = new Label (content, SWT.NONE);
+		symbolicNameValueLabel = new Label (this, SWT.NONE);
 
-		versionLabel = new Label (content, SWT.NONE);
+		versionLabel = new Label (this, SWT.NONE);
 		versionLabel.setText("Version:");
-		versionValueLabel = new Label (content, SWT.NONE);
+		versionValueLabel = new Label (this, SWT.NONE);
 
-		nameLabel = new Label (content, SWT.NONE);
+		nameLabel = new Label (this, SWT.NONE);
 		nameLabel.setText("Name:");
-		nameValueLabel = new Label (content, SWT.NONE);
+		nameValueLabel = new Label (this, SWT.NONE);
 
-		vendorLabel = new Label (content, SWT.NONE);
+		vendorLabel = new Label (this, SWT.NONE);
 		vendorLabel.setText("Vendor:");
-		vendorValueLabel = new Label (content, SWT.NONE);
+		vendorValueLabel = new Label (this, SWT.NONE);
 
-		descriptionLabel = new Label (content, SWT.NONE);
+		descriptionLabel = new Label (this, SWT.NONE);
 		descriptionLabel.setText("Description:");
-		descriptionValueLabel = new Label (content, SWT.NONE);
+		descriptionValueLabel = new Label (this, SWT.NONE);
 	}
 
 	private void removeContents() {

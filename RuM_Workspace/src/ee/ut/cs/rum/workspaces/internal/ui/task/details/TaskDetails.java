@@ -28,6 +28,7 @@ public class TaskDetails extends Composite {
 	private Long taskId;
 	private PluginInfoComposite pluginInfoComposite;
 	PluginConfigurationComposite pluginConfigurationComposite;
+	ScrolledComposite scrolledPluginInfoComposite;
 
 	public TaskDetails(WorkspaceTabFolder workspaceTabFolder, Long taskId) {
 		super(workspaceTabFolder, SWT.CLOSE);
@@ -44,16 +45,16 @@ public class TaskDetails extends Composite {
 			private static final long serialVersionUID = -8815015925218184274L;
 
 			public void handleEvent(Event e) {
-				int pluginInfoCompositeSizeX = pluginInfoComposite.getContent().getSize().x;
+				int pluginInfoCompositeSizeX = pluginInfoComposite.getSize().x;
 				int pluginConfigurationCompositeSizeX = pluginConfigurationComposite.getSize().x;
 
 				if (TaskDetails.this.getSize().x > pluginInfoCompositeSizeX+pluginConfigurationCompositeSizeX) {
-					if (((GridData)pluginInfoComposite.getLayoutData()).grabExcessHorizontalSpace) {
-						((GridData)pluginInfoComposite.getLayoutData()).grabExcessHorizontalSpace=false;
+					if (((GridData)scrolledPluginInfoComposite.getLayoutData()).grabExcessHorizontalSpace) {
+						((GridData)scrolledPluginInfoComposite.getLayoutData()).grabExcessHorizontalSpace=false;
 					}
 				} else {
-					if (!((GridData)pluginInfoComposite.getLayoutData()).grabExcessHorizontalSpace) {
-						((GridData)pluginInfoComposite.getLayoutData()).grabExcessHorizontalSpace=true;
+					if (!((GridData)scrolledPluginInfoComposite.getLayoutData()).grabExcessHorizontalSpace) {
+						((GridData)scrolledPluginInfoComposite.getLayoutData()).grabExcessHorizontalSpace=true;
 					}
 				}
 				TaskDetails.this.layout();
@@ -64,10 +65,14 @@ public class TaskDetails extends Composite {
 
 	@SuppressWarnings("unchecked")
 	private void createContents(Task task) {
-		pluginInfoComposite = new PluginInfoComposite(this);
 		Plugin plugin = PluginAccess.getPluginDataFromDb(task.getPluginId());
+
+		scrolledPluginInfoComposite = new ScrolledComposite(this, SWT.H_SCROLL | SWT.V_SCROLL);
+		scrolledPluginInfoComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		pluginInfoComposite = new PluginInfoComposite(scrolledPluginInfoComposite);
 		pluginInfoComposite.updateSelectedPluginInfo(plugin);
-		pluginInfoComposite.getContent().setSize(pluginInfoComposite.getContent().computeSize(SWT.DEFAULT, SWT.DEFAULT));
+		scrolledPluginInfoComposite.setContent(pluginInfoComposite);
+		pluginInfoComposite.setSize(pluginInfoComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
 		PluginInfo pluginInfo = PluginUtils.deserializePluginInfo(plugin);
 

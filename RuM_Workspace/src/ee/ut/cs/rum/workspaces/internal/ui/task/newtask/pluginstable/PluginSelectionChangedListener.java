@@ -32,7 +32,8 @@ public class PluginSelectionChangedListener implements ISelectionChangedListener
 		if (selectedPlugin!=null) {
 			PluginInfoComposite selectedPluginInfo = newTaskDetails.getPluginInfoComposite();
 			selectedPluginInfo.updateSelectedPluginInfo(selectedPlugin);
-			selectedPluginInfo.getContent().setSize(selectedPluginInfo.getContent().computeSize(SWT.DEFAULT, SWT.DEFAULT));
+			//selectedPluginInfo.getContent().setSize(selectedPluginInfo.getContent().computeSize(SWT.DEFAULT, SWT.DEFAULT));
+			selectedPluginInfo.setSize(selectedPluginInfo.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 			
 			ScrolledComposite scrolledPluginConfigurationComposite = newTaskDetails.getScrolledPluginConfigurationComposite();
 
