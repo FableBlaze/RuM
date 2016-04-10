@@ -25,8 +25,8 @@ public class FooterButtonsComposite extends Composite {
 
 	private NewTaskDetails newTaskDetails;
 
-	public FooterButtonsComposite(NewTaskDetails newTaskDetails) {
-		super(newTaskDetails, SWT.NONE);
+	public FooterButtonsComposite(Composite scrolledfooterButtonsComposite, NewTaskDetails newTaskDetails) {
+		super(scrolledfooterButtonsComposite, SWT.NONE);
 
 		this.newTaskDetails=newTaskDetails;
 		this.setLayout(new GridLayout(3, false));

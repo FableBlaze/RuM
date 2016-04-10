@@ -68,9 +68,13 @@ public class NewTaskDetails extends Composite {
 		scrolledPluginConfigurationComposite = new ScrolledComposite(this, SWT.H_SCROLL | SWT.V_SCROLL);
 		scrolledPluginConfigurationComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
-		footerButtonsComposite = new FooterButtonsComposite(this);
-		footerButtonsComposite.setLayoutData(new GridData(SWT.FILL, SWT.BOTTOM, true, false));
-		((GridData) footerButtonsComposite.getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
+		ScrolledComposite scrolledfooterButtonsComposite = new ScrolledComposite(this, SWT.H_SCROLL | SWT.V_SCROLL);
+		scrolledfooterButtonsComposite.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, true, false));
+		((GridData) scrolledfooterButtonsComposite.getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
+		
+		footerButtonsComposite = new FooterButtonsComposite(scrolledfooterButtonsComposite, this);
+		scrolledfooterButtonsComposite.setContent(footerButtonsComposite);
+		footerButtonsComposite.setSize(footerButtonsComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 	}
 
 	public PluginInfoComposite getPluginInfoComposite() {
