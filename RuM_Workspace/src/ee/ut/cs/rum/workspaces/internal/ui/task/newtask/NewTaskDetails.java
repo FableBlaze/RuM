@@ -69,6 +69,7 @@ public class NewTaskDetails extends Composite {
 		scrolledPluginConfigurationComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
 		footerButtonsComposite = new FooterButtonsComposite(this);
+		footerButtonsComposite.setLayoutData(new GridData(SWT.FILL, SWT.BOTTOM, true, false));
 		((GridData) footerButtonsComposite.getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
 	}
 

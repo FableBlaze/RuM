@@ -29,8 +29,6 @@ public class FooterButtonsComposite extends Composite {
 		super(newTaskDetails, SWT.NONE);
 
 		this.newTaskDetails=newTaskDetails;
-
-		this.setLayoutData(new GridData(SWT.FILL, SWT.BOTTOM, true, false));
 		this.setLayout(new GridLayout(3, false));
 
 		Button button;
