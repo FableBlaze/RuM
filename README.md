@@ -20,3 +20,5 @@ In file "serviceability.xml" add
 		<appender-ref ref="LOG_FILE" />
 </logger>
 ```
+
+Create a Postgesql 9.4 database named RuM (username/password 'postgres')
