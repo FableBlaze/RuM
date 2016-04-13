@@ -5,6 +5,9 @@ import javax.persistence.EntityManagerFactory;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.util.tracker.ServiceTracker;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerFactory;
+import org.quartz.impl.StdSchedulerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,6 +18,7 @@ public class Activator implements BundleActivator {
 	private static BundleContext context;
 	private static Logger logger;
 	private static EntityManagerFactory emf;
+	private static Scheduler scheduler;
 	
 	public void start(BundleContext bundleContext) throws Exception {
 		Activator.context = bundleContext;
@@ -28,13 +32,20 @@ public class Activator implements BundleActivator {
 		RumEmfService rumEmfService = (RumEmfService) serviceTracker.getService();
 		if (rumEmfService == null) {throw new Exception("Database service not found");}
 		emf = rumEmfService.getEmf("RuM");
-		if (emf == null) {throw new Exception("Database service not found");} 
+		if (emf == null) {throw new Exception("Database service not found");}
+		
+		SchedulerFactory schedulerFactory = new StdSchedulerFactory("quartz.properties");
+		scheduler = schedulerFactory.getScheduler();
+		scheduler.start();
 		
 		logger.info("RuM_scheduler bundle started");
 	}
 
 	public void stop(BundleContext bundleContext) throws Exception {
 		logger.info("RuM_scheduler bundle stopped");
+		if (scheduler!=null && !scheduler.isShutdown()) {
+			scheduler.shutdown();
+		}
 		Activator.context = null;
 	}
 
@@ -48,5 +59,9 @@ public class Activator implements BundleActivator {
 	
 	public static Logger getLogger() {
 		return logger;
+	}
+	
+	public static Scheduler getScheduler() {
+		return scheduler;
 	}
 }

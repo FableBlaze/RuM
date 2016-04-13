@@ -12,4 +12,5 @@ Import-Package: ee.ut.cs.rum.database,
  org.slf4j;version="[1.7.2,1.7.2]"
 Bundle-Activator: ee.ut.cs.rum.scheduler.internal.Activator
 Export-Package: ee.ut.cs.rum.scheduler.util
+Import-Bundle: org.quartz-scheduler.quartz;version="[2.2.2,2.2.2]"
 
