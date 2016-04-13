@@ -11,4 +11,5 @@ Import-Package: ee.ut.cs.rum.database,
  org.osgi.util.tracker;version="[1.5.1,1.5.1]",
  org.slf4j;version="[1.7.2,1.7.2]"
 Bundle-Activator: ee.ut.cs.rum.scheduler.internal.Activator
+Export-Package: ee.ut.cs.rum.scheduler.util
 

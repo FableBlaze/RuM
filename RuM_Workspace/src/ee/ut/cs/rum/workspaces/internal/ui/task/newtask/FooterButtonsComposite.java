@@ -17,6 +17,7 @@ import com.google.gson.Gson;
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.database.domain.Task;
 import ee.ut.cs.rum.plugins.development.ui.PluginConfigurationComposite;
+import ee.ut.cs.rum.scheduler.util.TaskScheduling;
 import ee.ut.cs.rum.workspaces.internal.ui.task.details.TaskDetails;
 import ee.ut.cs.rum.workspaces.internal.util.TasksData;
 
@@ -98,6 +99,9 @@ public class FooterButtonsComposite extends Composite {
 		task.setCreatedAt(new Date());
 		task.setWorkspaceId(newTaskDetails.getWorkspaceTabFolder().getWorkspace().getId());
 		
-		return TasksData.addTaskDataToDb(task, newTaskDetails);
+		task = TasksData.addTaskDataToDb(task, newTaskDetails);
+		TaskScheduling.scheduleTask(task.getId());
+		
+		return task;
 	}
 }
