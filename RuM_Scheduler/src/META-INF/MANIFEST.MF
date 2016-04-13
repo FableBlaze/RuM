@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: RuM_Scheduler
+Bundle-Description: RuM Scheduler bundle
+Bundle-Version: 0.0.1
+Bundle-Name: RuM_Scheduler
+Bundle-Vendor: University of Tartu
+Bundle-ManifestVersion: 2
+Import-Package: ee.ut.cs.rum.database,
+ javax.persistence;version="[2.0.4,2.0.4]",
+ org.osgi.framework;version="[1.7.0,1.7.0]",
+ org.osgi.util.tracker;version="[1.5.1,1.5.1]",
+ org.slf4j;version="[1.7.2,1.7.2]"
+Bundle-Activator: ee.ut.cs.rum.scheduler.internal.Activator
+
