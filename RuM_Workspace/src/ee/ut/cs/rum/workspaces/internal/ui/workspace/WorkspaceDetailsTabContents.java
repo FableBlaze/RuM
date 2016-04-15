@@ -25,23 +25,34 @@ public class WorkspaceDetailsTabContents extends Composite {
 
 		this.workspace=workspace;
 
-		this.setLayout(new GridLayout());
+		this.setLayout(new GridLayout(2, false));
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
 		Label l = new Label(this, SWT.BORDER);
 		if (workspace.getName()!=null) {
 			l.setText(workspace.getName());
 		}
+		l.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		((GridData) l.getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
+		
 		l = new Label(this, SWT.BORDER);
 		if (workspace.getDescription()!=null) {
 			l.setText(workspace.getDescription());
 		}
+		l.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		((GridData) l.getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
+		
 
 		tasksTableViewer = new TasksTableViewer(this, workspaceTabFolder);
-
+		((GridData) tasksTableViewer.getTable().getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
+		
+		Button refreshTasksTableButton = new Button(this, SWT.PUSH);
+		refreshTasksTableButton.setText("Refresh table");
+		refreshTasksTableButton.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, true, false));
+		
 		Button addTaskDialogueButton = new Button(this, SWT.PUSH);
 		addTaskDialogueButton.setText("Add task");
-		addTaskDialogueButton.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, true, false));
+		addTaskDialogueButton.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, false, false));
 
 		addTaskDialogueButton.addListener(SWT.Selection, new Listener() {
 			private static final long serialVersionUID = 1L;
