@@ -17,6 +17,7 @@ public final class TaskScheduling {
 	
 	public static void scheduleTask(Long taskId) {
 		Scheduler scheduler = Activator.getScheduler();
+		
 		String rumJobName = "RumJob"+taskId.toString();
 		JobDetail job = JobBuilder.newJob(RumJob.class).withIdentity(rumJobName, "RumJobs").build();
 		job.getJobDataMap().put(RumJob.TASK_ID, taskId);
