@@ -1,5 +1,7 @@
 package ee.ut.cs.rum.workspaces.internal.ui.workspace;
 
+import java.util.List;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.layout.GridData;
@@ -10,7 +12,9 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
+import ee.ut.cs.rum.database.domain.Task;
 import ee.ut.cs.rum.database.domain.Workspace;
+import ee.ut.cs.rum.database.util.TaskAccess;
 import ee.ut.cs.rum.workspaces.internal.ui.task.TasksTableViewer;
 import ee.ut.cs.rum.workspaces.internal.ui.task.newtask.NewTaskDetails;
 
@@ -50,12 +54,22 @@ public class WorkspaceDetailsTabContents extends Composite {
 		refreshTasksTableButton.setText("Refresh table");
 		refreshTasksTableButton.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, true, false));
 		
+		refreshTasksTableButton.addListener(SWT.Selection, new Listener() {
+			private static final long serialVersionUID = -4798041339203828187L;
+
+			@Override
+			public void handleEvent(Event arg0) {
+				List<Task> workspaceTasks = TaskAccess.getWorkspaceTasksDataFromDb(workspace.getId());
+				tasksTableViewer.setInput(workspaceTasks);
+			}
+		});
+		
 		Button addTaskDialogueButton = new Button(this, SWT.PUSH);
 		addTaskDialogueButton.setText("Add task");
 		addTaskDialogueButton.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, false, false));
 
 		addTaskDialogueButton.addListener(SWT.Selection, new Listener() {
-			private static final long serialVersionUID = 1L;
+			private static final long serialVersionUID = -7320478204056667508L;
 
 			@Override
 			public void handleEvent(Event arg0) {
