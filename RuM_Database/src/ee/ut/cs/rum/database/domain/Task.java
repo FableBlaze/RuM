@@ -21,7 +21,7 @@ public class Task {
 	@Column(name = "name")
 	private String name;
 	@Column(name = "status")
-	private String status;
+	private TaskStatusEnum status;
 	@Column(name = "plugin_id")
 	private Long pluginId;
 	@Column(name = "description")
@@ -42,10 +42,10 @@ public class Task {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getStatus() {
+	public TaskStatusEnum getStatus() {
 		return status;
 	}
-	public void setStatus(String status) {
+	public void setStatus(TaskStatusEnum status) {
 		this.status = status;
 	}
 	public Long getPluginId() {

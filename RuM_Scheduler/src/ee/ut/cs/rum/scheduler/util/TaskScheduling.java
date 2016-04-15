@@ -17,10 +17,11 @@ public final class TaskScheduling {
 	
 	public static void scheduleTask(Long taskId) {
 		Scheduler scheduler = Activator.getScheduler();
-		
-		JobDetail job = JobBuilder.newJob(RumJob.class).withIdentity("RumJob"+taskId, "RumJobs").build();
+		String rumJobName = "RumJob"+taskId.toString();
+		JobDetail job = JobBuilder.newJob(RumJob.class).withIdentity(rumJobName, "RumJobs").build();
+		job.getJobDataMap().put(RumJob.TASK_ID, taskId);
 
-		Trigger trigger = TriggerBuilder.newTrigger().withIdentity("RumJob"+taskId, "RumJobs").startNow().build();
+		Trigger trigger = TriggerBuilder.newTrigger().withIdentity(rumJobName, "RumJobs").startNow().build();
 		
 		try {
 			scheduler.scheduleJob(job, trigger);

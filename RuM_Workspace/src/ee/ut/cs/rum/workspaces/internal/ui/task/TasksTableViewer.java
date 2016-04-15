@@ -61,7 +61,7 @@ public class TasksTableViewer extends TableViewer {
 			@Override
 			public String getText(Object element) {
 				Task task = (Task) element;
-				return task.getStatus();
+				return task.getStatus().toString();
 			}
 		});
 		

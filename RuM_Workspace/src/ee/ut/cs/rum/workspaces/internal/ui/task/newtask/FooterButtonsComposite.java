@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.database.domain.Task;
+import ee.ut.cs.rum.database.domain.TaskStatusEnum;
 import ee.ut.cs.rum.plugins.development.ui.PluginConfigurationComposite;
 import ee.ut.cs.rum.scheduler.util.TaskScheduling;
 import ee.ut.cs.rum.workspaces.internal.ui.task.details.TaskDetails;
@@ -91,7 +92,7 @@ public class FooterButtonsComposite extends Composite {
 		Plugin selectedPlugin = (Plugin) selection.getFirstElement();
 		Task task = new Task();
 		task.setName("TODO");
-		task.setStatus("TODO");
+		task.setStatus(TaskStatusEnum.NEW);
 		task.setPluginId(selectedPlugin.getId());
 		task.setDescription("TODO");
 		task.setConfigurationValues(configurationValuesString);
