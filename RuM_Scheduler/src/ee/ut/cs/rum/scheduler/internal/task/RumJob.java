@@ -28,27 +28,32 @@ public class RumJob implements Job {
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		JobKey jobKey = context.getJobDetail().getKey();
 		Long taskId = context.getJobDetail().getJobDataMap().getLong(TASK_ID);
-		Task rumJobTask = TasksData.updateTaskStatusInDb(taskId, TaskStatusEnum.STARTING);
 		
-		Plugin rumJobPlugin = PluginAccess.getPluginDataFromDb(rumJobTask.getPluginId());
-		Bundle rumJobPluginBundle = findSelectedPluginBundle(rumJobPlugin);
-		if (rumJobPluginBundle==null) {
-			rumJobPluginBundle = installSelectedPluginBundle(rumJobPlugin);
-		}
-		
-		RumPluginFactory rumJobPluginFactory = findRumPluginFactoryService(rumJobPluginBundle);
-		RumPluginWorker rumJobPluginWorker = rumJobPluginFactory.createRumPluginWorker();
-		
-		TasksData.updateTaskStatusInDb(taskId, TaskStatusEnum.RUNNING);
-		Activator.getLogger().info("RumJob started: " + jobKey + " executing at " + new Date());
-		
-		Object rumJobResult = rumJobPluginWorker.runWork(rumJobTask.getConfigurationValues());
-		if (rumJobResult!=null) {
+		try {
+			Task rumJobTask = TasksData.updateTaskStatusInDb(taskId, TaskStatusEnum.STARTING);
+			Plugin rumJobPlugin = PluginAccess.getPluginDataFromDb(rumJobTask.getPluginId());
+			Bundle rumJobPluginBundle = findSelectedPluginBundle(rumJobPlugin);
+
+			if (rumJobPluginBundle==null) {
+				rumJobPluginBundle = installSelectedPluginBundle(rumJobPlugin);
+			}
+			
+			RumPluginFactory rumJobPluginFactory = findRumPluginFactoryService(rumJobPluginBundle);
+			RumPluginWorker rumJobPluginWorker = rumJobPluginFactory.createRumPluginWorker();
+			
+			TasksData.updateTaskStatusInDb(taskId, TaskStatusEnum.RUNNING);
+			Activator.getLogger().info("RumJob started: " + jobKey + " executing at " + new Date());
+			
+			Object rumJobResult = rumJobPluginWorker.runWork(rumJobTask.getConfigurationValues());
 			Activator.getLogger().info("RumJobResult toString: " + rumJobResult.toString());
+			
+			TasksData.updateTaskStatusInDb(taskId, TaskStatusEnum.DONE);
+			Activator.getLogger().info("RumJob done: " + jobKey + " at " + new Date());
+		} catch (Exception e) {
+			TasksData.updateTaskStatusInDb(taskId, TaskStatusEnum.FAILED);
+			Activator.getLogger().info("RumJob failed: " + jobKey + " at " + new Date());
+			e.printStackTrace();
 		}
-		
-		TasksData.updateTaskStatusInDb(taskId, TaskStatusEnum.DONE);
-		Activator.getLogger().info("RumJob done: " + jobKey + " executing at " + new Date());
 	}
 	
 	

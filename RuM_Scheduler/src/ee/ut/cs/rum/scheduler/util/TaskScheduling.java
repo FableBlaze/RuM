@@ -26,9 +26,9 @@ public final class TaskScheduling {
 		
 		try {
 			scheduler.scheduleJob(job, trigger);
-			Activator.getLogger().info("Added task to queue: " + taskId.toString());
+			Activator.getLogger().info("Added task to queue: " + taskId.toString() + " (" +rumJobName + ")");
 		} catch (SchedulerException e) {
-			Activator.getLogger().info("Failed scheduling task: " + taskId.toString());
+			Activator.getLogger().info("Failed scheduling task: " + taskId.toString() + " (" +rumJobName + ")");
 			e.printStackTrace();
 		}
 		
