@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import ee.ut.cs.rum.administration.internal.Activator;
 import ee.ut.cs.rum.database.domain.SystemParameter;
@@ -24,8 +24,9 @@ public final class SystemParametersData {
 	public static List<SystemParameter> getSystemParametersDataFromDb() {
 		EntityManagerFactory emf = Activator.getEmf();
 		EntityManager em = emf.createEntityManager();
-		Query query = em.createQuery("Select sp from SystemParameter sp order by sp.id");
-		@SuppressWarnings("unchecked")
+		
+		String queryString = "Select sp from SystemParameter sp order by sp.id";
+		TypedQuery<SystemParameter> query = em.createQuery(queryString, SystemParameter.class);
 		List<SystemParameter> systemParameters = query.getResultList();
 		
 		return systemParameters;
@@ -35,9 +36,12 @@ public final class SystemParametersData {
 		SystemParameter systemParameter = null;
 		EntityManagerFactory emf = Activator.getEmf();
 		EntityManager em = emf.createEntityManager();
-		Query query = em.createQuery("Select sp from SystemParameter sp where sp.name = '" + name + "'");
+		
+		String queryString = "Select sp from SystemParameter sp where sp.name = '" + name + "'";
+		TypedQuery<SystemParameter> query = em.createQuery(queryString, SystemParameter.class);
+		
 		try {
-			systemParameter = (SystemParameter) query.getSingleResult();
+			systemParameter = query.getSingleResult();
 		} catch (Exception e) {
 			Activator.getLogger().info("Failed querying systemparameter with name: " + name);
 		}

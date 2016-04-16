@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import ee.ut.cs.rum.database.domain.Task;
 import ee.ut.cs.rum.database.internal.Activator;
@@ -17,8 +17,9 @@ public final class TaskAccess {
 	public static List<Task> getTasksDataFromDb() {
 		EntityManagerFactory emf = Activator.getEmf();
 		EntityManager em = emf.createEntityManager();
-		Query query = em.createQuery("Select t from Task t order by t.id");
-		@SuppressWarnings("unchecked")
+		
+		String queryString = "Select t from Task t order by t.id";
+		TypedQuery<Task> query = em.createQuery(queryString, Task.class);
 		List<Task> tasks = query.getResultList();
 		
 		return tasks;
@@ -27,8 +28,9 @@ public final class TaskAccess {
 	public static List<Task> getWorkspaceTasksDataFromDb(Long workspaceId) {
 		EntityManagerFactory emf = Activator.getEmf();
 		EntityManager em = emf.createEntityManager();
-		Query query = em.createQuery("Select t from Task t where t.workspaceId = " + workspaceId + " order by t.id");
-		@SuppressWarnings("unchecked")
+		
+		String queryString = "Select t from Task t where t.workspaceId = " + workspaceId + " order by t.id";
+		TypedQuery<Task> query = em.createQuery(queryString, Task.class);
 		List<Task> tasks = query.getResultList();
 		
 		return tasks;
@@ -37,6 +39,7 @@ public final class TaskAccess {
 	public static Task getTaskDataFromDb(Long taskId) {
 		EntityManagerFactory emf = Activator.getEmf();
 		EntityManager em = emf.createEntityManager();
+		
 		em.find(Task.class, taskId);
 		Task task = em.find(Task.class, taskId);
 		
