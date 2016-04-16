@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.workspaces.internal.ui.dialog;
+package ee.ut.cs.rum.workspaces.internal.ui.workspace.dialog;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;

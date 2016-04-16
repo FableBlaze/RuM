@@ -9,7 +9,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
-import ee.ut.cs.rum.workspaces.internal.ui.dialog.NewWorkspaceDialog;
+import ee.ut.cs.rum.workspaces.internal.ui.workspace.dialog.NewWorkspaceDialog;
 import ee.ut.cs.rum.workspaces.ui.WorkspacesUI;
 
 public class WorkspacesOverview extends Composite {
