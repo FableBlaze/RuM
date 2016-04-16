@@ -27,8 +27,8 @@ public final class PluginAccess {
 	public static Plugin getPluginDataFromDb(Long pluginId) {
 		EntityManagerFactory emf = Activator.getEmf();
 		EntityManager em = emf.createEntityManager();
-		Query query = em.createQuery("Select p from Plugin p where p.id =" + pluginId);
-		Plugin plugin = (Plugin) query.getSingleResult();
+		em.find(Plugin.class, pluginId);
+		Plugin plugin = em.find(Plugin.class, pluginId);
 		
 		return plugin;
 	}

@@ -37,8 +37,8 @@ public final class TaskAccess {
 	public static Task getTaskDataFromDb(Long taskId) {
 		EntityManagerFactory emf = Activator.getEmf();
 		EntityManager em = emf.createEntityManager();
-		Query query = em.createQuery("Select t from Task t where t.id =" + taskId);
-		Task task = (Task) query.getSingleResult();
+		em.find(Task.class, taskId);
+		Task task = em.find(Task.class, taskId);
 		
 		return task;
 	}
