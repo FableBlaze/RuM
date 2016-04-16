@@ -1,5 +1,7 @@
 package ee.ut.cs.rum.workspaces.internal.ui.workspace.dialog;
 
+import java.util.Date;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -74,6 +76,8 @@ public class NewWorkspaceDialog extends Dialog {
 					Workspace workspace = new Workspace();
 					workspace.setName(nameValue.getText());
 					workspace.setDescription(descriptionValue.getText());
+					workspace.setCreatedBy("TODO");
+					workspace.setCreatedAt(new Date());
 					workspace = WorkspacesData.addWorkspaceDataToDb(workspace, workspacesUI);
 					shell.close();
 				}

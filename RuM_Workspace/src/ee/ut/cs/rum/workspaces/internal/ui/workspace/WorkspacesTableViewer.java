@@ -1,5 +1,7 @@
 package ee.ut.cs.rum.workspaces.internal.ui.workspace;
 
+import java.text.SimpleDateFormat;
+
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
@@ -10,6 +12,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+
 import ee.ut.cs.rum.database.domain.Workspace;
 import ee.ut.cs.rum.database.util.WorkspaceAccess;
 
@@ -41,8 +44,8 @@ public class WorkspacesTableViewer extends TableViewer {
 	}
 
 	private static void createColumns(final TableViewer viewer) {
-		String[] titles = { "Name", "Description"};
-		int[] bounds = { 200, 700 };
+		String[] titles = { "Name", "Description", "Created by", "Created at"};
+		int[] bounds = { 200, 700, 125, 125 };
 
 		TableViewerColumn nameColumn = createTableViewerColumn(titles[0], bounds[0], viewer);
 		nameColumn.setLabelProvider(new ColumnLabelProvider() {
@@ -63,6 +66,28 @@ public class WorkspacesTableViewer extends TableViewer {
 			public String getText(Object element) {
 				Workspace workspace = (Workspace) element;
 				return workspace.getDescription();
+			}
+		});
+		
+		TableViewerColumn createdByColumn = createTableViewerColumn(titles[2], bounds[2], viewer);
+		createdByColumn.setLabelProvider(new ColumnLabelProvider() {
+			private static final long serialVersionUID = -8975942909693559289L;
+
+			@Override
+			public String getText(Object element) {
+				Workspace workspace = (Workspace) element;
+				return workspace.getCreatedBy();
+			}
+		});
+		
+		TableViewerColumn createdAtColumn = createTableViewerColumn(titles[3], bounds[3], viewer);
+		createdAtColumn.setLabelProvider(new ColumnLabelProvider() {
+			private static final long serialVersionUID = -4095576663886113023L;
+
+			@Override
+			public String getText(Object element) {
+				Workspace workspace = (Workspace) element;
+				return new SimpleDateFormat("dd-MM-yyyy").format(workspace.getCreatedAt());
 			}
 		});
 	}
