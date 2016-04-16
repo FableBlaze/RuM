@@ -32,28 +32,21 @@ public class WorkspaceDetailsTabContents extends Composite {
 		this.setLayout(new GridLayout(2, false));
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
-		Label l = new Label(this, SWT.BORDER);
-		if (workspace.getName()!=null) {
-			l.setText(workspace.getName());
-		}
-		l.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		((GridData) l.getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
-		
-		l = new Label(this, SWT.BORDER);
+		Label l = new Label(this, SWT.NONE);
 		if (workspace.getDescription()!=null) {
 			l.setText(workspace.getDescription());
 		}
 		l.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		((GridData) l.getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
-		
+
 
 		tasksTableViewer = new TasksTableViewer(this, workspaceTabFolder);
 		((GridData) tasksTableViewer.getTable().getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
-		
+
 		Button refreshTasksTableButton = new Button(this, SWT.PUSH);
 		refreshTasksTableButton.setText("Refresh table");
 		refreshTasksTableButton.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, true, false));
-		
+
 		refreshTasksTableButton.addListener(SWT.Selection, new Listener() {
 			private static final long serialVersionUID = -4798041339203828187L;
 
@@ -63,7 +56,7 @@ public class WorkspaceDetailsTabContents extends Composite {
 				tasksTableViewer.setInput(workspaceTasks);
 			}
 		});
-		
+
 		Button addTaskDialogueButton = new Button(this, SWT.PUSH);
 		addTaskDialogueButton.setText("Add task");
 		addTaskDialogueButton.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, false, false));
