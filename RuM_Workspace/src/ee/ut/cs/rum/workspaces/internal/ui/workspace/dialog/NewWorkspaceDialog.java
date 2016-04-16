@@ -51,8 +51,11 @@ public class NewWorkspaceDialog extends Dialog {
 		
 		Label descriptionNameLabel = new Label(shell, SWT.NONE);
 		descriptionNameLabel.setText("Workspace description:");
-		descriptionValue = new Text(shell, SWT.BORDER);
-		descriptionValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		descriptionNameLabel.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));
+		descriptionValue = new Text(shell, SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL);
+		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
+		gridData.heightHint=50;
+		descriptionValue.setLayoutData(gridData);
 		
 		feedbackTextValue = new Label(shell, SWT.NONE);
 		feedbackTextValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
