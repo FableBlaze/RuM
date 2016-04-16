@@ -29,7 +29,7 @@ public class WorkspacesOverview extends Composite {
 		
 		Button addWorkspaceDialogueButton = new Button(this, SWT.PUSH);
 		addWorkspaceDialogueButton.setText("Add Workspace");
-		addWorkspaceDialogueButton.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, true, false));
+		addWorkspaceDialogueButton.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, true, false));
 		
 		addWorkspaceDialogueButton.addListener(SWT.Selection, new Listener() {
 			private static final long serialVersionUID = 5383804225331390829L;
