@@ -4,7 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 import ee.ut.cs.rum.database.domain.Task;
-import ee.ut.cs.rum.database.domain.TaskStatusEnum;
+import ee.ut.cs.rum.database.domain.enums.TaskStatus;
 import ee.ut.cs.rum.database.util.TaskAccess;
 import ee.ut.cs.rum.scheduler.internal.Activator;
 
@@ -12,7 +12,7 @@ public final class TasksData {
 	private TasksData() {
 	}
 	
-	public static Task updateTaskStatusInDb(Long taskId, TaskStatusEnum taskStatus) {
+	public static Task updateTaskStatusInDb(Long taskId, TaskStatus taskStatus) {
 		Task task = TaskAccess.getTaskDataFromDb(taskId);
 		task.setStatus(taskStatus);
 		

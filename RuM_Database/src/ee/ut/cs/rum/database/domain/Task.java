@@ -11,6 +11,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import ee.ut.cs.rum.database.domain.enums.TaskStatus;
+
 @Entity
 @Table(name="task")
 public class Task {
@@ -21,7 +23,7 @@ public class Task {
 	@Column(name = "name")
 	private String name;
 	@Column(name = "status")
-	private TaskStatusEnum status;
+	private TaskStatus status;
 	@Column(name = "plugin_id")
 	private Long pluginId;
 	@Column(name = "description")
@@ -42,10 +44,10 @@ public class Task {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public TaskStatusEnum getStatus() {
+	public TaskStatus getStatus() {
 		return status;
 	}
-	public void setStatus(TaskStatusEnum status) {
+	public void setStatus(TaskStatus status) {
 		this.status = status;
 	}
 	public Long getPluginId() {

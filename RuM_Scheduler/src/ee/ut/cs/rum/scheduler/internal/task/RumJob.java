@@ -12,7 +12,7 @@ import org.quartz.JobKey;
 
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.database.domain.Task;
-import ee.ut.cs.rum.database.domain.TaskStatusEnum;
+import ee.ut.cs.rum.database.domain.enums.TaskStatus;
 import ee.ut.cs.rum.database.util.PluginAccess;
 import ee.ut.cs.rum.plugins.development.interfaces.RumPluginFactory;
 import ee.ut.cs.rum.plugins.development.interfaces.factory.RumPluginWorker;
@@ -30,7 +30,7 @@ public class RumJob implements Job {
 		Long taskId = context.getJobDetail().getJobDataMap().getLong(TASK_ID);
 		
 		try {
-			Task rumJobTask = TasksData.updateTaskStatusInDb(taskId, TaskStatusEnum.STARTING);
+			Task rumJobTask = TasksData.updateTaskStatusInDb(taskId, TaskStatus.STARTING);
 			Plugin rumJobPlugin = PluginAccess.getPluginDataFromDb(rumJobTask.getPluginId());
 			Bundle rumJobPluginBundle = findSelectedPluginBundle(rumJobPlugin);
 
@@ -41,16 +41,16 @@ public class RumJob implements Job {
 			RumPluginFactory rumJobPluginFactory = findRumPluginFactoryService(rumJobPluginBundle);
 			RumPluginWorker rumJobPluginWorker = rumJobPluginFactory.createRumPluginWorker();
 			
-			TasksData.updateTaskStatusInDb(taskId, TaskStatusEnum.RUNNING);
+			TasksData.updateTaskStatusInDb(taskId, TaskStatus.RUNNING);
 			Activator.getLogger().info("RumJob started: " + jobKey + " executing at " + new Date());
 			
 			Object rumJobResult = rumJobPluginWorker.runWork(rumJobTask.getConfigurationValues());
 			Activator.getLogger().info("RumJobResult toString: " + rumJobResult.toString());
 			
-			TasksData.updateTaskStatusInDb(taskId, TaskStatusEnum.DONE);
+			TasksData.updateTaskStatusInDb(taskId, TaskStatus.DONE);
 			Activator.getLogger().info("RumJob done: " + jobKey + " at " + new Date());
 		} catch (Exception e) {
-			TasksData.updateTaskStatusInDb(taskId, TaskStatusEnum.FAILED);
+			TasksData.updateTaskStatusInDb(taskId, TaskStatus.FAILED);
 			Activator.getLogger().info("RumJob failed: " + jobKey + " at " + new Date());
 			e.printStackTrace();
 		}
