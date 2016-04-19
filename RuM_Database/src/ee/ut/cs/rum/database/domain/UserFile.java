@@ -21,19 +21,22 @@ public class UserFile {
 	private Long id;
 	@Column(name = "original_filename")
 	private String originalFilename;
-	
+
 	@Column(name = "uploaded_by")
 	private String uploadedBy;
 	@Column(name = "uploaded_at")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date uploadedAt;
-	
+
 	@Column(name = "created_by_plugin_id")
 	private Long createdByPluginId;
 	@Column(name = "created_at")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdAt;
-	
+
+	@Column(name = "workspace_id")
+	private Long workspaceId;
+
 	@Column(name = "file_location")
 	private String fileLocation;
 
@@ -77,6 +80,14 @@ public class UserFile {
 		this.createdAt = createdAt;
 	}
 
+	public Long getWorkspaceId() {
+		return workspaceId;
+	}
+
+	public void setWorkspaceId(Long workspaceId) {
+		this.workspaceId = workspaceId;
+	}
+
 	public String getFileLocation() {
 		return fileLocation;
 	}
@@ -93,6 +104,6 @@ public class UserFile {
 	public String toString() {
 		return "UserFile [id=" + id + ", originalFilename=" + originalFilename + ", uploadedBy=" + uploadedBy
 				+ ", uploadedAt=" + uploadedAt + ", createdByPluginId=" + createdByPluginId + ", createdAt=" + createdAt
-				+ ", fileLocation=" + fileLocation + "]";
+				+ ", workspaceId=" + workspaceId + ", fileLocation=" + fileLocation + "]";
 	}
 }
