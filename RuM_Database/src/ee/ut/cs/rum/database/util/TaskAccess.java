@@ -40,9 +40,7 @@ public final class TaskAccess {
 		EntityManagerFactory emf = Activator.getEmf();
 		EntityManager em = emf.createEntityManager();
 		
-		em.find(Task.class, taskId);
 		Task task = em.find(Task.class, taskId);
-		
 		return task;
 	}
 }
