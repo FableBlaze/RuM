@@ -14,6 +14,7 @@ public final class TaskAccess {
 	private TaskAccess() {
 	}
 	
+	//TODO: Add overview of all tasks to the UI
 	public static List<Task> getTasksDataFromDb() {
 		EntityManagerFactory emf = Activator.getEmf();
 		EntityManager em = emf.createEntityManager();

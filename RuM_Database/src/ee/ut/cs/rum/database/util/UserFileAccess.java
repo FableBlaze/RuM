@@ -14,6 +14,7 @@ public final class UserFileAccess {
 	private UserFileAccess() {
 	}
 	
+	//TODO: Add overview of all user files to the UI
 	public static List<UserFile> getUserFilesDataFromDb() {
 		EntityManagerFactory emf = Activator.getEmf();
 		EntityManager em = emf.createEntityManager();
