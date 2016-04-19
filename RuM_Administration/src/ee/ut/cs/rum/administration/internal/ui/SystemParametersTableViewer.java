@@ -32,7 +32,7 @@ public class SystemParametersTableViewer extends TableViewer {
 
 	private void createColumns(final TableViewer viewer) {
 		String[] titles = { "Id", "Name", "Description", "Value (Click on value to modify)"};
-		int[] bounds = { 50, 100, 300, 700 };
+		int[] bounds = { 50, 180, 300, 700 };
 		
 		TableViewerColumn idColumn = createTableViewerColumn(titles[0], bounds[0], viewer);
 		idColumn.setLabelProvider(new ColumnLabelProvider() {

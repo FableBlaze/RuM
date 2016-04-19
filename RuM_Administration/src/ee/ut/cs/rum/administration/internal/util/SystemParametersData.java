@@ -19,6 +19,16 @@ public final class SystemParametersData {
 		systemParameter.setName("plugin_path");
 		systemParameter.setDescription("Location of plugin jars");
 		SystemParametersData.addSystemParameterDataToDb(systemParameter);
+		
+		systemParameter = new SystemParameter();
+		systemParameter.setName("upload_file_path");
+		systemParameter.setDescription("Location of user uploaded files");
+		SystemParametersData.addSystemParameterDataToDb(systemParameter);
+		
+		systemParameter = new SystemParameter();
+		systemParameter.setName("task_results_root_path");
+		systemParameter.setDescription("Location of task output folders");
+		SystemParametersData.addSystemParameterDataToDb(systemParameter);
 	}
 	
 	public static List<SystemParameter> getSystemParametersDataFromDb() {
