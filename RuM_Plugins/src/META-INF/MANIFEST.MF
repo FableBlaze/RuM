@@ -8,6 +8,7 @@ Bundle-ManifestVersion: 2
 Bundle-Activator: ee.ut.cs.rum.plugins.internal.Activator
 Import-Package: ee.ut.cs.rum.database,
  ee.ut.cs.rum.database.domain,
+ ee.ut.cs.rum.database.domain.enums,
  ee.ut.cs.rum.database.util,
  ee.ut.cs.rum.plugins.development.description,
  ee.ut.cs.rum.plugins.development.description.deserializer,

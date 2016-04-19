@@ -8,6 +8,7 @@ import javax.persistence.TypedQuery;
 
 import ee.ut.cs.rum.administration.internal.Activator;
 import ee.ut.cs.rum.database.domain.SystemParameter;
+import ee.ut.cs.rum.database.domain.enums.SystemParameterName;
 
 public final class SystemParametersData {
 	
@@ -16,17 +17,17 @@ public final class SystemParametersData {
 	
 	public static void initializeSystemParameters() {
 		SystemParameter systemParameter = new SystemParameter();
-		systemParameter.setName("plugin_path");
+		systemParameter.setName(SystemParameterName.PLUGIN_PATH.toString());
 		systemParameter.setDescription("Location of plugin jars");
 		SystemParametersData.addSystemParameterDataToDb(systemParameter);
 		
 		systemParameter = new SystemParameter();
-		systemParameter.setName("upload_file_path");
+		systemParameter.setName(SystemParameterName.UPLOAD_FILE_PATH.toString());
 		systemParameter.setDescription("Location of user uploaded files");
 		SystemParametersData.addSystemParameterDataToDb(systemParameter);
 		
 		systemParameter = new SystemParameter();
-		systemParameter.setName("task_results_root_path");
+		systemParameter.setName(SystemParameterName.TASK_RESULTS_ROOT.toString());
 		systemParameter.setDescription("Location of task output folders");
 		SystemParametersData.addSystemParameterDataToDb(systemParameter);
 	}
@@ -42,25 +43,25 @@ public final class SystemParametersData {
 		return systemParameters;
 	}
 	
-	public static SystemParameter getSystemParameterDataFromDb(String name) {
+	public static SystemParameter getSystemParameterDataFromDb(SystemParameterName systemParameterName) {
 		SystemParameter systemParameter = null;
 		EntityManagerFactory emf = Activator.getEmf();
 		EntityManager em = emf.createEntityManager();
 		
-		String queryString = "Select sp from SystemParameter sp where sp.name = '" + name + "'";
+		String queryString = "Select sp from SystemParameter sp where sp.name = '" + systemParameterName.toString() + "'";
 		TypedQuery<SystemParameter> query = em.createQuery(queryString, SystemParameter.class);
 		
 		try {
 			systemParameter = query.getSingleResult();
 		} catch (Exception e) {
-			Activator.getLogger().info("Failed querying systemparameter with name: " + name);
+			Activator.getLogger().info("Failed querying systemparameter with name: " + systemParameterName);
 		}
 		return systemParameter;
 	}
 	
-	public static boolean updateParameterValue(String name, String newValue) {
+	public static boolean updateParameterValue(SystemParameterName systemParameterName, String newValue) {
 		boolean setValueSuccess = false;
-		SystemParameter systemParameter = getSystemParameterDataFromDb(name);
+		SystemParameter systemParameter = getSystemParameterDataFromDb(systemParameterName);
 		if (systemParameter!=null) {
 			systemParameter.setValue(newValue);
 			EntityManagerFactory emf = Activator.getEmf();
@@ -77,13 +78,13 @@ public final class SystemParametersData {
 				em.close();
 			}
 		} else {
-			Activator.getLogger().info("Can not get system parameter with name: " + name);
+			Activator.getLogger().info("Can not get system parameter with name: " + systemParameterName);
 		}
 		return setValueSuccess;
 	}
 	
 	private static void addSystemParameterDataToDb(SystemParameter systemParameter) {
-		SystemParameter existingSystemParameter = getSystemParameterDataFromDb(systemParameter.getName());
+		SystemParameter existingSystemParameter = getSystemParameterDataFromDb(SystemParameterName.valueOf(systemParameter.getName()));
 		
 		if (existingSystemParameter==null) {
 			EntityManagerFactory emf = Activator.getEmf();

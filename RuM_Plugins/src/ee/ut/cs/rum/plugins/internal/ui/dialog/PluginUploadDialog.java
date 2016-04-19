@@ -20,6 +20,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import ee.ut.cs.rum.database.domain.Plugin;
+import ee.ut.cs.rum.database.domain.enums.SystemParameterName;
 import ee.ut.cs.rum.database.util.SystemParameterAccess;
 import ee.ut.cs.rum.plugins.internal.Activator;
 import ee.ut.cs.rum.plugins.internal.ui.overview.OverviewTabContents;
@@ -142,7 +143,7 @@ public class PluginUploadDialog extends Dialog {
 				boolean copySucceeded = false;
 				File destinationFile = null;
 
-				String plugin_path = SystemParameterAccess.getSystemParameterValue("plugin_path");
+				String plugin_path = SystemParameterAccess.getSystemParameterValue(SystemParameterName.PLUGIN_PATH);
 				if (plugin_path!=null) {
 					destinationFile = new File(plugin_path + new SimpleDateFormat("ddMMyyyy_HHmmssSSS").format(new Date()) + ".jar");
 					try {
