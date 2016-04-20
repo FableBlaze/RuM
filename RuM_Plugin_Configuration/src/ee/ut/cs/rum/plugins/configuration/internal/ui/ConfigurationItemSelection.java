@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.plugins.development.ui.input;
+package ee.ut.cs.rum.plugins.configuration.internal.ui;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -8,7 +8,7 @@ import org.eclipse.swt.custom.ScrolledComposite;
 
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.plugins.development.description.PluginInfo;
-import ee.ut.cs.rum.plugins.development.ui.PluginConfigurationComposite;
+import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationComposite;
 import ee.ut.cs.rum.workspaces.internal.ui.task.PluginInfoComposite;
 import ee.ut.cs.rum.workspaces.internal.ui.task.newtask.NewTaskDetails;
 import ee.ut.cs.rum.workspaces.internal.util.PluginUtils;

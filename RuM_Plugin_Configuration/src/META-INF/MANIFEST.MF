@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: RuM_Plugin_Configuration
+Bundle-Description: Configuring RuM plugin parameters
+Bundle-Version: 0.0.1
+Bundle-Name: RuM_Plugin_Configuration
+Bundle-Vendor: University of Tartu
+Bundle-ManifestVersion: 2
+Import-Package: ee.ut.cs.rum.database,
+ ee.ut.cs.rum.plugins.development.description,
+ ee.ut.cs.rum.plugins.development.description.parameter,
+ javax.persistence;version="[2.0.4,2.0.4]",
+ org.osgi.framework;version="[1.7.0,1.7.0]",
+ org.osgi.util.tracker;version="[1.5.1,1.5.1]",
+ org.slf4j;version="[1.7.2,1.7.2]"
+Import-Bundle: org.eclipse.rap.rwt;version="[3.0.1.20150908-1130,3.0.1.20150908-1130]"
+Export-Package: ee.ut.cs.rum.plugins.configuration.ui
+

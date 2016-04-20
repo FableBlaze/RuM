@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.plugins.development.ui.input;
+package ee.ut.cs.rum.plugins.configuration.internal.ui;
 
 public interface ConfigurationItemInterface {
 	public void setValue(String value);

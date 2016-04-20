@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.plugins.development.ui.input;
+package ee.ut.cs.rum.plugins.configuration.internal.ui;
 
 import org.eclipse.rap.rwt.widgets.FileUpload;
 import org.eclipse.swt.SWT;

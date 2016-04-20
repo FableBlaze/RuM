@@ -17,7 +17,7 @@ import com.google.gson.Gson;
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.database.domain.Task;
 import ee.ut.cs.rum.database.domain.enums.TaskStatus;
-import ee.ut.cs.rum.plugins.development.ui.PluginConfigurationComposite;
+import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationComposite;
 import ee.ut.cs.rum.scheduler.util.TaskScheduling;
 import ee.ut.cs.rum.workspaces.internal.ui.task.details.TaskDetails;
 import ee.ut.cs.rum.workspaces.internal.util.TasksData;

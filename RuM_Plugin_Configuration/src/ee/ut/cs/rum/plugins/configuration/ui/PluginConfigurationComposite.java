@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.plugins.development.ui;
+package ee.ut.cs.rum.plugins.configuration.ui;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,6 +8,13 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+
+import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemDouble;
+import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemFile;
+import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemInteger;
+import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemInterface;
+import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemSelection;
+import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemString;
 import ee.ut.cs.rum.plugins.development.description.PluginInfo;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameter;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterDouble;
@@ -15,12 +22,6 @@ import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterFil
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterInteger;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterSelection;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterString;
-import ee.ut.cs.rum.plugins.development.ui.input.ConfigurationItemDouble;
-import ee.ut.cs.rum.plugins.development.ui.input.ConfigurationItemFile;
-import ee.ut.cs.rum.plugins.development.ui.input.ConfigurationItemInteger;
-import ee.ut.cs.rum.plugins.development.ui.input.ConfigurationItemInterface;
-import ee.ut.cs.rum.plugins.development.ui.input.ConfigurationItemSelection;
-import ee.ut.cs.rum.plugins.development.ui.input.ConfigurationItemString;
 
 public class PluginConfigurationComposite extends Composite {
 	private static final long serialVersionUID = -5475837154117723386L;

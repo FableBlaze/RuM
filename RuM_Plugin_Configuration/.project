@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>RuM_Plugins</name>
+	<name>RuM_Plugin_Configuration</name>
 	<comment></comment>
 	<projects>
 		<project>RuM_Database</project>
-		<project>RuM_Plugin_Configuration</project>
 		<project>RuM_Plugin_Development</project>
 	</projects>
 	<buildSpec>
