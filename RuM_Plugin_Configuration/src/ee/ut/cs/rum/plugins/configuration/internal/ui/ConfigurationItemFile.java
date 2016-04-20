@@ -1,12 +1,22 @@
 package ee.ut.cs.rum.plugins.configuration.internal.ui;
 
+import java.io.File;
+
+import org.eclipse.rap.fileupload.DiskFileUploadReceiver;
+import org.eclipse.rap.fileupload.FileUploadEvent;
+import org.eclipse.rap.fileupload.FileUploadHandler;
+import org.eclipse.rap.fileupload.FileUploadListener;
 import org.eclipse.rap.rwt.widgets.FileUpload;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 
+import ee.ut.cs.rum.plugins.configuration.internal.Activator;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterFile;
 
 public class ConfigurationItemFile extends Composite implements ConfigurationItemInterface {
@@ -28,9 +38,48 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 	private void createContents() {
 		Combo fileSelectorCombo = new Combo(this, SWT.READ_ONLY);
 		fileSelectorCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		
+		DiskFileUploadReceiver receiver = new DiskFileUploadReceiver();
+		FileUploadHandler uploadHandler = new FileUploadHandler(receiver);
+		uploadHandler.addUploadListener(new FileUploadListener() {
+			@Override
+			public void uploadProgress(FileUploadEvent arg0) {
+			}
+			@Override
+			public void uploadFailed(FileUploadEvent arg0) {
+			}
+			
+			@Override
+			public void uploadFinished(FileUploadEvent arg0) {
+				File temporaryFile = receiver.getTargetFiles()[receiver.getTargetFiles().length-1];
+				Activator.getLogger().info("Uploaded file: " + temporaryFile.getAbsolutePath());
+				
+				Display.getDefault().syncExec(new Runnable() {
+					public void run() {						
+						//TODO: Add uploaded file to fileSelectorCombo and set it as selected
+					}
+				});
+			}
+			
+		});
+		
 		FileUpload fileUpload = new FileUpload(this, SWT.NONE);
 		fileUpload.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
 		fileUpload.setText("Upload");
+		fileUpload.addSelectionListener(new SelectionAdapter() {
+			private static final long serialVersionUID = -7623994796399336054L;
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				fileUpload.submit(uploadHandler.getUploadUrl());
+				
+				Display.getDefault().syncExec(new Runnable() {
+					public void run() {
+						//TODO: Reset fileSelectorCombo (clear selection and remove previous uploaded file)
+					}
+				});
+			}
+		});
 	}
 
 	@Override
