@@ -124,14 +124,14 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 	public void setValue(String value) {
 		if (value!=null && !value.equals("")) {
 			if (userFiles==null) {
-				UserFile userFile = UserFileAccess.getUserFileDataFromDb(Long.parseLong(value));
+				UserFile userFile = UserFileAccess.getUserFileDataFromDb(value);
 				if (userFile!=null) {
 					fileSelectorCombo.add(userFile.getOriginalFilename() + "  (" + new SimpleDateFormat("dd-MM-yyyy HH:MM").format(userFile.getUploadedAt()) + ")");
 					fileSelectorCombo.select(0);	
 				}
 			} else {
 				for (int i = 0; i < userFiles.size(); i++) {
-					if (userFiles.get(i).getId()==Long.parseLong(value)) {
+					if (userFiles.get(i).getFileLocation().equals(value)) {
 						fileSelectorCombo.select(i);
 					}
 				}
@@ -141,11 +141,15 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 
 	@Override
 	public String getValue() {
+		if (fileSelectorCombo==null) {
+			return null;
+		}
+		
 		int selectionIndex = fileSelectorCombo.getSelectionIndex();
 		if (selectionIndex == -1) {
 			return null;
 		} else if (selectionIndex < userFiles.size()) {
-			return userFiles.get(selectionIndex).getId().toString();
+			return userFiles.get(selectionIndex).getFileLocation();
 		} else {
 			boolean copySucceeded = false;
 			File destinationFile = new File(user_file_path, new SimpleDateFormat("ddMMyyyy_HHmmssSSS").format(new Date()));
@@ -167,7 +171,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 				
 				userFile = UserFilesData.addUserFileDataToDb(userFile);
 				
-				return userFile.getId().toString();
+				return userFile.getFileLocation();
 			} else {
 				return null;
 			}

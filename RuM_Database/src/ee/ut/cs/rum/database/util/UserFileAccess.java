@@ -37,6 +37,18 @@ public final class UserFileAccess {
 		return userFiles;
 	}
 	
+	public static UserFile getUserFileDataFromDb(String fileLocation) {
+		EntityManagerFactory emf = Activator.getEmf();
+		EntityManager em = emf.createEntityManager();
+		
+		String queryString = "Select uf from UserFile uf where uf.fileLocation = '" + fileLocation + "'";
+		TypedQuery<UserFile> query = em.createQuery(queryString, UserFile.class);
+		
+		UserFile userFile = query.getSingleResult();
+		return userFile;
+	}
+	
+	//TODO: Add a way to see details of a file
 	public static UserFile getUserFileDataFromDb(Long userFileId) {
 		EntityManagerFactory emf = Activator.getEmf();
 		EntityManager em = emf.createEntityManager();
