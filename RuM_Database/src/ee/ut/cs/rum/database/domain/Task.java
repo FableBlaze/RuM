@@ -37,6 +37,8 @@ public class Task {
 	private Date createdAt;
 	@Column(name = "workspace_id")
 	private Long workspaceId;
+	@Column(name = "output_path")
+	private String outputPath;
 	
 	public String getName() {
 		return name;
@@ -89,10 +91,17 @@ public class Task {
 	public void setWorkspaceId(Long workspaceId) {
 		this.workspaceId = workspaceId;
 	}
+	public String getOutputPath() {
+		return outputPath;
+	}
+	public void setOutputPath(String outputPath) {
+		this.outputPath = outputPath;
+	}
 	@Override
 	public String toString() {
 		return "Task [id=" + id + ", name=" + name + ", status=" + status + ", pluginId=" + pluginId + ", description="
-				+ description + ", configurationValues=" + configurationValues + ", createdBy=" + createdBy + ", createdAt="
-				+ createdAt + ", workspaceId=" + workspaceId + "]";
+				+ description + ", configurationValues=" + configurationValues + ", createdBy=" + createdBy
+				+ ", createdAt=" + createdAt + ", workspaceId=" + workspaceId + ", outputPath=" + outputPath
+				+ "]";
 	}
 }
