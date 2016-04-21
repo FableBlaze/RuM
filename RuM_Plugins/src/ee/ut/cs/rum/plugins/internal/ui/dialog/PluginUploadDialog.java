@@ -114,17 +114,12 @@ public class PluginUploadDialog extends Dialog {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				if (!fileName.isDisposed()) {
+					resetValues();
+					fileName.setText("");
+					okButton.setEnabled(false);
+				}
 				fileUpload.submit(uploadHandler.getUploadUrl());
-
-				Display.getDefault().syncExec(new Runnable() {
-					public void run() {
-						if (!fileName.isDisposed()) {
-							resetValues();
-							fileName.setText("");
-							okButton.setEnabled(false);
-						}
-					}
-				});
 			}
 		} );
 
@@ -162,11 +157,7 @@ public class PluginUploadDialog extends Dialog {
 					temporaryPlugin = PluginsData.addPluginDataToDb(temporaryPlugin, overviewTabContents);
 					shell.close();
 				} else {
-					Display.getDefault().syncExec(new Runnable() {
-						public void run() {
-							feedbackTextValue.setText("Plugin install failed");
-						}
-					});
+					feedbackTextValue.setText("Plugin install failed");
 				}
 			}
 		});
@@ -183,7 +174,7 @@ public class PluginUploadDialog extends Dialog {
 			}
 		});
 	}
-	
+
 	private void resetValues() {
 		if (!symbolicNameValue.isDisposed()) {symbolicNameValue.setText("");} 
 		if (!versionValue.isDisposed()) {versionValue.setText("");} 
@@ -195,8 +186,9 @@ public class PluginUploadDialog extends Dialog {
 
 	public void setTemporaryFile(File temporaryFile) {
 		this.temporaryFile = temporaryFile;
-
+		
 		if (!fileName.isDisposed()) {
+			//Needs syncExec because is called from PluginUploadListener
 			Display.getDefault().syncExec(new Runnable() {
 				public void run() {
 					fileName.setText(temporaryFile.getName());
@@ -207,7 +199,8 @@ public class PluginUploadDialog extends Dialog {
 
 	public void setTemporaryPlugin(Plugin temporaryPlugin) {
 		this.temporaryPlugin = temporaryPlugin;
-
+		
+		//Needs syncExec because is called from PluginUploadListener
 		Display.getDefault().syncExec(new Runnable() {
 			public void run() {
 				if (temporaryPlugin==null) {
@@ -221,7 +214,7 @@ public class PluginUploadDialog extends Dialog {
 					if (!vendorValue.isDisposed()) {vendorValue.setText(temporaryPlugin.getBundleVendor());}
 					if (!descriptionValue.isDisposed()) {descriptionValue.setText(temporaryPlugin.getBundleDescription());}
 					if (!activatorValue.isDisposed()) {activatorValue.setText(temporaryPlugin.getBundleActivator());}
-					
+
 					okButton.setEnabled(true);
 					feedbackTextValue.setText("");
 				}
