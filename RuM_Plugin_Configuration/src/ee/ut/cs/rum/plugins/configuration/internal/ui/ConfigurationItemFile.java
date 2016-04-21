@@ -20,6 +20,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
 
 import ee.ut.cs.rum.database.domain.UserFile;
 import ee.ut.cs.rum.database.domain.enums.SystemParameterName;
@@ -37,11 +38,16 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 	private List<UserFile> userFiles;
 	private Combo fileSelectorCombo;
 	private Long workspaceId;
+	private File user_file_path;
 
 	public ConfigurationItemFile(Composite parent, PluginParameterFile parameterFile, Long workspaceId) {
 		super(parent, SWT.NONE);
 
 		this.workspaceId=workspaceId;
+		String user_file_path_asString = SystemParameterAccess.getSystemParameterValue(SystemParameterName.USER_FILE_PATH);
+		if (user_file_path_asString!=null) {
+			user_file_path = new File(user_file_path_asString);
+		}
 
 		GridLayout gridLayout = new GridLayout(2, false);
 		gridLayout.marginHeight = 0;
@@ -50,8 +56,9 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		this.setToolTipText(parameterFile.getDescription());
-
+		
 		createContents();
+		
 	}
 
 	private void createContents() {
@@ -65,47 +72,52 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 			}
 		}
 
-		DiskFileUploadReceiver receiver = new DiskFileUploadReceiver();
-		FileUploadHandler uploadHandler = new FileUploadHandler(receiver);
-		uploadHandler.addUploadListener(new FileUploadListener() {
-			@Override
-			public void uploadProgress(FileUploadEvent arg0) {
-			}
-			@Override
-			public void uploadFailed(FileUploadEvent arg0) {
-			}
-
-			@Override
-			public void uploadFinished(FileUploadEvent arg0) {
-				temporaryFile = receiver.getTargetFiles()[receiver.getTargetFiles().length-1];
-				Activator.getLogger().info("Uploaded file: " + temporaryFile.getAbsolutePath());
-
-				Display.getDefault().syncExec(new Runnable() {
-					public void run() {
-						fileSelectorCombo.add(temporaryFile.getName());
-						fileSelectorCombo.select(fileSelectorCombo.getItemCount()-1);
-					}
-				});
-			}
-
-		});
-
-		FileUpload fileUpload = new FileUpload(this, SWT.NONE);
-		fileUpload.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
-		fileUpload.setText("Upload");
-		fileUpload.addSelectionListener(new SelectionAdapter() {
-			private static final long serialVersionUID = -7623994796399336054L;
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				fileSelectorCombo.deselectAll();
-				if (temporaryFile != null) {
-					temporaryFile=null;
-					fileSelectorCombo.remove(fileSelectorCombo.getItemCount()-1);
+		if (user_file_path==null && workspaceId!=null) {
+			Label label = new Label(this, SWT.NONE);
+			label.setText("File upload disabled!");
+		} else {
+			DiskFileUploadReceiver receiver = new DiskFileUploadReceiver();
+			FileUploadHandler uploadHandler = new FileUploadHandler(receiver);
+			uploadHandler.addUploadListener(new FileUploadListener() {
+				@Override
+				public void uploadProgress(FileUploadEvent arg0) {
 				}
-				fileUpload.submit(uploadHandler.getUploadUrl());
-			}
-		});
+				@Override
+				public void uploadFailed(FileUploadEvent arg0) {
+				}
+				
+				@Override
+				public void uploadFinished(FileUploadEvent arg0) {
+					temporaryFile = receiver.getTargetFiles()[receiver.getTargetFiles().length-1];
+					Activator.getLogger().info("Uploaded file: " + temporaryFile.getAbsolutePath());
+					
+					Display.getDefault().syncExec(new Runnable() {
+						public void run() {
+							fileSelectorCombo.add(temporaryFile.getName());
+							fileSelectorCombo.select(fileSelectorCombo.getItemCount()-1);
+						}
+					});
+				}
+				
+			});
+			
+			FileUpload fileUpload = new FileUpload(this, SWT.NONE);
+			fileUpload.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+			fileUpload.setText("Upload");
+			fileUpload.addSelectionListener(new SelectionAdapter() {
+				private static final long serialVersionUID = -7623994796399336054L;
+				
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					fileSelectorCombo.deselectAll();
+					if (temporaryFile != null) {
+						temporaryFile=null;
+						fileSelectorCombo.remove(fileSelectorCombo.getItemCount()-1);
+					}
+					fileUpload.submit(uploadHandler.getUploadUrl());
+				}
+			});
+		}
 	}
 
 	@Override
@@ -113,8 +125,10 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 		if (value!=null && !value.equals("")) {
 			if (userFiles==null) {
 				UserFile userFile = UserFileAccess.getUserFileDataFromDb(Long.parseLong(value));
-				fileSelectorCombo.add(userFile.getOriginalFilename() + "  (" + new SimpleDateFormat("dd-MM-yyyy HH:MM").format(userFile.getUploadedAt()) + ")");
-				fileSelectorCombo.select(0);
+				if (userFile!=null) {
+					fileSelectorCombo.add(userFile.getOriginalFilename() + "  (" + new SimpleDateFormat("dd-MM-yyyy HH:MM").format(userFile.getUploadedAt()) + ")");
+					fileSelectorCombo.select(0);	
+				}
 			} else {
 				for (int i = 0; i < userFiles.size(); i++) {
 					if (userFiles.get(i).getId()==Long.parseLong(value)) {
@@ -134,8 +148,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 			return userFiles.get(selectionIndex).getId().toString();
 		} else {
 			boolean copySucceeded = false;
-			File user_file_path = new File(SystemParameterAccess.getSystemParameterValue(SystemParameterName.USER_FILE_PATH));
-			File destinationFile = new File(user_file_path, new SimpleDateFormat("ddMMyyyy_HHmmssSSS_").format(new Date()));
+			File destinationFile = new File(user_file_path, new SimpleDateFormat("ddMMyyyy_HHmmssSSS").format(new Date()));
 			try {
 				Files.copy( temporaryFile.toPath(), destinationFile.toPath());
 				copySucceeded = true;
