@@ -140,7 +140,8 @@ public class PluginUploadDialog extends Dialog {
 
 				String plugin_path = SystemParameterAccess.getSystemParameterValue(SystemParameterName.PLUGIN_PATH);
 				if (plugin_path!=null) {
-					destinationFile = new File(plugin_path + new SimpleDateFormat("ddMMyyyy_HHmmssSSS").format(new Date()) + ".jar");
+					File plugin_path_file = new File(plugin_path);
+					destinationFile = new File(plugin_path_file, new SimpleDateFormat("ddMMyyyy_HHmmssSSS").format(new Date()) + ".jar");
 					try {
 						Files.copy( temporaryFile.toPath(), destinationFile.toPath());
 						copySucceeded = true;
