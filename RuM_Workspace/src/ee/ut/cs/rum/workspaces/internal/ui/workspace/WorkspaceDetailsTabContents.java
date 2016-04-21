@@ -2,8 +2,11 @@ package ee.ut.cs.rum.workspaces.internal.ui.workspace;
 
 import java.util.List;
 
+import org.eclipse.rap.rwt.service.ServerPushSession;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -80,6 +83,19 @@ public class WorkspaceDetailsTabContents extends Composite {
 					cTabItem.setText ("New task");
 					cTabItem.setControl(new NewTaskDetails(workspaceTabFolder));
 					workspaceTabFolder.setSelection(cTabItem);
+					
+					//To allow updating "New task" tab after file upload
+					ServerPushSession pushSession = new ServerPushSession();
+					pushSession.start();
+
+					cTabItem.addDisposeListener(new DisposeListener() {
+						private static final long serialVersionUID = 1662616459204440883L;
+
+						@Override
+						public void widgetDisposed(DisposeEvent arg0) {
+							pushSession.stop();
+						}
+					});
 				}
 			}
 		});

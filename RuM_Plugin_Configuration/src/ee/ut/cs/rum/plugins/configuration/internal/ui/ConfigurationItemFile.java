@@ -21,6 +21,9 @@ import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterFil
 
 public class ConfigurationItemFile extends Composite implements ConfigurationItemInterface {
 	private static final long serialVersionUID = 3599873879215927039L;
+	
+	//Temporary file is always last on fileSelectorCombo
+	private File temporaryFile;
 
 	public ConfigurationItemFile(Composite parent, PluginParameterFile parameterFile) {
 		super(parent, SWT.NONE);
@@ -51,12 +54,13 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 			
 			@Override
 			public void uploadFinished(FileUploadEvent arg0) {
-				File temporaryFile = receiver.getTargetFiles()[receiver.getTargetFiles().length-1];
+				temporaryFile = receiver.getTargetFiles()[receiver.getTargetFiles().length-1];
 				Activator.getLogger().info("Uploaded file: " + temporaryFile.getAbsolutePath());
 				
 				Display.getDefault().syncExec(new Runnable() {
-					public void run() {						
-						//TODO: Add uploaded file to fileSelectorCombo and set it as selected
+					public void run() {
+						fileSelectorCombo.add(temporaryFile.getName());
+						fileSelectorCombo.select(fileSelectorCombo.getItemCount()-1);
 					}
 				});
 			}
@@ -71,26 +75,26 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 			
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				fileSelectorCombo.deselectAll();
+				if (temporaryFile != null) {
+					temporaryFile=null;
+					fileSelectorCombo.remove(fileSelectorCombo.getItemCount()-1);
+				}
 				fileUpload.submit(uploadHandler.getUploadUrl());
-				
-				Display.getDefault().syncExec(new Runnable() {
-					public void run() {
-						//TODO: Reset fileSelectorCombo (clear selection and remove previous uploaded file)
-					}
-				});
 			}
 		});
 	}
-
+	
 	@Override
 	public void setValue(String value) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public String getValue() {
-		// TODO Auto-generated method stub
+		//TODO: Check if selected UserFile object has id (if not - create and save to database) then return id
+		
+		
 		return "a";
 	}
 	

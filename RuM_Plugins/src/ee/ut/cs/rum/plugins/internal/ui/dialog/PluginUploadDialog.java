@@ -29,7 +29,7 @@ import ee.ut.cs.rum.plugins.internal.util.PluginsData;
 public class PluginUploadDialog extends Dialog {
 	private static final long serialVersionUID = 3382119816602279394L;
 
-	ServerPushSession pushSession;
+	private ServerPushSession pushSession;
 
 	private OverviewTabContents overviewTabContents;
 

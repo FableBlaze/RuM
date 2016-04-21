@@ -6,6 +6,8 @@ Bundle-Name: RuM_Plugin_Configuration
 Bundle-Vendor: University of Tartu
 Bundle-ManifestVersion: 2
 Import-Package: ee.ut.cs.rum.database,
+ ee.ut.cs.rum.database.domain,
+ ee.ut.cs.rum.database.util,
  ee.ut.cs.rum.plugins.development.description,
  ee.ut.cs.rum.plugins.development.description.parameter,
  javax.persistence;version="[2.0.4,2.0.4]",

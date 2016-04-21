@@ -15,7 +15,6 @@ import ee.ut.cs.rum.workspaces.internal.ui.workspace.WorkspaceTabFolder;
 public class NewTaskDetails extends Composite {
 	private static final long serialVersionUID = 1902692600726551589L;
 
-	//private Composite content;
 	private WorkspaceTabFolder workspaceTabFolder;
 	private PluginInfoComposite pluginInfoComposite;
 	private ScrolledComposite scrolledPluginInfoComposite;
@@ -58,7 +57,7 @@ public class NewTaskDetails extends Composite {
 
 	private void createContents() {
 		pluginsTableComposite = new PluginsTableComposite(this);
-		
+
 		scrolledPluginInfoComposite = new ScrolledComposite(this, SWT.H_SCROLL | SWT.V_SCROLL);
 		scrolledPluginInfoComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		pluginInfoComposite = new PluginInfoComposite(scrolledPluginInfoComposite);
@@ -71,7 +70,7 @@ public class NewTaskDetails extends Composite {
 		ScrolledComposite scrolledfooterButtonsComposite = new ScrolledComposite(this, SWT.H_SCROLL | SWT.V_SCROLL);
 		scrolledfooterButtonsComposite.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, true, false));
 		((GridData) scrolledfooterButtonsComposite.getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
-		
+
 		footerButtonsComposite = new FooterButtonsComposite(scrolledfooterButtonsComposite, this);
 		scrolledfooterButtonsComposite.setContent(footerButtonsComposite);
 		footerButtonsComposite.setSize(footerButtonsComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
