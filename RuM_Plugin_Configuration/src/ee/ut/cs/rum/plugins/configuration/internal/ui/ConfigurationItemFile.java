@@ -134,8 +134,8 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 			return userFiles.get(selectionIndex).getId().toString();
 		} else {
 			boolean copySucceeded = false;
-			File upload_file_path = new File(SystemParameterAccess.getSystemParameterValue(SystemParameterName.UPLOAD_FILE_PATH));
-			File destinationFile = new File(upload_file_path, new SimpleDateFormat("ddMMyyyy_HHmmssSSS_").format(new Date()));
+			File user_file_path = new File(SystemParameterAccess.getSystemParameterValue(SystemParameterName.USER_FILE_PATH));
+			File destinationFile = new File(user_file_path, new SimpleDateFormat("ddMMyyyy_HHmmssSSS_").format(new Date()));
 			try {
 				Files.copy( temporaryFile.toPath(), destinationFile.toPath());
 				copySucceeded = true;

@@ -22,7 +22,7 @@ public final class SystemParametersData {
 		SystemParametersData.addSystemParameterDataToDb(systemParameter);
 		
 		systemParameter = new SystemParameter();
-		systemParameter.setName(SystemParameterName.UPLOAD_FILE_PATH.toString());
+		systemParameter.setName(SystemParameterName.USER_FILE_PATH.toString());
 		systemParameter.setDescription("Location of user uploaded files");
 		SystemParametersData.addSystemParameterDataToDb(systemParameter);
 		
