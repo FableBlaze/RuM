@@ -43,7 +43,7 @@ public class PluginSelectionChangedListener implements ISelectionChangedListener
 
 			PluginInfo pluginInfo = PluginUtils.deserializePluginInfo(selectedPlugin);
 			
-			PluginConfigurationComposite pluginConfigurationComposite = new PluginConfigurationComposite(scrolledPluginConfigurationComposite, pluginInfo);
+			PluginConfigurationComposite pluginConfigurationComposite = new PluginConfigurationComposite(scrolledPluginConfigurationComposite, pluginInfo, newTaskDetails.getWorkspaceTabFolder().getWorkspace().getId());
 			scrolledPluginConfigurationComposite.setContent(pluginConfigurationComposite);
 			pluginConfigurationComposite.setSize(pluginConfigurationComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 			

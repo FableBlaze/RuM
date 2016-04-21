@@ -78,7 +78,7 @@ public class TaskDetails extends Composite {
 
 		ScrolledComposite scrolledPluginConfigurationComposite = new ScrolledComposite(this, SWT.H_SCROLL | SWT.V_SCROLL);
 		scrolledPluginConfigurationComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		pluginConfigurationComposite = new PluginConfigurationComposite(scrolledPluginConfigurationComposite, pluginInfo);
+		pluginConfigurationComposite = new PluginConfigurationComposite(scrolledPluginConfigurationComposite, pluginInfo, null);
 		pluginConfigurationComposite.setEnabled(false);
 		scrolledPluginConfigurationComposite.setContent(pluginConfigurationComposite);
 		pluginConfigurationComposite.setSize(pluginConfigurationComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT));

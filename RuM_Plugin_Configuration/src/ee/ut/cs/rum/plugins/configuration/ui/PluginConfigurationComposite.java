@@ -27,15 +27,21 @@ public class PluginConfigurationComposite extends Composite {
 	private static final long serialVersionUID = -5475837154117723386L;
 	
 	private Map<String, ConfigurationItemInterface> configurationItems;
+	private PluginInfo pluginInfo;
+	private Long workspaceId;
 	
-	public PluginConfigurationComposite(Composite parent, PluginInfo pluginInfo) {
+	public PluginConfigurationComposite(Composite parent, PluginInfo pluginInfo, Long workspaceId) {
 		super(parent, SWT.NONE);
+		
+		this.pluginInfo=pluginInfo;
+		this.workspaceId=workspaceId;
+		
 		this.setLayout(new GridLayout(2, false));
 		
-		createContents(pluginInfo);
+		createContents();
 	}
 
-	private void createContents(PluginInfo pluginInfo) {
+	private void createContents() {
 		configurationItems = new HashMap<String, ConfigurationItemInterface>();
 		
 		Label label = new Label (this, SWT.NONE);
@@ -72,7 +78,7 @@ public class PluginConfigurationComposite extends Composite {
 				break; 
 			case FILE:
 				PluginParameterFile parameterFile = (PluginParameterFile) pluginParameter;
-				configurationItems.put(parameterFile.getInternalName(), new ConfigurationItemFile(this, parameterFile));
+				configurationItems.put(parameterFile.getInternalName(), new ConfigurationItemFile(this, parameterFile, workspaceId));
 				break; 
 			default:
 				break;
@@ -83,8 +89,9 @@ public class PluginConfigurationComposite extends Composite {
 	public Map<String, String> getConfigurationValues() {
 		Map<String, String> configurationValues = new HashMap<String, String>();
 		for (String key : configurationItems.keySet()) {
-			if (configurationItems.get(key).getValue()!=null) {
-				configurationValues.put(key, configurationItems.get(key).getValue());
+			String configurationItemValue = configurationItems.get(key).getValue();
+			if (configurationItemValue!=null) {
+				configurationValues.put(key, configurationItemValue);
 			} else {
 				configurationValues.put(key, "");
 			}
