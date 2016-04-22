@@ -58,7 +58,6 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 		this.setToolTipText(parameterFile.getDescription());
 		
 		createContents();
-		
 	}
 
 	private void createContents() {
@@ -68,7 +67,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 		if (workspaceId!=null) {
 			this.userFiles = UserFileAccess.getWorkspaceUserFilesDataFromDb(workspaceId);
 			for (UserFile userFile : userFiles) {
-				fileSelectorCombo.add(userFile.getOriginalFilename() + "  (" + new SimpleDateFormat("dd-MM-yyyy HH:MM").format(userFile.getUploadedAt()) + ")");
+				fileSelectorCombo.add(userFile.getOriginalFilename() + "  (" + new SimpleDateFormat("dd-MM-yyyy HH:mm").format(userFile.getCreatedAt()) + ")");
 			}
 		}
 
@@ -126,7 +125,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 			if (userFiles==null) {
 				UserFile userFile = UserFileAccess.getUserFileDataFromDb(value);
 				if (userFile!=null) {
-					fileSelectorCombo.add(userFile.getOriginalFilename() + "  (" + new SimpleDateFormat("dd-MM-yyyy HH:MM").format(userFile.getUploadedAt()) + ")");
+					fileSelectorCombo.add(userFile.getOriginalFilename() + "  (" + new SimpleDateFormat("dd-MM-yyyy HH:mm").format(userFile.getCreatedAt()) + ")");
 					fileSelectorCombo.select(0);	
 				}
 			} else {
@@ -164,8 +163,8 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 			if (copySucceeded) {
 				UserFile userFile = new UserFile();
 				userFile.setOriginalFilename(temporaryFile.getName());
-				userFile.setUploadedBy("TODO");
-				userFile.setUploadedAt(new Date());
+				userFile.setCreatedByUserId("TODO");
+				userFile.setCreatedAt(new Date());
 				userFile.setWorkspaceId(workspaceId);
 				userFile.setFileLocation(destinationFile.toPath().toString());
 				

@@ -22,12 +22,8 @@ public class UserFile {
 	@Column(name = "original_filename")
 	private String originalFilename;
 
-	@Column(name = "uploaded_by")
-	private String uploadedBy;
-	@Column(name = "uploaded_at")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date uploadedAt;
-
+	@Column(name = "created_by_user_id")
+	private String createdByUserId;
 	@Column(name = "created_by_plugin_id")
 	private Long createdByPluginId;
 	@Column(name = "created_at")
@@ -48,26 +44,18 @@ public class UserFile {
 		this.originalFilename = originalFilename;
 	}
 
-	public String getUploadedBy() {
-		return uploadedBy;
+	public String getCreatedByUserId() {
+		return createdByUserId;
 	}
 
-	public void setUploadedBy(String uploadedBy) {
-		this.uploadedBy = uploadedBy;
+	public void setCreatedByUserId(String createdByUserId) {
+		this.createdByUserId = createdByUserId;
 	}
-
-	public Date getUploadedAt() {
-		return uploadedAt;
-	}
-
-	public void setUploadedAt(Date uploadedAt) {
-		this.uploadedAt = uploadedAt;
-	}
-
+	
 	public Long getCreatedByPluginId() {
 		return createdByPluginId;
 	}
-
+	
 	public void setCreatedByPluginId(Long createdByPluginId) {
 		this.createdByPluginId = createdByPluginId;
 	}
@@ -102,8 +90,8 @@ public class UserFile {
 
 	@Override
 	public String toString() {
-		return "UserFile [id=" + id + ", originalFilename=" + originalFilename + ", uploadedBy=" + uploadedBy
-				+ ", uploadedAt=" + uploadedAt + ", createdByPluginId=" + createdByPluginId + ", createdAt=" + createdAt
+		return "UserFile [id=" + id + ", originalFilename=" + originalFilename + ", createdByUserId=" + createdByUserId
+				+ ", createdByPluginId=" + createdByPluginId + ", createdAt=" + createdAt
 				+ ", workspaceId=" + workspaceId + ", fileLocation=" + fileLocation + "]";
 	}
 }
