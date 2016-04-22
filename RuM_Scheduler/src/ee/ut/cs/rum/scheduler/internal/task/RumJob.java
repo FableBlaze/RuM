@@ -107,6 +107,7 @@ public class RumJob implements Job {
 				userFile.setOriginalFilename(file.getName());
 				userFile.setCreatedByPluginId(rumJobTask.getPluginId());
 				userFile.setCreatedAt(new Date());
+				userFile.setTaskId(rumJobTask.getId());
 				userFile.setWorkspaceId(rumJobTask.getWorkspaceId());
 				userFile.setFileLocation(file.getPath());
 				
