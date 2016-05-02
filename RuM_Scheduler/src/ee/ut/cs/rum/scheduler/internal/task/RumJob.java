@@ -16,11 +16,11 @@ import ee.ut.cs.rum.database.domain.Task;
 import ee.ut.cs.rum.database.domain.UserFile;
 import ee.ut.cs.rum.database.domain.enums.TaskStatus;
 import ee.ut.cs.rum.database.util.PluginAccess;
+import ee.ut.cs.rum.database.util.UserFileAccess;
 import ee.ut.cs.rum.plugins.development.interfaces.RumPluginFactory;
 import ee.ut.cs.rum.plugins.development.interfaces.factory.RumPluginWorker;
 import ee.ut.cs.rum.scheduler.internal.Activator;
 import ee.ut.cs.rum.scheduler.internal.util.TasksData;
-import ee.ut.cs.rum.scheduler.util.UserFilesData;
 
 public class RumJob implements Job {
 	public static final String TASK_ID = "taskId";
@@ -111,7 +111,7 @@ public class RumJob implements Job {
 				userFile.setWorkspaceId(rumJobTask.getWorkspaceId());
 				userFile.setFileLocation(file.getPath());
 				
-				userFile = UserFilesData.addUserFileDataToDb(userFile);
+				userFile = UserFileAccess.addUserFileDataToDb(userFile);
 			} else if (file.isDirectory()) {
 				addTaskCreatedFilesToDb(file.getAbsolutePath());
 			}
