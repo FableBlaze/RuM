@@ -3,6 +3,7 @@ package ee.ut.cs.rum.workspaces.internal.ui.task.newtask;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -23,11 +24,11 @@ import ee.ut.cs.rum.database.domain.Task;
 import ee.ut.cs.rum.database.domain.enums.SystemParameterName;
 import ee.ut.cs.rum.database.domain.enums.TaskStatus;
 import ee.ut.cs.rum.database.util.SystemParameterAccess;
+import ee.ut.cs.rum.database.util.TaskAccess;
 import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationComposite;
 import ee.ut.cs.rum.scheduler.util.TaskScheduling;
 import ee.ut.cs.rum.workspaces.internal.Activator;
 import ee.ut.cs.rum.workspaces.internal.ui.task.details.TaskDetails;
-import ee.ut.cs.rum.workspaces.internal.util.TasksData;
 
 public class FooterButtonsComposite extends Composite {
 	private static final long serialVersionUID = 688156596045927568L;
@@ -103,6 +104,10 @@ public class FooterButtonsComposite extends Composite {
 					cTabItem.setText ("Task " + task.getId().toString());
 					cTabItem.setControl(new TaskDetails(newTaskDetails.getWorkspaceTabFolder(), task.getId()));
 					newTaskDetails.getWorkspaceTabFolder().setSelection(cTabItem);
+					
+					//TODO: Properly updating the UI (MCV)
+					List<Task> workspaceTasks = TaskAccess.getWorkspaceTasksDataFromDb(newTaskDetails.getWorkspaceTabFolder().getWorkspace().getId());
+					newTaskDetails.getWorkspaceTabFolder().getWorkspaceDetailsTabContents().getTasksTableViewer().setInput(workspaceTasks);
 				}
 			}
 		});
@@ -136,7 +141,7 @@ public class FooterButtonsComposite extends Composite {
 			task.setWorkspaceId(newTaskDetails.getWorkspaceTabFolder().getWorkspace().getId());
 			task.setOutputPath(taskResultsPath.getPath());
 			
-			task = TasksData.addTaskDataToDb(task, newTaskDetails);
+			task = TaskAccess.addTaskDataToDb(task);
 			TaskScheduling.scheduleTask(task.getId());			
 		} else {
 			Activator.getLogger().info("Failed creating task output folder: " + taskResultsPath.getPath());

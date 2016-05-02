@@ -1,6 +1,7 @@
 package ee.ut.cs.rum.workspaces.internal.ui.workspace.dialog;
 
 import java.util.Date;
+import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -14,7 +15,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
 import ee.ut.cs.rum.database.domain.Workspace;
-import ee.ut.cs.rum.workspaces.internal.util.WorkspacesData;
+import ee.ut.cs.rum.database.util.WorkspaceAccess;
 import ee.ut.cs.rum.workspaces.ui.WorkspacesUI;
 
 public class NewWorkspaceDialog extends Dialog {
@@ -78,7 +79,12 @@ public class NewWorkspaceDialog extends Dialog {
 					workspace.setDescription(descriptionValue.getText());
 					workspace.setCreatedBy("TODO");
 					workspace.setCreatedAt(new Date());
-					workspace = WorkspacesData.addWorkspaceDataToDb(workspace, workspacesUI);
+					workspace = WorkspaceAccess.addWorkspaceDataToDb(workspace);
+					
+					List<Workspace> workspaces = WorkspaceAccess.getWorkspacesDataFromDb();
+					workspacesUI.getWorkspacesOverview().getWorkspacesTableViewer().setInput(workspaces);
+					workspacesUI.getWorkspacesHeader().getWorkspaceSelectorCombo().updateWorkspaceSelector(workspaces);
+					
 					shell.close();
 				}
 			}

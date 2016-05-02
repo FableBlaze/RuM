@@ -44,4 +44,15 @@ public final class TaskAccess {
 		Task task = em.find(Task.class, taskId);
 		return task;
 	}
+	
+	public static Task addTaskDataToDb(Task task) {
+		EntityManagerFactory emf = Activator.getEmf();
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		em.persist(task);
+		em.getTransaction().commit();
+		em.close();
+		
+		return task;
+	}
 }

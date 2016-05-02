@@ -24,4 +24,15 @@ public final class WorkspaceAccess {
 		
 		return workspaces;
 	}
+	
+	public static Workspace addWorkspaceDataToDb(Workspace workspace) {
+		EntityManagerFactory emf = Activator.getEmf();
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		em.persist(workspace);
+		em.getTransaction().commit();
+		em.close();
+		
+		return workspace;
+	}
 }
