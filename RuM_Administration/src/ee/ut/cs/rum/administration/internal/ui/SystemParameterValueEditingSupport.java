@@ -5,9 +5,9 @@ import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
 
-import ee.ut.cs.rum.administration.internal.util.SystemParametersData;
 import ee.ut.cs.rum.database.domain.SystemParameter;
 import ee.ut.cs.rum.database.domain.enums.SystemParameterName;
+import ee.ut.cs.rum.database.util.SystemParameterAccess;
 
 public class SystemParameterValueEditingSupport extends EditingSupport {
 	private static final long serialVersionUID = -5172543737241228835L;
@@ -44,7 +44,7 @@ public class SystemParameterValueEditingSupport extends EditingSupport {
 	@Override
 	protected void setValue(Object element, Object userInputValue) {
 		SystemParameterName systemParameterName = SystemParameterName.valueOf(((SystemParameter) element).getName());
-		boolean setValueSuccess = SystemParametersData.updateParameterValue(systemParameterName, String.valueOf(userInputValue));
+		boolean setValueSuccess = SystemParameterAccess.updateParameterValue(systemParameterName, String.valueOf(userInputValue));
 		if (setValueSuccess) {
 			((SystemParameter) element).setValue(String.valueOf(userInputValue));
 			viewer.update(element, null);

@@ -9,9 +9,9 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 
-import ee.ut.cs.rum.administration.internal.util.SystemParametersData;
 import ee.ut.cs.rum.administration.ui.SystemAdministrationUI;
 import ee.ut.cs.rum.database.domain.SystemParameter;
+import ee.ut.cs.rum.database.util.SystemParameterAccess;
 
 public class SystemParametersTableViewer extends TableViewer {
 	private static final long serialVersionUID = 73600176583676925L;
@@ -27,7 +27,7 @@ public class SystemParametersTableViewer extends TableViewer {
 		table.setLinesVisible(true);
 
 		this.setContentProvider(new ArrayContentProvider());
-		this.setInput(SystemParametersData.getSystemParametersDataFromDb());
+		this.setInput(SystemParameterAccess.getSystemParametersDataFromDb());
 	}
 
 	private void createColumns(final TableViewer viewer) {
