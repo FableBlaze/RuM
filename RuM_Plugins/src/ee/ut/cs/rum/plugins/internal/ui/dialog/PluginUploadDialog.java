@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+
 import org.eclipse.rap.fileupload.DiskFileUploadReceiver;
 import org.eclipse.rap.fileupload.FileUploadHandler;
 import org.eclipse.rap.rwt.service.ServerPushSession;
@@ -21,10 +23,10 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.database.domain.enums.SystemParameterName;
+import ee.ut.cs.rum.database.util.PluginAccess;
 import ee.ut.cs.rum.database.util.SystemParameterAccess;
 import ee.ut.cs.rum.plugins.internal.Activator;
 import ee.ut.cs.rum.plugins.internal.ui.overview.OverviewTabContents;
-import ee.ut.cs.rum.plugins.internal.util.PluginsData;
 
 public class PluginUploadDialog extends Dialog {
 	private static final long serialVersionUID = 3382119816602279394L;
@@ -155,7 +157,13 @@ public class PluginUploadDialog extends Dialog {
 					temporaryPlugin.setUploadedAt(new Date());
 					temporaryPlugin.setUploadedBy("TODO"); //TODO: Add reference to the user
 					temporaryPlugin.setFileLocation(destinationFile.toPath().toString());
-					temporaryPlugin = PluginsData.addPluginDataToDb(temporaryPlugin, overviewTabContents);
+					temporaryPlugin = PluginAccess.addPluginDataToDb(temporaryPlugin);
+					
+					//TODO: Implement proper UI updating (MCV)
+					List<Plugin> plugins = PluginAccess.getPluginsDataFromDb();
+					overviewTabContents.getPluginsTableComposite().getPluginsTableViewer().setInput(plugins);
+					overviewTabContents.getPluginsOverview().getNumberOfPluginsLable().setText(Integer.toString(plugins.size()));
+					
 					shell.close();
 				} else {
 					feedbackTextValue.setText("Plugin install failed");

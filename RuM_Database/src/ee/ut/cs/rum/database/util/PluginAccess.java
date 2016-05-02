@@ -32,4 +32,17 @@ public final class PluginAccess {
 		Plugin plugin = em.find(Plugin.class, pluginId);
 		return plugin;
 	}
+	
+	public static Plugin addPluginDataToDb(Plugin plugin) {
+		EntityManagerFactory emf = Activator.getEmf();
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		em.persist(plugin);
+		em.getTransaction().commit();
+		em.close();
+		
+		Activator.getLogger().info("Added plugin: " + plugin.toString());
+		
+		return plugin;
+	}
 }
