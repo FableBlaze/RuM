@@ -8,9 +8,11 @@ import org.osgi.util.tracker.ServiceTracker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ee.ut.cs.rum.administration.internal.util.SystemParametersData;
 import ee.ut.cs.rum.database.EmfTrackerCustomizer;
 import ee.ut.cs.rum.database.RumEmfService;
+import ee.ut.cs.rum.database.domain.SystemParameter;
+import ee.ut.cs.rum.database.domain.enums.SystemParameterName;
+import ee.ut.cs.rum.database.util.SystemParameterAccess;
 
 public class Activator implements BundleActivator {
 	private static BundleContext context;
@@ -31,7 +33,7 @@ public class Activator implements BundleActivator {
 		emf = rumEmfService.getEmf("RuM");
 		if (emf == null) {throw new Exception("Database service not found");}
 		
-		SystemParametersData.initializeSystemParameters();
+		initializeSystemParameters();
 		
 		logger.info("RuM_administration bundle started");
 	}
@@ -39,6 +41,23 @@ public class Activator implements BundleActivator {
 	public void stop(BundleContext bundleContext) throws Exception {
 		logger.info("RuM_administration bundle stoppped");
 		Activator.context = null;
+	}
+	
+	private static void initializeSystemParameters() {
+		SystemParameter systemParameter = new SystemParameter();
+		systemParameter.setName(SystemParameterName.PLUGIN_PATH.toString());
+		systemParameter.setDescription("Location of plugin jars");
+		SystemParameterAccess.addSystemParameterDataToDb(systemParameter);
+		
+		systemParameter = new SystemParameter();
+		systemParameter.setName(SystemParameterName.USER_FILE_PATH.toString());
+		systemParameter.setDescription("Location of user uploaded files");
+		SystemParameterAccess.addSystemParameterDataToDb(systemParameter);
+		
+		systemParameter = new SystemParameter();
+		systemParameter.setName(SystemParameterName.TASK_RESULTS_ROOT.toString());
+		systemParameter.setDescription("Location of task output folders");
+		SystemParameterAccess.addSystemParameterDataToDb(systemParameter);
 	}
 
 	public static BundleContext getContext() {
