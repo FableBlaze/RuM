@@ -27,7 +27,6 @@ import ee.ut.cs.rum.database.domain.enums.SystemParameterName;
 import ee.ut.cs.rum.database.util.SystemParameterAccess;
 import ee.ut.cs.rum.database.util.UserFileAccess;
 import ee.ut.cs.rum.plugins.configuration.internal.Activator;
-import ee.ut.cs.rum.plugins.configuration.internal.util.UserFilesData;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterFile;
 
 public class ConfigurationItemFile extends Composite implements ConfigurationItemInterface {
@@ -168,7 +167,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 				userFile.setWorkspaceId(workspaceId);
 				userFile.setFileLocation(destinationFile.toPath().toString());
 				
-				userFile = UserFilesData.addUserFileDataToDb(userFile);
+				userFile = UserFileAccess.addUserFileDataToDb(userFile);
 				
 				return userFile.getFileLocation();
 			} else {
