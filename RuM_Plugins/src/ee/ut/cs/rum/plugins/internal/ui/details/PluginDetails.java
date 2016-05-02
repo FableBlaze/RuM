@@ -14,7 +14,7 @@ import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.database.util.PluginAccess;
 import ee.ut.cs.rum.plugins.development.description.PluginInfo;
 import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationComposite;
-import ee.ut.cs.rum.plugins.internal.util.PluginUtils;
+import ee.ut.cs.rum.plugins.configuration.util.PluginUtils;
 import ee.ut.cs.rum.plugins.ui.PluginsManagementUI;
 
 public class PluginDetails extends ScrolledComposite {

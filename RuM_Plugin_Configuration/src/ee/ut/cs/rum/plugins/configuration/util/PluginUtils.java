@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.workspaces.internal.util;
+package ee.ut.cs.rum.plugins.configuration.util;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
