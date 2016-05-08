@@ -10,7 +10,7 @@ import ee.ut.cs.rum.plugins.development.interfaces.factory.RumPluginWorker;
 public class RumPluginWorkerImpl implements RumPluginWorker {
 
 	@Override
-	public Object runWork(String configuration, File outputParent) {
+	public int runWork(String configuration, File outputParent) {
 		// TODO Do something with parameters
 		Activator.getLogger().info("RuM_ToyPlugin2 configuration: " + configuration);
 		Activator.getLogger().info("RuM_ToyPlugin2 outputParent: " + outputParent.getPath());
@@ -32,7 +32,7 @@ public class RumPluginWorkerImpl implements RumPluginWorker {
 			e.printStackTrace();
 		}
 		Activator.getLogger().info("RuM_ToyPlugin2 sleep done");
-		return configuration.length();
+		return 0;
 	}
 
 }
