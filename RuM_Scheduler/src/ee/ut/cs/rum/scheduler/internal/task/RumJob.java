@@ -49,10 +49,14 @@ public class RumJob implements Job {
 			TasksData.updateTaskStatusInDb(taskId, TaskStatus.RUNNING);
 			Activator.getLogger().info("RumJob started: " + jobKey + " executing at " + new Date());
 
-			Object rumJobResult = rumJobPluginWorker.runWork(rumJobTask.getConfigurationValues(), new File(rumJobTask.getOutputPath()));
-			Activator.getLogger().info("RumJobResult toString: " + rumJobResult.toString());
-
-			TasksData.updateTaskStatusInDb(taskId, TaskStatus.DONE);
+			int rumJobResult = rumJobPluginWorker.runWork(rumJobTask.getConfigurationValues(), new File(rumJobTask.getOutputPath()));
+			Activator.getLogger().info("RumJobResult toString: " + Integer.toString(rumJobResult));
+			
+			if (rumJobResult==0) {
+				TasksData.updateTaskStatusInDb(taskId, TaskStatus.DONE);
+			} else {
+				TasksData.updateTaskStatusInDb(taskId, TaskStatus.FAILED);
+			}
 			
 			addTaskCreatedFilesToDb(rumJobTask.getOutputPath());
 			
