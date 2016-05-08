@@ -138,7 +138,7 @@ public class FooterButtonsComposite extends Composite {
 			task.setConfigurationValues(configurationValuesString);
 			task.setCreatedBy("TODO");
 			task.setCreatedAt(createdAt);
-			task.setWorkspaceId(newTaskDetails.getWorkspaceTabFolder().getWorkspace().getId());
+			task.setProjectId(newTaskDetails.getWorkspaceTabFolder().getWorkspace().getId());
 			task.setOutputPath(taskResultsPath.getPath());
 			
 			task = TaskAccess.addTaskDataToDb(task);

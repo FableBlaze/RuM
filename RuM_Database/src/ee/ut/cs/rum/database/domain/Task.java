@@ -35,8 +35,8 @@ public class Task {
 	@Column(name = "created_at")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdAt;
-	@Column(name = "workspace_id")
-	private Long workspaceId;
+	@Column(name = "project_id")
+	private Long projectId;
 	@Column(name = "output_path")
 	private String outputPath;
 	
@@ -85,11 +85,11 @@ public class Task {
 	public Long getId() {
 		return id;
 	}
-	public Long getWorkspaceId() {
-		return workspaceId;
+	public Long getProjectId() {
+		return projectId;
 	}
-	public void setWorkspaceId(Long workspaceId) {
-		this.workspaceId = workspaceId;
+	public void setProjectId(Long projectId) {
+		this.projectId = projectId;
 	}
 	public String getOutputPath() {
 		return outputPath;
@@ -101,7 +101,7 @@ public class Task {
 	public String toString() {
 		return "Task [id=" + id + ", name=" + name + ", status=" + status + ", pluginId=" + pluginId + ", description="
 				+ description + ", configurationValues=" + configurationValues + ", createdBy=" + createdBy
-				+ ", createdAt=" + createdAt + ", workspaceId=" + workspaceId + ", outputPath=" + outputPath
+				+ ", createdAt=" + createdAt + ", projectId=" + projectId + ", outputPath=" + outputPath
 				+ "]";
 	}
 }
