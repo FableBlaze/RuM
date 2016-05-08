@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.workspaces.internal.ui.task;
+package ee.ut.cs.rum.workspace.internal.ui.task;
 
 import java.text.SimpleDateFormat;
 
@@ -19,8 +19,8 @@ import org.eclipse.swt.widgets.TableItem;
 
 import ee.ut.cs.rum.database.domain.Task;
 import ee.ut.cs.rum.database.util.TaskAccess;
-import ee.ut.cs.rum.workspaces.internal.ui.workspace.WorkspaceDetailsTabContents;
-import ee.ut.cs.rum.workspaces.internal.ui.workspace.WorkspaceTabFolder;
+import ee.ut.cs.rum.workspace.internal.ui.workspace.WorkspaceDetailsTabContents;
+import ee.ut.cs.rum.workspace.internal.ui.workspace.WorkspaceTabFolder;
 
 public class TasksTableViewer extends TableViewer {
 	private static final long serialVersionUID = -3241294193014510267L;

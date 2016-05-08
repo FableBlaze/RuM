@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>RuM_Workspaces</name>
+	<name>RuM_Workspace</name>
 	<comment></comment>
 	<projects>
 		<project>RuM_Database</project>

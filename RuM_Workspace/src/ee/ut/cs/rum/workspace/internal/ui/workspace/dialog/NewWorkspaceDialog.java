@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.workspaces.internal.ui.workspace.dialog;
+package ee.ut.cs.rum.workspace.internal.ui.workspace.dialog;
 
 import java.util.Date;
 import java.util.List;
@@ -16,12 +16,12 @@ import org.eclipse.swt.widgets.Text;
 
 import ee.ut.cs.rum.database.domain.Workspace;
 import ee.ut.cs.rum.database.util.WorkspaceAccess;
-import ee.ut.cs.rum.workspaces.ui.WorkspacesUI;
+import ee.ut.cs.rum.workspace.ui.WorkspaceUI;
 
 public class NewWorkspaceDialog extends Dialog {
 	private static final long serialVersionUID = -9152678513520036179L;
 	
-	private WorkspacesUI workspacesUI;
+	private WorkspaceUI workspacesUI;
 	
 	private Text nameValue;
 	private Text descriptionValue;
@@ -29,7 +29,7 @@ public class NewWorkspaceDialog extends Dialog {
 	
 	private Button okButton;
 	
-	public NewWorkspaceDialog(Shell activeShell, WorkspacesUI workspacesUI) {
+	public NewWorkspaceDialog(Shell activeShell, WorkspaceUI workspacesUI) {
 		super(activeShell, SWT.APPLICATION_MODAL | SWT.TITLE | SWT.BORDER);
 		this.workspacesUI=workspacesUI;
 	}

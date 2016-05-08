@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.workspaces.internal.ui.workspace;
+package ee.ut.cs.rum.workspace.internal.ui.workspace;
 
 import java.util.List;
 
@@ -18,8 +18,8 @@ import org.eclipse.swt.widgets.Listener;
 import ee.ut.cs.rum.database.domain.Task;
 import ee.ut.cs.rum.database.domain.Workspace;
 import ee.ut.cs.rum.database.util.TaskAccess;
-import ee.ut.cs.rum.workspaces.internal.ui.task.TasksTableViewer;
-import ee.ut.cs.rum.workspaces.internal.ui.task.newtask.NewTaskDetails;
+import ee.ut.cs.rum.workspace.internal.ui.task.TasksTableViewer;
+import ee.ut.cs.rum.workspace.internal.ui.task.newtask.NewTaskDetails;
 
 public class WorkspaceDetailsTabContents extends Composite {
 	private static final long serialVersionUID = 1649148279320216160L;

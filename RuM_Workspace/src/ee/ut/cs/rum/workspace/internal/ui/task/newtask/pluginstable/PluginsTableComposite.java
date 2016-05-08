@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.workspaces.internal.ui.task.newtask.pluginstable;
+package ee.ut.cs.rum.workspace.internal.ui.task.newtask.pluginstable;
 
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
@@ -10,7 +10,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-import ee.ut.cs.rum.workspaces.internal.ui.task.newtask.NewTaskDetails;
+import ee.ut.cs.rum.workspace.internal.ui.task.newtask.NewTaskDetails;
 
 public class PluginsTableComposite extends Composite {
 	private static final long serialVersionUID = 8625656134570039043L;

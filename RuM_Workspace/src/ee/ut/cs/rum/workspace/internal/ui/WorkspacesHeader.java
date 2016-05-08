@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.workspaces.internal.ui;
+package ee.ut.cs.rum.workspace.internal.ui;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -6,8 +6,8 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
-import ee.ut.cs.rum.workspaces.internal.ui.workspace.WorkspaceSelectorCombo;
-import ee.ut.cs.rum.workspaces.ui.WorkspacesUI;
+import ee.ut.cs.rum.workspace.internal.ui.workspace.WorkspaceSelectorCombo;
+import ee.ut.cs.rum.workspace.ui.WorkspaceUI;
 
 public class WorkspacesHeader extends Composite {
 	private static final long serialVersionUID = -6786154655313853465L;
@@ -15,7 +15,7 @@ public class WorkspacesHeader extends Composite {
 	private Label workspaceTitle;
 	private WorkspaceSelectorCombo workspaceSelectorCombo;
 
-	public WorkspacesHeader(WorkspacesUI workspacesUI) {
+	public WorkspacesHeader(WorkspaceUI workspacesUI) {
 		super(workspacesUI, SWT.NONE);
 
 		this.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));

@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.workspaces.internal.ui.task.newtask;
+package ee.ut.cs.rum.workspace.internal.ui.task.newtask;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -27,8 +27,8 @@ import ee.ut.cs.rum.database.util.SystemParameterAccess;
 import ee.ut.cs.rum.database.util.TaskAccess;
 import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationComposite;
 import ee.ut.cs.rum.scheduler.util.TaskScheduling;
-import ee.ut.cs.rum.workspaces.internal.Activator;
-import ee.ut.cs.rum.workspaces.internal.ui.task.details.TaskDetails;
+import ee.ut.cs.rum.workspace.internal.Activator;
+import ee.ut.cs.rum.workspace.internal.ui.task.details.TaskDetails;
 
 public class FooterButtonsComposite extends Composite {
 	private static final long serialVersionUID = 688156596045927568L;

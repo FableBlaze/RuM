@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.workspaces.internal.ui.workspace;
+package ee.ut.cs.rum.workspace.internal.ui.workspace;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -9,16 +9,16 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
-import ee.ut.cs.rum.workspaces.internal.ui.workspace.dialog.NewWorkspaceDialog;
-import ee.ut.cs.rum.workspaces.ui.WorkspacesUI;
+import ee.ut.cs.rum.workspace.internal.ui.workspace.dialog.NewWorkspaceDialog;
+import ee.ut.cs.rum.workspace.ui.WorkspaceUI;
 
 public class WorkspacesOverview extends Composite {
 	private static final long serialVersionUID = -2991325315513334549L;
 	
-	private WorkspacesUI workspacesUI;
+	private WorkspaceUI workspacesUI;
 	private WorkspacesTableViewer workspacesTableViewer;
 	
-	public WorkspacesOverview(WorkspacesUI workspacesUI) {
+	public WorkspacesOverview(WorkspaceUI workspacesUI) {
 		super(workspacesUI, SWT.NONE);
 		this.workspacesUI=workspacesUI;
 
@@ -45,7 +45,7 @@ public class WorkspacesOverview extends Composite {
 		return workspacesTableViewer;
 	}
 	
-	public WorkspacesUI getWorkspacesUI() {
+	public WorkspaceUI getWorkspacesUI() {
 		return workspacesUI;
 	}
 }

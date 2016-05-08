@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.workspaces.internal.ui.workspace;
+package ee.ut.cs.rum.workspace.internal.ui.workspace;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,9 +12,9 @@ import org.eclipse.swt.widgets.Listener;
 
 import ee.ut.cs.rum.database.domain.Workspace;
 import ee.ut.cs.rum.database.util.WorkspaceAccess;
-import ee.ut.cs.rum.workspaces.internal.Activator;
-import ee.ut.cs.rum.workspaces.internal.ui.WorkspacesHeader;
-import ee.ut.cs.rum.workspaces.ui.WorkspacesUI;
+import ee.ut.cs.rum.workspace.internal.Activator;
+import ee.ut.cs.rum.workspace.internal.ui.WorkspacesHeader;
+import ee.ut.cs.rum.workspace.ui.WorkspaceUI;
 
 public class WorkspaceSelectorCombo extends Combo {
 	private static final long serialVersionUID = -1671918025859199853L;
@@ -22,10 +22,10 @@ public class WorkspaceSelectorCombo extends Combo {
 	//TODO: WorkspacesOverview should not be handled trough workspaceDetails list
 	private List<Workspace> workspaces;
 	private List<Composite> workspaceDetails;
-	private WorkspacesUI workspacesUI;
+	private WorkspaceUI workspacesUI;
 	private WorkspacesHeader workspacesHeader;
 
-	public WorkspaceSelectorCombo(WorkspacesHeader workspacesHeader, WorkspacesUI workspacesUI) {
+	public WorkspaceSelectorCombo(WorkspacesHeader workspacesHeader, WorkspaceUI workspacesUI) {
 		super(workspacesHeader, SWT.READ_ONLY);
 		this.workspacesUI=workspacesUI;
 		this.workspacesHeader=workspacesHeader;

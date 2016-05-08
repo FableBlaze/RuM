@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.workspaces.internal.ui.task;
+package ee.ut.cs.rum.workspace.internal.ui.task;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabItem;
@@ -7,8 +7,8 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
-import ee.ut.cs.rum.workspaces.internal.ui.task.details.TaskDetails;
-import ee.ut.cs.rum.workspaces.internal.ui.workspace.WorkspaceTabFolder;
+import ee.ut.cs.rum.workspace.internal.ui.task.details.TaskDetails;
+import ee.ut.cs.rum.workspace.internal.ui.workspace.WorkspaceTabFolder;
 
 public class TaskDetailsButton extends Button {
 	private static final long serialVersionUID = 8158243533318100884L;

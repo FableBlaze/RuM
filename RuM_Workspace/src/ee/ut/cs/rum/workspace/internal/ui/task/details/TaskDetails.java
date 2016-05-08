@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.workspaces.internal.ui.task.details;
+package ee.ut.cs.rum.workspace.internal.ui.task.details;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,10 +17,10 @@ import ee.ut.cs.rum.database.domain.Task;
 import ee.ut.cs.rum.database.util.PluginAccess;
 import ee.ut.cs.rum.database.util.TaskAccess;
 import ee.ut.cs.rum.plugins.development.description.PluginInfo;
+import ee.ut.cs.rum.workspace.internal.ui.task.PluginInfoComposite;
+import ee.ut.cs.rum.workspace.internal.ui.workspace.WorkspaceTabFolder;
 import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationComposite;
 import ee.ut.cs.rum.plugins.configuration.util.PluginUtils;
-import ee.ut.cs.rum.workspaces.internal.ui.task.PluginInfoComposite;
-import ee.ut.cs.rum.workspaces.internal.ui.workspace.WorkspaceTabFolder;
 
 public class TaskDetails extends Composite {
 	private static final long serialVersionUID = 5855252537558430818L;

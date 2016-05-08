@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.workspaces.internal.ui.task.newtask.pluginstable;
+package ee.ut.cs.rum.workspace.internal.ui.task.newtask.pluginstable;
 
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
