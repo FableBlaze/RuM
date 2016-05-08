@@ -8,6 +8,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
@@ -20,8 +21,8 @@ import ee.ut.cs.rum.database.util.ProjectAccess;
 public class ProjectsTableViewer extends TableViewer {
 	private static final long serialVersionUID = -4856474442900733174L;
 
-	public ProjectsTableViewer(ProjectsOverview projectsOverview) {
-		super(projectsOverview, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
+	public ProjectsTableViewer(ProjectsOverview projectsOverview, Composite projectsTableComposite) {
+		super(projectsTableComposite, SWT.H_SCROLL | SWT.V_SCROLL);
 
 		createColumns(this);
 
