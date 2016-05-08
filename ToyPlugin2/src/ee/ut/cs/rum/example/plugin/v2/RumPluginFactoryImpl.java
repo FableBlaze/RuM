@@ -5,10 +5,8 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.Scanner;
 
-import ee.ut.cs.rum.example.plugin.v2.factory.RumPluginResultsVisualizerImpl;
 import ee.ut.cs.rum.example.plugin.v2.factory.RumPluginWorkerImpl;
 import ee.ut.cs.rum.plugins.development.interfaces.RumPluginFactory;
-import ee.ut.cs.rum.plugins.development.interfaces.factory.RumPluginResultsVisualizer;
 import ee.ut.cs.rum.plugins.development.interfaces.factory.RumPluginWorker;
 
 public class RumPluginFactoryImpl implements RumPluginFactory {
@@ -45,8 +43,4 @@ public class RumPluginFactoryImpl implements RumPluginFactory {
 		return new RumPluginWorkerImpl();
 	}
 
-	@Override
-	public RumPluginResultsVisualizer createRumPluginResultsVisualizer() {
-		return new RumPluginResultsVisualizerImpl();
-	}
 }
