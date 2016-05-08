@@ -9,13 +9,13 @@ import org.eclipse.swt.widgets.Label;
 import ee.ut.cs.rum.workspace.internal.ui.workspace.WorkspaceSelectorCombo;
 import ee.ut.cs.rum.workspace.ui.WorkspaceUI;
 
-public class WorkspacesHeader extends Composite {
+public class WorkspaceHeader extends Composite {
 	private static final long serialVersionUID = -6786154655313853465L;
 
 	private Label workspaceTitle;
 	private WorkspaceSelectorCombo workspaceSelectorCombo;
 
-	public WorkspacesHeader(WorkspaceUI workspacesUI) {
+	public WorkspaceHeader(WorkspaceUI workspacesUI) {
 		super(workspacesUI, SWT.NONE);
 
 		this.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));

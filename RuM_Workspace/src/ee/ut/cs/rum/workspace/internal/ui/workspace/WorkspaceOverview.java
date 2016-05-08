@@ -12,13 +12,13 @@ import org.eclipse.swt.widgets.Listener;
 import ee.ut.cs.rum.workspace.internal.ui.workspace.dialog.NewWorkspaceDialog;
 import ee.ut.cs.rum.workspace.ui.WorkspaceUI;
 
-public class WorkspacesOverview extends Composite {
+public class WorkspaceOverview extends Composite {
 	private static final long serialVersionUID = -2991325315513334549L;
 	
 	private WorkspaceUI workspacesUI;
 	private WorkspacesTableViewer workspacesTableViewer;
 	
-	public WorkspacesOverview(WorkspaceUI workspacesUI) {
+	public WorkspaceOverview(WorkspaceUI workspacesUI) {
 		super(workspacesUI, SWT.NONE);
 		this.workspacesUI=workspacesUI;
 

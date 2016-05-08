@@ -20,7 +20,7 @@ import ee.ut.cs.rum.database.util.WorkspaceAccess;
 public class WorkspacesTableViewer extends TableViewer {
 	private static final long serialVersionUID = -4856474442900733174L;
 
-	public WorkspacesTableViewer(WorkspacesOverview workspacesOverview) {
+	public WorkspacesTableViewer(WorkspaceOverview workspacesOverview) {
 		super(workspacesOverview, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 
 		createColumns(this);

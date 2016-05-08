@@ -13,7 +13,7 @@ import org.eclipse.swt.widgets.Listener;
 import ee.ut.cs.rum.database.domain.Workspace;
 import ee.ut.cs.rum.database.util.WorkspaceAccess;
 import ee.ut.cs.rum.workspace.internal.Activator;
-import ee.ut.cs.rum.workspace.internal.ui.WorkspacesHeader;
+import ee.ut.cs.rum.workspace.internal.ui.WorkspaceHeader;
 import ee.ut.cs.rum.workspace.ui.WorkspaceUI;
 
 public class WorkspaceSelectorCombo extends Combo {
@@ -23,9 +23,9 @@ public class WorkspaceSelectorCombo extends Combo {
 	private List<Workspace> workspaces;
 	private List<Composite> workspaceDetails;
 	private WorkspaceUI workspacesUI;
-	private WorkspacesHeader workspacesHeader;
+	private WorkspaceHeader workspacesHeader;
 
-	public WorkspaceSelectorCombo(WorkspacesHeader workspacesHeader, WorkspaceUI workspacesUI) {
+	public WorkspaceSelectorCombo(WorkspaceHeader workspacesHeader, WorkspaceUI workspacesUI) {
 		super(workspacesHeader, SWT.READ_ONLY);
 		this.workspacesUI=workspacesUI;
 		this.workspacesHeader=workspacesHeader;
