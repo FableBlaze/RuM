@@ -6,16 +6,16 @@ import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 
-import ee.ut.cs.rum.database.domain.Workspace;
+import ee.ut.cs.rum.database.domain.Project;
 
 public class WorkspaceTabFolder extends CTabFolder {
 	private static final long serialVersionUID = 3261215361750051333L;
 	
 	private CTabItem workspaceDetailsTab;
 	private WorkspaceDetailsTabContents workspaceDetailsTabContents;
-	private Workspace workspace;
+	private Project workspace;
 	
-	public WorkspaceTabFolder(Composite workspaceContainer, Workspace workspace) {
+	public WorkspaceTabFolder(Composite workspaceContainer, Project workspace) {
 		super(workspaceContainer, SWT.BORDER);
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		
@@ -30,7 +30,7 @@ public class WorkspaceTabFolder extends CTabFolder {
 		this.setSelection(0);
 	}
 	
-	public Workspace getWorkspace() {
+	public Project getWorkspace() {
 		return workspace;
 	}
 	

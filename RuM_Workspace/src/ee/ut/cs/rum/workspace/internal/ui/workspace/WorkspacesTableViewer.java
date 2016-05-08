@@ -13,8 +13,8 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 
-import ee.ut.cs.rum.database.domain.Workspace;
-import ee.ut.cs.rum.database.util.WorkspaceAccess;
+import ee.ut.cs.rum.database.domain.Project;
+import ee.ut.cs.rum.database.util.ProjectAccess;
 
 
 public class WorkspacesTableViewer extends TableViewer {
@@ -40,7 +40,7 @@ public class WorkspacesTableViewer extends TableViewer {
 		});
 
 		this.setContentProvider(new ArrayContentProvider());
-		this.setInput(WorkspaceAccess.getWorkspacesDataFromDb());
+		this.setInput(ProjectAccess.getProjectssDataFromDb());
 	}
 
 	private static void createColumns(final TableViewer viewer) {
@@ -53,7 +53,7 @@ public class WorkspacesTableViewer extends TableViewer {
 
 			@Override
 			public String getText(Object element) {
-				Workspace workspace = (Workspace) element;
+				Project workspace = (Project) element;
 				return workspace.getName();
 			}
 		});
@@ -64,7 +64,7 @@ public class WorkspacesTableViewer extends TableViewer {
 
 			@Override
 			public String getText(Object element) {
-				Workspace workspace = (Workspace) element;
+				Project workspace = (Project) element;
 				return workspace.getDescription();
 			}
 		});
@@ -75,7 +75,7 @@ public class WorkspacesTableViewer extends TableViewer {
 
 			@Override
 			public String getText(Object element) {
-				Workspace workspace = (Workspace) element;
+				Project workspace = (Project) element;
 				return workspace.getCreatedBy();
 			}
 		});
@@ -86,7 +86,7 @@ public class WorkspacesTableViewer extends TableViewer {
 
 			@Override
 			public String getText(Object element) {
-				Workspace workspace = (Workspace) element;
+				Project workspace = (Project) element;
 				return new SimpleDateFormat("dd-MM-yyyy").format(workspace.getCreatedAt());
 			}
 		});

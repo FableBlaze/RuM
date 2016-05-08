@@ -14,8 +14,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-import ee.ut.cs.rum.database.domain.Workspace;
-import ee.ut.cs.rum.database.util.WorkspaceAccess;
+import ee.ut.cs.rum.database.domain.Project;
+import ee.ut.cs.rum.database.util.ProjectAccess;
 import ee.ut.cs.rum.workspace.ui.WorkspaceUI;
 
 public class NewWorkspaceDialog extends Dialog {
@@ -74,14 +74,14 @@ public class NewWorkspaceDialog extends Dialog {
 				if (nameValue.getText().isEmpty() || descriptionValue.getText().isEmpty()) {
 					feedbackTextValue.setText("Name and description must be filled");
 				} else {
-					Workspace workspace = new Workspace();
+					Project workspace = new Project();
 					workspace.setName(nameValue.getText());
 					workspace.setDescription(descriptionValue.getText());
 					workspace.setCreatedBy("TODO");
 					workspace.setCreatedAt(new Date());
-					workspace = WorkspaceAccess.addWorkspaceDataToDb(workspace);
+					workspace = ProjectAccess.addWorkspaceDataToDb(workspace);
 					
-					List<Workspace> workspaces = WorkspaceAccess.getWorkspacesDataFromDb();
+					List<Project> workspaces = ProjectAccess.getProjectssDataFromDb();
 					workspacesUI.getWorkspacesOverview().getWorkspacesTableViewer().setInput(workspaces);
 					workspacesUI.getWorkspacesHeader().getWorkspaceSelectorCombo().updateWorkspaceSelector(workspaces);
 					

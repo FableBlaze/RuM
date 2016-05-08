@@ -16,7 +16,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
 import ee.ut.cs.rum.database.domain.Task;
-import ee.ut.cs.rum.database.domain.Workspace;
+import ee.ut.cs.rum.database.domain.Project;
 import ee.ut.cs.rum.database.util.TaskAccess;
 import ee.ut.cs.rum.workspace.internal.ui.task.TasksTableViewer;
 import ee.ut.cs.rum.workspace.internal.ui.task.newtask.NewTaskDetails;
@@ -24,10 +24,10 @@ import ee.ut.cs.rum.workspace.internal.ui.task.newtask.NewTaskDetails;
 public class WorkspaceDetailsTabContents extends Composite {
 	private static final long serialVersionUID = 1649148279320216160L;
 
-	private Workspace workspace;
+	private Project workspace;
 	private TasksTableViewer tasksTableViewer;
 
-	WorkspaceDetailsTabContents(WorkspaceTabFolder workspaceTabFolder, Composite workspaceContainer, Workspace workspace) {
+	WorkspaceDetailsTabContents(WorkspaceTabFolder workspaceTabFolder, Composite workspaceContainer, Project workspace) {
 		super(workspaceTabFolder, SWT.NONE);
 
 		this.workspace=workspace;
@@ -101,7 +101,7 @@ public class WorkspaceDetailsTabContents extends Composite {
 		});
 	}
 
-	public Workspace getWorkspace() {
+	public Project getWorkspace() {
 		return workspace;
 	}
 

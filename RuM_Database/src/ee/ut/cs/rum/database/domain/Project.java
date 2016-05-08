@@ -12,8 +12,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="workspace")
-public class Workspace {
+@Table(name="project")
+public class Project {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
@@ -63,7 +63,7 @@ public class Workspace {
 	
 	@Override
 	public String toString() {
-		return "Workspace [id=" + id + ", name=" + name + ", description=" + description + ", createdBy=" + createdBy
+		return "Project [id=" + id + ", name=" + name + ", description=" + description + ", createdBy=" + createdBy
 				+ ", createdAt=" + createdAt + ", lastModifiedBy=" + lastModifiedBy + ", lastModifiedAt="
 				+ lastModifiedAt + "]";
 	}

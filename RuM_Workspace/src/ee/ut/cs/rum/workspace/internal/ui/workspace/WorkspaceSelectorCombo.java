@@ -10,8 +10,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
-import ee.ut.cs.rum.database.domain.Workspace;
-import ee.ut.cs.rum.database.util.WorkspaceAccess;
+import ee.ut.cs.rum.database.domain.Project;
+import ee.ut.cs.rum.database.util.ProjectAccess;
 import ee.ut.cs.rum.workspace.internal.Activator;
 import ee.ut.cs.rum.workspace.internal.ui.WorkspaceHeader;
 import ee.ut.cs.rum.workspace.ui.WorkspaceUI;
@@ -20,7 +20,7 @@ public class WorkspaceSelectorCombo extends Combo {
 	private static final long serialVersionUID = -1671918025859199853L;
 	
 	//TODO: WorkspacesOverview should not be handled trough workspaceDetails list
-	private List<Workspace> workspaces;
+	private List<Project> workspaces;
 	private List<Composite> workspaceDetails;
 	private WorkspaceUI workspacesUI;
 	private WorkspaceHeader workspacesHeader;
@@ -45,12 +45,12 @@ public class WorkspaceSelectorCombo extends Combo {
 	}
 	
 	private void updateWorkspaceSelector() {
-		this.workspaces = new ArrayList<Workspace>();
+		this.workspaces = new ArrayList<Project>();
 		this.workspaces.add(null);
-		this.workspaces.addAll(WorkspaceAccess.getWorkspacesDataFromDb());
+		this.workspaces.addAll(ProjectAccess.getProjectssDataFromDb());
 		createWorkspaceDetailsList(workspaces.size());
 
-		for (Workspace workspace : workspaces) {
+		for (Project workspace : workspaces) {
 			if (workspace!=null) {
 				this.add(workspace.getName());
 			}
@@ -87,8 +87,8 @@ public class WorkspaceSelectorCombo extends Combo {
 		}
 	}
 
-	public void updateWorkspaceSelector(List<Workspace> workspaces) {
-		this.workspaces = new ArrayList<Workspace>();
+	public void updateWorkspaceSelector(List<Project> workspaces) {
+		this.workspaces = new ArrayList<Project>();
 		this.workspaces.add(null);
 		this.workspaces.addAll(workspaces);
 		//TODO: Update indexes instead of creating a new list
@@ -96,7 +96,7 @@ public class WorkspaceSelectorCombo extends Combo {
 		if (this.getItemCount()>1) {
 			this.remove(1, this.getItemCount()-1);
 		}
-		for (Workspace workspace : workspaces) {
+		for (Project workspace : workspaces) {
 			if (workspace!=null) {
 				this.add(workspace.getName());
 			}

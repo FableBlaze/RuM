@@ -6,33 +6,33 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 
-import ee.ut.cs.rum.database.domain.Workspace;
+import ee.ut.cs.rum.database.domain.Project;
 import ee.ut.cs.rum.database.internal.Activator;
 
-public final class WorkspaceAccess {
+public final class ProjectAccess {
 	
-	private WorkspaceAccess() {
+	private ProjectAccess() {
 	}
 	
-	public static List<Workspace> getWorkspacesDataFromDb() {
+	public static List<Project> getProjectssDataFromDb() {
 		EntityManagerFactory emf = Activator.getEmf();
 		EntityManager em = emf.createEntityManager();
 		
-		String queryString = "Select ws from Workspace ws order by ws.id";
-		TypedQuery<Workspace> query = em.createQuery(queryString, Workspace.class);
-		List<Workspace> workspaces = query.getResultList();
+		String queryString = "Select p from Project p order by p.id";
+		TypedQuery<Project> query = em.createQuery(queryString, Project.class);
+		List<Project> projects = query.getResultList();
 		
-		return workspaces;
+		return projects;
 	}
 	
-	public static Workspace addWorkspaceDataToDb(Workspace workspace) {
+	public static Project addWorkspaceDataToDb(Project projects) {
 		EntityManagerFactory emf = Activator.getEmf();
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
-		em.persist(workspace);
+		em.persist(projects);
 		em.getTransaction().commit();
 		em.close();
 		
-		return workspace;
+		return projects;
 	}
 }
