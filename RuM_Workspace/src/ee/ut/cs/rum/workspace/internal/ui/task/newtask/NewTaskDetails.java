@@ -8,24 +8,24 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
+import ee.ut.cs.rum.workspace.internal.ui.project.ProjectTabFolder;
 import ee.ut.cs.rum.workspace.internal.ui.task.PluginInfoComposite;
 import ee.ut.cs.rum.workspace.internal.ui.task.newtask.pluginstable.PluginsTableComposite;
-import ee.ut.cs.rum.workspace.internal.ui.workspace.WorkspaceTabFolder;
 
 public class NewTaskDetails extends Composite {
 	private static final long serialVersionUID = 1902692600726551589L;
 
-	private WorkspaceTabFolder workspaceTabFolder;
+	private ProjectTabFolder projectTabFolder;
 	private PluginInfoComposite pluginInfoComposite;
 	private ScrolledComposite scrolledPluginInfoComposite;
 	private ScrolledComposite scrolledPluginConfigurationComposite;
 	private FooterButtonsComposite footerButtonsComposite;
 	private PluginsTableComposite pluginsTableComposite;
 
-	public NewTaskDetails(WorkspaceTabFolder workspaceTabFolder) {
-		super(workspaceTabFolder, SWT.CLOSE | SWT.H_SCROLL | SWT.V_SCROLL);
+	public NewTaskDetails(ProjectTabFolder projectTabFolder) {
+		super(projectTabFolder, SWT.CLOSE | SWT.H_SCROLL | SWT.V_SCROLL);
 
-		this.workspaceTabFolder=workspaceTabFolder;
+		this.projectTabFolder=projectTabFolder;
 		this.setLayout(new GridLayout(3, false));
 
 		createContents();
@@ -92,8 +92,8 @@ public class NewTaskDetails extends Composite {
 		return pluginsTableComposite;
 	}
 
-	public WorkspaceTabFolder getWorkspaceTabFolder() {
-		return workspaceTabFolder;
+	public ProjectTabFolder getProjectTabFolder() {
+		return projectTabFolder;
 	}
 
 }

@@ -19,16 +19,16 @@ import org.eclipse.swt.widgets.TableItem;
 
 import ee.ut.cs.rum.database.domain.Task;
 import ee.ut.cs.rum.database.util.TaskAccess;
-import ee.ut.cs.rum.workspace.internal.ui.workspace.WorkspaceDetailsTabContents;
-import ee.ut.cs.rum.workspace.internal.ui.workspace.WorkspaceTabFolder;
+import ee.ut.cs.rum.workspace.internal.ui.project.ProjectDetailsTabContents;
+import ee.ut.cs.rum.workspace.internal.ui.project.ProjectTabFolder;
 
 public class TasksTableViewer extends TableViewer {
 	private static final long serialVersionUID = -3241294193014510267L;
 
-	public TasksTableViewer(WorkspaceDetailsTabContents workspaceDetails, WorkspaceTabFolder workspaceTabFolder) {
+	public TasksTableViewer(ProjectDetailsTabContents workspaceDetails, ProjectTabFolder projectTabFolder) {
 		super(workspaceDetails, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 		
-		createColumns(this, workspaceTabFolder);
+		createColumns(this, projectTabFolder);
 		
 		final Table table = this.getTable();
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -36,10 +36,10 @@ public class TasksTableViewer extends TableViewer {
 		table.setLinesVisible(true);
 		
 		this.setContentProvider(new ArrayContentProvider());
-		this.setInput(TaskAccess.getWorkspaceTasksDataFromDb(workspaceDetails.getWorkspace().getId()));
+		this.setInput(TaskAccess.getProjectTasksDataFromDb(workspaceDetails.getProject().getId()));
 	}
 	
-	private static void createColumns(final TableViewer viewer, WorkspaceTabFolder workspaceTabFolder) {
+	private static void createColumns(final TableViewer viewer, ProjectTabFolder projectTabFolder) {
 		String[] titles = { "Name", "Status", "Plugin", "Description", "Created At", "Details"};
 		int[] bounds = { 200, 100, 200, 500, 100, 75 };
 		
@@ -106,7 +106,7 @@ public class TasksTableViewer extends TableViewer {
 			public void update(ViewerCell cell) {
 				TableItem item = (TableItem) cell.getItem();
 				Task task = (Task)cell.getElement();
-				TaskDetailsButton taskDetailsButton = new TaskDetailsButton((Composite) cell.getViewerRow().getControl(), task.getId(), workspaceTabFolder);
+				TaskDetailsButton taskDetailsButton = new TaskDetailsButton((Composite) cell.getViewerRow().getControl(), task.getId(), projectTabFolder);
 				
 				item.addDisposeListener(new DisposeListener() {
 					private static final long serialVersionUID = -927877657358384078L;

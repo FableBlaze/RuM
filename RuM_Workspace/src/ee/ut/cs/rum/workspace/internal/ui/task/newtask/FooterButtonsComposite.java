@@ -68,8 +68,8 @@ public class FooterButtonsComposite extends Composite {
 			public void widgetSelected(SelectionEvent event) {
 				Task task = createNewTask();
 				if (task!=null) {
-					newTaskDetails.getWorkspaceTabFolder().getSelection().dispose();
-					newTaskDetails.getWorkspaceTabFolder().setSelection(0);					
+					newTaskDetails.getProjectTabFolder().getSelection().dispose();
+					newTaskDetails.getProjectTabFolder().setSelection(0);					
 				}
 			}
 		});
@@ -98,16 +98,16 @@ public class FooterButtonsComposite extends Composite {
 			public void widgetSelected(SelectionEvent event) {
 				Task task = createNewTask();
 				if (task!=null) {
-					newTaskDetails.getWorkspaceTabFolder().getSelection().dispose();
+					newTaskDetails.getProjectTabFolder().getSelection().dispose();
 					
-					CTabItem cTabItem = new CTabItem (newTaskDetails.getWorkspaceTabFolder(), SWT.CLOSE);
+					CTabItem cTabItem = new CTabItem (newTaskDetails.getProjectTabFolder(), SWT.CLOSE);
 					cTabItem.setText ("Task " + task.getId().toString());
-					cTabItem.setControl(new TaskDetails(newTaskDetails.getWorkspaceTabFolder(), task.getId()));
-					newTaskDetails.getWorkspaceTabFolder().setSelection(cTabItem);
+					cTabItem.setControl(new TaskDetails(newTaskDetails.getProjectTabFolder(), task.getId()));
+					newTaskDetails.getProjectTabFolder().setSelection(cTabItem);
 					
 					//TODO: Properly updating the UI (MCV)
-					List<Task> workspaceTasks = TaskAccess.getWorkspaceTasksDataFromDb(newTaskDetails.getWorkspaceTabFolder().getWorkspace().getId());
-					newTaskDetails.getWorkspaceTabFolder().getWorkspaceDetailsTabContents().getTasksTableViewer().setInput(workspaceTasks);
+					List<Task> workspaceTasks = TaskAccess.getProjectTasksDataFromDb(newTaskDetails.getProjectTabFolder().getProject().getId());
+					newTaskDetails.getProjectTabFolder().getProjectDetailsTabContents().getTasksTableViewer().setInput(workspaceTasks);
 				}
 			}
 		});
@@ -138,7 +138,7 @@ public class FooterButtonsComposite extends Composite {
 			task.setConfigurationValues(configurationValuesString);
 			task.setCreatedBy("TODO");
 			task.setCreatedAt(createdAt);
-			task.setProjectId(newTaskDetails.getWorkspaceTabFolder().getWorkspace().getId());
+			task.setProjectId(newTaskDetails.getProjectTabFolder().getProject().getId());
 			task.setOutputPath(taskResultsPath.getPath());
 			
 			task = TaskAccess.addTaskDataToDb(task);

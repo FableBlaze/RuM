@@ -17,8 +17,8 @@ import ee.ut.cs.rum.database.domain.Task;
 import ee.ut.cs.rum.database.util.PluginAccess;
 import ee.ut.cs.rum.database.util.TaskAccess;
 import ee.ut.cs.rum.plugins.development.description.PluginInfo;
+import ee.ut.cs.rum.workspace.internal.ui.project.ProjectTabFolder;
 import ee.ut.cs.rum.workspace.internal.ui.task.PluginInfoComposite;
-import ee.ut.cs.rum.workspace.internal.ui.workspace.WorkspaceTabFolder;
 import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationComposite;
 import ee.ut.cs.rum.plugins.configuration.util.PluginUtils;
 
@@ -30,8 +30,8 @@ public class TaskDetails extends Composite {
 	PluginConfigurationComposite pluginConfigurationComposite;
 	ScrolledComposite scrolledPluginInfoComposite;
 
-	public TaskDetails(WorkspaceTabFolder workspaceTabFolder, Long taskId) {
-		super(workspaceTabFolder, SWT.CLOSE);
+	public TaskDetails(ProjectTabFolder projectTabFolder, Long taskId) {
+		super(projectTabFolder, SWT.CLOSE);
 
 		this.taskId=taskId;
 		this.setLayout(new GridLayout(2, false));

@@ -7,19 +7,19 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
+import ee.ut.cs.rum.workspace.internal.ui.project.ProjectTabFolder;
 import ee.ut.cs.rum.workspace.internal.ui.task.details.TaskDetails;
-import ee.ut.cs.rum.workspace.internal.ui.workspace.WorkspaceTabFolder;
 
 public class TaskDetailsButton extends Button {
 	private static final long serialVersionUID = 8158243533318100884L;
 	
 	private Long taskId;
-	private WorkspaceTabFolder workspaceTabFolder;
+	private ProjectTabFolder projectTabFolder;
 
-	public TaskDetailsButton(Composite parent, Long taskId, WorkspaceTabFolder workspaceTabFolder) {
+	public TaskDetailsButton(Composite parent, Long taskId, ProjectTabFolder projectTabFolder) {
 		super(parent, SWT.NONE);
 		this.taskId = taskId;
-		this.workspaceTabFolder = workspaceTabFolder;
+		this.projectTabFolder = projectTabFolder;
 
 		this.setText("Details");
 		
@@ -36,20 +36,20 @@ public class TaskDetailsButton extends Button {
 				CTabItem cTabItem = null;
 				
 				//Checking if the tab is already open
-				for (CTabItem c : workspaceTabFolder.getItems()) {
+				for (CTabItem c : projectTabFolder.getItems()) {
 					if (c.getControl().getClass() == TaskDetails.class) {
 						if (((TaskDetails)c.getControl()).getTaskId() == taskId) {
 							cTabItem = c;
-							workspaceTabFolder.setSelection(c);
+							projectTabFolder.setSelection(c);
 						}
 					}
 				}
 				
 				if (cTabItem == null) {
-					cTabItem = new CTabItem (workspaceTabFolder, SWT.CLOSE);
+					cTabItem = new CTabItem (projectTabFolder, SWT.CLOSE);
 					cTabItem.setText ("Task " + taskId.toString());
-					cTabItem.setControl(new TaskDetails(workspaceTabFolder, taskId));
-					workspaceTabFolder.setSelection(cTabItem);	
+					cTabItem.setControl(new TaskDetails(projectTabFolder, taskId));
+					projectTabFolder.setSelection(cTabItem);	
 				}
 			}
 			

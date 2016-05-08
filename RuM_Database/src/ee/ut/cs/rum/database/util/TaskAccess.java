@@ -26,11 +26,11 @@ public final class TaskAccess {
 		return tasks;
 	}
 	
-	public static List<Task> getWorkspaceTasksDataFromDb(Long workspaceId) {
+	public static List<Task> getProjectTasksDataFromDb(Long projectId) {
 		EntityManagerFactory emf = Activator.getEmf();
 		EntityManager em = emf.createEntityManager();
 		
-		String queryString = "Select t from Task t where t.workspaceId = " + workspaceId + " order by t.id";
+		String queryString = "Select t from Task t where t.projectId = " + projectId + " order by t.id";
 		TypedQuery<Task> query = em.createQuery(queryString, Task.class);
 		List<Task> tasks = query.getResultList();
 		

@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.workspace.internal.ui.workspace;
+package ee.ut.cs.rum.workspace.internal.ui.project;
 
 import java.text.SimpleDateFormat;
 
@@ -17,11 +17,11 @@ import ee.ut.cs.rum.database.domain.Project;
 import ee.ut.cs.rum.database.util.ProjectAccess;
 
 
-public class WorkspacesTableViewer extends TableViewer {
+public class ProjectsTableViewer extends TableViewer {
 	private static final long serialVersionUID = -4856474442900733174L;
 
-	public WorkspacesTableViewer(WorkspaceOverview workspacesOverview) {
-		super(workspacesOverview, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
+	public ProjectsTableViewer(ProjectsOverview projectsOverview) {
+		super(projectsOverview, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 
 		createColumns(this);
 
@@ -34,13 +34,13 @@ public class WorkspacesTableViewer extends TableViewer {
 			private static final long serialVersionUID = -86178746354770036L;
 
 			public void handleEvent(Event e) {
-				workspacesOverview.getWorkspacesUI().getWorkspacesHeader().getWorkspaceSelectorCombo().select(table.getSelectionIndex()+1);
-				workspacesOverview.getWorkspacesUI().getWorkspacesHeader().getWorkspaceSelectorCombo().updateSelectedWorkspaceDetails();
+				projectsOverview.getWorkspaceUI().getWorkspaceHeader().getProjectSelectorCombo().select(table.getSelectionIndex()+1);
+				projectsOverview.getWorkspaceUI().getWorkspaceHeader().getProjectSelectorCombo().updateSelectedProjectDetails();
 			}
 		});
 
 		this.setContentProvider(new ArrayContentProvider());
-		this.setInput(ProjectAccess.getProjectssDataFromDb());
+		this.setInput(ProjectAccess.getProjectsDataFromDb());
 	}
 
 	private static void createColumns(final TableViewer viewer) {
@@ -53,8 +53,8 @@ public class WorkspacesTableViewer extends TableViewer {
 
 			@Override
 			public String getText(Object element) {
-				Project workspace = (Project) element;
-				return workspace.getName();
+				Project project = (Project) element;
+				return project.getName();
 			}
 		});
 
@@ -64,8 +64,8 @@ public class WorkspacesTableViewer extends TableViewer {
 
 			@Override
 			public String getText(Object element) {
-				Project workspace = (Project) element;
-				return workspace.getDescription();
+				Project project = (Project) element;
+				return project.getDescription();
 			}
 		});
 		
@@ -75,8 +75,8 @@ public class WorkspacesTableViewer extends TableViewer {
 
 			@Override
 			public String getText(Object element) {
-				Project workspace = (Project) element;
-				return workspace.getCreatedBy();
+				Project project = (Project) element;
+				return project.getCreatedBy();
 			}
 		});
 		
@@ -86,8 +86,8 @@ public class WorkspacesTableViewer extends TableViewer {
 
 			@Override
 			public String getText(Object element) {
-				Project workspace = (Project) element;
-				return new SimpleDateFormat("dd-MM-yyyy").format(workspace.getCreatedAt());
+				Project project = (Project) element;
+				return new SimpleDateFormat("dd-MM-yyyy").format(project.getCreatedAt());
 			}
 		});
 	}

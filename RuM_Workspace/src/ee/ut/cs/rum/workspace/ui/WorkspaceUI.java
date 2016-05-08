@@ -7,14 +7,14 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
 import ee.ut.cs.rum.workspace.internal.ui.WorkspaceHeader;
-import ee.ut.cs.rum.workspace.internal.ui.workspace.WorkspaceOverview;
+import ee.ut.cs.rum.workspace.internal.ui.project.ProjectsOverview;
 
 public class WorkspaceUI extends Composite {
 	private static final long serialVersionUID = 7689615370877170628L;
 
 	private WorkspaceHeader workspacesHeader;
 	private Composite workspaceContainer;
-	private WorkspaceOverview workspacesOverview;
+	private ProjectsOverview workspacesOverview;
 
 	public WorkspaceUI(Composite parent) {
 		super(parent, SWT.NONE);
@@ -22,7 +22,7 @@ public class WorkspaceUI extends Composite {
 		this.setLayout(new GridLayout());
 		
 		//TODO: Fix the limitation that WorkspacesOverview has to be created before WorkspacesHeader
-		workspacesOverview = new WorkspaceOverview(this);
+		workspacesOverview = new ProjectsOverview(this);
 		
 		workspacesHeader = new WorkspaceHeader(this);
 		
@@ -36,7 +36,7 @@ public class WorkspaceUI extends Composite {
 		workspaceContainer.layout();
 	}
 	
-	public WorkspaceHeader getWorkspacesHeader() {
+	public WorkspaceHeader getWorkspaceHeader() {
 		return workspacesHeader;
 	}
 	
@@ -44,7 +44,7 @@ public class WorkspaceUI extends Composite {
 		return workspaceContainer;
 	}
 	
-	public WorkspaceOverview getWorkspacesOverview() {
+	public ProjectsOverview getProjectsOverview() {
 		return workspacesOverview;
 	}
 }

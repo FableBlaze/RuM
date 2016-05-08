@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.workspace.internal.ui.workspace;
+package ee.ut.cs.rum.workspace.internal.ui.project;
 
 import java.util.List;
 
@@ -21,33 +21,33 @@ import ee.ut.cs.rum.database.util.TaskAccess;
 import ee.ut.cs.rum.workspace.internal.ui.task.TasksTableViewer;
 import ee.ut.cs.rum.workspace.internal.ui.task.newtask.NewTaskDetails;
 
-public class WorkspaceDetailsTabContents extends Composite {
+public class ProjectDetailsTabContents extends Composite {
 	private static final long serialVersionUID = 1649148279320216160L;
 
-	private Project workspace;
+	private Project project;
 	private TasksTableViewer tasksTableViewer;
 
-	WorkspaceDetailsTabContents(WorkspaceTabFolder workspaceTabFolder, Composite workspaceContainer, Project workspace) {
-		super(workspaceTabFolder, SWT.NONE);
+	ProjectDetailsTabContents(ProjectTabFolder projectTabFolder, Composite projectContainer, Project project) {
+		super(projectTabFolder, SWT.NONE);
 
-		this.workspace=workspace;
+		this.project=project;
 
 		this.setLayout(new GridLayout(2, false));
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
 		Label l = new Label(this, SWT.NONE);
-		if (workspace.getDescription()!=null) {
-			l.setText(workspace.getDescription());
+		if (project.getDescription()!=null) {
+			l.setText(project.getDescription());
 		}
 		l.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		((GridData) l.getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
 
 
-		tasksTableViewer = new TasksTableViewer(this, workspaceTabFolder);
+		tasksTableViewer = new TasksTableViewer(this, projectTabFolder);
 		((GridData) tasksTableViewer.getTable().getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
 
 		Button refreshTasksTableButton = new Button(this, SWT.PUSH);
-		refreshTasksTableButton.setText("Refresh table");
+		refreshTasksTableButton.setText("Refresh tasks table");
 		refreshTasksTableButton.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, true, false));
 
 		refreshTasksTableButton.addListener(SWT.Selection, new Listener() {
@@ -55,8 +55,8 @@ public class WorkspaceDetailsTabContents extends Composite {
 
 			@Override
 			public void handleEvent(Event arg0) {
-				List<Task> workspaceTasks = TaskAccess.getWorkspaceTasksDataFromDb(workspace.getId());
-				tasksTableViewer.setInput(workspaceTasks);
+				List<Task> projectTasks = TaskAccess.getProjectTasksDataFromDb(project.getId());
+				tasksTableViewer.setInput(projectTasks);
 			}
 		});
 
@@ -71,18 +71,18 @@ public class WorkspaceDetailsTabContents extends Composite {
 			public void handleEvent(Event arg0) {
 				CTabItem cTabItem = null;
 
-				for (CTabItem c : workspaceTabFolder.getItems()) {
+				for (CTabItem c : projectTabFolder.getItems()) {
 					if (c.getControl().getClass() == NewTaskDetails.class) {
 						cTabItem = c;
-						workspaceTabFolder.setSelection(c);
+						projectTabFolder.setSelection(c);
 					}
 				}
 
 				if (cTabItem == null) {
-					cTabItem = new CTabItem (workspaceTabFolder, SWT.CLOSE);
+					cTabItem = new CTabItem (projectTabFolder, SWT.CLOSE);
 					cTabItem.setText ("New task");
-					cTabItem.setControl(new NewTaskDetails(workspaceTabFolder));
-					workspaceTabFolder.setSelection(cTabItem);
+					cTabItem.setControl(new NewTaskDetails(projectTabFolder));
+					projectTabFolder.setSelection(cTabItem);
 					
 					//To allow updating "New task" tab after file upload
 					ServerPushSession pushSession = new ServerPushSession();
@@ -101,8 +101,8 @@ public class WorkspaceDetailsTabContents extends Composite {
 		});
 	}
 
-	public Project getWorkspace() {
-		return workspace;
+	public Project getProject() {
+		return project;
 	}
 
 	public TasksTableViewer getTasksTableViewer() {

@@ -14,7 +14,7 @@ public final class ProjectAccess {
 	private ProjectAccess() {
 	}
 	
-	public static List<Project> getProjectssDataFromDb() {
+	public static List<Project> getProjectsDataFromDb() {
 		EntityManagerFactory emf = Activator.getEmf();
 		EntityManager em = emf.createEntityManager();
 		

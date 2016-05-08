@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.workspace.internal.ui.workspace.dialog;
+package ee.ut.cs.rum.workspace.internal.ui.project.dialog;
 
 import java.util.Date;
 import java.util.List;
@@ -18,10 +18,10 @@ import ee.ut.cs.rum.database.domain.Project;
 import ee.ut.cs.rum.database.util.ProjectAccess;
 import ee.ut.cs.rum.workspace.ui.WorkspaceUI;
 
-public class NewWorkspaceDialog extends Dialog {
+public class NewProjectDialog extends Dialog {
 	private static final long serialVersionUID = -9152678513520036179L;
 	
-	private WorkspaceUI workspacesUI;
+	private WorkspaceUI workspaceUI;
 	
 	private Text nameValue;
 	private Text descriptionValue;
@@ -29,14 +29,14 @@ public class NewWorkspaceDialog extends Dialog {
 	
 	private Button okButton;
 	
-	public NewWorkspaceDialog(Shell activeShell, WorkspaceUI workspacesUI) {
+	public NewProjectDialog(Shell activeShell, WorkspaceUI workspaceUI) {
 		super(activeShell, SWT.APPLICATION_MODAL | SWT.TITLE | SWT.BORDER);
-		this.workspacesUI=workspacesUI;
+		this.workspaceUI=workspaceUI;
 	}
 	
 	public String open() {
 		Shell shell = new Shell(getParent(), getStyle());
-		shell.setText("Add workspace");
+		shell.setText("Add project");
 		createContents(shell);
 		shell.pack();
 		shell.setLocation (100, 100);
@@ -47,13 +47,13 @@ public class NewWorkspaceDialog extends Dialog {
 	private void createContents(final Shell shell) {
 		shell.setLayout(new GridLayout(2, true));
 
-		Label workspaceNameLabel = new Label(shell, SWT.NONE);
-		workspaceNameLabel.setText("Workspace name:");
+		Label nameLabel = new Label(shell, SWT.NONE);
+		nameLabel.setText("Project name:");
 		nameValue = new Text(shell, SWT.BORDER);
 		nameValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		
 		Label descriptionNameLabel = new Label(shell, SWT.NONE);
-		descriptionNameLabel.setText("Workspace description:");
+		descriptionNameLabel.setText("Project description:");
 		descriptionNameLabel.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));
 		descriptionValue = new Text(shell, SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL);
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
@@ -81,9 +81,9 @@ public class NewWorkspaceDialog extends Dialog {
 					workspace.setCreatedAt(new Date());
 					workspace = ProjectAccess.addWorkspaceDataToDb(workspace);
 					
-					List<Project> workspaces = ProjectAccess.getProjectssDataFromDb();
-					workspacesUI.getWorkspacesOverview().getWorkspacesTableViewer().setInput(workspaces);
-					workspacesUI.getWorkspacesHeader().getWorkspaceSelectorCombo().updateWorkspaceSelector(workspaces);
+					List<Project> workspaces = ProjectAccess.getProjectsDataFromDb();
+					workspaceUI.getProjectsOverview().getProjectsTableViewer().setInput(workspaces);
+					workspaceUI.getWorkspaceHeader().getProjectSelectorCombo().updateProjectSelector(workspaces);
 					
 					shell.close();
 				}
