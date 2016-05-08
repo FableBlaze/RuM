@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.workspace.internal.ui.project;
+package ee.ut.cs.rum.workspace.internal.ui;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ import org.eclipse.swt.widgets.Listener;
 import ee.ut.cs.rum.database.domain.Project;
 import ee.ut.cs.rum.database.util.ProjectAccess;
 import ee.ut.cs.rum.workspace.internal.Activator;
-import ee.ut.cs.rum.workspace.internal.ui.WorkspaceHeader;
+import ee.ut.cs.rum.workspace.internal.ui.project.ProjectTabFolder;
 import ee.ut.cs.rum.workspace.ui.WorkspaceUI;
 
 public class ProjectSelectorCombo extends Combo {
@@ -74,7 +74,7 @@ public class ProjectSelectorCombo extends Combo {
 			workspaceHeader.setProjectTitle(projects.get(selectedIndex).getName());
 			Activator.getLogger().info("Opened project: " + projects.get(selectedIndex).toString());
 		} else {
-			workspaceHeader.setProjectTitle("Projects overview");
+			workspaceHeader.setProjectTitle("Overview");
 			Activator.getLogger().info("Opened projects overview");
 		}
 	}

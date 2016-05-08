@@ -7,7 +7,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
 import ee.ut.cs.rum.workspace.internal.ui.WorkspaceHeader;
-import ee.ut.cs.rum.workspace.internal.ui.project.ProjectsOverview;
+import ee.ut.cs.rum.workspace.internal.ui.overview.ProjectsOverview;
 
 public class WorkspaceUI extends Composite {
 	private static final long serialVersionUID = 7689615370877170628L;

@@ -6,7 +6,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
-import ee.ut.cs.rum.workspace.internal.ui.project.ProjectSelectorCombo;
 import ee.ut.cs.rum.workspace.ui.WorkspaceUI;
 
 public class WorkspaceHeader extends Composite {
@@ -30,7 +29,7 @@ public class WorkspaceHeader extends Composite {
 
 		this.projectSelectorCombo = new ProjectSelectorCombo(this, workspaceUI);
 		
-		projectTitle.setText("Workspace overview");
+		projectTitle.setText("Overview");
 	}
 
 	public void setProjectTitle(String titleString) {
