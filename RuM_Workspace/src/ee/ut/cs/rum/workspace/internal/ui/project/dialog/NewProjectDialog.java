@@ -81,8 +81,9 @@ public class NewProjectDialog extends Dialog {
 					workspace.setCreatedAt(new Date());
 					workspace = ProjectAccess.addWorkspaceDataToDb(workspace);
 					
+					//TODO: Implement proper MCV
 					List<Project> workspaces = ProjectAccess.getProjectsDataFromDb();
-					workspaceUI.getProjectsOverview().getProjectsTableViewer().setInput(workspaces);
+					workspaceUI.getProjectsOverview().getProjectsOverviewExpandBar().getProjectsTableViewer().setInput(workspaces);
 					workspaceUI.getWorkspaceHeader().getProjectSelectorCombo().updateProjectSelector(workspaces);
 					
 					shell.close();
