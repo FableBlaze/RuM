@@ -18,23 +18,30 @@ public class ProjectsOverviewExpandBar extends ExpandBar {
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		
 		StatisticsComposite statisticsComposite = new StatisticsComposite(this);
-		ExpandItem statisticsItem = new ExpandItem (this, SWT.NONE, 0);
+		ExpandItem statisticsItem = new ExpandItem (this, SWT.NONE);
 		statisticsItem.setText("Statistics");
 		statisticsItem.setHeight(statisticsComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
 		statisticsItem.setControl(statisticsComposite);
 		
 		this.projectsTableViewer = new ProjectsTableViewer(this, projectsOverview);
-		ExpandItem projectsTableItem = new ExpandItem (this, SWT.NONE, 1);
+		ExpandItem projectsTableItem = new ExpandItem (this, SWT.NONE);
 		projectsTableItem.setText("Projects");
 		projectsTableItem.setHeight(projectsTableViewer.getTable().computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
 		projectsTableItem.setControl(projectsTableViewer.getTable());
 		
+		UserFilesTableViewer userFilesTableViewer = new UserFilesTableViewer(this);
+		ExpandItem userFileTableItem = new ExpandItem (this, SWT.NONE);
+		userFileTableItem.setText("Files");
+		userFileTableItem.setHeight(userFilesTableViewer.getTable().computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
+		userFileTableItem.setControl(userFilesTableViewer.getTable());
+		
 		PluginsTableViewer pluginsTableViewer = new PluginsTableViewer(this);
-		ExpandItem pluginsTableItem = new ExpandItem (this, SWT.NONE, 2);
+		ExpandItem pluginsTableItem = new ExpandItem (this, SWT.NONE);
 		pluginsTableItem.setText("Plugins");
 		pluginsTableItem.setHeight(pluginsTableViewer.getTable().computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
 		pluginsTableItem.setControl(pluginsTableViewer.getTable());
 		
+		statisticsItem.setExpanded(true);
 		projectsTableItem.setExpanded(true);
 	}
 	
