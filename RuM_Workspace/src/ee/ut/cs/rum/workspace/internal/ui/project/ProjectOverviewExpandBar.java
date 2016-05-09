@@ -34,6 +34,12 @@ public class ProjectOverviewExpandBar  extends ExpandBar {
 		tasksTableItem.setHeight(tasksTableViewer.getTable().computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
 		tasksTableItem.setControl(tasksTableViewer.getTable());
 		
+		UserFilesTableViewer userFilesTableViewer = new UserFilesTableViewer(this);
+		ExpandItem userFileTableItem = new ExpandItem (this, SWT.NONE);
+		userFileTableItem.setText("Files");
+		userFileTableItem.setHeight(userFilesTableViewer.getTable().computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
+		userFileTableItem.setControl(userFilesTableViewer.getTable());
+		
 		tasksTableItem.setExpanded(true);
 	}
 	
