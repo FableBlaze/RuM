@@ -20,8 +20,8 @@ import ee.ut.cs.rum.database.util.ProjectAccess;
 public class ProjectsTableViewer extends TableViewer {
 	private static final long serialVersionUID = -4856474442900733174L;
 
-	public ProjectsTableViewer(ProjectsOverviewExpandBar projectsOverviewExpandBar, ProjectsOverview projectsOverview) {
-		super(projectsOverviewExpandBar, SWT.H_SCROLL | SWT.V_SCROLL);
+	public ProjectsTableViewer(WorkspaceOverviewExpandBar workspaceOverviewExpandBar, WorkspaceOverview workspaceOverview) {
+		super(workspaceOverviewExpandBar, SWT.H_SCROLL | SWT.V_SCROLL);
 
 		createColumns(this);
 
@@ -34,8 +34,8 @@ public class ProjectsTableViewer extends TableViewer {
 			private static final long serialVersionUID = -86178746354770036L;
 
 			public void handleEvent(Event e) {
-				projectsOverview.getWorkspaceUI().getWorkspaceHeader().getProjectSelectorCombo().select(table.getSelectionIndex()+1);
-				projectsOverview.getWorkspaceUI().getWorkspaceHeader().getProjectSelectorCombo().updateSelectedProjectDetails();
+				workspaceOverview.getWorkspaceUI().getWorkspaceHeader().getProjectSelectorCombo().select(table.getSelectionIndex()+1);
+				workspaceOverview.getWorkspaceUI().getWorkspaceHeader().getProjectSelectorCombo().updateSelectedProjectDetails();
 			}
 		});
 

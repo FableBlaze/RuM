@@ -17,8 +17,8 @@ import ee.ut.cs.rum.database.util.UserFileAccess;
 public class UserFilesTableViewer extends TableViewer {
 	private static final long serialVersionUID = 8831232753496357143L;
 
-	public UserFilesTableViewer(ProjectsOverviewExpandBar projectsOverviewExpandBar) {
-		super(projectsOverviewExpandBar, SWT.H_SCROLL | SWT.V_SCROLL);
+	public UserFilesTableViewer(WorkspaceOverviewExpandBar workspaceOverviewExpandBar) {
+		super(workspaceOverviewExpandBar, SWT.H_SCROLL | SWT.V_SCROLL);
 
 		createColumns(this);
 		

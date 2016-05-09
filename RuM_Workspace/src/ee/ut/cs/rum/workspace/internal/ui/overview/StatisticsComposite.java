@@ -8,8 +8,8 @@ import org.eclipse.swt.widgets.Label;
 public class StatisticsComposite extends Composite {
 	private static final long serialVersionUID = -6946774249575610410L;
 
-	StatisticsComposite(ProjectsOverviewExpandBar projectsOverviewExpandBar) {
-		super(projectsOverviewExpandBar, SWT.NONE);
+	StatisticsComposite(WorkspaceOverviewExpandBar workspaceOverviewExpandBar) {
+		super(workspaceOverviewExpandBar, SWT.NONE);
 		
 		GridLayout layout = new GridLayout(2, false);
 		layout.marginLeft = layout.marginTop = layout.marginRight = layout.marginBottom = 10;

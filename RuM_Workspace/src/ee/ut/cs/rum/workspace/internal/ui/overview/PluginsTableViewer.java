@@ -15,8 +15,8 @@ import ee.ut.cs.rum.database.util.PluginAccess;
 public class PluginsTableViewer extends TableViewer {
 	private static final long serialVersionUID = 3695894451775468383L;
 
-	public PluginsTableViewer(ProjectsOverviewExpandBar projectsOverviewExpandBar) {
-		super(projectsOverviewExpandBar, SWT.H_SCROLL | SWT.V_SCROLL);
+	public PluginsTableViewer(WorkspaceOverviewExpandBar workspaceOverviewExpandBar) {
+		super(workspaceOverviewExpandBar, SWT.H_SCROLL | SWT.V_SCROLL);
 
 		createColumns(this);
 		

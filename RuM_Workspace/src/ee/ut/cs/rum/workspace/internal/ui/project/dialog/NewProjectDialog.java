@@ -83,7 +83,7 @@ public class NewProjectDialog extends Dialog {
 					
 					//TODO: Implement proper MCV
 					List<Project> workspaces = ProjectAccess.getProjectsDataFromDb();
-					workspaceUI.getProjectsOverview().getProjectsOverviewExpandBar().getProjectsTableViewer().setInput(workspaces);
+					workspaceUI.getProjectsOverview().getWorkspaceOverviewExpandBar().getProjectsTableViewer().setInput(workspaces);
 					workspaceUI.getWorkspaceHeader().getProjectSelectorCombo().updateProjectSelector(workspaces);
 					
 					shell.close();

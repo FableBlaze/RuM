@@ -5,15 +5,15 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.ExpandBar;
 import org.eclipse.swt.widgets.ExpandItem;
 
-public class ProjectsOverviewExpandBar extends ExpandBar {
+public class WorkspaceOverviewExpandBar extends ExpandBar {
 	private static final long serialVersionUID = 1583353374480024937L;
 	
 	private ProjectsTableViewer projectsTableViewer;
 
 	//TODO: Height of tables is calculated wrong on first page load. Fixes itself on page reload
 	//TODO: Recalculate height of tables when new project added
-	public ProjectsOverviewExpandBar(ProjectsOverview projectsOverview) {
-		super(projectsOverview, SWT.V_SCROLL);
+	public WorkspaceOverviewExpandBar(WorkspaceOverview workspaceOverview) {
+		super(workspaceOverview, SWT.V_SCROLL);
 		
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		
@@ -23,7 +23,7 @@ public class ProjectsOverviewExpandBar extends ExpandBar {
 		statisticsItem.setHeight(statisticsComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
 		statisticsItem.setControl(statisticsComposite);
 		
-		this.projectsTableViewer = new ProjectsTableViewer(this, projectsOverview);
+		this.projectsTableViewer = new ProjectsTableViewer(this, workspaceOverview);
 		ExpandItem projectsTableItem = new ExpandItem (this, SWT.NONE);
 		projectsTableItem.setText("Projects");
 		projectsTableItem.setHeight(projectsTableViewer.getTable().computeSize(SWT.DEFAULT, SWT.DEFAULT).y);

@@ -12,20 +12,20 @@ import org.eclipse.swt.widgets.Listener;
 import ee.ut.cs.rum.workspace.internal.ui.project.dialog.NewProjectDialog;
 import ee.ut.cs.rum.workspace.ui.WorkspaceUI;
 
-public class ProjectsOverview extends Composite {
+public class WorkspaceOverview extends Composite {
 	private static final long serialVersionUID = -2991325315513334549L;
 
 	private WorkspaceUI workspaceUI;
-	private ProjectsOverviewExpandBar projectsOverviewExpandBar;
+	private WorkspaceOverviewExpandBar workspaceOverviewExpandBar;
 
-	public ProjectsOverview(WorkspaceUI workspaceUI) {
+	public WorkspaceOverview(WorkspaceUI workspaceUI) {
 		super(workspaceUI, SWT.NONE);
 		this.workspaceUI=workspaceUI;
 
 		this.setLayout(new GridLayout());
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
-		this.projectsOverviewExpandBar = new ProjectsOverviewExpandBar(this);
+		this.workspaceOverviewExpandBar = new WorkspaceOverviewExpandBar(this);
 		
 		Button addProjectDialogueButton = new Button(this, SWT.PUSH);
 		addProjectDialogueButton.setText("Create a new project");
@@ -41,8 +41,8 @@ public class ProjectsOverview extends Composite {
 		});
 	}
 
-	public ProjectsOverviewExpandBar getProjectsOverviewExpandBar() {
-		return projectsOverviewExpandBar;
+	public WorkspaceOverviewExpandBar getWorkspaceOverviewExpandBar() {
+		return workspaceOverviewExpandBar;
 	}
 
 	public WorkspaceUI getWorkspaceUI() {
