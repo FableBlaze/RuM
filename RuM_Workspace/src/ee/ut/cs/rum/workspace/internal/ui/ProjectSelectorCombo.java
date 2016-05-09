@@ -71,7 +71,7 @@ public class ProjectSelectorCombo extends Combo {
 		workspaceUI.getWorkspaceContainer().layout();
 		
 		if (projects.get(selectedIndex)!=null) {
-			workspaceHeader.setProjectTitle(projects.get(selectedIndex).getName());
+			workspaceHeader.setProjectTitle("Project: " + projects.get(selectedIndex).getName());
 			Activator.getLogger().info("Opened project: " + projects.get(selectedIndex).toString());
 		} else {
 			workspaceHeader.setProjectTitle("Overview");
