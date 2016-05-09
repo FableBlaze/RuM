@@ -20,7 +20,7 @@ import ee.ut.cs.rum.database.util.ProjectAccess;
 public class ProjectsTableViewer extends TableViewer {
 	private static final long serialVersionUID = -4856474442900733174L;
 
-	public ProjectsTableViewer(ProjectsOverview projectsOverview, ProjectsOverviewExpandBar projectsOverviewExpandBar) {
+	public ProjectsTableViewer(ProjectsOverviewExpandBar projectsOverviewExpandBar, ProjectsOverview projectsOverview) {
 		super(projectsOverviewExpandBar, SWT.H_SCROLL | SWT.V_SCROLL);
 
 		createColumns(this);

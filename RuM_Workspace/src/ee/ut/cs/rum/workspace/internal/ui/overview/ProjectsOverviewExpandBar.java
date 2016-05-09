@@ -21,7 +21,7 @@ public class ProjectsOverviewExpandBar extends ExpandBar {
 		statisticsItem.setHeight(statisticsComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
 		statisticsItem.setControl(statisticsComposite);
 		
-		this.projectsTableViewer = new ProjectsTableViewer(projectsOverview, this);
+		this.projectsTableViewer = new ProjectsTableViewer(this, projectsOverview);
 		ExpandItem projectsTableItem = new ExpandItem (this, SWT.NONE, 1);
 		projectsTableItem.setText("Projects");
 		//TODO: Height is calculate wrong on first page load. Fixes itself on page reload
