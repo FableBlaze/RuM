@@ -14,7 +14,6 @@ public final class UserFileAccess {
 	private UserFileAccess() {
 	}
 	
-	//TODO: Add overview of all user files to the UI
 	public static List<UserFile> getUserFilesDataFromDb() {
 		EntityManagerFactory emf = Activator.getEmf();
 		EntityManager em = emf.createEntityManager();
@@ -26,11 +25,11 @@ public final class UserFileAccess {
 		return userFiles;
 	}
 	
-	public static List<UserFile> getWorkspaceUserFilesDataFromDb(Long workspaceId) {
+	public static List<UserFile> getProjectUserFilesDataFromDb(Long projectId) {
 		EntityManagerFactory emf = Activator.getEmf();
 		EntityManager em = emf.createEntityManager();
 		
-		String queryString = "Select uf from UserFile uf where uf.workspaceId = " + workspaceId + " order by uf.id";
+		String queryString = "Select uf from UserFile uf where uf.workspaceId = " + projectId + " order by uf.id";
 		TypedQuery<UserFile> query = em.createQuery(queryString, UserFile.class);
 		List<UserFile> userFiles = query.getResultList();
 		

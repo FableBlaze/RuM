@@ -36,13 +36,13 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 	private File temporaryFile;
 	private List<UserFile> userFiles;
 	private Combo fileSelectorCombo;
-	private Long workspaceId;
+	private Long projectId;
 	private File user_file_path;
 
 	public ConfigurationItemFile(Composite parent, PluginParameterFile parameterFile, Long workspaceId) {
 		super(parent, SWT.NONE);
 
-		this.workspaceId=workspaceId;
+		this.projectId=workspaceId;
 		String user_file_path_asString = SystemParameterAccess.getSystemParameterValue(SystemParameterName.USER_FILE_PATH);
 		if (user_file_path_asString!=null) {
 			user_file_path = new File(user_file_path_asString);
@@ -63,14 +63,14 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 		fileSelectorCombo = new Combo(this, SWT.READ_ONLY);
 		fileSelectorCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
-		if (workspaceId!=null) {
-			this.userFiles = UserFileAccess.getWorkspaceUserFilesDataFromDb(workspaceId);
+		if (projectId!=null) {
+			this.userFiles = UserFileAccess.getProjectUserFilesDataFromDb(projectId);
 			for (UserFile userFile : userFiles) {
 				fileSelectorCombo.add(userFile.getOriginalFilename() + "  (" + new SimpleDateFormat("dd-MM-yyyy HH:mm").format(userFile.getCreatedAt()) + ")");
 			}
 		}
 
-		if (user_file_path==null && workspaceId!=null) {
+		if (user_file_path==null && projectId!=null) {
 			Label label = new Label(this, SWT.NONE);
 			label.setText("File upload disabled!");
 		} else {
@@ -164,7 +164,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 				userFile.setOriginalFilename(temporaryFile.getName());
 				userFile.setCreatedByUserId("TODO");
 				userFile.setCreatedAt(new Date());
-				userFile.setWorkspaceId(workspaceId);
+				userFile.setWorkspaceId(projectId);
 				userFile.setFileLocation(destinationFile.toPath().toString());
 				
 				userFile = UserFileAccess.addUserFileDataToDb(userFile);

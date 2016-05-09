@@ -30,7 +30,7 @@ public class UserFilesTableViewer extends TableViewer {
 		this.setContentProvider(new ArrayContentProvider());
 		Long projectId = projectOverviewExpandBar.getProjectOverviewComposite().getProject().getId();
 		//TODO: Duplicates the same class in overview package with only next line being different
-		this.setInput(UserFileAccess.getWorkspaceUserFilesDataFromDb(projectId));
+		this.setInput(UserFileAccess.getProjectUserFilesDataFromDb(projectId));
 	}
 
 	private void createColumns(UserFilesTableViewer viewer) {
