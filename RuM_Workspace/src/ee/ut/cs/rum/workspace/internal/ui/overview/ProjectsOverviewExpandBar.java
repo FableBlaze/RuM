@@ -10,6 +10,8 @@ public class ProjectsOverviewExpandBar extends ExpandBar {
 	
 	private ProjectsTableViewer projectsTableViewer;
 
+	//TODO: Height of tables is calculated wrong on first page load. Fixes itself on page reload
+	//TODO: Recalculate height of tables when new project added
 	public ProjectsOverviewExpandBar(ProjectsOverview projectsOverview) {
 		super(projectsOverview, SWT.V_SCROLL);
 		
@@ -24,10 +26,14 @@ public class ProjectsOverviewExpandBar extends ExpandBar {
 		this.projectsTableViewer = new ProjectsTableViewer(this, projectsOverview);
 		ExpandItem projectsTableItem = new ExpandItem (this, SWT.NONE, 1);
 		projectsTableItem.setText("Projects");
-		//TODO: Height is calculate wrong on first page load. Fixes itself on page reload
-		//TODO: Recalculate size when new project added
 		projectsTableItem.setHeight(projectsTableViewer.getTable().computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
 		projectsTableItem.setControl(projectsTableViewer.getTable());
+		
+		PluginsTableViewer pluginsTableViewer = new PluginsTableViewer(this);
+		ExpandItem pluginsTableItem = new ExpandItem (this, SWT.NONE, 2);
+		pluginsTableItem.setText("Plugins");
+		pluginsTableItem.setHeight(pluginsTableViewer.getTable().computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
+		pluginsTableItem.setControl(pluginsTableViewer.getTable());
 		
 		projectsTableItem.setExpanded(true);
 	}
