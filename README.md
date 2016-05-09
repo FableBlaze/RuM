@@ -22,3 +22,13 @@ In file "serviceability.xml" add
 ```
 
 Create a Postgesql 9.4 database named RuM (username/password 'postgres')
+
+Bundles should be started in the following order:
+* Priority 1 - RuM_Database
+* Priority 1 - RuM_Plugin_Development
+* Priority 2 - RuM_Plugin_Configuration
+* Priority 2 - RuM_Scheduler
+* Priority 3 - RuM_Administration
+* Priority 3 - RuM_Plugins
+* Priority 3 - RuM_Workspace
+* Priority 4 - RuM
