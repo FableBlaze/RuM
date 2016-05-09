@@ -12,7 +12,7 @@ public class ProjectTabFolder extends CTabFolder {
 	private static final long serialVersionUID = 3261215361750051333L;
 	
 	private CTabItem projectDetailsTab;
-	private ProjectDetailsTabContents projectDetailsTabContents;
+	private ProjectOverviewComposite projectOverviewComposite;
 	private Project project;
 	
 	public ProjectTabFolder(Composite projectContainer, Project project) {
@@ -22,10 +22,10 @@ public class ProjectTabFolder extends CTabFolder {
 		this.project=project;
 		
 		this.projectDetailsTab = new CTabItem (this, SWT.NONE);
-		projectDetailsTab.setText ("Project details");
+		projectDetailsTab.setText ("Project overview");
 		
-		this.projectDetailsTabContents = new ProjectDetailsTabContents(this, projectContainer, project);
-		projectDetailsTab.setControl (projectDetailsTabContents);
+		this.projectOverviewComposite = new ProjectOverviewComposite(this, projectContainer, project);
+		projectDetailsTab.setControl (projectOverviewComposite);
 		
 		this.setSelection(0);
 	}
@@ -34,7 +34,7 @@ public class ProjectTabFolder extends CTabFolder {
 		return project;
 	}
 	
-	public ProjectDetailsTabContents getProjectDetailsTabContents() {
-		return projectDetailsTabContents;
+	public ProjectOverviewComposite getProjectOverviewComposite() {
+		return projectOverviewComposite;
 	}
 }

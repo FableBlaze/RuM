@@ -13,20 +13,21 @@ import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.ExpandBar;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 import ee.ut.cs.rum.database.domain.Task;
 import ee.ut.cs.rum.database.util.TaskAccess;
-import ee.ut.cs.rum.workspace.internal.ui.project.ProjectDetailsTabContents;
+import ee.ut.cs.rum.workspace.internal.ui.project.ProjectOverviewComposite;
 import ee.ut.cs.rum.workspace.internal.ui.project.ProjectTabFolder;
 
 public class TasksTableViewer extends TableViewer {
 	private static final long serialVersionUID = -3241294193014510267L;
 
-	public TasksTableViewer(ProjectDetailsTabContents workspaceDetails, ProjectTabFolder projectTabFolder) {
-		super(workspaceDetails, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
+	public TasksTableViewer(ExpandBar expandBar, ProjectOverviewComposite projectDetailsTabContents, ProjectTabFolder projectTabFolder) {
+		super(expandBar, SWT.H_SCROLL | SWT.V_SCROLL);
 		
 		createColumns(this, projectTabFolder);
 		
@@ -34,9 +35,8 @@ public class TasksTableViewer extends TableViewer {
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
-		
 		this.setContentProvider(new ArrayContentProvider());
-		this.setInput(TaskAccess.getProjectTasksDataFromDb(workspaceDetails.getProject().getId()));
+		this.setInput(TaskAccess.getProjectTasksDataFromDb(projectDetailsTabContents.getProject().getId()));
 	}
 	
 	private static void createColumns(final TableViewer viewer, ProjectTabFolder projectTabFolder) {

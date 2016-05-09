@@ -12,39 +12,32 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
 import ee.ut.cs.rum.database.domain.Task;
 import ee.ut.cs.rum.database.domain.Project;
 import ee.ut.cs.rum.database.util.TaskAccess;
-import ee.ut.cs.rum.workspace.internal.ui.task.TasksTableViewer;
 import ee.ut.cs.rum.workspace.internal.ui.task.newtask.NewTaskDetails;
 
-public class ProjectDetailsTabContents extends Composite {
+public class ProjectOverviewComposite extends Composite {
 	private static final long serialVersionUID = 1649148279320216160L;
 
 	private Project project;
-	private TasksTableViewer tasksTableViewer;
+	private ProjectOverviewExpandBar projectOverviewExpandBar;
+	private ProjectTabFolder projectTabFolder;
 
-	ProjectDetailsTabContents(ProjectTabFolder projectTabFolder, Composite projectContainer, Project project) {
+	ProjectOverviewComposite(ProjectTabFolder projectTabFolder, Composite projectContainer, Project project) {
 		super(projectTabFolder, SWT.NONE);
 
 		this.project=project;
+		this.projectTabFolder=projectTabFolder;
 
 		this.setLayout(new GridLayout(2, false));
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-
-		Label l = new Label(this, SWT.NONE);
-		if (project.getDescription()!=null) {
-			l.setText(project.getDescription());
-		}
-		l.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		((GridData) l.getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
-
-
-		tasksTableViewer = new TasksTableViewer(this, projectTabFolder);
-		((GridData) tasksTableViewer.getTable().getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
+		
+		
+		ProjectOverviewExpandBar projectOverviewExpandBar = new ProjectOverviewExpandBar(this);
+		((GridData) projectOverviewExpandBar.getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
 
 		Button refreshTasksTableButton = new Button(this, SWT.PUSH);
 		refreshTasksTableButton.setText("Refresh tasks table");
@@ -56,7 +49,8 @@ public class ProjectDetailsTabContents extends Composite {
 			@Override
 			public void handleEvent(Event arg0) {
 				List<Task> projectTasks = TaskAccess.getProjectTasksDataFromDb(project.getId());
-				tasksTableViewer.setInput(projectTasks);
+				projectOverviewExpandBar.getTasksTableViewer().setInput(projectTasks);
+				projectOverviewExpandBar.getTasksTableItem().setHeight(projectOverviewExpandBar.getTasksTableViewer().getTable().computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
 			}
 		});
 
@@ -105,8 +99,12 @@ public class ProjectDetailsTabContents extends Composite {
 		return project;
 	}
 
-	public TasksTableViewer getTasksTableViewer() {
-		return tasksTableViewer;
+	public ProjectOverviewExpandBar getProjectOverviewExpandBar() {
+		return projectOverviewExpandBar;
 	}
-
+	
+	public ProjectTabFolder getProjectTabFolder() {
+		return projectTabFolder;
+	}
+	
 }

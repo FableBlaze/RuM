@@ -107,7 +107,7 @@ public class FooterButtonsComposite extends Composite {
 					
 					//TODO: Properly updating the UI (MCV)
 					List<Task> workspaceTasks = TaskAccess.getProjectTasksDataFromDb(newTaskDetails.getProjectTabFolder().getProject().getId());
-					newTaskDetails.getProjectTabFolder().getProjectDetailsTabContents().getTasksTableViewer().setInput(workspaceTasks);
+					newTaskDetails.getProjectTabFolder().getProjectOverviewComposite().getProjectOverviewExpandBar().getTasksTableViewer().setInput(workspaceTasks);
 				}
 			}
 		});
