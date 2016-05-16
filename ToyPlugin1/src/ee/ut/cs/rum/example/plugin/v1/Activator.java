@@ -13,6 +13,8 @@ public class Activator implements BundleActivator {
 		Activator.context = bundleContext;
 		logger = LoggerFactory.getLogger("ee.ut.cs.rum.virgoConsole");
 		logger.info("RuM_ToyPlugin1 started");
+		RumPluginFactoryImpl im = new RumPluginFactoryImpl();
+		logger.info(im.getPluginInfoJSON());
 	}
 
 	public void stop(BundleContext bundleContext) throws Exception {

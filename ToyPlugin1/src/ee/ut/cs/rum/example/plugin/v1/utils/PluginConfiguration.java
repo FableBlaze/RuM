@@ -3,6 +3,7 @@ package ee.ut.cs.rum.example.plugin.v1.utils;
 import com.google.gson.Gson;
 
 import ee.ut.cs.rum.plugins.development.description.PluginInfo;
+import ee.ut.cs.rum.plugins.development.description.PluginOutput;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameter;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterDouble;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterFile;
@@ -20,6 +21,20 @@ public final class PluginConfiguration {
 		PluginInfo pluginInfo = new PluginInfo();
 		pluginInfo.setName("ToyPluginV1");
 		pluginInfo.setDescription("This is the first toy plugin for RuM. This description is loaded form JSON.");
+		
+		PluginOutput pluginOutput1 = new PluginOutput();
+		pluginOutput1.setFileName("textAndCSV.out");
+		String[] outputTypes1 = {"text", "CSV"};
+		pluginOutput1.setFileTypes(outputTypes1);
+		
+		PluginOutput pluginOutput2 = new PluginOutput();
+		pluginOutput2.setFileName("gif.out");
+		String[] outputTypes2 = {"gif"};
+		pluginOutput2.setFileTypes(outputTypes2);
+		
+		PluginOutput[] pluginOutputs = {pluginOutput1, pluginOutput2};
+		pluginInfo.setOutputs(pluginOutputs);
+		
 		
 		PluginParameterSelection pluginParameterSelection1 = new PluginParameterSelection();
 		pluginParameterSelection1.setDescription("Testing out the selection parameter");
@@ -85,11 +100,21 @@ public final class PluginConfiguration {
 		pluginParameterDouble.setRequired(true);
 		
 		
-		PluginParameterFile pluginParameterFile = new PluginParameterFile();
-		pluginParameterFile.setDescription("Testing the file parameter");
-		pluginParameterFile.setDisplayName("File");
-		pluginParameterFile.setInternalName("file1");
-		pluginParameterFile.setRequired(true);
+		PluginParameterFile pluginParameterFile1 = new PluginParameterFile();
+		pluginParameterFile1.setDescription("Testing the file parameter");
+		pluginParameterFile1.setDisplayName("GIF only file");
+		pluginParameterFile1.setInternalName("file1");
+		pluginParameterFile1.setRequired(true);
+		String[] inputTypes1 = {"gif"};
+		pluginParameterFile1.setInputTypes(inputTypes1);
+		
+		PluginParameterFile pluginParameterFile2 = new PluginParameterFile();
+		pluginParameterFile2.setDescription("Testing the file parameter");
+		pluginParameterFile2.setDisplayName("GIF and CSV files");
+		pluginParameterFile2.setInternalName("file2");
+		pluginParameterFile2.setRequired(true);
+		String[] inputTypes2 = {"gif", "csv"};
+		pluginParameterFile2.setInputTypes(inputTypes2);
 		
 		
 		PluginParameterInteger pluginParameterInteger = new PluginParameterInteger();
@@ -110,7 +135,7 @@ public final class PluginConfiguration {
 		pluginParameterString.setMaxInputLength(12);
 		pluginParameterString.setRequired(true);
 		
-		PluginParameter[] parameters = {pluginParameterSelection1, pluginParameterSelection2, pluginParameterDouble, pluginParameterFile, pluginParameterInteger, pluginParameterString};
+		PluginParameter[] parameters = {pluginParameterSelection1, pluginParameterSelection2, pluginParameterDouble, pluginParameterFile1, pluginParameterFile2, pluginParameterInteger, pluginParameterString};
 		
 		pluginInfo.setParameters(parameters);
 		

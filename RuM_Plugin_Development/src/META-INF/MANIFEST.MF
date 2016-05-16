@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-Description: Intercafes that RuM plugins must implement and plugin info classes
 Bundle-SymbolicName: RuM_Plugin_Development
-Bundle-Version: 0.0.4
+Bundle-Version: 0.0.5
 Bundle-Name: RuM_Plugin_Development
 Bundle-ManifestVersion: 2
 Bundle-Vendor: University of Tartu

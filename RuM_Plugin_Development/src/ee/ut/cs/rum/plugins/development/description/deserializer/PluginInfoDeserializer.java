@@ -10,6 +10,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
 import ee.ut.cs.rum.plugins.development.description.PluginInfo;
+import ee.ut.cs.rum.plugins.development.description.PluginOutput;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameter;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterDouble;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterFile;
@@ -30,12 +31,32 @@ public class PluginInfoDeserializer implements JsonDeserializer<PluginInfo> {
 		PluginInfo pluginInfo = new PluginInfo();
 		pluginInfo.setName(pluginInfoJsonObject.get("name").getAsString());
 		pluginInfo.setDescription(pluginInfoJsonObject.get("description").getAsString());
+		
+		JsonArray pluginOutputsJsonArray = pluginInfoJsonObject.get("outputs").getAsJsonArray();
+		PluginOutput[] pluginOutputs = new PluginOutput[pluginOutputsJsonArray.size()];
+		
+		for (int i = 0; i < pluginOutputs.length; i++) {
+			JsonObject pluginOutputJsonObject = pluginOutputsJsonArray.get(i).getAsJsonObject();
+			
+			PluginOutput pluginOutput = new PluginOutput();
+			pluginOutput.setFileName(pluginOutputJsonObject.get("fileName").getAsString());
+			JsonArray outputTypesJsonArray = pluginOutputJsonObject.get("fileTypes").getAsJsonArray();
+			String[] fileTypes = new String[outputTypesJsonArray.size()];
+			
+			for (int j = 0; j < fileTypes.length; j++) {
+				fileTypes[j] = outputTypesJsonArray.get(j).getAsString();
+			}
+			pluginOutput.setFileTypes(fileTypes);
+			pluginOutputs[i]=pluginOutput;
+		}
 
-		JsonArray PluginParametersJsonArray = pluginInfoJsonObject.get("parameters").getAsJsonArray();
-		PluginParameter[] pluginParameters = new PluginParameter[PluginParametersJsonArray.size()];
+		pluginInfo.setOutputs(pluginOutputs);
+		
+		JsonArray pluginParametersJsonArray = pluginInfoJsonObject.get("parameters").getAsJsonArray();
+		PluginParameter[] pluginParameters = new PluginParameter[pluginParametersJsonArray.size()];
 
 		for (int i = 0; i < pluginParameters.length; i++) {
-			JsonObject pluginParameterJsonObject = PluginParametersJsonArray.get(i).getAsJsonObject();
+			JsonObject pluginParameterJsonObject = pluginParametersJsonArray.get(i).getAsJsonObject();
 			String parameterTypeString = pluginParameterJsonObject.get("parameterType").getAsString();
 			PluginParameterType parameterType = PluginParameterType.valueOf(parameterTypeString);
 
@@ -81,6 +102,13 @@ public class PluginInfoDeserializer implements JsonDeserializer<PluginInfo> {
 				break; 
 			case FILE:
 				PluginParameterFile pluginParameterFile = new PluginParameterFile();
+				JsonArray inputTypesJsonArray = pluginParameterJsonObject.get("inputTypes").getAsJsonArray();
+				String[] inputTypes = new String[inputTypesJsonArray.size()];
+				
+				for (int j = 0; j < inputTypes.length; j++) {
+					inputTypes[j] = inputTypesJsonArray.get(j).getAsString();
+				}
+				pluginParameterFile.setInputTypes(inputTypes);
 				pluginParameters[i] = pluginParameterFile;
 				break; 
 			default:
