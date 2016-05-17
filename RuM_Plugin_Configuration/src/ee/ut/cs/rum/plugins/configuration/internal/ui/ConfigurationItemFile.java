@@ -176,7 +176,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 				String[] inputTypes = parameterFile.getInputTypes();
 				for (String inputType : inputTypes) {
 					UserFileType userFileType = new UserFileType();
-					userFileType.setUserFileType(inputType);
+					userFileType.setTypeName(inputType);
 					userFileTypes.add(userFileType);
 				}
 				userFile.setUserFileTypes(userFileTypes);

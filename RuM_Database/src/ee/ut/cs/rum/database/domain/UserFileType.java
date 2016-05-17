@@ -24,8 +24,8 @@ public class UserFileType {
 	@JoinColumn(name="user_file_id")
 	private UserFile userFile;
 	
-	@Column(name = "user_file_type")
-	private String userFileType;
+	@Column(name = "type_name")
+	private String typeName;
 
 	public UserFile getUserFile() {
 		return userFile;
@@ -35,12 +35,12 @@ public class UserFileType {
 		this.userFile = userFile;
 	}
 
-	public String getUserFileType() {
-		return userFileType;
+	public String getTypeName() {
+		return typeName;
 	}
 
-	public void setUserFileType(String userFileType) {
-		this.userFileType = userFileType;
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
 	}
 
 	public Long getId() {
@@ -50,7 +50,7 @@ public class UserFileType {
 	@Override
 	public String toString() {
 		//userFile.getId() because otherwise it would result in an infinite loop 
-		return "UserFileType [id=" + id + ", userFile=" + userFile.getId() + ", userFileType=" + userFileType + "]";
+		return "UserFileType [id=" + id + ", userFile=" + userFile.getId() + ", typeName=" + typeName + "]";
 	}
 
 	
