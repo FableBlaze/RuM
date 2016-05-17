@@ -19,7 +19,7 @@ public class UserFileType {
 	@Column(name = "id")
 	private Long id;
 	
-	//TODO: Consider using a join table to reduce the overall data volume
+	//TODO: Consider using a join table (many-to-many relation)
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="user_file_id")
 	private UserFile userFile;
