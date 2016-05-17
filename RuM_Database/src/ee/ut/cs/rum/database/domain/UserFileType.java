@@ -21,10 +21,10 @@ public class UserFileType {
 	
 	//TODO: Consider using a join table (many-to-many relation)
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="user_file_id")
+	@JoinColumn(name="user_file_id", nullable = false)
 	private UserFile userFile;
 	
-	@Column(name = "type_name")
+	@Column(name = "type_name", nullable = false)
 	private String typeName;
 
 	public UserFile getUserFile() {
