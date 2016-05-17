@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,6 +24,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 
 import ee.ut.cs.rum.database.domain.UserFile;
+import ee.ut.cs.rum.database.domain.UserFileType;
 import ee.ut.cs.rum.database.domain.enums.SystemParameterName;
 import ee.ut.cs.rum.database.util.SystemParameterAccess;
 import ee.ut.cs.rum.database.util.UserFileAccess;
@@ -38,11 +40,13 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 	private Combo fileSelectorCombo;
 	private Long projectId;
 	private File user_file_path;
+	PluginParameterFile parameterFile;
 
 	public ConfigurationItemFile(Composite parent, PluginParameterFile parameterFile, Long workspaceId) {
 		super(parent, SWT.NONE);
 
 		this.projectId=workspaceId;
+		this.parameterFile = parameterFile;
 		String user_file_path_asString = SystemParameterAccess.getSystemParameterValue(SystemParameterName.USER_FILE_PATH);
 		if (user_file_path_asString!=null) {
 			user_file_path = new File(user_file_path_asString);
@@ -149,6 +153,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 		} else if (selectionIndex < userFiles.size()) {
 			return userFiles.get(selectionIndex).getFileLocation();
 		} else {
+			//If it is a new user uploaded file
 			boolean copySucceeded = false;
 			File destinationFile = new File(user_file_path, new SimpleDateFormat("ddMMyyyy_HHmmssSSS").format(new Date()));
 			try {
@@ -166,6 +171,15 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 				userFile.setCreatedAt(new Date());
 				userFile.setWorkspaceId(projectId);
 				userFile.setFileLocation(destinationFile.toPath().toString());
+				
+				List<UserFileType> userFileTypes = new ArrayList<UserFileType>();
+				String[] inputTypes = parameterFile.getInputTypes();
+				for (String inputType : inputTypes) {
+					UserFileType userFileType = new UserFileType();
+					userFileType.setUserFileType(inputType);
+					userFileTypes.add(userFileType);
+				}
+				userFile.setUserFileTypes(userFileTypes);
 				
 				userFile = UserFileAccess.addUserFileDataToDb(userFile);
 				
