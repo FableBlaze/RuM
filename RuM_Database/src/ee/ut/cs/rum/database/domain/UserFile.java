@@ -1,12 +1,15 @@
 package ee.ut.cs.rum.database.domain;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -37,6 +40,8 @@ public class UserFile {
 	@Column(name = "file_location")
 	private String fileLocation;
 	
+	@OneToMany( targetEntity=UserFileType.class, cascade=CascadeType.PERSIST, mappedBy="userFile" )
+	private List<UserFileType> userFileTypes;
 	
 	public String getOriginalFilename() {
 		return originalFilename;
@@ -83,11 +88,21 @@ public class UserFile {
 	public Long getId() {
 		return id;
 	}
-	
+	public List<UserFileType> getUserFileTypes() {
+		return userFileTypes;
+	}
+	public void setUserFileTypes(List<UserFileType> userFileTypes) {
+		for (UserFileType userFileType : userFileTypes) {
+			userFileType.setUserFile(this);
+		}
+		this.userFileTypes = userFileTypes;
+	}
 	@Override
 	public String toString() {
 		return "UserFile [id=" + id + ", originalFilename=" + originalFilename + ", createdByUserId=" + createdByUserId
 				+ ", createdByPluginId=" + createdByPluginId + ", createdAt=" + createdAt + ", taskId=" + taskId
-				+ ", workspaceId=" + workspaceId + ", fileLocation=" + fileLocation + "]";
+				+ ", workspaceId=" + workspaceId + ", fileLocation=" + fileLocation + ", userFileTypes=" + userFileTypes
+				+ "]";
 	}
+	
 }
