@@ -4,6 +4,7 @@
 	<comment></comment>
 	<projects>
 		<project>RuM_Database</project>
+		<project>RuM_Plugin_Configuration</project>
 		<project>RuM_Plugin_Development</project>
 	</projects>
 	<buildSpec>

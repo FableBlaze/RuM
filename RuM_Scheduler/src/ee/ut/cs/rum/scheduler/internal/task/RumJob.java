@@ -17,6 +17,9 @@ import ee.ut.cs.rum.database.domain.UserFile;
 import ee.ut.cs.rum.database.domain.enums.TaskStatus;
 import ee.ut.cs.rum.database.util.PluginAccess;
 import ee.ut.cs.rum.database.util.UserFileAccess;
+import ee.ut.cs.rum.plugins.configuration.util.PluginUtils;
+import ee.ut.cs.rum.plugins.development.description.PluginInfo;
+import ee.ut.cs.rum.plugins.development.description.PluginOutput;
 import ee.ut.cs.rum.plugins.development.interfaces.RumPluginFactory;
 import ee.ut.cs.rum.plugins.development.interfaces.factory.RumPluginWorker;
 import ee.ut.cs.rum.scheduler.internal.Activator;
@@ -26,6 +29,7 @@ public class RumJob implements Job {
 	public static final String TASK_ID = "taskId";
 	
 	private Task rumJobTask;
+	private PluginOutput[] rumJobTaskOutputs;
 
 	public RumJob() {
 	}
@@ -58,6 +62,8 @@ public class RumJob implements Job {
 				TasksData.updateTaskStatusInDb(taskId, TaskStatus.FAILED);
 			}
 			
+			PluginInfo pluginInfo = PluginUtils.deserializePluginInfo(rumJobPlugin);
+			rumJobTaskOutputs = pluginInfo.getOutputs();
 			addTaskCreatedFilesToDb(rumJobTask.getOutputPath());
 			
 			Activator.getLogger().info("RumJob done: " + jobKey + " at " + new Date());
@@ -114,6 +120,12 @@ public class RumJob implements Job {
 				userFile.setTaskId(rumJobTask.getId());
 				userFile.setWorkspaceId(rumJobTask.getProjectId());
 				userFile.setFileLocation(file.getPath());
+				
+				for (PluginOutput rumJobTaskOutput : rumJobTaskOutputs) {
+					if (rumJobTaskOutput.getFileName().equals(file.getName())) {
+						Activator.getLogger().info("Found plugin output file with types: " + rumJobTaskOutput.getFileTypes().toString());
+					}
+				}
 				
 				userFile = UserFileAccess.addUserFileDataToDb(userFile);
 			} else if (file.isDirectory()) {

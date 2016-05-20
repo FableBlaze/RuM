@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-SymbolicName: RuM_Scheduler
 Bundle-Description: RuM Scheduler bundle
-Bundle-Version: 0.0.2
+Bundle-Version: 0.0.3
 Bundle-Name: RuM_Scheduler
 Bundle-Vendor: University of Tartu
 Bundle-ManifestVersion: 2
@@ -9,6 +9,8 @@ Import-Package: ee.ut.cs.rum.database,
  ee.ut.cs.rum.database.domain,
  ee.ut.cs.rum.database.domain.enums,
  ee.ut.cs.rum.database.util,
+ ee.ut.cs.rum.plugins.configuration.util,
+ ee.ut.cs.rum.plugins.development.description,
  ee.ut.cs.rum.plugins.development.interfaces,
  ee.ut.cs.rum.plugins.development.interfaces.factory,
  javax.persistence;version="[2.0.4,2.0.4]",
