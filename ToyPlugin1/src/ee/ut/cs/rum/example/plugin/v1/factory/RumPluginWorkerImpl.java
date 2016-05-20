@@ -16,10 +16,18 @@ public class RumPluginWorkerImpl implements RumPluginWorker {
 		Activator.getLogger().info("RuM_ToyPlugin1 outputParent: " + outputParent.getPath());
 		
 		try {
-			PrintWriter writer = new PrintWriter(new File(outputParent, "test.txt"));
+			PrintWriter writer = new PrintWriter(new File(outputParent, "textAndCSV.out"));
 			writer.println("RuM_ToyPlugin1 The first line");
 			writer.println("RuM_ToyPlugin1 The second line");
 			writer.println(configuration);
+			writer.close();
+			
+			writer = new PrintWriter(new File(outputParent, "gif.out"));
+			writer.println("Placeholder");
+			writer.close();
+			
+			writer = new PrintWriter(new File(outputParent, "random.file"));
+			writer.println("Placeholder");
 			writer.close();
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
