@@ -1,7 +1,9 @@
 package ee.ut.cs.rum.scheduler.internal.task;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleException;
@@ -14,6 +16,7 @@ import org.quartz.JobKey;
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.database.domain.Task;
 import ee.ut.cs.rum.database.domain.UserFile;
+import ee.ut.cs.rum.database.domain.UserFileType;
 import ee.ut.cs.rum.database.domain.enums.TaskStatus;
 import ee.ut.cs.rum.database.util.PluginAccess;
 import ee.ut.cs.rum.database.util.UserFileAccess;
@@ -123,6 +126,14 @@ public class RumJob implements Job {
 				
 				for (PluginOutput rumJobTaskOutput : rumJobTaskOutputs) {
 					if (rumJobTaskOutput.getFileName().equals(file.getName())) {
+						List<UserFileType> userFileTypes = new ArrayList<UserFileType>();
+						String[] fileTypes = rumJobTaskOutput.getFileTypes();
+						for (String inputType : fileTypes) {
+							UserFileType userFileType = new UserFileType();
+							userFileType.setTypeName(inputType);
+							userFileTypes.add(userFileType);
+						}
+						userFile.setUserFileTypes(userFileTypes);
 						Activator.getLogger().info("Found plugin output file with types: " + rumJobTaskOutput.getFileTypes().toString());
 					}
 				}
