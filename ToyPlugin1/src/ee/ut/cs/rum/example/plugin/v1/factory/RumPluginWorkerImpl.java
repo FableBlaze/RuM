@@ -27,7 +27,7 @@ public class RumPluginWorkerImpl implements RumPluginWorker {
 
 		Activator.getLogger().info("RuM_ToyPlugin1 going to sleep");
 		try {
-			Thread.sleep(65L * 1000L);
+			Thread.sleep(30L * 1000L);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
