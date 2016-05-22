@@ -68,7 +68,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 		fileSelectorCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
 		if (projectId!=null) {
-			this.userFiles = UserFileAccess.getProjectUserFilesDataFromDb(projectId);
+			this.userFiles = UserFileAccess.getProjectUserFilesDataFromDb(projectId, parameterFile.getInputTypes());
 			for (UserFile userFile : userFiles) {
 				fileSelectorCombo.add(userFile.getOriginalFilename() + "  (" + new SimpleDateFormat("dd-MM-yyyy HH:mm").format(userFile.getCreatedAt()) + ")");
 			}

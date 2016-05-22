@@ -1,5 +1,6 @@
 package ee.ut.cs.rum.database.util;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -36,6 +37,34 @@ public final class UserFileAccess {
 		return userFiles;
 	}
 	
+	public static List<UserFile> getProjectUserFilesDataFromDb(Long projectId, String[] inputTypes) {
+		EntityManagerFactory emf = Activator.getEmf();
+		EntityManager em = emf.createEntityManager();
+		
+		String inputTypesString = "("; 
+		for (int i = 0; i < inputTypes.length; i++) {
+			if (i==inputTypes.length-1) {
+				inputTypesString += "'" + inputTypes[i] + "'";
+			} else {
+				inputTypesString += "'" + inputTypes[i]+"',";
+			}
+		}
+		inputTypesString += ")";
+		
+		String helperQueryString = "Select uft.userFile from UserFileType uft where uft.typeName in " + inputTypesString;
+		TypedQuery<UserFile> helperQuery = em.createQuery(helperQueryString, UserFile.class);
+		List<UserFile> userFiles = helperQuery.getResultList();
+				
+		List<UserFile> userProjectFiles = new ArrayList<UserFile>();
+		for (UserFile userFile : userFiles) {
+			if (userFile.getWorkspaceId()==projectId) {
+				userProjectFiles.add(userFile);
+			}
+		}
+		
+		return userProjectFiles;
+	}
+	
 	public static UserFile getUserFileDataFromDb(String fileLocation) {
 		EntityManagerFactory emf = Activator.getEmf();
 		EntityManager em = emf.createEntityManager();
@@ -68,4 +97,5 @@ public final class UserFileAccess {
 		
 		return userFile;
 	}
+
 }
