@@ -28,13 +28,13 @@ public class PluginConfigurationComposite extends Composite {
 	
 	private Map<String, ConfigurationItemInterface> configurationItems;
 	private PluginInfo pluginInfo;
-	private Long workspaceId;
+	private Long projectId;
 	
-	public PluginConfigurationComposite(Composite parent, PluginInfo pluginInfo, Long workspaceId) {
+	public PluginConfigurationComposite(Composite parent, PluginInfo pluginInfo, Long projectId) {
 		super(parent, SWT.NONE);
 		
 		this.pluginInfo=pluginInfo;
-		this.workspaceId=workspaceId;
+		this.projectId=projectId;
 		
 		this.setLayout(new GridLayout(2, false));
 		
@@ -78,7 +78,7 @@ public class PluginConfigurationComposite extends Composite {
 				break; 
 			case FILE:
 				PluginParameterFile parameterFile = (PluginParameterFile) pluginParameter;
-				configurationItems.put(parameterFile.getInternalName(), new ConfigurationItemFile(this, parameterFile, workspaceId));
+				configurationItems.put(parameterFile.getInternalName(), new ConfigurationItemFile(this, parameterFile, projectId));
 				break; 
 			default:
 				break;

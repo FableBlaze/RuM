@@ -42,10 +42,10 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 	private File user_file_path;
 	PluginParameterFile parameterFile;
 
-	public ConfigurationItemFile(Composite parent, PluginParameterFile parameterFile, Long workspaceId) {
+	public ConfigurationItemFile(Composite parent, PluginParameterFile parameterFile, Long projectId) {
 		super(parent, SWT.NONE);
 
-		this.projectId=workspaceId;
+		this.projectId=projectId;
 		this.parameterFile = parameterFile;
 		String user_file_path_asString = SystemParameterAccess.getSystemParameterValue(SystemParameterName.USER_FILE_PATH);
 		if (user_file_path_asString!=null) {
