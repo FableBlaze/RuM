@@ -1,6 +1,5 @@
 package ee.ut.cs.rum.database.util;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -51,16 +50,10 @@ public final class UserFileAccess {
 		}
 		inputTypesString += ")";
 		
-		String helperQueryString = "Select uft.userFile from UserFileType uft where uft.typeName in " + inputTypesString;
-		TypedQuery<UserFile> helperQuery = em.createQuery(helperQueryString, UserFile.class);
-		List<UserFile> userFiles = helperQuery.getResultList();
-				
-		List<UserFile> userProjectFiles = new ArrayList<UserFile>();
-		for (UserFile userFile : userFiles) {
-			if (userFile.getWorkspaceId()==projectId) {
-				userProjectFiles.add(userFile);
-			}
-		}
+		String queryString = "Select distinct uft.userFile from UserFileType uft where uft.typeName in " + inputTypesString +
+				" and uft.userFile.workspaceId = " + projectId;
+		TypedQuery<UserFile> query = em.createQuery(queryString, UserFile.class);
+		List<UserFile> userProjectFiles = query.getResultList();
 		
 		return userProjectFiles;
 	}
