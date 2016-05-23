@@ -35,8 +35,8 @@ public class UserFile {
 
 	@Column(name = "task_id")
 	private Long taskId;
-	@Column(name = "workspace_id")
-	private Long workspaceId;
+	@Column(name = "project_id")
+	private Long projectId;
 	@Column(name = "file_location")
 	private String fileLocation;
 	
@@ -73,11 +73,11 @@ public class UserFile {
 	public void setTaskId(Long taskId) {
 		this.taskId = taskId;
 	}
-	public Long getWorkspaceId() {
-		return workspaceId;
+	public Long getProjectId() {
+		return projectId;
 	}
-	public void setWorkspaceId(Long workspaceId) {
-		this.workspaceId = workspaceId;
+	public void setProjectId(Long projectId) {
+		this.projectId = projectId;
 	}
 	public String getFileLocation() {
 		return fileLocation;
@@ -101,7 +101,7 @@ public class UserFile {
 	public String toString() {
 		return "UserFile [id=" + id + ", originalFilename=" + originalFilename + ", createdByUserId=" + createdByUserId
 				+ ", createdByPluginId=" + createdByPluginId + ", createdAt=" + createdAt + ", taskId=" + taskId
-				+ ", workspaceId=" + workspaceId + ", fileLocation=" + fileLocation + ", userFileTypes=" + userFileTypes
+				+ ", projectId=" + projectId + ", fileLocation=" + fileLocation + ", userFileTypes=" + userFileTypes
 				+ "]";
 	}
 	

@@ -169,7 +169,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 				userFile.setOriginalFilename(temporaryFile.getName());
 				userFile.setCreatedByUserId("TODO");
 				userFile.setCreatedAt(new Date());
-				userFile.setWorkspaceId(projectId);
+				userFile.setProjectId(projectId);
 				userFile.setFileLocation(destinationFile.toPath().toString());
 				
 				List<UserFileType> userFileTypes = new ArrayList<UserFileType>();

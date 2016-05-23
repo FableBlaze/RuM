@@ -29,7 +29,7 @@ public final class UserFileAccess {
 		EntityManagerFactory emf = Activator.getEmf();
 		EntityManager em = emf.createEntityManager();
 		
-		String queryString = "Select uf from UserFile uf where uf.workspaceId = " + projectId + " order by uf.id";
+		String queryString = "Select uf from UserFile uf where uf.projectId = " + projectId + " order by uf.id";
 		TypedQuery<UserFile> query = em.createQuery(queryString, UserFile.class);
 		List<UserFile> userFiles = query.getResultList();
 		
@@ -51,7 +51,7 @@ public final class UserFileAccess {
 		inputTypesString += ")";
 		
 		String queryString = "Select distinct uft.userFile from UserFileType uft where uft.typeName in " + inputTypesString +
-				" and uft.userFile.workspaceId = " + projectId;
+				" and uft.userFile.projectId = " + projectId;
 		TypedQuery<UserFile> query = em.createQuery(queryString, UserFile.class);
 		List<UserFile> userProjectFiles = query.getResultList();
 		

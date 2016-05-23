@@ -121,7 +121,7 @@ public class RumJob implements Job {
 				userFile.setCreatedByPluginId(rumJobTask.getPluginId());
 				userFile.setCreatedAt(new Date());
 				userFile.setTaskId(rumJobTask.getId());
-				userFile.setWorkspaceId(rumJobTask.getProjectId());
+				userFile.setProjectId(rumJobTask.getProjectId());
 				userFile.setFileLocation(file.getPath());
 				
 				for (PluginOutput rumJobTaskOutput : rumJobTaskOutputs) {
