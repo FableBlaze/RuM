@@ -118,6 +118,7 @@ public class RumJob implements Job {
 			if (file.isFile()) {
 				UserFile userFile = new UserFile();
 				userFile.setOriginalFilename(file.getName());
+				userFile.setCreatedByUserId("TODO");
 				userFile.setCreatedByPluginId(rumJobTask.getPluginId());
 				userFile.setCreatedAt(new Date());
 				userFile.setTaskId(rumJobTask.getId());
