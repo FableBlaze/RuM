@@ -61,7 +61,7 @@
 		"parameterType": "DOUBLE"
 	},
 	{
-		"inputTypes": ["gif"],
+		"inputTypes": ["GIF"],
 		"internalName": "file1",
 		"displayName": "GIF only file",
 		"description": "Testing the file parameter",
@@ -69,8 +69,8 @@
 		"parameterType": "FILE"
 	},
 	{
-		"inputTypes": ["gif",
-		"csv"],
+		"inputTypes": ["GIF",
+		"CSV"],
 		"internalName": "file2",
 		"displayName": "GIF and CSV files",
 		"description": "Testing the file parameter",
@@ -98,11 +98,11 @@
 	}],
 	"outputs": [{
 		"fileName": "textAndCSV.out",
-		"fileTypes": ["text",
+		"fileTypes": ["TEXT",
 		"CSV"]
 	},
 	{
 		"fileName": "gif.out",
-		"fileTypes": ["gif"]
+		"fileTypes": ["GIF"]
 	}]
 }
