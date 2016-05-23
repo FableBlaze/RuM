@@ -36,7 +36,7 @@ public class ProjectOverviewComposite extends Composite {
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		
 		
-		ProjectOverviewExpandBar projectOverviewExpandBar = new ProjectOverviewExpandBar(this);
+		projectOverviewExpandBar = new ProjectOverviewExpandBar(this);
 		((GridData) projectOverviewExpandBar.getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
 
 		Button refreshTasksTableButton = new Button(this, SWT.PUSH);
