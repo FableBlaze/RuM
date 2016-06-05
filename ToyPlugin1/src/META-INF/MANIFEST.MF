@@ -13,6 +13,5 @@ Import-Package: ee.ut.cs.rum.plugins.development.description,
  ee.ut.cs.rum.plugins.development.interfaces.factory,
  org.osgi.framework;version="[1.7.0,1.7.0]",
  org.slf4j;version="[1.7.2,1.7.2]"
-Import-Bundle: com.google.gson;version="[2.6.2,2.6.2]",
- org.eclipse.rap.rwt;version="[3.0.1.20150908-1130,3.0.1.20150908-1130]"
+Import-Bundle: com.google.gson;version="[2.6.2,2.6.2]"
 
