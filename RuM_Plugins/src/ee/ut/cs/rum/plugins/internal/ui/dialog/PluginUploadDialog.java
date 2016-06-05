@@ -151,22 +151,25 @@ public class PluginUploadDialog extends Dialog {
 					} catch (IOException e) {
 						Activator.getLogger().info("Failed to copy uploaded plugin to: " + destinationFile.toPath());
 					}
-				}
-
-				if (copySucceeded) {
-					temporaryPlugin.setUploadedAt(new Date());
-					temporaryPlugin.setUploadedBy("TODO"); //TODO: Add reference to the user
-					temporaryPlugin.setFileLocation(destinationFile.toPath().toString());
-					temporaryPlugin = PluginAccess.addPluginDataToDb(temporaryPlugin);
 					
-					//TODO: Implement proper UI updating (MCV)
-					List<Plugin> plugins = PluginAccess.getPluginsDataFromDb();
-					overviewTabContents.getPluginsTableComposite().getPluginsTableViewer().setInput(plugins);
-					overviewTabContents.getPluginsOverview().getNumberOfPluginsLable().setText(Integer.toString(plugins.size()));
+					if (copySucceeded) {
+						temporaryPlugin.setUploadedAt(new Date());
+						temporaryPlugin.setUploadedBy("TODO"); //TODO: Add reference to the user
+						temporaryPlugin.setFileLocation(destinationFile.toPath().toString());
+						temporaryPlugin = PluginAccess.addPluginDataToDb(temporaryPlugin);
+						
+						//TODO: Implement proper UI updating (MCV)
+						List<Plugin> plugins = PluginAccess.getPluginsDataFromDb();
+						overviewTabContents.getPluginsTableComposite().getPluginsTableViewer().setInput(plugins);
+						overviewTabContents.getPluginsOverview().getNumberOfPluginsLable().setText(Integer.toString(plugins.size()));
+						
+						shell.close();
+					} else {
+						feedbackTextValue.setText("Plugin install failed");
+					}
 					
-					shell.close();
 				} else {
-					feedbackTextValue.setText("Plugin install failed");
+					feedbackTextValue.setText("Plugin installing disabled");
 				}
 			}
 		});
