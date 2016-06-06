@@ -1,12 +1,13 @@
-package ee.ut.cs.rum.ui;
+package ee.ut.cs.rum.internal.ui;
 
 import org.eclipse.rap.rwt.application.AbstractEntryPoint;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
-import ee.ut.cs.rum.Activator;
+
 import ee.ut.cs.rum.administration.ui.SystemAdministrationUI;
+import ee.ut.cs.rum.internal.Activator;
 import ee.ut.cs.rum.plugins.ui.PluginsManagementUI;
 import ee.ut.cs.rum.workspace.ui.WorkspaceUI;
 

@@ -3,7 +3,7 @@
   <display-name>RuMtmp</display-name>
   <context-param>
     <param-name>org.eclipse.rap.applicationConfiguration</param-name>
-    <param-value>ee.ut.cs.rum.RumConfiguration</param-value>
+    <param-value>ee.ut.cs.rum.internal.RumConfiguration</param-value>
   </context-param>
   <listener>
     <listener-class>org.eclipse.rap.rwt.engine.RWTServletContextListener</listener-class>

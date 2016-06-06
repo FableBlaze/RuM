@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.ui;
+package ee.ut.cs.rum.internal.ui;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;

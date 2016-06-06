@@ -1,9 +1,9 @@
-package ee.ut.cs.rum;
+package ee.ut.cs.rum.internal;
 
 import org.eclipse.rap.rwt.application.Application;
 import org.eclipse.rap.rwt.application.ApplicationConfiguration;
 
-import ee.ut.cs.rum.ui.RumUI;
+import ee.ut.cs.rum.internal.ui.RumUI;
 
 public class RumConfiguration implements ApplicationConfiguration {
 	public void configure( Application application ) {
