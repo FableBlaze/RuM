@@ -5,7 +5,8 @@ Bundle-Version: 0.0.1
 Bundle-Name: RuM_Workspace
 Bundle-Vendor: University of Tartu
 Bundle-ManifestVersion: 2
-Import-Package: ee.ut.cs.rum.database,
+Import-Package: ee.ut.cs.rum.controller,
+ ee.ut.cs.rum.database,
  ee.ut.cs.rum.database.domain,
  ee.ut.cs.rum.database.domain.enums,
  ee.ut.cs.rum.database.util,

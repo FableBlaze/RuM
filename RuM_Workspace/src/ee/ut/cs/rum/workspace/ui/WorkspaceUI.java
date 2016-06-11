@@ -6,6 +6,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
+import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.workspace.internal.ui.WorkspaceHeader;
 import ee.ut.cs.rum.workspace.internal.ui.overview.WorkspaceOverview;
 
@@ -16,7 +17,7 @@ public class WorkspaceUI extends Composite {
 	private Composite workspaceContainer;
 	private WorkspaceOverview workspacesOverview;
 
-	public WorkspaceUI(Composite parent) {
+	public WorkspaceUI(Composite parent, RumController rumController) {
 		super(parent, SWT.NONE);
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		this.setLayout(new GridLayout());

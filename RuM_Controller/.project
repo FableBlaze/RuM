@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>RuM_Workspace</name>
+	<name>RuM_Controller</name>
 	<comment></comment>
 	<projects>
-		<project>RuM_Controller</project>
-		<project>RuM_Database</project>
-		<project>RuM_Plugin_Configuration</project>
-		<project>RuM_Plugin_Development</project>
-		<project>RuM_Scheduler</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

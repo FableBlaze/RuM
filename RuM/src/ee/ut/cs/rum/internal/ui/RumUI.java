@@ -7,21 +7,27 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 
 import ee.ut.cs.rum.administration.ui.SystemAdministrationUI;
+import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.internal.Activator;
 import ee.ut.cs.rum.plugins.ui.PluginsManagementUI;
 import ee.ut.cs.rum.workspace.ui.WorkspaceUI;
 
 public class RumUI extends AbstractEntryPoint {
 	private static final long serialVersionUID = 1282027955721012064L;
+	
+	private static RumController rumController;
 
 	public void createContents(Composite parent) {
+		
+		rumController = Activator.getRumController();
+		
 		NavigationMenu navigationMenu = new NavigationMenu(parent);
 
 		Composite sectionContainer = new Composite(parent, SWT.NONE);
 		sectionContainer.setLayoutData( new GridData(SWT.FILL, SWT.FILL, true, true));
 		sectionContainer.setLayout(new StackLayout());
 		
-		Composite workspaceSection = new WorkspaceUI(sectionContainer);
+		Composite workspaceSection = new WorkspaceUI(sectionContainer, rumController);
 		Composite pluginsManagementSection = new PluginsManagementUI(sectionContainer);
 		Composite systemAdministrationSection = new SystemAdministrationUI(sectionContainer);
 		
