@@ -63,12 +63,18 @@ public class StatisticsComposite extends Composite implements RumUpdatableView {
 	
 	@Override
 	public void controllerUpdateNotify(ControllerUpdateType updateType, Object updatedEntity) {
+		try {
+			Activator.getLogger().info("Sleeping!");
+			Thread.sleep(5000L);
+			Activator.getLogger().info("Sleep done!");
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if (updatedEntity instanceof Task) {
-			display.syncExec(new Runnable() {
+			display.asyncExec(new Runnable() {
 				public void run() {
-					Activator.getLogger().info(StatisticsComposite.this.display.toString());
 					totalProjects.setText(totalProjects.getText()+"test");
-					Activator.getLogger().info("sad3");
 					totalTasks.setText(totalTasks.getText()+"test");
 					totalProjects.getParent().layout();
 				}
