@@ -5,6 +5,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.ExpandBar;
 import org.eclipse.swt.widgets.ExpandItem;
 
+import ee.ut.cs.rum.controller.RumController;
+
 public class WorkspaceOverviewExpandBar extends ExpandBar {
 	private static final long serialVersionUID = 1583353374480024937L;
 	
@@ -12,12 +14,12 @@ public class WorkspaceOverviewExpandBar extends ExpandBar {
 
 	//TODO: Height of tables is calculated wrong on first page load. Fixes itself on page reload
 	//TODO: Recalculate height of tables when new project added
-	public WorkspaceOverviewExpandBar(WorkspaceOverview workspaceOverview) {
+	public WorkspaceOverviewExpandBar(WorkspaceOverview workspaceOverview, RumController rumController) {
 		super(workspaceOverview, SWT.V_SCROLL);
 		
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		
-		StatisticsComposite statisticsComposite = new StatisticsComposite(this);
+		StatisticsComposite statisticsComposite = new StatisticsComposite(this, rumController);
 		ExpandItem statisticsItem = new ExpandItem (this, SWT.NONE);
 		statisticsItem.setText("Statistics");
 		statisticsItem.setHeight(statisticsComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT).y);

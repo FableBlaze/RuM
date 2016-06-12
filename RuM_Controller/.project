@@ -3,6 +3,7 @@
 	<name>RuM_Controller</name>
 	<comment></comment>
 	<projects>
+		<project>RuM_Database</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

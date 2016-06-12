@@ -1,8 +1,11 @@
 package ee.ut.cs.rum.internal.ui;
 
 import org.eclipse.rap.rwt.application.AbstractEntryPoint;
+import org.eclipse.rap.rwt.service.ServerPushSession;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 
@@ -15,9 +18,22 @@ import ee.ut.cs.rum.workspace.ui.WorkspaceUI;
 public class RumUI extends AbstractEntryPoint {
 	private static final long serialVersionUID = 1282027955721012064L;
 	
+	private ServerPushSession pushSession;
+	
 	private static RumController rumController;
-
+	
 	public void createContents(Composite parent) {
+		pushSession = new ServerPushSession();
+		pushSession.start();
+		parent.addDisposeListener(new DisposeListener() {
+			private static final long serialVersionUID = -1858917710956550706L;
+
+			@Override
+			public void widgetDisposed(DisposeEvent arg0) {
+				pushSession.stop();
+				Activator.getLogger().info("ee.ut.cs.rum.RumUI parent disposed");
+			}
+		});
 		
 		rumController = Activator.getRumController();
 		

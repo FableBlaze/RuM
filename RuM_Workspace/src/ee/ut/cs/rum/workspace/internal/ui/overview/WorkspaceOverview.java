@@ -9,6 +9,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
+import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.workspace.internal.ui.project.dialog.NewProjectDialog;
 import ee.ut.cs.rum.workspace.ui.WorkspaceUI;
 
@@ -18,14 +19,14 @@ public class WorkspaceOverview extends Composite {
 	private WorkspaceUI workspaceUI;
 	private WorkspaceOverviewExpandBar workspaceOverviewExpandBar;
 
-	public WorkspaceOverview(WorkspaceUI workspaceUI) {
+	public WorkspaceOverview(WorkspaceUI workspaceUI, RumController rumController) {
 		super(workspaceUI, SWT.NONE);
 		this.workspaceUI=workspaceUI;
 
 		this.setLayout(new GridLayout());
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
-		this.workspaceOverviewExpandBar = new WorkspaceOverviewExpandBar(this);
+		this.workspaceOverviewExpandBar = new WorkspaceOverviewExpandBar(this, rumController);
 		
 		Button addProjectDialogueButton = new Button(this, SWT.PUSH);
 		addProjectDialogueButton.setText("Create a new project");

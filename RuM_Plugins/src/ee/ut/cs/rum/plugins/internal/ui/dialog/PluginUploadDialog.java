@@ -9,7 +9,6 @@ import java.util.List;
 
 import org.eclipse.rap.fileupload.DiskFileUploadReceiver;
 import org.eclipse.rap.fileupload.FileUploadHandler;
-import org.eclipse.rap.rwt.service.ServerPushSession;
 import org.eclipse.rap.rwt.widgets.FileUpload;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -30,8 +29,6 @@ import ee.ut.cs.rum.plugins.internal.ui.overview.OverviewTabContents;
 
 public class PluginUploadDialog extends Dialog {
 	private static final long serialVersionUID = 3382119816602279394L;
-
-	private ServerPushSession pushSession;
 
 	private OverviewTabContents overviewTabContents;
 
@@ -61,8 +58,6 @@ public class PluginUploadDialog extends Dialog {
 		shell.pack();
 		shell.setLocation (100, 100);
 		shell.open();
-		pushSession = new ServerPushSession();
-		pushSession.start();
 		return null;
 	}
 
@@ -181,7 +176,6 @@ public class PluginUploadDialog extends Dialog {
 			private static final long serialVersionUID = -415016060227564447L;
 
 			public void widgetSelected(SelectionEvent event) {
-				pushSession.stop();
 				shell.close();
 			}
 		});

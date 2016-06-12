@@ -19,11 +19,12 @@ public class WorkspaceUI extends Composite {
 
 	public WorkspaceUI(Composite parent, RumController rumController) {
 		super(parent, SWT.NONE);
+		
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		this.setLayout(new GridLayout());
 		
 		//TODO: Fix the limitation that WorkspacesOverview has to be created before WorkspacesHeader
-		workspacesOverview = new WorkspaceOverview(this);
+		workspacesOverview = new WorkspaceOverview(this, rumController);
 		
 		workspacesHeader = new WorkspaceHeader(this);
 		
