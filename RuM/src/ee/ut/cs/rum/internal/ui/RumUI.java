@@ -18,24 +18,14 @@ import ee.ut.cs.rum.workspace.ui.WorkspaceUI;
 public class RumUI extends AbstractEntryPoint {
 	private static final long serialVersionUID = 1282027955721012064L;
 	
+	private Composite rumUiParentComposite;
 	private ServerPushSession pushSession;
 	
-	private static RumController rumController;
+	private static RumController rumController = Activator.getRumController();
 	
 	public void createContents(Composite parent) {
-		pushSession = new ServerPushSession();
-		pushSession.start();
-		parent.addDisposeListener(new DisposeListener() {
-			private static final long serialVersionUID = -1858917710956550706L;
-
-			@Override
-			public void widgetDisposed(DisposeEvent arg0) {
-				pushSession.stop();
-				Activator.getLogger().info("ee.ut.cs.rum.RumUI parent disposed");
-			}
-		});
-		
-		rumController = Activator.getRumController();
+		this.rumUiParentComposite=parent;
+		initializeSession();
 		
 		NavigationMenu navigationMenu = new NavigationMenu(parent);
 
@@ -57,6 +47,24 @@ public class RumUI extends AbstractEntryPoint {
 		navigationMenu.layout();
 		
 		Activator.getLogger().info("Someone opened ee.ut.cs.rum.RumUI");
+	}
+	
+	//Session setup
+	private void initializeSession() {
+		//Needed for server side UI updates
+		pushSession = new ServerPushSession();
+		pushSession.start();
+		
+		//Cleanup when the session ends
+		rumUiParentComposite.addDisposeListener(new DisposeListener() {
+			private static final long serialVersionUID = -1858917710956550706L;
+
+			@Override
+			public void widgetDisposed(DisposeEvent arg0) {
+				pushSession.stop();
+				Activator.getLogger().info("ee.ut.cs.rum.RumUI parent disposed");
+			}
+		});
 	}
 
 }
