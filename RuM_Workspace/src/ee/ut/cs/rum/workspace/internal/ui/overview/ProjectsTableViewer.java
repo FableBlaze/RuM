@@ -1,25 +1,41 @@
 package ee.ut.cs.rum.workspace.internal.ui.overview;
 
+import java.util.List;
+
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 
+import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Project;
 import ee.ut.cs.rum.database.util.ProjectAccess;
+import ee.ut.cs.rum.enums.ControllerListenerType;
+import ee.ut.cs.rum.enums.ControllerUpdateType;
+import ee.ut.cs.rum.interfaces.RumUpdatableView;
 
 
-public class ProjectsTableViewer extends TableViewer {
+public class ProjectsTableViewer extends TableViewer implements RumUpdatableView {
 	private static final long serialVersionUID = -4856474442900733174L;
-	
-	public ProjectsTableViewer(WorkspaceOverview workspaceOverview) {
+
+	private Display display;
+
+	private List<Project> projects;
+
+	public ProjectsTableViewer(WorkspaceOverview workspaceOverview, RumController rumController) {
 		super(workspaceOverview, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
+
+		this.display=Display.getCurrent();
+		rumController.registerView(this, ControllerListenerType.PROJECT);
 
 		createColumns(this);
 
@@ -27,6 +43,16 @@ public class ProjectsTableViewer extends TableViewer {
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
+
+		//Listening to Table dispose because dispose is not called on TableViewer
+		table.addDisposeListener(new DisposeListener() {
+			private static final long serialVersionUID = 7634726052580474495L;
+
+			@Override
+			public void widgetDisposed(DisposeEvent arg0) {
+				rumController.unregisterView(ProjectsTableViewer.this, ControllerListenerType.PROJECT);
+			}
+		});
 
 		table.addListener(SWT.Selection, new Listener() {
 			private static final long serialVersionUID = -86178746354770036L;
@@ -38,7 +64,8 @@ public class ProjectsTableViewer extends TableViewer {
 		});
 
 		this.setContentProvider(new ArrayContentProvider());
-		this.setInput(ProjectAccess.getProjectsDataFromDb());
+		projects = ProjectAccess.getProjectsDataFromDb();
+		this.setInput(projects);
 	}
 
 	private static void createColumns(final TableViewer viewer) {
@@ -65,7 +92,7 @@ public class ProjectsTableViewer extends TableViewer {
 				return "TODO";
 			}
 		});
-		
+
 		TableViewerColumn createdByColumn = createTableViewerColumn(titles[2], bounds[2], viewer);
 		createdByColumn.setLabelProvider(new ColumnLabelProvider() {
 			private static final long serialVersionUID = -8975942909693559289L;
@@ -75,7 +102,7 @@ public class ProjectsTableViewer extends TableViewer {
 				return "TODO";
 			}
 		});
-		
+
 		TableViewerColumn createdAtColumn = createTableViewerColumn(titles[3], bounds[3], viewer);
 		createdAtColumn.setLabelProvider(new ColumnLabelProvider() {
 			private static final long serialVersionUID = -4095576663886113023L;
@@ -94,5 +121,59 @@ public class ProjectsTableViewer extends TableViewer {
 		column.setWidth(bound);
 		column.setResizable(true);
 		return viewerColumn;
+	}
+
+	@Override
+	public void controllerUpdateNotify(ControllerUpdateType updateType, Object updatedEntity) {
+		if (updatedEntity instanceof Project) {
+			Project project=(Project)updatedEntity;
+			int projectIndex;
+			switch (updateType) {
+			//Both project list and viewer must be updated as updates in one are not reflected automatically to other
+			case CREATE:
+				projects.add(project);
+				display.asyncExec(new Runnable() {
+					public void run() {
+						ProjectsTableViewer.this.add(project);
+					}
+				});
+				break;
+			case MODIFIY:
+				projectIndex = findProjectIndex(project);
+				if (projectIndex != -1) {
+					projects.set(projectIndex, project);
+					display.asyncExec(new Runnable() {
+						public void run() {
+							ProjectsTableViewer.this.replace(project, projectIndex);
+						}
+					});
+				}
+				break;
+			case DELETE:
+				projectIndex = findProjectIndex(project);
+				if (projectIndex != -1) {
+					synchronized(this){
+						display.asyncExec(new Runnable() {
+							public void run() {
+								ProjectsTableViewer.this.remove(projects.get(projectIndex));
+								projects.remove(projectIndex);
+							}
+						});
+					}
+				}
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
+	private int findProjectIndex(Project project) {
+		for (int i = 0; i < this.projects.size(); i++) {
+			if (this.projects.get(i).getId()==project.getId()) {
+				return i;
+			}
+		}
+		return -1;
 	}
 }

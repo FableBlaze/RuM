@@ -26,7 +26,7 @@ public class WorkspaceOverview extends Composite {
 		this.setLayout(new GridLayout(2, false));
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		
-		new ProjectsTableViewer(this);
+		new ProjectsTableViewer(this, rumController);
 		
 		//TODO: Context sensitive details tab
 		Composite c = new Composite(this, SWT.BORDER);
@@ -43,7 +43,7 @@ public class WorkspaceOverview extends Composite {
 			private static final long serialVersionUID = 5383804225331390829L;
 
 			public void handleEvent(Event arg0) {
-				NewProjectDialog newProjectDialog = new NewProjectDialog(Display.getCurrent().getActiveShell(), rumController, workspaceUI);
+				NewProjectDialog newProjectDialog = new NewProjectDialog(Display.getCurrent().getActiveShell(), rumController);
 				newProjectDialog.open();
 			}
 		});

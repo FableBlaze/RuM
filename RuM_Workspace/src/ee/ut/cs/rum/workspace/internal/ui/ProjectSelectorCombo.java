@@ -101,23 +101,6 @@ public class ProjectSelectorCombo extends Combo implements RumUpdatableView {
 		}
 	}
 
-	@Deprecated
-	public void updateProjectSelector(List<Project> projects) {
-		this.projects = new ArrayList<Project>();
-		this.projects.add(null);
-		this.projects.addAll(projects);
-		//TODO: Update indexes instead of creating a new list
-		createProjectDetailsList(this.projects.size());
-		if (this.getItemCount()>1) {
-			this.remove(1, this.getItemCount()-1);
-		}
-		for (Project project : this.projects) {
-			if (project!=null) {
-				this.add(project.getName());
-			}
-		}
-	}
-
 	@Override
 	public void controllerUpdateNotify(ControllerUpdateType updateType, Object updatedEntity) {
 		if (updatedEntity instanceof Project) {
@@ -135,7 +118,7 @@ public class ProjectSelectorCombo extends Combo implements RumUpdatableView {
 				break;
 			case MODIFIY:
 				projectIndex = findProjectIndex(project);
-				if (projectIndex != 0) {
+				if (projectIndex !=-1) {
 					display.asyncExec(new Runnable() {
 						public void run() {
 							ProjectSelectorCombo.this.setItem(projectIndex, project.getName());
@@ -145,7 +128,7 @@ public class ProjectSelectorCombo extends Combo implements RumUpdatableView {
 				break;
 			case DELETE:
 				projectIndex = findProjectIndex(project);
-				if (projectIndex != 0) {
+				if (projectIndex != -1) {
 					synchronized(this){
 						this.projects.remove(projectIndex);
 						this.projectsDetails.remove(projectIndex);
@@ -170,7 +153,7 @@ public class ProjectSelectorCombo extends Combo implements RumUpdatableView {
 				return i;
 			}
 		}
-		return 0;
+		return -1;
 	}
 
 	@Override

@@ -1,8 +1,6 @@
 package ee.ut.cs.rum.workspace.internal.ui.project.dialog;
 
 import java.util.Date;
-import java.util.List;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -16,16 +14,13 @@ import org.eclipse.swt.widgets.Text;
 
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Project;
-import ee.ut.cs.rum.database.util.ProjectAccess;
 import ee.ut.cs.rum.enums.ControllerListenerType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
-import ee.ut.cs.rum.workspace.ui.WorkspaceUI;
 
 public class NewProjectDialog extends Dialog {
 	private static final long serialVersionUID = -9152678513520036179L;
 	
 	private RumController rumController;
-	private WorkspaceUI workspaceUI;
 	
 	private Text nameValue;
 	private Text descriptionValue;
@@ -33,10 +28,9 @@ public class NewProjectDialog extends Dialog {
 	
 	private Button okButton;
 	
-	public NewProjectDialog(Shell activeShell, RumController rumController, WorkspaceUI workspaceUI) {
+	public NewProjectDialog(Shell activeShell, RumController rumController) {
 		super(activeShell, SWT.APPLICATION_MODAL | SWT.TITLE | SWT.BORDER);
 		this.rumController=rumController;
-		this.workspaceUI=workspaceUI;
 	}
 	
 	public String open() {
@@ -85,10 +79,6 @@ public class NewProjectDialog extends Dialog {
 					project.setCreatedBy("TODO");
 					project.setCreatedAt(new Date());
 					rumController.changeData(ControllerUpdateType.CREATE, ControllerListenerType.PROJECT, project);
-					
-					//TODO: Implement proper MCV
-					List<Project> workspaces = ProjectAccess.getProjectsDataFromDb();
-					workspaceUI.getWorkspaceOverview().getWorkspaceOverviewExpandBar().getProjectsTableViewer().setInput(workspaces);
 					
 					shell.close();
 				}
