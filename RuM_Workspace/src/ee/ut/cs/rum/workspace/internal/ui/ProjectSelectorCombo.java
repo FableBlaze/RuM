@@ -135,22 +135,26 @@ public class ProjectSelectorCombo extends Combo implements RumUpdatableView {
 				break;
 			case MODIFIY:
 				projectIndex = findProjectIndex(project);
-				display.asyncExec(new Runnable() {
-					public void run() {
-						ProjectSelectorCombo.this.setItem(projectIndex, project.getName());
-					}
-				});
+				if (projectIndex != 0) {
+					display.asyncExec(new Runnable() {
+						public void run() {
+							ProjectSelectorCombo.this.setItem(projectIndex, project.getName());
+						}
+					});
+				}
 				break;
 			case DELETE:
 				projectIndex = findProjectIndex(project);
-				synchronized(this){
-					this.projects.remove(projectIndex);
-					this.projectsDetails.remove(projectIndex);
-					display.asyncExec(new Runnable() {
-						public void run() {
-							ProjectSelectorCombo.this.remove(projectIndex);
-						}
-					});
+				if (projectIndex != 0) {
+					synchronized(this){
+						this.projects.remove(projectIndex);
+						this.projectsDetails.remove(projectIndex);
+						display.asyncExec(new Runnable() {
+							public void run() {
+								ProjectSelectorCombo.this.remove(projectIndex);
+							}
+						});
+					}
 				}
 				break;
 			default:
