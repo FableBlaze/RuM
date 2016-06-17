@@ -71,20 +71,7 @@ public class ProjectSelectorCombo extends Combo {
 			workspaceContainerLayout.topControl=selectedWorkspaceDetails;
 		}
 		workspaceUI.getWorkspaceContainer().layout();
-		
-//		Composite selectedWorkspaceDetails = projectsDetails.get(selectedIndex);
-//		
-//		if (selectedWorkspaceDetails==null) {
-//			if (selectedIndex==0) {
-//				//selectedWorkspaceDetails = workspaceUI.getProjectsOverview();
-//			} else {
-//				selectedWorkspaceDetails = new ProjectTabFolder(workspaceUI.getWorkspaceContainer(), projects.get(selectedIndex));
-//			}
-//			projectsDetails.add(selectedIndex, selectedWorkspaceDetails);
-//		}
-//		
-//		workspaceContainerLayout.topControl=selectedWorkspaceDetails;
-//		workspaceUI.getWorkspaceContainer().layout();
+
 		
 		if (projects.get(selectedIndex)!=null) {
 			workspaceHeader.setHeaderTitle("Project: " + projects.get(selectedIndex).getName());
