@@ -1,15 +1,10 @@
 package ee.ut.cs.rum.workspace.internal.ui.overview;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
-
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Task;
 import ee.ut.cs.rum.enums.ControllerListenerType;
@@ -46,18 +41,6 @@ public class StatisticsComposite extends Composite implements RumUpdatableView {
 		label.setText("Number of tasks:");
 		totalTasks = new Label (this, SWT.NONE);
 		totalTasks.setText("TODO");
-		
-		Button addProjectDialogueButton = new Button(this, SWT.PUSH);
-		addProjectDialogueButton.setText("Create a new project");
-		addProjectDialogueButton.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, true, false));
-
-		addProjectDialogueButton.addListener(SWT.Selection, new Listener() {
-			private static final long serialVersionUID = 5383804225331390829L;
-
-			public void handleEvent(Event arg0) {
-				rumController.changeDtata();
-			}
-		});
 	}
 	
 	@Override

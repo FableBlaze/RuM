@@ -36,7 +36,7 @@ public class WorkspaceOverview extends Composite {
 			private static final long serialVersionUID = 5383804225331390829L;
 
 			public void handleEvent(Event arg0) {
-				NewProjectDialog newProjectDialog = new NewProjectDialog(Display.getCurrent().getActiveShell(), workspaceUI);
+				NewProjectDialog newProjectDialog = new NewProjectDialog(Display.getCurrent().getActiveShell(), rumController, workspaceUI);
 				newProjectDialog.open();
 			}
 		});

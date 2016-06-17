@@ -14,13 +14,17 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Project;
 import ee.ut.cs.rum.database.util.ProjectAccess;
+import ee.ut.cs.rum.enums.ControllerListenerType;
+import ee.ut.cs.rum.enums.ControllerUpdateType;
 import ee.ut.cs.rum.workspace.ui.WorkspaceUI;
 
 public class NewProjectDialog extends Dialog {
 	private static final long serialVersionUID = -9152678513520036179L;
 	
+	private RumController rumController;
 	private WorkspaceUI workspaceUI;
 	
 	private Text nameValue;
@@ -29,8 +33,9 @@ public class NewProjectDialog extends Dialog {
 	
 	private Button okButton;
 	
-	public NewProjectDialog(Shell activeShell, WorkspaceUI workspaceUI) {
+	public NewProjectDialog(Shell activeShell, RumController rumController, WorkspaceUI workspaceUI) {
 		super(activeShell, SWT.APPLICATION_MODAL | SWT.TITLE | SWT.BORDER);
+		this.rumController=rumController;
 		this.workspaceUI=workspaceUI;
 	}
 	
@@ -74,17 +79,16 @@ public class NewProjectDialog extends Dialog {
 				if (nameValue.getText().isEmpty() || descriptionValue.getText().isEmpty()) {
 					feedbackTextValue.setText("Name and description must be filled");
 				} else {
-					Project workspace = new Project();
-					workspace.setName(nameValue.getText());
-					workspace.setDescription(descriptionValue.getText());
-					workspace.setCreatedBy("TODO");
-					workspace.setCreatedAt(new Date());
-					workspace = ProjectAccess.addWorkspaceDataToDb(workspace);
+					Project project = new Project();
+					project.setName(nameValue.getText());
+					project.setDescription(descriptionValue.getText());
+					project.setCreatedBy("TODO");
+					project.setCreatedAt(new Date());
+					rumController.changeData(ControllerUpdateType.CREATE, ControllerListenerType.PROJECT, project);
 					
 					//TODO: Implement proper MCV
 					List<Project> workspaces = ProjectAccess.getProjectsDataFromDb();
 					workspaceUI.getProjectsOverview().getWorkspaceOverviewExpandBar().getProjectsTableViewer().setInput(workspaces);
-					workspaceUI.getWorkspaceHeader().getProjectSelectorCombo().updateProjectSelector(workspaces);
 					
 					shell.close();
 				}

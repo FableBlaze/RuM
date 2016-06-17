@@ -25,14 +25,34 @@ public final class ProjectAccess {
 		return projects;
 	}
 	
-	public static Project addWorkspaceDataToDb(Project projects) {
+	public static Project addProjectDataToDb(Project project) {
 		EntityManagerFactory emf = Activator.getEmf();
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
-		em.persist(projects);
+		em.persist(project);
 		em.getTransaction().commit();
 		em.close();
 		
-		return projects;
+		return project;
+	}
+	
+	public static Project updateProjectDataInDb(Project project) {
+		EntityManagerFactory emf = Activator.getEmf();
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		em.merge(project);
+		em.getTransaction().commit();
+		em.close();
+		
+		return project;
+	}
+	
+	public static void removeProjectDataFromDb(Project project) {
+		EntityManagerFactory emf = Activator.getEmf();
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		em.remove(project);
+		em.getTransaction().commit();
+		em.close();
 	}
 }
