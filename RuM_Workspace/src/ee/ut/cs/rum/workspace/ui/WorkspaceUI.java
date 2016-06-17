@@ -13,7 +13,7 @@ import ee.ut.cs.rum.workspace.internal.ui.overview.WorkspaceOverview;
 public class WorkspaceUI extends Composite {
 	private static final long serialVersionUID = 7689615370877170628L;
 
-	private WorkspaceHeader workspacesHeader;
+	private WorkspaceHeader workspaceHeader;
 	private Composite workspaceContainer;
 	private WorkspaceOverview workspacesOverview;
 
@@ -23,10 +23,9 @@ public class WorkspaceUI extends Composite {
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		this.setLayout(new GridLayout());
 		
-		//TODO: Fix the limitation that WorkspacesOverview has to be created before WorkspacesHeader
-		workspacesOverview = new WorkspaceOverview(this, rumController);
+		workspaceHeader = new WorkspaceHeader(this, rumController);
 		
-		workspacesHeader = new WorkspaceHeader(this);
+		workspacesOverview = new WorkspaceOverview(this, rumController);
 		
 		workspaceContainer = new Composite(this, SWT.NONE);
 		workspaceContainer.setLayoutData( new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -39,7 +38,7 @@ public class WorkspaceUI extends Composite {
 	}
 	
 	public WorkspaceHeader getWorkspaceHeader() {
-		return workspacesHeader;
+		return workspaceHeader;
 	}
 	
 	public Composite getWorkspaceContainer() {

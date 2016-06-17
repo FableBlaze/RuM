@@ -82,7 +82,7 @@ public class RumHeader extends Composite {
 		});
 		
 		button = new Button(this, SWT.PUSH);
-		button.setText("username");
+		button.setText("(username)");
 		button.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false));
 		button.addSelectionListener( new SelectionAdapter() {
 			private static final long serialVersionUID = -7714989063610717365L;

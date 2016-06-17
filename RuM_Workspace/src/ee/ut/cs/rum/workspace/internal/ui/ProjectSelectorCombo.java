@@ -10,6 +10,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
+import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Project;
 import ee.ut.cs.rum.database.util.ProjectAccess;
 import ee.ut.cs.rum.workspace.internal.Activator;
@@ -25,12 +26,12 @@ public class ProjectSelectorCombo extends Combo {
 	private WorkspaceUI workspaceUI;
 	private WorkspaceHeader workspaceHeader;
 
-	public ProjectSelectorCombo(WorkspaceHeader workspaceHeader, WorkspaceUI workspaceUI) {
+	public ProjectSelectorCombo(WorkspaceHeader workspaceHeader, WorkspaceUI workspaceUI, RumController rumController) {
 		super(workspaceHeader, SWT.READ_ONLY);
 		this.workspaceUI=workspaceUI;
 		this.workspaceHeader=workspaceHeader;
 
-		this.add("Overview");
+		this.add("Workspace overview");
 		this.setVisibleItemCount(10);
 		this.select(0);
 		updateWorkspaceSelector();
@@ -50,9 +51,9 @@ public class ProjectSelectorCombo extends Combo {
 		this.projects.addAll(ProjectAccess.getProjectsDataFromDb());
 		createProjectDetailsList(projects.size());
 
-		for (Project workspace : projects) {
-			if (workspace!=null) {
-				this.add(workspace.getName());
+		for (Project project : projects) {
+			if (project!=null) {
+				this.add(project.getName());
 			}
 		}
 	}
@@ -63,7 +64,11 @@ public class ProjectSelectorCombo extends Combo {
 		Composite selectedWorkspaceDetails = projectsDetails.get(selectedIndex);
 		
 		if (selectedWorkspaceDetails==null) {
-			selectedWorkspaceDetails = new ProjectTabFolder(workspaceUI.getWorkspaceContainer(), projects.get(selectedIndex));
+			if (selectedIndex==0) {
+				selectedWorkspaceDetails = workspaceUI.getProjectsOverview();
+			} else {
+				selectedWorkspaceDetails = new ProjectTabFolder(workspaceUI.getWorkspaceContainer(), projects.get(selectedIndex));
+			}
 			projectsDetails.add(selectedIndex, selectedWorkspaceDetails);
 		}
 		
@@ -71,18 +76,17 @@ public class ProjectSelectorCombo extends Combo {
 		workspaceUI.getWorkspaceContainer().layout();
 		
 		if (projects.get(selectedIndex)!=null) {
-			workspaceHeader.setProjectTitle("Project: " + projects.get(selectedIndex).getName());
+			workspaceHeader.setHeaderTitle("Project: " + projects.get(selectedIndex).getName());
 			Activator.getLogger().info("Opened project: " + projects.get(selectedIndex).toString());
 		} else {
-			workspaceHeader.setProjectTitle("Overview");
+			workspaceHeader.setHeaderTitle("Workspace overview");
 			Activator.getLogger().info("Opened projects overview");
 		}
 	}
 	
 	private void createProjectDetailsList(int size) {
 		this.projectsDetails = new ArrayList<Composite>();
-		projectsDetails.add(workspaceUI.getProjectsOverview());
-		for (int i = 1; i < size; i++) {
+		for (int i = 0; i < size; i++) {
 			projectsDetails.add(null);
 		}
 	}

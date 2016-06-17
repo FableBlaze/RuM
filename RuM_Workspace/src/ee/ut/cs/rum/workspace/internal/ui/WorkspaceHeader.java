@@ -6,34 +6,31 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
+import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.workspace.ui.WorkspaceUI;
 
 public class WorkspaceHeader extends Composite {
 	private static final long serialVersionUID = -6786154655313853465L;
 
-	private Label projectTitle;
+	private Label headerTitle;
 	private ProjectSelectorCombo projectSelectorCombo;
 
-	public WorkspaceHeader(WorkspaceUI workspaceUI) {
+	public WorkspaceHeader(WorkspaceUI workspaceUI, RumController rumController) {
 		super(workspaceUI, SWT.NONE);
 
 		this.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 		this.setLayout(new GridLayout(3, false));
 
-		projectTitle = new Label(this, SWT.NONE);
-		projectTitle.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true));
+		headerTitle = new Label(this, SWT.NONE);
+		headerTitle.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true));
 
-		Label projectSelectorLabel = new Label(this, SWT.NONE);
-		projectSelectorLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, true));
-		projectSelectorLabel.setText("Select project: ");
-
-		this.projectSelectorCombo = new ProjectSelectorCombo(this, workspaceUI);
+		this.projectSelectorCombo = new ProjectSelectorCombo(this, workspaceUI, rumController);
 		
-		projectTitle.setText("Overview");
+		headerTitle.setText("Projects");
 	}
 
-	public void setProjectTitle(String titleString) {
-		projectTitle.setText(titleString);
+	public void setHeaderTitle(String titleString) {
+		headerTitle.setText(titleString);
 	}
 	
 	public ProjectSelectorCombo getProjectSelectorCombo() {
