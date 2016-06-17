@@ -20,17 +20,16 @@ import ee.ut.cs.rum.workspace.internal.Activator;
 public class StatisticsComposite extends Composite implements RumUpdatableView {
 	private static final long serialVersionUID = -6946774249575610410L;
 	
+	private Display display;
 	private RumController rumController;
 	
 	private Label totalProjects;
 	private Label totalTasks;
-	private Display display;
 
 	StatisticsComposite(WorkspaceOverviewExpandBar workspaceOverviewExpandBar, RumController rumController) {
 		super(workspaceOverviewExpandBar, SWT.NONE);
 		
 		this.display=Display.getCurrent();
-		
 		this.rumController=rumController;
 		rumController.registerView(this, ControllerListenerType.TASK);
 		

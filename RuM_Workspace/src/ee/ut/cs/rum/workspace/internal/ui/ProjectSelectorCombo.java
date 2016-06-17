@@ -6,19 +6,26 @@ import java.util.List;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Project;
 import ee.ut.cs.rum.database.util.ProjectAccess;
+import ee.ut.cs.rum.enums.ControllerListenerType;
+import ee.ut.cs.rum.enums.ControllerUpdateType;
+import ee.ut.cs.rum.interfaces.RumUpdatableView;
 import ee.ut.cs.rum.workspace.internal.Activator;
 import ee.ut.cs.rum.workspace.internal.ui.project.ProjectTabFolder;
 import ee.ut.cs.rum.workspace.ui.WorkspaceUI;
 
-public class ProjectSelectorCombo extends Combo {
+public class ProjectSelectorCombo extends Combo implements RumUpdatableView {
 	private static final long serialVersionUID = -1671918025859199853L;
-	
+
+	private Display display;
+	private RumController rumController;
+
 	private List<Project> projects;
 	private List<ProjectTabFolder> projectsDetails;
 	private WorkspaceUI workspaceUI;
@@ -26,6 +33,11 @@ public class ProjectSelectorCombo extends Combo {
 
 	public ProjectSelectorCombo(WorkspaceHeader workspaceHeader, WorkspaceUI workspaceUI, RumController rumController) {
 		super(workspaceHeader, SWT.READ_ONLY);
+
+		this.display=Display.getCurrent();
+		this.rumController=rumController;
+		rumController.registerView(this, ControllerListenerType.PROJECT);
+
 		this.workspaceUI=workspaceUI;
 		this.workspaceHeader=workspaceHeader;
 
@@ -42,7 +54,7 @@ public class ProjectSelectorCombo extends Combo {
 			}
 		});
 	}
-	
+
 	private void updateWorkspaceSelector() {
 		this.projects = new ArrayList<Project>();
 		this.projects.add(null);
@@ -59,7 +71,7 @@ public class ProjectSelectorCombo extends Combo {
 	public void updateSelectedProjectDetails() {
 		int selectedIndex = ProjectSelectorCombo.this.getSelectionIndex();
 		StackLayout workspaceContainerLayout = (StackLayout)workspaceUI.getWorkspaceContainer().getLayout();
-		
+
 		if (selectedIndex==0) {
 			workspaceContainerLayout.topControl=workspaceUI.getProjectsOverview();
 		} else {
@@ -72,7 +84,7 @@ public class ProjectSelectorCombo extends Combo {
 		}
 		workspaceUI.getWorkspaceContainer().layout();
 
-		
+
 		if (projects.get(selectedIndex)!=null) {
 			workspaceHeader.setHeaderTitle("Project: " + projects.get(selectedIndex).getName());
 			Activator.getLogger().info("Opened project: " + projects.get(selectedIndex).toString());
@@ -81,7 +93,7 @@ public class ProjectSelectorCombo extends Combo {
 			Activator.getLogger().info("Opened projects overview");
 		}
 	}
-	
+
 	private void createProjectDetailsList(int size) {
 		this.projectsDetails = new ArrayList<ProjectTabFolder>();
 		for (int i = 0; i < size; i++) {
@@ -89,6 +101,7 @@ public class ProjectSelectorCombo extends Combo {
 		}
 	}
 
+	@Deprecated
 	public void updateProjectSelector(List<Project> projects) {
 		this.projects = new ArrayList<Project>();
 		this.projects.add(null);
@@ -104,5 +117,63 @@ public class ProjectSelectorCombo extends Combo {
 			}
 		}
 	}
+
+	@Override
+	public void controllerUpdateNotify(ControllerUpdateType updateType, Object updatedEntity) {
+		if (updatedEntity instanceof Project) {
+			Project project=(Project)updatedEntity;
+			int projectIndex;
+			switch (updateType) {
+			case CREATE:
+				this.projects.add(project);
+				this.projectsDetails.add(null);
+				display.asyncExec(new Runnable() {
+					public void run() {
+						ProjectSelectorCombo.this.add(project.getName());
+					}
+				});
+				break;
+			case MODIFIY:
+				projectIndex = findProjectIndex(project);
+				display.asyncExec(new Runnable() {
+					public void run() {
+						ProjectSelectorCombo.this.setItem(projectIndex, project.getName());
+					}
+				});
+				break;
+			case DELETE:
+				projectIndex = findProjectIndex(project);
+				synchronized(this){
+					this.projects.remove(projectIndex);
+					this.projectsDetails.remove(projectIndex);
+					display.asyncExec(new Runnable() {
+						public void run() {
+							ProjectSelectorCombo.this.remove(projectIndex);
+						}
+					});
+				}
+				break;
+			default:
+				break;
+			}
+		}
+
+	}
+
+	private int findProjectIndex(Project project) {
+		for (int i = 0; i < this.projects.size(); i++) {
+			if (this.projects.get(i).getId()==project.getId()) {
+				return i;
+			}
+		}
+		return 0;
+	}
+
+	@Override
+	public void dispose() {
+		rumController.unregisterView(this, ControllerListenerType.PROJECT);
+		super.dispose();
+	}
+
 
 }
