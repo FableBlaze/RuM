@@ -21,30 +21,33 @@ public class RumUI extends AbstractEntryPoint {
 	private Composite rumUiParentComposite;
 	private ServerPushSession pushSession;
 	
+	private Composite sectionContainer;
+	private Composite workspaceSection;
+	private Composite filesSection;
+	private Composite pluginsManagementSection;
+	private Composite systemAdministrationSection;
+	private Composite accountDetailsSection;
+	
 	private static RumController rumController = Activator.getRumController();
 	
 	public void createContents(Composite parent) {
 		this.rumUiParentComposite=parent;
 		initializeSession();
 		
-		NavigationMenu navigationMenu = new NavigationMenu(parent);
+		new NavigationMenu(rumUiParentComposite, rumController, this);
 
-		Composite sectionContainer = new Composite(parent, SWT.NONE);
+		sectionContainer = new Composite(rumUiParentComposite, SWT.NONE);
 		sectionContainer.setLayoutData( new GridData(SWT.FILL, SWT.FILL, true, true));
 		sectionContainer.setLayout(new StackLayout());
 		
-		Composite workspaceSection = new WorkspaceUI(sectionContainer, rumController);
-		Composite pluginsManagementSection = new PluginsManagementUI(sectionContainer);
-		Composite systemAdministrationSection = new SystemAdministrationUI(sectionContainer);
+		workspaceSection = new WorkspaceUI(sectionContainer, rumController);
+		filesSection = new Composite(sectionContainer, SWT.NONE);
+		pluginsManagementSection = new PluginsManagementUI(sectionContainer);
+		systemAdministrationSection = new SystemAdministrationUI(sectionContainer);
+		accountDetailsSection = new Composite(sectionContainer, SWT.NONE);
 		
 		((StackLayout)sectionContainer.getLayout()).topControl = workspaceSection;
 		sectionContainer.layout();
-
-		new NavigationButton(navigationMenu, "Workspace", workspaceSection, sectionContainer);
-		new NavigationButton(navigationMenu, "Plugins management", pluginsManagementSection, sectionContainer);
-		new NavigationButton(navigationMenu, "System administration", systemAdministrationSection, sectionContainer);
-		
-		navigationMenu.layout();
 		
 		Activator.getLogger().info("Someone opened ee.ut.cs.rum.RumUI");
 	}
@@ -67,4 +70,23 @@ public class RumUI extends AbstractEntryPoint {
 		});
 	}
 
+	//Section getters needed for navigationMenu buttons
+	public Composite getSectionContainer() {
+		return sectionContainer;
+	}
+	public Composite getWorkspaceSection() {
+		return workspaceSection;
+	}
+	public Composite getFilesSection() {
+		return filesSection;
+	}
+	public Composite getPluginsManagementSection() {
+		return pluginsManagementSection;
+	}
+	public Composite getSystemAdministrationSection() {
+		return systemAdministrationSection;
+	}
+	public Composite getAccountDetailsSection() {
+		return accountDetailsSection;
+	}
 }
