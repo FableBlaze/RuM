@@ -19,8 +19,8 @@ public class WorkspaceOverview extends Composite {
 	private WorkspaceUI workspaceUI;
 	private WorkspaceOverviewExpandBar workspaceOverviewExpandBar;
 
-	public WorkspaceOverview(WorkspaceUI workspaceUI, RumController rumController) {
-		super(workspaceUI, SWT.NONE);
+	public WorkspaceOverview(Composite workspaceContainer, WorkspaceUI workspaceUI, RumController rumController) {
+		super(workspaceContainer, SWT.NONE);
 		this.workspaceUI=workspaceUI;
 
 		this.setLayout(new GridLayout());

@@ -73,7 +73,7 @@ public class ProjectSelectorCombo extends Combo implements RumUpdatableView {
 		StackLayout workspaceContainerLayout = (StackLayout)workspaceUI.getWorkspaceContainer().getLayout();
 
 		if (selectedIndex==0) {
-			workspaceContainerLayout.topControl=workspaceUI.getProjectsOverview();
+			workspaceContainerLayout.topControl=workspaceUI.getWorkspaceOverview();
 		} else {
 			ProjectTabFolder selectedWorkspaceDetails = projectsDetails.get(selectedIndex);
 			if (selectedWorkspaceDetails==null) {

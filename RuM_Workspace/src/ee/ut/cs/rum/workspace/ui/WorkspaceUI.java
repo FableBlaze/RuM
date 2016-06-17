@@ -15,7 +15,7 @@ public class WorkspaceUI extends Composite {
 
 	private WorkspaceHeader workspaceHeader;
 	private Composite workspaceContainer;
-	private WorkspaceOverview workspacesOverview;
+	private WorkspaceOverview workspaceOverview;
 
 	public WorkspaceUI(Composite parent, RumController rumController) {
 		super(parent, SWT.NONE);
@@ -25,15 +25,14 @@ public class WorkspaceUI extends Composite {
 		
 		workspaceHeader = new WorkspaceHeader(this, rumController);
 		
-		workspacesOverview = new WorkspaceOverview(this, rumController);
 		
 		workspaceContainer = new Composite(this, SWT.NONE);
 		workspaceContainer.setLayoutData( new GridData(SWT.FILL, SWT.FILL, true, true));
 		workspaceContainer.setLayout(new StackLayout());
 
-		workspacesOverview.setParent(workspaceContainer);
+		workspaceOverview = new WorkspaceOverview(workspaceContainer, this, rumController);
 		
-		((StackLayout)workspaceContainer.getLayout()).topControl = workspacesOverview;
+		((StackLayout)workspaceContainer.getLayout()).topControl = workspaceOverview;
 		workspaceContainer.layout();
 	}
 	
@@ -45,7 +44,7 @@ public class WorkspaceUI extends Composite {
 		return workspaceContainer;
 	}
 	
-	public WorkspaceOverview getProjectsOverview() {
-		return workspacesOverview;
+	public WorkspaceOverview getWorkspaceOverview() {
+		return workspaceOverview;
 	}
 }
