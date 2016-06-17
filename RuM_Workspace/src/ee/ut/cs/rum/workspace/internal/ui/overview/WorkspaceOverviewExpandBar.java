@@ -25,11 +25,11 @@ public class WorkspaceOverviewExpandBar extends ExpandBar {
 		statisticsItem.setHeight(statisticsComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
 		statisticsItem.setControl(statisticsComposite);
 		
-		this.projectsTableViewer = new ProjectsTableViewer(this, workspaceOverview);
-		ExpandItem projectsTableItem = new ExpandItem (this, SWT.NONE);
-		projectsTableItem.setText("Projects");
-		projectsTableItem.setHeight(projectsTableViewer.getTable().computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
-		projectsTableItem.setControl(projectsTableViewer.getTable());
+//		this.projectsTableViewer = new ProjectsTableViewer(this, workspaceOverview);
+//		ExpandItem projectsTableItem = new ExpandItem (this, SWT.NONE);
+//		projectsTableItem.setText("Projects");
+//		projectsTableItem.setHeight(projectsTableViewer.getTable().computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
+//		projectsTableItem.setControl(projectsTableViewer.getTable());
 		
 		UserFilesTableViewer userFilesTableViewer = new UserFilesTableViewer(this);
 		ExpandItem userFileTableItem = new ExpandItem (this, SWT.NONE);
@@ -44,7 +44,7 @@ public class WorkspaceOverviewExpandBar extends ExpandBar {
 		pluginsTableItem.setControl(pluginsTableViewer.getTable());
 		
 		statisticsItem.setExpanded(true);
-		projectsTableItem.setExpanded(true);
+//		projectsTableItem.setExpanded(true);
 	}
 	
 	public ProjectsTableViewer getProjectsTableViewer() {

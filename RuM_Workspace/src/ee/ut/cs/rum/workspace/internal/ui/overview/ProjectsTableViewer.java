@@ -1,7 +1,5 @@
 package ee.ut.cs.rum.workspace.internal.ui.overview;
 
-import java.text.SimpleDateFormat;
-
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
@@ -19,9 +17,9 @@ import ee.ut.cs.rum.database.util.ProjectAccess;
 
 public class ProjectsTableViewer extends TableViewer {
 	private static final long serialVersionUID = -4856474442900733174L;
-
-	public ProjectsTableViewer(WorkspaceOverviewExpandBar workspaceOverviewExpandBar, WorkspaceOverview workspaceOverview) {
-		super(workspaceOverviewExpandBar, SWT.H_SCROLL | SWT.V_SCROLL);
+	
+	public ProjectsTableViewer(WorkspaceOverview workspaceOverview) {
+		super(workspaceOverview, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 
 		createColumns(this);
 
@@ -44,8 +42,8 @@ public class ProjectsTableViewer extends TableViewer {
 	}
 
 	private static void createColumns(final TableViewer viewer) {
-		String[] titles = { "Name", "Description", "Created by", "Created at"};
-		int[] bounds = { 200, 700, 125, 125 };
+		String[] titles = { "Name", "New updates", "Last Updated", "Type"};
+		int[] bounds = { 200, 100, 125, 125 };
 
 		TableViewerColumn nameColumn = createTableViewerColumn(titles[0], bounds[0], viewer);
 		nameColumn.setLabelProvider(new ColumnLabelProvider() {
@@ -64,8 +62,7 @@ public class ProjectsTableViewer extends TableViewer {
 
 			@Override
 			public String getText(Object element) {
-				Project project = (Project) element;
-				return project.getDescription();
+				return "TODO";
 			}
 		});
 		
@@ -75,8 +72,7 @@ public class ProjectsTableViewer extends TableViewer {
 
 			@Override
 			public String getText(Object element) {
-				Project project = (Project) element;
-				return project.getCreatedBy();
+				return "TODO";
 			}
 		});
 		
@@ -86,8 +82,7 @@ public class ProjectsTableViewer extends TableViewer {
 
 			@Override
 			public String getText(Object element) {
-				Project project = (Project) element;
-				return new SimpleDateFormat("dd-MM-yyyy").format(project.getCreatedAt());
+				return "TODO";
 			}
 		});
 	}

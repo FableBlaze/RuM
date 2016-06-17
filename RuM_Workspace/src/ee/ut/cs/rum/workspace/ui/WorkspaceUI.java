@@ -25,7 +25,6 @@ public class WorkspaceUI extends Composite {
 		
 		workspaceHeader = new WorkspaceHeader(this, rumController);
 		
-		
 		workspaceContainer = new Composite(this, SWT.NONE);
 		workspaceContainer.setLayoutData( new GridData(SWT.FILL, SWT.FILL, true, true));
 		workspaceContainer.setLayout(new StackLayout());

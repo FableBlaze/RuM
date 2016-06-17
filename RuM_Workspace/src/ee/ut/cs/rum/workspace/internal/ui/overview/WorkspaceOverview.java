@@ -23,14 +23,21 @@ public class WorkspaceOverview extends Composite {
 		super(workspaceContainer, SWT.NONE);
 		this.workspaceUI=workspaceUI;
 
-		this.setLayout(new GridLayout());
+		this.setLayout(new GridLayout(2, false));
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		
+		new ProjectsTableViewer(this);
+		
+		//TODO: Context sensitive details tab
+		Composite c = new Composite(this, SWT.BORDER);
+		c.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
-		this.workspaceOverviewExpandBar = new WorkspaceOverviewExpandBar(this, rumController);
+		//this.workspaceOverviewExpandBar = new WorkspaceOverviewExpandBar(this, rumController);
 		
 		Button addProjectDialogueButton = new Button(this, SWT.PUSH);
-		addProjectDialogueButton.setText("Create a new project");
-		addProjectDialogueButton.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, true, false));
+		addProjectDialogueButton.setText("New project");
+		addProjectDialogueButton.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false));
+		((GridData) addProjectDialogueButton.getLayoutData()).horizontalSpan = ((GridLayout) this.getLayout()).numColumns;
 
 		addProjectDialogueButton.addListener(SWT.Selection, new Listener() {
 			private static final long serialVersionUID = 5383804225331390829L;
