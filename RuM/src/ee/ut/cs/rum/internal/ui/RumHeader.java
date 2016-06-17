@@ -13,12 +13,12 @@ import ee.ut.cs.rum.controller.RumController;
 
 import org.eclipse.swt.widgets.Button;
 
-public class NavigationMenu extends Composite {
+public class RumHeader extends Composite {
 	private static final long serialVersionUID = -7229992311867297026L;
 	
 	private RumUI rumUI;
 	
-	public NavigationMenu(Composite parent, RumController rumController, RumUI rumUI) {
+	public RumHeader(Composite parent, RumController rumController, RumUI rumUI) {
 		super(parent, SWT.NONE);
 		
 		this.rumUI=rumUI;

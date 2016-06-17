@@ -34,7 +34,7 @@ public class RumUI extends AbstractEntryPoint {
 		this.rumUiParentComposite=parent;
 		initializeSession();
 		
-		new NavigationMenu(rumUiParentComposite, rumController, this);
+		new RumHeader(rumUiParentComposite, rumController, this);
 
 		sectionContainer = new Composite(rumUiParentComposite, SWT.NONE);
 		sectionContainer.setLayoutData( new GridData(SWT.FILL, SWT.FILL, true, true));
