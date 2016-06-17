@@ -65,7 +65,6 @@ public class RumUI extends AbstractEntryPoint {
 			@Override
 			public void widgetDisposed(DisposeEvent arg0) {
 				pushSession.stop();
-				Activator.getLogger().info("ee.ut.cs.rum.RumUI parent disposed");
 			}
 		});
 	}
