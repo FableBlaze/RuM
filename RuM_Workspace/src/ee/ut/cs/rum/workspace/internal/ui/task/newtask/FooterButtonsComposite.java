@@ -29,7 +29,7 @@ import ee.ut.cs.rum.database.util.TaskAccess;
 import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
 import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationComposite;
-import ee.ut.cs.rum.scheduler.util.TaskScheduling;
+import ee.ut.cs.rum.scheduler.util.RumScheduler;
 import ee.ut.cs.rum.workspace.internal.Activator;
 import ee.ut.cs.rum.workspace.internal.ui.task.details.TaskDetails;
 
@@ -149,7 +149,7 @@ public class FooterButtonsComposite extends Composite {
 			task.setOutputPath(taskResultsPath.getPath());
 			
 			task = (Task)rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.TASK, task);
-			TaskScheduling.scheduleTask(task.getId());			
+			RumScheduler.scheduleTask(task.getId());			
 		} else {
 			Activator.getLogger().info("Failed creating task output folder: " + taskResultsPath.getPath());
 		}

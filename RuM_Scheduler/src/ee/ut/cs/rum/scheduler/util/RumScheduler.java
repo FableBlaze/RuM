@@ -10,9 +10,9 @@ import org.quartz.TriggerBuilder;
 import ee.ut.cs.rum.scheduler.internal.Activator;
 import ee.ut.cs.rum.scheduler.internal.task.RumJob;
 
-public final class TaskScheduling {
+public final class RumScheduler {
 	
-	private TaskScheduling() {
+	private RumScheduler() {
 	}
 	
 	public static void scheduleTask(Long taskId) {
@@ -31,6 +31,5 @@ public final class TaskScheduling {
 			Activator.getLogger().info("Failed scheduling task: " + taskId.toString() + " (" +rumJobName + ")");
 			e.printStackTrace();
 		}
-		
 	}
 }
