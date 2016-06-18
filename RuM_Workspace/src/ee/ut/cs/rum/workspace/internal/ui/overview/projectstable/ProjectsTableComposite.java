@@ -24,24 +24,23 @@ public class ProjectsTableComposite extends Composite {
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
 		this.setLayout(new GridLayout(2, false));
 		
-		Label pluginsSearchLabel = new Label(this, SWT.NONE);
-		pluginsSearchLabel.setText("Filter: ");
-		pluginsSearchLabel.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false));
+		Label projectSearchLabel = new Label(this, SWT.NONE);
+		projectSearchLabel.setText("Filter projects:");
+		projectSearchLabel.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false));
 
-		Text projectsSearchInput = new Text(this, SWT.BORDER);
-		projectsSearchInput.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
+		Text projectSearchInput = new Text(this, SWT.BORDER);
+		projectSearchInput.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 		
-		projectsSearchInput.addKeyListener(new KeyAdapter() {
+		projectSearchInput.addKeyListener(new KeyAdapter() {
 			private static final long serialVersionUID = 6791829930254798544L;
 
 			public void keyReleased(KeyEvent ke) {
-				((ProjectsTableFilter) projectsTableFilter).setSearchText(projectsSearchInput.getText());
+				((ProjectsTableFilter) projectsTableFilter).setSearchText(projectSearchInput.getText());
 				projectsTableViewer.refresh();
 			}
-
 		});
 		
-		this.projectsTableViewer = new ProjectsTableViewer(workspaceOverview, this, rumController);
+		this.projectsTableViewer = new ProjectsTableViewer(this, workspaceOverview, rumController);
 		projectsTableViewer.getTable().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		((GridData) this.projectsTableViewer.getTable().getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
 		

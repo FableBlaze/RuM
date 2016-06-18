@@ -29,7 +29,7 @@ public class ProjectsTableViewer extends TableViewer implements RumUpdatableView
 
 	private List<Project> projects;
 
-	public ProjectsTableViewer(WorkspaceOverview workspaceOverview, ProjectsTableComposite projectsTableComposite, RumController rumController) {
+	public ProjectsTableViewer(ProjectsTableComposite projectsTableComposite, WorkspaceOverview workspaceOverview, RumController rumController) {
 		super(projectsTableComposite, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 
 		this.display=Display.getCurrent();
@@ -71,8 +71,8 @@ public class ProjectsTableViewer extends TableViewer implements RumUpdatableView
 			}
 		});
 
-		TableViewerColumn descriptionColumn = createTableViewerColumn(titles[1], bounds[1], viewer);
-		descriptionColumn.setLabelProvider(new ColumnLabelProvider() {
+		TableViewerColumn newUpdatesColumn = createTableViewerColumn(titles[1], bounds[1], viewer);
+		newUpdatesColumn.setLabelProvider(new ColumnLabelProvider() {
 			private static final long serialVersionUID = 3978700864805271863L;
 
 			@Override
@@ -81,8 +81,8 @@ public class ProjectsTableViewer extends TableViewer implements RumUpdatableView
 			}
 		});
 
-		TableViewerColumn createdByColumn = createTableViewerColumn(titles[2], bounds[2], viewer);
-		createdByColumn.setLabelProvider(new ColumnLabelProvider() {
+		TableViewerColumn lastUpdatedColumn = createTableViewerColumn(titles[2], bounds[2], viewer);
+		lastUpdatedColumn.setLabelProvider(new ColumnLabelProvider() {
 			private static final long serialVersionUID = -8975942909693559289L;
 
 			@Override
@@ -91,8 +91,8 @@ public class ProjectsTableViewer extends TableViewer implements RumUpdatableView
 			}
 		});
 
-		TableViewerColumn createdAtColumn = createTableViewerColumn(titles[3], bounds[3], viewer);
-		createdAtColumn.setLabelProvider(new ColumnLabelProvider() {
+		TableViewerColumn typeColumn = createTableViewerColumn(titles[3], bounds[3], viewer);
+		typeColumn.setLabelProvider(new ColumnLabelProvider() {
 			private static final long serialVersionUID = -4095576663886113023L;
 
 			@Override

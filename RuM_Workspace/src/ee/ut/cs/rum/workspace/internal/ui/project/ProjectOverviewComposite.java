@@ -18,6 +18,7 @@ import ee.ut.cs.rum.database.domain.Task;
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Project;
 import ee.ut.cs.rum.database.util.TaskAccess;
+import ee.ut.cs.rum.workspace.internal.ui.project.taskstable.TasksTableComposite;
 import ee.ut.cs.rum.workspace.internal.ui.task.newtask.NewTaskDetails;
 
 public class ProjectOverviewComposite extends Composite {
@@ -35,6 +36,8 @@ public class ProjectOverviewComposite extends Composite {
 
 		this.setLayout(new GridLayout(2, false));
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		
+		new TasksTableComposite(this, rumController);
 		
 		
 		projectOverviewExpandBar = new ProjectOverviewExpandBar(this);
