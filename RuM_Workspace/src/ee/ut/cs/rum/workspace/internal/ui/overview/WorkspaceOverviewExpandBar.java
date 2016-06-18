@@ -20,11 +20,11 @@ public class WorkspaceOverviewExpandBar extends ExpandBar {
 		
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		
-		StatisticsComposite statisticsComposite = new StatisticsComposite(this, rumController);
-		ExpandItem statisticsItem = new ExpandItem (this, SWT.NONE);
-		statisticsItem.setText("Statistics");
-		statisticsItem.setHeight(statisticsComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
-		statisticsItem.setControl(statisticsComposite);
+//		StatisticsComposite statisticsComposite = new StatisticsComposite(this, rumController);
+//		ExpandItem statisticsItem = new ExpandItem (this, SWT.NONE);
+//		statisticsItem.setText("Statistics");
+//		statisticsItem.setHeight(statisticsComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
+//		statisticsItem.setControl(statisticsComposite);
 		
 //		this.projectsTableViewer = new ProjectsTableViewer(this, workspaceOverview);
 //		ExpandItem projectsTableItem = new ExpandItem (this, SWT.NONE);
@@ -32,19 +32,19 @@ public class WorkspaceOverviewExpandBar extends ExpandBar {
 //		projectsTableItem.setHeight(projectsTableViewer.getTable().computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
 //		projectsTableItem.setControl(projectsTableViewer.getTable());
 		
-		UserFilesTableViewer userFilesTableViewer = new UserFilesTableViewer(this);
-		ExpandItem userFileTableItem = new ExpandItem (this, SWT.NONE);
-		userFileTableItem.setText("Files");
-		userFileTableItem.setHeight(userFilesTableViewer.getTable().computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
-		userFileTableItem.setControl(userFilesTableViewer.getTable());
+//		UserFilesTableViewer userFilesTableViewer = new UserFilesTableViewer(this);
+//		ExpandItem userFileTableItem = new ExpandItem (this, SWT.NONE);
+//		userFileTableItem.setText("Files");
+//		userFileTableItem.setHeight(userFilesTableViewer.getTable().computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
+//		userFileTableItem.setControl(userFilesTableViewer.getTable());
 		
-		PluginsTableViewer pluginsTableViewer = new PluginsTableViewer(this);
-		ExpandItem pluginsTableItem = new ExpandItem (this, SWT.NONE);
-		pluginsTableItem.setText("Plugins");
-		pluginsTableItem.setHeight(pluginsTableViewer.getTable().computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
-		pluginsTableItem.setControl(pluginsTableViewer.getTable());
+//		PluginsTableViewer pluginsTableViewer = new PluginsTableViewer(this);
+//		ExpandItem pluginsTableItem = new ExpandItem (this, SWT.NONE);
+//		pluginsTableItem.setText("Plugins");
+//		pluginsTableItem.setHeight(pluginsTableViewer.getTable().computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
+//		pluginsTableItem.setControl(pluginsTableViewer.getTable());
 		
-		statisticsItem.setExpanded(true);
+//		statisticsItem.setExpanded(true);
 //		projectsTableItem.setExpanded(true);
 	}
 	
