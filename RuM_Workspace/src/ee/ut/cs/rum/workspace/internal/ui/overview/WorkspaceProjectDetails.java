@@ -7,22 +7,37 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
+import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Project;
+import ee.ut.cs.rum.enums.ControllerEntityType;
+import ee.ut.cs.rum.enums.ControllerUpdateType;
+import ee.ut.cs.rum.interfaces.RumUpdatableView;
 
-public class WorkspaceProjectDetails extends Composite {
+public class WorkspaceProjectDetails extends Composite implements RumUpdatableView {
 	private static final long serialVersionUID = -5990558506997308715L;
 	
+	private Display display;
+	private RumController rumController;
+
+	private final Project project;
 	private Label projectName;
 	private Label projectDescription;
 	private Label createdAt;
 	private Label lastChangeAt;
 
-	WorkspaceProjectDetails(WorkspaceDetailsContainer workspaceDetailsContainer, Project project) {
+	WorkspaceProjectDetails(WorkspaceDetailsContainer workspaceDetailsContainer, Project project, RumController rumController) {
 		super(workspaceDetailsContainer, SWT.NONE);
+		
+		this.display=Display.getCurrent();
+		this.rumController=rumController;
+		rumController.registerView(this, ControllerEntityType.PROJECT);
+		
+		this.project=project;
 		
 		this.setLayoutData( new GridData(SWT.FILL, SWT.FILL, true, true));
 		this.setLayout(new GridLayout(2, false));
@@ -72,5 +87,41 @@ public class WorkspaceProjectDetails extends Composite {
 			}
 		});
 	}
-
+	
+	@Override
+	public void controllerUpdateNotify(ControllerUpdateType updateType, Object updatedEntity) {
+		if (updatedEntity instanceof Project) {
+			Project updatedProject=(Project)updatedEntity;
+			if (updatedProject.getId()==project.getId()) {
+				switch (updateType) {
+				case MODIFIY:
+					display.asyncExec(new Runnable() {
+						public void run() {
+							projectName.setText(updatedProject.getName());
+							projectDescription.setText(updatedProject.getDescription());
+							//TODO: Project last change
+							lastChangeAt.setText("TODO");
+						}
+					});
+					break;
+				case DELETE:
+					display.asyncExec(new Runnable() {
+						public void run() {
+							//TODO: Display a message to user
+							WorkspaceProjectDetails.this.dispose();
+						}
+					});
+					break;
+				default:
+					break;
+				}
+			}
+		}
+	}
+	
+	@Override
+	public void dispose() {
+		rumController.unregisterView(this, ControllerEntityType.PROJECT);
+		super.dispose();
+	}
 }

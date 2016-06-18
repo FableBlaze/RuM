@@ -14,6 +14,8 @@ import ee.ut.cs.rum.database.domain.Project;
 public class WorkspaceDetailsContainer extends Composite {
 	private static final long serialVersionUID = 4293543744679080873L;
 	
+	private RumController rumController;
+	
 	private WorkspaceOverviewDetails workspaceOverviewDetails;
 	private WorkspaceOverview workspaceOverview;
 	
@@ -23,6 +25,7 @@ public class WorkspaceDetailsContainer extends Composite {
 	public WorkspaceDetailsContainer(WorkspaceOverview workspaceOverview, RumController rumController) {
 		super(workspaceOverview, SWT.NONE);
 		
+		this.rumController=rumController;
 		this.workspaceOverview = workspaceOverview;
 		
 		this.setLayoutData( new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -44,7 +47,7 @@ public class WorkspaceDetailsContainer extends Composite {
 			int selectedProjectId = selectedProjectIds.indexOf(selectedProject.getId());
 			if (selectedProjectId==-1) {
 				selectedProjectIds.add(selectedProject.getId());
-				WorkspaceProjectDetails workspaceProjectDetails = new WorkspaceProjectDetails(this, selectedProject);
+				WorkspaceProjectDetails workspaceProjectDetails = new WorkspaceProjectDetails(this, selectedProject, rumController);
 				workspaceProjectDetailsList.add(workspaceProjectDetails);
 				((StackLayout)this.getLayout()).topControl = workspaceProjectDetails;
 			} else {
