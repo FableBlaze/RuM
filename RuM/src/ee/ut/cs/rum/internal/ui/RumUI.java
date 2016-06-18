@@ -13,7 +13,6 @@ import ee.ut.cs.rum.administration.ui.SystemAdministrationUI;
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.internal.Activator;
 import ee.ut.cs.rum.plugins.ui.PluginsManagementUI;
-import ee.ut.cs.rum.scheduler.util.RumScheduler;
 import ee.ut.cs.rum.workspace.ui.WorkspaceUI;
 
 public class RumUI extends AbstractEntryPoint {
