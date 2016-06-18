@@ -26,6 +26,7 @@ public class TasksTableViewer extends TableViewer implements RumUpdatableView {
 	
 	private Display display;
 
+	private TasksTableComposite tasksTableComposite;
 	private List<Task> tasks;
 
 	public TasksTableViewer(TasksTableComposite tasksTableComposite, RumController rumController) {
@@ -33,6 +34,8 @@ public class TasksTableViewer extends TableViewer implements RumUpdatableView {
 		
 		this.display=Display.getCurrent();
 		rumController.registerView(this, ControllerEntityType.TASK);
+		
+		this.tasksTableComposite=tasksTableComposite;
 		
 		createColumns(this);
 		
@@ -115,7 +118,57 @@ public class TasksTableViewer extends TableViewer implements RumUpdatableView {
 
 	@Override
 	public void controllerUpdateNotify(ControllerUpdateType updateType, Object updatedEntity) {
-		// TODO Auto-generated method stub
-		
+		if (updatedEntity instanceof Task) {
+			Task task = (Task) updatedEntity;
+			if (task.getProjectId() == tasksTableComposite.getProjectOverviewComposite().getProject().getId()) {
+				int projectIndex;
+				switch (updateType) {
+				//Both list and viewer must be updated as updates in one are not reflected automatically to other
+				case CREATE:
+					tasks.add(task);
+					display.asyncExec(new Runnable() {
+						public void run() {
+							TasksTableViewer.this.add(task);
+						}
+					});
+					break;
+				case MODIFIY:
+					projectIndex = findTaskIndex(task);
+					if (projectIndex != -1) {
+						tasks.set(projectIndex, task);
+						display.asyncExec(new Runnable() {
+							public void run() {
+								TasksTableViewer.this.replace(task, projectIndex);
+							}
+						});
+					}
+					break;
+				case DELETE:
+					projectIndex = findTaskIndex(task);
+					if (projectIndex != -1) {
+						synchronized(this){
+							display.asyncExec(new Runnable() {
+								public void run() {
+									TasksTableViewer.this.remove(tasks.get(projectIndex));
+									tasks.remove(projectIndex);
+								}
+							});
+						}
+					}
+					break;
+				default:
+					break;
+				}
+			}
+		}
+	}
+	
+	private int findTaskIndex(Task task) {
+		for (int i = 0; i < this.tasks.size(); i++) {
+			if (this.tasks.get(i).getId()==task.getId()) {
+				return i;
+			}
+		}
+		return -1;
 	}
 }

@@ -114,10 +114,10 @@ public class ProjectsTableViewer extends TableViewer implements RumUpdatableView
 	@Override
 	public void controllerUpdateNotify(ControllerUpdateType updateType, Object updatedEntity) {
 		if (updatedEntity instanceof Project) {
-			Project project=(Project)updatedEntity;
+			Project project = (Project) updatedEntity;
 			int projectIndex;
 			switch (updateType) {
-			//Both project list and viewer must be updated as updates in one are not reflected automatically to other
+			//Both list and viewer must be updated as updates in one are not reflected automatically to other
 			case CREATE:
 				projects.add(project);
 				display.asyncExec(new Runnable() {
