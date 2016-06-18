@@ -18,7 +18,7 @@ public class WorkspaceOverview extends Composite {
 	private static final long serialVersionUID = -2991325315513334549L;
 
 	private WorkspaceUI workspaceUI;
-	private WorkspaceOverviewExpandBar workspaceOverviewExpandBar;
+	private WorkspaceDetailsContainer workspaceDetailsContainer;
 
 	public WorkspaceOverview(Composite workspaceContainer, WorkspaceUI workspaceUI, RumController rumController) {
 		super(workspaceContainer, SWT.NONE);
@@ -30,7 +30,7 @@ public class WorkspaceOverview extends Composite {
 		new ProjectsTableComposite(this, rumController);
 		
 		//TODO: Context sensitive details tab
-		new WorkspaceDetailsContainer(this, rumController);
+		workspaceDetailsContainer = new WorkspaceDetailsContainer(this, rumController);
 		
 		//this.workspaceOverviewExpandBar = new WorkspaceOverviewExpandBar(this, rumController);
 		
@@ -50,8 +50,8 @@ public class WorkspaceOverview extends Composite {
 		
 	}
 
-	public WorkspaceOverviewExpandBar getWorkspaceOverviewExpandBar() {
-		return workspaceOverviewExpandBar;
+	public WorkspaceDetailsContainer getWorkspaceDetailsContainer() {
+		return workspaceDetailsContainer;
 	}
 
 	public WorkspaceUI getWorkspaceUI() {
