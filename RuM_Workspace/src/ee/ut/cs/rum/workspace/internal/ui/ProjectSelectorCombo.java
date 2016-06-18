@@ -13,7 +13,7 @@ import org.eclipse.swt.widgets.Listener;
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Project;
 import ee.ut.cs.rum.database.util.ProjectAccess;
-import ee.ut.cs.rum.enums.ControllerListenerType;
+import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
 import ee.ut.cs.rum.interfaces.RumUpdatableView;
 import ee.ut.cs.rum.workspace.internal.Activator;
@@ -36,7 +36,7 @@ public class ProjectSelectorCombo extends Combo implements RumUpdatableView {
 
 		this.display=Display.getCurrent();
 		this.rumController=rumController;
-		rumController.registerView(this, ControllerListenerType.PROJECT);
+		rumController.registerView(this, ControllerEntityType.PROJECT);
 
 		this.workspaceUI=workspaceUI;
 		this.workspaceHeader=workspaceHeader;
@@ -158,7 +158,7 @@ public class ProjectSelectorCombo extends Combo implements RumUpdatableView {
 
 	@Override
 	public void dispose() {
-		rumController.unregisterView(this, ControllerListenerType.PROJECT);
+		rumController.unregisterView(this, ControllerEntityType.PROJECT);
 		super.dispose();
 	}
 

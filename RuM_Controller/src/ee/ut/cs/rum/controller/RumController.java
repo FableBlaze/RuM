@@ -7,7 +7,7 @@ import java.util.List;
 import ee.ut.cs.rum.controller.internal.Activator;
 import ee.ut.cs.rum.database.domain.Project;
 import ee.ut.cs.rum.database.util.ProjectAccess;
-import ee.ut.cs.rum.enums.ControllerListenerType;
+import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
 import ee.ut.cs.rum.interfaces.RumUpdatableView;
 
@@ -21,13 +21,13 @@ public class RumController {
 		projectListeners = Collections.synchronizedList(new ArrayList<RumUpdatableView>());
 	}
 
-	public void changeData(ControllerUpdateType controllerUpdateType, ControllerListenerType controllerListenerType, Object updatedEntity) {
-		Activator.getLogger().info("changeData - updateType: " + controllerUpdateType + ", listenerType: " + controllerListenerType + ", entity: " + updatedEntity.toString());
-		switch (controllerListenerType) {
+	public void changeData(ControllerUpdateType controllerUpdateType, ControllerEntityType controllerEntityType, Object updatedEntity) {
+		Activator.getLogger().info("changeData - updateType: " + controllerUpdateType + ", entityType: " + controllerEntityType + ", entity: " + updatedEntity.toString());
+		switch (controllerEntityType) {
 		case PROJECT:
 			if (updatedEntity instanceof Project) {
 				Project project = (Project)updatedEntity;
-				changeDataProject(controllerUpdateType, controllerListenerType, project);				
+				changeDataProject(controllerUpdateType, project);				
 			}
 			break;
 		default:
@@ -35,7 +35,7 @@ public class RumController {
 		}
 	}
 	
-	private void changeDataProject(ControllerUpdateType controllerUpdateType, ControllerListenerType controllerListenerType, Project project) {
+	private void changeDataProject(ControllerUpdateType controllerUpdateType, Project project) {
 		switch (controllerUpdateType) {
 		case CREATE:
 			project = ProjectAccess.addProjectDataToDb(project);
@@ -62,8 +62,8 @@ public class RumController {
 		}
 	}
 
-	public void registerView(RumUpdatableView rumView, ControllerListenerType controllerListenerType) {
-		switch (controllerListenerType) {
+	public void registerView(RumUpdatableView rumView, ControllerEntityType controllerEntityType) {
+		switch (controllerEntityType) {
 		case TASK:
 			taskListeners.add(rumView);
 			break;
@@ -76,8 +76,8 @@ public class RumController {
 
 	}
 
-	public void unregisterView(RumUpdatableView rumView, ControllerListenerType controllerListenerType) {
-		switch (controllerListenerType) {
+	public void unregisterView(RumUpdatableView rumView, ControllerEntityType controllerEntityType) {
+		switch (controllerEntityType) {
 		case TASK:
 			taskListeners.remove(rumView);
 			break;

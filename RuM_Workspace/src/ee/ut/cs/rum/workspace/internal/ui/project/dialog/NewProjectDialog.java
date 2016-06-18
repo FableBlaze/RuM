@@ -14,7 +14,7 @@ import org.eclipse.swt.widgets.Text;
 
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Project;
-import ee.ut.cs.rum.enums.ControllerListenerType;
+import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
 
 public class NewProjectDialog extends Dialog {
@@ -78,7 +78,7 @@ public class NewProjectDialog extends Dialog {
 					project.setDescription(descriptionValue.getText());
 					project.setCreatedBy("TODO");
 					project.setCreatedAt(new Date());
-					rumController.changeData(ControllerUpdateType.CREATE, ControllerListenerType.PROJECT, project);
+					rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.PROJECT, project);
 					
 					shell.close();
 				}

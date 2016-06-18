@@ -7,7 +7,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Task;
-import ee.ut.cs.rum.enums.ControllerListenerType;
+import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
 import ee.ut.cs.rum.interfaces.RumUpdatableView;
 import ee.ut.cs.rum.workspace.internal.Activator;
@@ -26,7 +26,7 @@ public class StatisticsComposite extends Composite implements RumUpdatableView {
 		
 		this.display=Display.getCurrent();
 		this.rumController=rumController;
-		rumController.registerView(this, ControllerListenerType.TASK);
+		rumController.registerView(this, ControllerEntityType.TASK);
 		
 		GridLayout layout = new GridLayout(2, false);
 		layout.marginLeft = layout.marginTop = layout.marginRight = layout.marginBottom = 10;
@@ -67,7 +67,7 @@ public class StatisticsComposite extends Composite implements RumUpdatableView {
 	
 	@Override
 	public void dispose() {
-		rumController.unregisterView(this, ControllerListenerType.TASK);
+		rumController.unregisterView(this, ControllerEntityType.TASK);
 		super.dispose();
 	}
 

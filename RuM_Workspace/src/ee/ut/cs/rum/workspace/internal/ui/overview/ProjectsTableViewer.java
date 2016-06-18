@@ -9,7 +9,6 @@ import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
@@ -19,7 +18,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Project;
 import ee.ut.cs.rum.database.util.ProjectAccess;
-import ee.ut.cs.rum.enums.ControllerListenerType;
+import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
 import ee.ut.cs.rum.interfaces.RumUpdatableView;
 
@@ -35,12 +34,11 @@ public class ProjectsTableViewer extends TableViewer implements RumUpdatableView
 		super(workspaceOverview, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 
 		this.display=Display.getCurrent();
-		rumController.registerView(this, ControllerListenerType.PROJECT);
+		rumController.registerView(this, ControllerEntityType.PROJECT);
 
 		createColumns(this);
 
 		final Table table = this.getTable();
-		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 
@@ -50,7 +48,7 @@ public class ProjectsTableViewer extends TableViewer implements RumUpdatableView
 
 			@Override
 			public void widgetDisposed(DisposeEvent arg0) {
-				rumController.unregisterView(ProjectsTableViewer.this, ControllerListenerType.PROJECT);
+				rumController.unregisterView(ProjectsTableViewer.this, ControllerEntityType.PROJECT);
 			}
 		});
 

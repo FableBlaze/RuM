@@ -1,6 +1,6 @@
 package ee.ut.cs.rum.enums;
 
-public enum ControllerListenerType {
+public enum ControllerEntityType {
 	PROJECT,
 	TASK
 }

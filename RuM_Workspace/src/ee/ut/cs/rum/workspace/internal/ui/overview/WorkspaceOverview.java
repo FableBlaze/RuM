@@ -7,9 +7,11 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
 import ee.ut.cs.rum.controller.RumController;
+import ee.ut.cs.rum.workspace.internal.Activator;
 import ee.ut.cs.rum.workspace.internal.ui.project.dialog.NewProjectDialog;
 import ee.ut.cs.rum.workspace.ui.WorkspaceUI;
 
@@ -26,11 +28,13 @@ public class WorkspaceOverview extends Composite {
 		this.setLayout(new GridLayout(2, false));
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		
-		new ProjectsTableViewer(this, rumController);
+		ProjectsTableViewer projectsTableViewer = new ProjectsTableViewer(this, rumController);
+		projectsTableViewer.getTable().setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
 		
 		//TODO: Context sensitive details tab
-		Composite c = new Composite(this, SWT.BORDER);
-		c.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		Composite overviewDetailsComposite = new Composite(this, SWT.BORDER);
+		overviewDetailsComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		overviewDetailsComposite.setLayout(new GridLayout());
 
 		//this.workspaceOverviewExpandBar = new WorkspaceOverviewExpandBar(this, rumController);
 		
@@ -47,6 +51,7 @@ public class WorkspaceOverview extends Composite {
 				newProjectDialog.open();
 			}
 		});
+		
 	}
 
 	public WorkspaceOverviewExpandBar getWorkspaceOverviewExpandBar() {
