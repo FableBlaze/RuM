@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.workspace.internal.ui.overview;
+package ee.ut.cs.rum.workspace.internal.ui.overview.projectstable;
 
 import java.util.List;
 
@@ -21,6 +21,7 @@ import ee.ut.cs.rum.database.util.ProjectAccess;
 import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
 import ee.ut.cs.rum.interfaces.RumUpdatableView;
+import ee.ut.cs.rum.workspace.internal.ui.overview.WorkspaceOverview;
 
 
 public class ProjectsTableViewer extends TableViewer implements RumUpdatableView {

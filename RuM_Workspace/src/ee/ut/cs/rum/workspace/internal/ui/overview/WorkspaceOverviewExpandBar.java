@@ -6,6 +6,7 @@ import org.eclipse.swt.widgets.ExpandBar;
 import org.eclipse.swt.widgets.ExpandItem;
 
 import ee.ut.cs.rum.controller.RumController;
+import ee.ut.cs.rum.workspace.internal.ui.overview.projectstable.ProjectsTableViewer;
 
 public class WorkspaceOverviewExpandBar extends ExpandBar {
 	private static final long serialVersionUID = 1583353374480024937L;
