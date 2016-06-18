@@ -11,6 +11,7 @@ import org.quartz.impl.StdSchedulerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.EmfTrackerCustomizer;
 import ee.ut.cs.rum.database.RumEmfService;
 
@@ -19,7 +20,8 @@ public class Activator implements BundleActivator {
 	private static Logger logger;
 	private static EntityManagerFactory emf;
 	private static Scheduler scheduler;
-	
+	private static RumController rumController;
+
 	public void start(BundleContext bundleContext) throws Exception {
 		Activator.context = bundleContext;
 		logger = LoggerFactory.getLogger("ee.ut.cs.rum.virgoConsole");
@@ -33,11 +35,11 @@ public class Activator implements BundleActivator {
 		if (rumEmfService == null) {throw new Exception("Database service not found");}
 		emf = rumEmfService.getEmf("RuM");
 		if (emf == null) {throw new Exception("Database service not found");}
-		
+
 		SchedulerFactory schedulerFactory = new StdSchedulerFactory("quartz.properties");
 		scheduler = schedulerFactory.getScheduler();
 		scheduler.start();
-		
+
 		logger.info("RuM_scheduler bundle started");
 	}
 
@@ -56,12 +58,22 @@ public class Activator implements BundleActivator {
 	public static EntityManagerFactory getEmf() {
 		return emf;
 	}
-	
+
 	public static Logger getLogger() {
 		return logger;
 	}
-	
+
 	public static Scheduler getScheduler() {
 		return scheduler;
+	}
+
+	public static void setRumController(RumController rumController) {
+		if (Activator.rumController==null) {
+			Activator.rumController = rumController;
+		}
+	}
+	
+	public static RumController getRumController() {
+		return rumController;
 	}
 }

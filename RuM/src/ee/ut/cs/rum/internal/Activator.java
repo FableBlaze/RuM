@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.EmfTrackerCustomizer;
 import ee.ut.cs.rum.database.RumEmfService;
+import ee.ut.cs.rum.scheduler.util.RumScheduler;
 
 public class Activator implements BundleActivator {
 	private static BundleContext context;
@@ -24,9 +25,9 @@ public class Activator implements BundleActivator {
 		Activator.context = bundleContext;
 		//We use activator to set up logging
 		logger = LoggerFactory.getLogger("ee.ut.cs.rum.virgoConsole");
-		
+
 		rumController = new RumController();
-		
+
 		EmfTrackerCustomizer emfTrackerCustomizer = new EmfTrackerCustomizer(context);
 		serviceTracker = new ServiceTracker<Object, Object>(context, RumEmfService.class.getName(), emfTrackerCustomizer);
 		serviceTracker.open();
@@ -35,6 +36,9 @@ public class Activator implements BundleActivator {
 		if (rumEmfService == null) {throw new Exception("Database service not found");}
 		emf = rumEmfService.getEmf("RuM");
 		if (emf == null) {throw new Exception("Database service not found");} 
+
+		//Scheduler needs access to rumController to update tasks and files
+		RumScheduler.setRumController(rumController);
 	}
 
 	public void stop(BundleContext bundleContext) throws Exception {
@@ -42,20 +46,20 @@ public class Activator implements BundleActivator {
 		serviceTracker.close();
 		logger.info("RuM bundle stopped");
 	}
-	
+
 	static BundleContext getContext() {
 		return context;
 	}
-	
+
 	//Rest of the bundle gets the logger trough activator
 	public static Logger getLogger() {
 		return logger;
 	}
-	
+
 	public static RumController getRumController() {
 		return rumController;
 	}
-	
+
 	//Rest of the bundle gets the entityManager trough activator
 	public static EntityManagerFactory getEmf() {
 		return emf;

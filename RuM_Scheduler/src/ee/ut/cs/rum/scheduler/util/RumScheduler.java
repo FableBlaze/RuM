@@ -7,23 +7,24 @@ import org.quartz.SchedulerException;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 
+import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.scheduler.internal.Activator;
 import ee.ut.cs.rum.scheduler.internal.task.RumJob;
 
 public final class RumScheduler {
-	
+
 	private RumScheduler() {
 	}
-	
+
 	public static void scheduleTask(Long taskId) {
 		Scheduler scheduler = Activator.getScheduler();
-		
+
 		String rumJobName = "RumJob"+taskId.toString();
 		JobDetail job = JobBuilder.newJob(RumJob.class).withIdentity(rumJobName, "RumJobs").build();
 		job.getJobDataMap().put(RumJob.TASK_ID, taskId);
 
 		Trigger trigger = TriggerBuilder.newTrigger().withIdentity(rumJobName, "RumJobs").startNow().build();
-		
+
 		try {
 			scheduler.scheduleJob(job, trigger);
 			Activator.getLogger().info("Added task to queue: " + taskId.toString() + " (" +rumJobName + ")");
@@ -31,5 +32,9 @@ public final class RumScheduler {
 			Activator.getLogger().info("Failed scheduling task: " + taskId.toString() + " (" +rumJobName + ")");
 			e.printStackTrace();
 		}
+	}
+
+	public static void setRumController(RumController rumController) {
+		Activator.setRumController(rumController);
 	}
 }
