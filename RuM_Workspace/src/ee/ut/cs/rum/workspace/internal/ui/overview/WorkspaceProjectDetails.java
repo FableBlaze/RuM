@@ -1,5 +1,7 @@
 package ee.ut.cs.rum.workspace.internal.ui.overview;
 
+import java.text.SimpleDateFormat;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -13,20 +15,56 @@ import ee.ut.cs.rum.database.domain.Project;
 
 public class WorkspaceProjectDetails extends Composite {
 	private static final long serialVersionUID = -5990558506997308715L;
+	
+	private Label projectName;
+	private Label projectDescription;
+	private Label createdAt;
+	private Label lastChangeAt;
 
 	WorkspaceProjectDetails(WorkspaceDetailsContainer workspaceDetailsContainer, Project project) {
 		super(workspaceDetailsContainer, SWT.NONE);
 		
 		this.setLayoutData( new GridData(SWT.FILL, SWT.FILL, true, true));
-		this.setLayout(new GridLayout());
+		this.setLayout(new GridLayout(2, false));
 		
-		Label l = new Label(this, SWT.BORDER);
-		l.setText(project.toString());
-		l.setLayoutData( new GridData(SWT.FILL, SWT.FILL, true, true));
+		Label nameLabel = new Label(this, SWT.NONE);
+		nameLabel.setText("Project name:");
+		nameLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
+		projectName = new Label(this, SWT.NONE);
+		projectName.setText(project.getName());
+		projectName.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
-		Button b = new Button(this, SWT.BORDER);
-		b.setText("Open project");
-		b.addListener(SWT.Selection, new Listener() {
+		nameLabel = new Label(this, SWT.NONE);
+		nameLabel.setText("Project description:");
+		nameLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
+		projectDescription = new Label(this, SWT.NONE);
+		projectDescription.setText(project.getDescription());
+		projectDescription.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		
+		nameLabel = new Label(this, SWT.NONE);
+		nameLabel.setText("Created at:");
+		nameLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
+		createdAt = new Label(this, SWT.NONE);
+		createdAt.setText(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(project.getCreatedAt()));
+		createdAt.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		
+		nameLabel = new Label(this, SWT.NONE);
+		nameLabel.setText("Last change at:");
+		nameLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
+		lastChangeAt = new Label(this, SWT.NONE);
+		lastChangeAt.setText("TODO");
+		lastChangeAt.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		
+		Label notificationsTable = new Label(this, SWT.NONE);
+		notificationsTable.setText("Project notifications (TODO)");
+		notificationsTable.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true));
+		((GridData) notificationsTable.getLayoutData()).horizontalSpan = ((GridLayout) this.getLayout()).numColumns;
+		
+		Button openProjectButton = new Button(this, SWT.BORDER);
+		openProjectButton.setText("Open project");
+		openProjectButton.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, false));
+		((GridData) openProjectButton.getLayoutData()).horizontalSpan = ((GridLayout) this.getLayout()).numColumns;
+		openProjectButton.addListener(SWT.Selection, new Listener() {
 			private static final long serialVersionUID = 6660200337375128860L;
 
 			public void handleEvent(Event e) {
