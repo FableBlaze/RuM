@@ -6,7 +6,9 @@ import java.util.List;
 
 import ee.ut.cs.rum.controller.internal.Activator;
 import ee.ut.cs.rum.database.domain.Project;
+import ee.ut.cs.rum.database.domain.Task;
 import ee.ut.cs.rum.database.util.ProjectAccess;
+import ee.ut.cs.rum.database.util.TaskAccess;
 import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
 import ee.ut.cs.rum.interfaces.RumUpdatableView;
@@ -28,6 +30,12 @@ public class RumController {
 			if (updatedEntity instanceof Project) {
 				Project project = (Project)updatedEntity;
 				changeDataProject(controllerUpdateType, project);				
+			}
+			break;
+		case TASK:
+			if (updatedEntity instanceof Task) {
+				Task task = (Task)updatedEntity;
+				changeDataTask(controllerUpdateType, task);				
 			}
 			break;
 		default:
@@ -55,6 +63,33 @@ public class RumController {
 				public void run() {
 					for (RumUpdatableView rumUpdatableView : projectListeners) {
 						rumUpdatableView.controllerUpdateNotify(controllerUpdateType, finalProject);
+					}
+				}
+			});  
+			thread.start();
+		}
+	}
+	
+	private void changeDataTask(ControllerUpdateType controllerUpdateType, Task task) {
+		switch (controllerUpdateType) {
+		case CREATE:
+			task = TaskAccess.addTaskDataToDb(task);
+			break;
+		case MODIFIY:
+			task = TaskAccess.updateTaskDataInDb(task);
+			break;
+		case DELETE:
+			TaskAccess.removeTaskDataFromDb(task);
+			break;
+		default:
+			break;
+		}
+		synchronized (taskListeners) {
+			final Task finalTask = task;
+			Thread thread = new Thread(new Runnable() {
+				public void run() {
+					for (RumUpdatableView rumUpdatableView : taskListeners) {
+						rumUpdatableView.controllerUpdateNotify(controllerUpdateType, finalTask);
 					}
 				}
 			});  

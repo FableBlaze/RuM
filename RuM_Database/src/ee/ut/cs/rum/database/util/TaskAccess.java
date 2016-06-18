@@ -55,4 +55,24 @@ public final class TaskAccess {
 		
 		return task;
 	}
+
+	public static Task updateTaskDataInDb(Task task) {
+		EntityManagerFactory emf = Activator.getEmf();
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		em.merge(task);
+		em.getTransaction().commit();
+		em.close();
+		
+		return task;
+	}
+
+	public static void removeTaskDataFromDb(Task task) {
+		EntityManagerFactory emf = Activator.getEmf();
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		em.remove(task);
+		em.getTransaction().commit();
+		em.close();
+	}
 }
