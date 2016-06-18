@@ -1,7 +1,5 @@
 package ee.ut.cs.rum.workspace.internal.ui.project;
 
-import java.util.List;
-
 import org.eclipse.rap.rwt.service.ServerPushSession;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabItem;
@@ -14,10 +12,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
-import ee.ut.cs.rum.database.domain.Task;
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Project;
-import ee.ut.cs.rum.database.util.TaskAccess;
 import ee.ut.cs.rum.workspace.internal.ui.project.taskstable.TasksTableComposite;
 import ee.ut.cs.rum.workspace.internal.ui.task.newtask.NewTaskDetails;
 
@@ -42,21 +38,6 @@ public class ProjectOverviewComposite extends Composite {
 		
 		projectOverviewExpandBar = new ProjectOverviewExpandBar(this);
 		((GridData) projectOverviewExpandBar.getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
-
-		Button refreshTasksTableButton = new Button(this, SWT.PUSH);
-		refreshTasksTableButton.setText("Refresh tasks table");
-		refreshTasksTableButton.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, true, false));
-
-		refreshTasksTableButton.addListener(SWT.Selection, new Listener() {
-			private static final long serialVersionUID = -4798041339203828187L;
-
-			@Override
-			public void handleEvent(Event arg0) {
-				List<Task> projectTasks = TaskAccess.getProjectTasksDataFromDb(project.getId());
-				projectOverviewExpandBar.getTasksTableViewer().setInput(projectTasks);
-				projectOverviewExpandBar.getTasksTableItem().setHeight(projectOverviewExpandBar.getTasksTableViewer().getTable().computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
-			}
-		});
 
 		Button addTaskDialogueButton = new Button(this, SWT.PUSH);
 		addTaskDialogueButton.setText("Add task");
