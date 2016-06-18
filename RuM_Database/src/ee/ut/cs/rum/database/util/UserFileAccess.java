@@ -91,4 +91,27 @@ public final class UserFileAccess {
 		return userFile;
 	}
 
+	public static UserFile updateUserFileDataInDb(UserFile userFile) {
+		EntityManagerFactory emf = Activator.getEmf();
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		em.persist(userFile);
+		em.getTransaction().commit();
+		em.close();
+		
+		return userFile;
+	}
+
+	public static UserFile removeUserFileDataFromDb(UserFile userFile) {
+		//TODO: Remove from filesystem
+		EntityManagerFactory emf = Activator.getEmf();
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		em.merge(userFile);
+		em.getTransaction().commit();
+		em.close();
+		
+		return userFile;
+	}
+
 }
