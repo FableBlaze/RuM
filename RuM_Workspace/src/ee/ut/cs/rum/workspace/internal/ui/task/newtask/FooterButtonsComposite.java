@@ -3,7 +3,6 @@ package ee.ut.cs.rum.workspace.internal.ui.task.newtask;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -25,7 +24,6 @@ import ee.ut.cs.rum.database.domain.Task;
 import ee.ut.cs.rum.database.domain.enums.SystemParameterName;
 import ee.ut.cs.rum.database.domain.enums.TaskStatus;
 import ee.ut.cs.rum.database.util.SystemParameterAccess;
-import ee.ut.cs.rum.database.util.TaskAccess;
 import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
 import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationComposite;
@@ -111,10 +109,6 @@ public class FooterButtonsComposite extends Composite {
 					cTabItem.setText ("Task " + task.getId().toString());
 					cTabItem.setControl(new TaskDetails(newTaskDetails.getProjectTabFolder(), task.getId()));
 					newTaskDetails.getProjectTabFolder().setSelection(cTabItem);
-					
-					//TODO: Properly updating the UI (MCV)
-					List<Task> workspaceTasks = TaskAccess.getProjectTasksDataFromDb(newTaskDetails.getProjectTabFolder().getProject().getId());
-					newTaskDetails.getProjectTabFolder().getProjectOverviewComposite().getProjectOverviewExpandBar().getTasksTableViewer().setInput(workspaceTasks);
 				}
 			}
 		});

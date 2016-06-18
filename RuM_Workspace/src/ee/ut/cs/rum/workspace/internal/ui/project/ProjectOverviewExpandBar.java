@@ -5,13 +5,10 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.ExpandBar;
 import org.eclipse.swt.widgets.ExpandItem;
 
-import ee.ut.cs.rum.workspace.internal.ui.task.TasksTableViewer;
-
 public class ProjectOverviewExpandBar  extends ExpandBar {
 	private static final long serialVersionUID = 8709964958003636465L;
 	
 	private ProjectOverviewComposite projectOverviewComposite;
-	private TasksTableViewer tasksTableViewer;
 	private ExpandItem tasksTableItem;
 
 	public ProjectOverviewExpandBar(ProjectOverviewComposite projectOverviewComposite) {
@@ -26,29 +23,17 @@ public class ProjectOverviewExpandBar  extends ExpandBar {
 		statisticsItem.setText("Statistics");
 		statisticsItem.setHeight(statisticsComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
 		statisticsItem.setControl(statisticsComposite);
-		
-//		ProjectTabFolder projectTabFolder = projectOverviewComposite.getProjectTabFolder();
-//		tasksTableViewer = new TasksTableViewer(this, projectOverviewComposite, projectTabFolder);
-//		tasksTableItem = new ExpandItem (this, SWT.NONE);
-//		tasksTableItem.setText("Tasks");
-//		tasksTableItem.setHeight(tasksTableViewer.getTable().computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
-//		tasksTableItem.setControl(tasksTableViewer.getTable());
-		
+				
 		UserFilesTableViewer userFilesTableViewer = new UserFilesTableViewer(this);
 		ExpandItem userFileTableItem = new ExpandItem (this, SWT.NONE);
 		userFileTableItem.setText("Files");
 		userFileTableItem.setHeight(userFilesTableViewer.getTable().computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
 		userFileTableItem.setControl(userFilesTableViewer.getTable());
 		
-//		tasksTableItem.setExpanded(true);
 	}
 	
 	public ProjectOverviewComposite getProjectOverviewComposite() {
 		return projectOverviewComposite;
-	}
-	
-	public TasksTableViewer getTasksTableViewer() {
-		return tasksTableViewer;
 	}
 	
 	public ExpandItem getTasksTableItem() {

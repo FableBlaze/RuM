@@ -68,9 +68,9 @@ public class Activator implements BundleActivator {
 	}
 
 	public static void setRumController(RumController rumController) {
-		if (Activator.rumController==null) {
+//		if (Activator.rumController==null) { //TODO: Check removed for easier testing
 			Activator.rumController = rumController;
-		}
+//		}
 	}
 	
 	public static RumController getRumController() {
