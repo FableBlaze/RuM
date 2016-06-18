@@ -7,7 +7,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
 import ee.ut.cs.rum.controller.RumController;
@@ -31,13 +30,8 @@ public class WorkspaceOverview extends Composite {
 		new ProjectsTableComposite(this, rumController);
 		
 		//TODO: Context sensitive details tab
-		Composite overviewDetailsComposite = new Composite(this, SWT.BORDER);
-		overviewDetailsComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		overviewDetailsComposite.setLayout(new GridLayout());
+		new WorkspaceDetailsContainer(this, rumController);
 		
-		Label l = new Label(overviewDetailsComposite,SWT.BORDER);
-		l.setText("TODO");
-
 		//this.workspaceOverviewExpandBar = new WorkspaceOverviewExpandBar(this, rumController);
 		
 		Button addProjectDialogueButton = new Button(this, SWT.PUSH);
