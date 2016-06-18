@@ -53,17 +53,6 @@ public class ProjectsTableViewer extends TableViewer implements RumUpdatableView
 			}
 		});
 
-//		table.addListener(SWT.Selection, new Listener() {
-//			private static final long serialVersionUID = -86178746354770036L;
-//			
-//			
-//
-//			public void handleEvent(Event e) {
-//				workspaceOverview.getWorkspaceUI().getWorkspaceHeader().getProjectSelectorCombo().select(table.getSelectionIndex()+1);
-//				workspaceOverview.getWorkspaceUI().getWorkspaceHeader().getProjectSelectorCombo().updateSelectedProjectDetails();
-//			}
-//		});
-
 		this.setContentProvider(new ArrayContentProvider());
 		projects = ProjectAccess.getProjectsDataFromDb();
 		this.setInput(projects);

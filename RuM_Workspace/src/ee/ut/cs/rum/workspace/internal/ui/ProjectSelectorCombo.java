@@ -93,6 +93,16 @@ public class ProjectSelectorCombo extends Combo implements RumUpdatableView {
 			Activator.getLogger().info("Opened projects overview");
 		}
 	}
+	
+
+	public void selectProject(Project project) {
+		int projectIndex = findProjectIndex(project);
+		if (projectIndex != -1) {
+			this.select(projectIndex);
+			updateSelectedProjectDetails();
+		}
+		
+	}
 
 	private void createProjectDetailsList(int size) {
 		this.projectsDetails = new ArrayList<ProjectTabFolder>();
@@ -148,7 +158,7 @@ public class ProjectSelectorCombo extends Combo implements RumUpdatableView {
 	}
 
 	private int findProjectIndex(Project project) {
-		for (int i = 0; i < this.projects.size(); i++) {
+		for (int i = 1; i < this.projects.size(); i++) {
 			if (this.projects.get(i).getId()==project.getId()) {
 				return i;
 			}
@@ -161,6 +171,5 @@ public class ProjectSelectorCombo extends Combo implements RumUpdatableView {
 		rumController.unregisterView(this, ControllerEntityType.PROJECT);
 		super.dispose();
 	}
-
 
 }

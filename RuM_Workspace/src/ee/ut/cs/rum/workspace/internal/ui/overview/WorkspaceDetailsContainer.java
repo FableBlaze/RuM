@@ -15,12 +15,15 @@ public class WorkspaceDetailsContainer extends Composite {
 	private static final long serialVersionUID = 4293543744679080873L;
 	
 	private WorkspaceOverviewDetails workspaceOverviewDetails;
+	private WorkspaceOverview workspaceOverview;
 	
 	List<Long> selectedProjectIds;
 	List<WorkspaceProjectDetails> workspaceProjectDetailsList;
 
 	public WorkspaceDetailsContainer(WorkspaceOverview workspaceOverview, RumController rumController) {
 		super(workspaceOverview, SWT.NONE);
+		
+		this.workspaceOverview = workspaceOverview;
 		
 		this.setLayoutData( new GridData(SWT.FILL, SWT.FILL, true, true));
 		this.setLayout(new StackLayout());
@@ -49,6 +52,9 @@ public class WorkspaceDetailsContainer extends Composite {
 			}
 		}
 		this.layout();
-		
+	}
+	
+	public WorkspaceOverview getWorkspaceOverview() {
+		return workspaceOverview;
 	}
 }
