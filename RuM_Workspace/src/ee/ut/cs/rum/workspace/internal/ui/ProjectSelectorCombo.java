@@ -68,7 +68,16 @@ public class ProjectSelectorCombo extends Combo implements RumUpdatableView {
 		}
 	}
 
-	public void updateSelectedProjectDetails() {
+	public void selectProject(Project project) {
+		int projectIndex = findProjectIndex(project);
+		if (projectIndex != -1) {
+			this.select(projectIndex);
+			updateSelectedProjectDetails();
+		}
+
+	}
+
+	private void updateSelectedProjectDetails() {
 		int selectedIndex = ProjectSelectorCombo.this.getSelectionIndex();
 		StackLayout workspaceContainerLayout = (StackLayout)workspaceUI.getWorkspaceContainer().getLayout();
 
@@ -92,16 +101,6 @@ public class ProjectSelectorCombo extends Combo implements RumUpdatableView {
 			workspaceHeader.setHeaderTitle("Workspace overview");
 			Activator.getLogger().info("Opened projects overview");
 		}
-	}
-	
-
-	public void selectProject(Project project) {
-		int projectIndex = findProjectIndex(project);
-		if (projectIndex != -1) {
-			this.select(projectIndex);
-			updateSelectedProjectDetails();
-		}
-		
 	}
 
 	private void createProjectDetailsList(int size) {
