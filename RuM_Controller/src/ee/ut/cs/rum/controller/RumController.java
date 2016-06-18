@@ -23,27 +23,28 @@ public class RumController {
 		projectListeners = Collections.synchronizedList(new ArrayList<RumUpdatableView>());
 	}
 
-	public void changeData(ControllerUpdateType controllerUpdateType, ControllerEntityType controllerEntityType, Object updatedEntity) {
+	public Object changeData(ControllerUpdateType controllerUpdateType, ControllerEntityType controllerEntityType, Object updatedEntity) {
 		Activator.getLogger().info("changeData - updateType: " + controllerUpdateType + ", entityType: " + controllerEntityType + ", entity: " + updatedEntity.toString());
 		switch (controllerEntityType) {
 		case PROJECT:
 			if (updatedEntity instanceof Project) {
 				Project project = (Project)updatedEntity;
-				changeDataProject(controllerUpdateType, project);				
+				updatedEntity = changeDataProject(controllerUpdateType, project);				
 			}
 			break;
 		case TASK:
 			if (updatedEntity instanceof Task) {
 				Task task = (Task)updatedEntity;
-				changeDataTask(controllerUpdateType, task);				
+				updatedEntity = changeDataTask(controllerUpdateType, task);				
 			}
 			break;
 		default:
 			break;
 		}
+		return updatedEntity;
 	}
 	
-	private void changeDataProject(ControllerUpdateType controllerUpdateType, Project project) {
+	private Project changeDataProject(ControllerUpdateType controllerUpdateType, Project project) {
 		switch (controllerUpdateType) {
 		case CREATE:
 			project = ProjectAccess.addProjectDataToDb(project);
@@ -57,8 +58,8 @@ public class RumController {
 		default:
 			break;
 		}
+		final Project finalProject = project;
 		synchronized (projectListeners) {
-			final Project finalProject = project;
 			Thread thread = new Thread(new Runnable() {
 				public void run() {
 					for (RumUpdatableView rumUpdatableView : projectListeners) {
@@ -68,9 +69,10 @@ public class RumController {
 			});  
 			thread.start();
 		}
+		return finalProject;
 	}
 	
-	private void changeDataTask(ControllerUpdateType controllerUpdateType, Task task) {
+	private Task changeDataTask(ControllerUpdateType controllerUpdateType, Task task) {
 		switch (controllerUpdateType) {
 		case CREATE:
 			task = TaskAccess.addTaskDataToDb(task);
@@ -84,8 +86,8 @@ public class RumController {
 		default:
 			break;
 		}
+		final Task finalTask = task;
 		synchronized (taskListeners) {
-			final Task finalTask = task;
 			Thread thread = new Thread(new Runnable() {
 				public void run() {
 					for (RumUpdatableView rumUpdatableView : taskListeners) {
@@ -95,6 +97,7 @@ public class RumController {
 			});  
 			thread.start();
 		}
+		return finalTask;
 	}
 
 	public void registerView(RumUpdatableView rumView, ControllerEntityType controllerEntityType) {

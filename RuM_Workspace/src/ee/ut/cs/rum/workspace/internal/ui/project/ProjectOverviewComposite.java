@@ -79,7 +79,7 @@ public class ProjectOverviewComposite extends Composite {
 				if (cTabItem == null) {
 					cTabItem = new CTabItem (projectTabFolder, SWT.CLOSE);
 					cTabItem.setText ("New task");
-					cTabItem.setControl(new NewTaskDetails(projectTabFolder));
+					cTabItem.setControl(new NewTaskDetails(projectTabFolder, rumController));
 					projectTabFolder.setSelection(cTabItem);
 					
 					//To allow updating "New task" tab after file upload

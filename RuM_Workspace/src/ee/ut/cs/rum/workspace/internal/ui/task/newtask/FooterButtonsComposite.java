@@ -19,12 +19,15 @@ import org.eclipse.swt.widgets.Label;
 
 import com.google.gson.Gson;
 
+import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.database.domain.Task;
 import ee.ut.cs.rum.database.domain.enums.SystemParameterName;
 import ee.ut.cs.rum.database.domain.enums.TaskStatus;
 import ee.ut.cs.rum.database.util.SystemParameterAccess;
 import ee.ut.cs.rum.database.util.TaskAccess;
+import ee.ut.cs.rum.enums.ControllerEntityType;
+import ee.ut.cs.rum.enums.ControllerUpdateType;
 import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationComposite;
 import ee.ut.cs.rum.scheduler.util.TaskScheduling;
 import ee.ut.cs.rum.workspace.internal.Activator;
@@ -33,11 +36,15 @@ import ee.ut.cs.rum.workspace.internal.ui.task.details.TaskDetails;
 public class FooterButtonsComposite extends Composite {
 	private static final long serialVersionUID = 688156596045927568L;
 
+	private RumController rumController;
+	
 	private NewTaskDetails newTaskDetails;
 	private File task_results_root;
 
-	public FooterButtonsComposite(Composite scrolledfooterButtonsComposite, NewTaskDetails newTaskDetails) {
+	public FooterButtonsComposite(Composite scrolledfooterButtonsComposite, NewTaskDetails newTaskDetails, RumController rumController) {
 		super(scrolledfooterButtonsComposite, SWT.NONE);
+		
+		this.rumController=rumController;
 		
 		String task_results_root_asString = SystemParameterAccess.getSystemParameterValue(SystemParameterName.TASK_RESULTS_ROOT);
 		if (task_results_root_asString!=null) {
@@ -141,7 +148,7 @@ public class FooterButtonsComposite extends Composite {
 			task.setProjectId(newTaskDetails.getProjectTabFolder().getProject().getId());
 			task.setOutputPath(taskResultsPath.getPath());
 			
-			task = TaskAccess.addTaskDataToDb(task);
+			task = (Task)rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.TASK, task);
 			TaskScheduling.scheduleTask(task.getId());			
 		} else {
 			Activator.getLogger().info("Failed creating task output folder: " + taskResultsPath.getPath());

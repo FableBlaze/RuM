@@ -8,12 +8,15 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
+import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.workspace.internal.ui.project.ProjectTabFolder;
 import ee.ut.cs.rum.workspace.internal.ui.task.PluginInfoComposite;
 import ee.ut.cs.rum.workspace.internal.ui.task.newtask.pluginstable.PluginsTableComposite;
 
 public class NewTaskDetails extends Composite {
 	private static final long serialVersionUID = 1902692600726551589L;
+	
+	private RumController rumController;
 
 	private ProjectTabFolder projectTabFolder;
 	private PluginInfoComposite pluginInfoComposite;
@@ -22,8 +25,10 @@ public class NewTaskDetails extends Composite {
 	private FooterButtonsComposite footerButtonsComposite;
 	private PluginsTableComposite pluginsTableComposite;
 
-	public NewTaskDetails(ProjectTabFolder projectTabFolder) {
+	public NewTaskDetails(ProjectTabFolder projectTabFolder, RumController rumController) {
 		super(projectTabFolder, SWT.CLOSE | SWT.H_SCROLL | SWT.V_SCROLL);
+		
+		this.rumController=rumController;
 
 		this.projectTabFolder=projectTabFolder;
 		this.setLayout(new GridLayout(3, false));
@@ -71,7 +76,7 @@ public class NewTaskDetails extends Composite {
 		scrolledfooterButtonsComposite.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, true, false));
 		((GridData) scrolledfooterButtonsComposite.getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
 
-		footerButtonsComposite = new FooterButtonsComposite(scrolledfooterButtonsComposite, this);
+		footerButtonsComposite = new FooterButtonsComposite(scrolledfooterButtonsComposite, this, rumController);
 		scrolledfooterButtonsComposite.setContent(footerButtonsComposite);
 		footerButtonsComposite.setSize(footerButtonsComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 	}
