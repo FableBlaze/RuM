@@ -6,6 +6,7 @@ import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 
+import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Project;
 
 public class ProjectTabFolder extends CTabFolder {
@@ -15,7 +16,7 @@ public class ProjectTabFolder extends CTabFolder {
 	private ProjectOverviewComposite projectOverviewComposite;
 	private Project project;
 	
-	public ProjectTabFolder(Composite projectContainer, Project project) {
+	public ProjectTabFolder(Composite projectContainer, Project project, RumController rumController) {
 		super(projectContainer, SWT.BORDER);
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		
@@ -24,7 +25,9 @@ public class ProjectTabFolder extends CTabFolder {
 		this.projectDetailsTab = new CTabItem (this, SWT.NONE);
 		projectDetailsTab.setText ("Project overview");
 		
-		this.projectOverviewComposite = new ProjectOverviewComposite(this, projectContainer, project);
+		
+		
+		this.projectOverviewComposite = new ProjectOverviewComposite(this, project, rumController);
 		projectDetailsTab.setControl (projectOverviewComposite);
 		
 		this.setSelection(0);

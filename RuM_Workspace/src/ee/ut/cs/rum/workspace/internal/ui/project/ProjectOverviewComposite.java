@@ -15,6 +15,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
 import ee.ut.cs.rum.database.domain.Task;
+import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Project;
 import ee.ut.cs.rum.database.util.TaskAccess;
 import ee.ut.cs.rum.workspace.internal.ui.task.newtask.NewTaskDetails;
@@ -26,7 +27,7 @@ public class ProjectOverviewComposite extends Composite {
 	private ProjectOverviewExpandBar projectOverviewExpandBar;
 	private ProjectTabFolder projectTabFolder;
 
-	ProjectOverviewComposite(ProjectTabFolder projectTabFolder, Composite projectContainer, Project project) {
+	ProjectOverviewComposite(ProjectTabFolder projectTabFolder, Project project, RumController rumController) {
 		super(projectTabFolder, SWT.NONE);
 
 		this.project=project;
