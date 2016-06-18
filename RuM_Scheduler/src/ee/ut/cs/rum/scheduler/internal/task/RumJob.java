@@ -19,7 +19,8 @@ import ee.ut.cs.rum.database.domain.UserFile;
 import ee.ut.cs.rum.database.domain.UserFileType;
 import ee.ut.cs.rum.database.domain.enums.TaskStatus;
 import ee.ut.cs.rum.database.util.PluginAccess;
-import ee.ut.cs.rum.database.util.UserFileAccess;
+import ee.ut.cs.rum.enums.ControllerEntityType;
+import ee.ut.cs.rum.enums.ControllerUpdateType;
 import ee.ut.cs.rum.plugins.configuration.util.PluginUtils;
 import ee.ut.cs.rum.plugins.development.description.PluginInfo;
 import ee.ut.cs.rum.plugins.development.description.PluginOutput;
@@ -138,8 +139,7 @@ public class RumJob implements Job {
 						Activator.getLogger().info("Found plugin output file with types: " + rumJobTaskOutput.getFileTypes().toString());
 					}
 				}
-				
-				userFile = UserFileAccess.addUserFileDataToDb(userFile);
+				userFile = (UserFile)Activator.getRumController().changeData(ControllerUpdateType.CREATE, ControllerEntityType.USER_FILE, userFile);
 			} else if (file.isDirectory()) {
 				addTaskCreatedFilesToDb(file.getAbsolutePath());
 			}
