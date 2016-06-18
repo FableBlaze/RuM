@@ -18,6 +18,7 @@ public class ProjectTabFolder extends CTabFolder {
 	
 	public ProjectTabFolder(Composite projectContainer, Project project, RumController rumController) {
 		super(projectContainer, SWT.BORDER);
+		
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		
 		this.project=project;

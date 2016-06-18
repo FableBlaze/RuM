@@ -27,12 +27,12 @@ public class ProjectOverviewExpandBar  extends ExpandBar {
 		statisticsItem.setHeight(statisticsComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
 		statisticsItem.setControl(statisticsComposite);
 		
-		ProjectTabFolder projectTabFolder = projectOverviewComposite.getProjectTabFolder();
-		tasksTableViewer = new TasksTableViewer(this, projectOverviewComposite, projectTabFolder);
-		tasksTableItem = new ExpandItem (this, SWT.NONE);
-		tasksTableItem.setText("Tasks");
-		tasksTableItem.setHeight(tasksTableViewer.getTable().computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
-		tasksTableItem.setControl(tasksTableViewer.getTable());
+//		ProjectTabFolder projectTabFolder = projectOverviewComposite.getProjectTabFolder();
+//		tasksTableViewer = new TasksTableViewer(this, projectOverviewComposite, projectTabFolder);
+//		tasksTableItem = new ExpandItem (this, SWT.NONE);
+//		tasksTableItem.setText("Tasks");
+//		tasksTableItem.setHeight(tasksTableViewer.getTable().computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
+//		tasksTableItem.setControl(tasksTableViewer.getTable());
 		
 		UserFilesTableViewer userFilesTableViewer = new UserFilesTableViewer(this);
 		ExpandItem userFileTableItem = new ExpandItem (this, SWT.NONE);
@@ -40,7 +40,7 @@ public class ProjectOverviewExpandBar  extends ExpandBar {
 		userFileTableItem.setHeight(userFilesTableViewer.getTable().computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
 		userFileTableItem.setControl(userFilesTableViewer.getTable());
 		
-		tasksTableItem.setExpanded(true);
+//		tasksTableItem.setExpanded(true);
 	}
 	
 	public ProjectOverviewComposite getProjectOverviewComposite() {

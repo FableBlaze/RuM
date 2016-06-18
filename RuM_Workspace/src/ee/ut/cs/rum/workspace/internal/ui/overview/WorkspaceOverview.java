@@ -29,10 +29,7 @@ public class WorkspaceOverview extends Composite {
 		
 		new ProjectsTableComposite(this, rumController);
 		
-		//TODO: Context sensitive details tab
 		workspaceDetailsContainer = new WorkspaceDetailsContainer(this, rumController);
-		
-		//this.workspaceOverviewExpandBar = new WorkspaceOverviewExpandBar(this, rumController);
 		
 		Button addProjectDialogueButton = new Button(this, SWT.PUSH);
 		addProjectDialogueButton.setText("New project");
