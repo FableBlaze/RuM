@@ -28,7 +28,7 @@ public class RumUI extends AbstractEntryPoint {
 	private Composite systemAdministrationSection;
 	private Composite accountDetailsSection;
 	
-	private static RumController rumController = Activator.getRumController();
+	private static final RumController rumController = Activator.getRumController();
 	
 	public void createContents(Composite parent) {
 		this.rumUiParentComposite=parent;
