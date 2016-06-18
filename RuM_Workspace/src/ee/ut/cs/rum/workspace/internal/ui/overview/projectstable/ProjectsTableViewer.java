@@ -31,8 +31,8 @@ public class ProjectsTableViewer extends TableViewer implements RumUpdatableView
 
 	private List<Project> projects;
 
-	public ProjectsTableViewer(WorkspaceOverview workspaceOverview, RumController rumController) {
-		super(workspaceOverview, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
+	public ProjectsTableViewer(WorkspaceOverview workspaceOverview, ProjectsTableComposite projectsTableComposite, RumController rumController) {
+		super(projectsTableComposite, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 
 		this.display=Display.getCurrent();
 		rumController.registerView(this, ControllerEntityType.PROJECT);
