@@ -17,12 +17,14 @@ import ee.ut.cs.rum.workspace.internal.ui.task.newtask.NewTaskDetails;
 public class ProjectOverview extends Composite {
 	private static final long serialVersionUID = 7059830950897604661L;
 	
+	private ProjectTabFolder projectTabFolder;
 	private Project project;
 	private ProjectDetailsContainer projectDetailsContainer;
 
 	public ProjectOverview(ProjectTabFolder projectTabFolder, Project project, RumController rumController) {
 		super(projectTabFolder, SWT.NONE);
 		
+		this.projectTabFolder=projectTabFolder;
 		this.project=project;
 		
 		this.setLayout(new GridLayout(2, false));
@@ -67,6 +69,10 @@ public class ProjectOverview extends Composite {
 	
 	public ProjectDetailsContainer getProjectDetailsContainer() {
 		return projectDetailsContainer;
+	}
+	
+	public ProjectTabFolder getProjectTabFolder() {
+		return projectTabFolder;
 	}
 
 }
