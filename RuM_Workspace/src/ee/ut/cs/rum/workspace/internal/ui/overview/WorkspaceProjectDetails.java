@@ -24,7 +24,7 @@ public class WorkspaceProjectDetails extends Composite implements RumUpdatableVi
 	private Display display;
 	private RumController rumController;
 
-	private final Project project;
+	private Project project;
 	private Label projectName;
 	private Label projectDescription;
 	private Label createdAt;

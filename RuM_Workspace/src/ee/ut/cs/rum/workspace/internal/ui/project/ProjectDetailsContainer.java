@@ -16,6 +16,7 @@ public class ProjectDetailsContainer extends Composite {
 	
 	private RumController rumController;
 	
+	private ProjectOverview projectOverview;
 	private ProjectOverviewDetails projectOverviewDetails;
 	
 	private List<Long> selectedProjectIds;
@@ -25,6 +26,8 @@ public class ProjectDetailsContainer extends Composite {
 		super(projectOverview, SWT.NONE);
 		
 		this.rumController=rumController;
+		
+		this.projectOverview=projectOverview;
 		
 		this.setLayoutData( new GridData(SWT.FILL, SWT.FILL, true, true));
 		this.setLayout(new StackLayout());
@@ -53,5 +56,9 @@ public class ProjectDetailsContainer extends Composite {
 			}
 		}
 		this.layout();
+	}
+	
+	public ProjectOverview getProjectOverview() {
+		return projectOverview;
 	}
 }
