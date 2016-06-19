@@ -13,7 +13,7 @@ public class ProjectTabFolder extends CTabFolder {
 	private static final long serialVersionUID = 3261215361750051333L;
 	
 	private CTabItem projectDetailsTab;
-	private ProjectOverviewComposite projectOverviewComposite;
+	private ProjectOverview projectOverview;
 	private Project project;
 	
 	public ProjectTabFolder(Composite projectContainer, Project project, RumController rumController) {
@@ -28,8 +28,8 @@ public class ProjectTabFolder extends CTabFolder {
 		
 		
 		
-		this.projectOverviewComposite = new ProjectOverviewComposite(this, project, rumController);
-		projectDetailsTab.setControl (projectOverviewComposite);
+		this.projectOverview = new ProjectOverview(this, project, rumController);
+		projectDetailsTab.setControl (projectOverview);
 		
 		this.setSelection(0);
 	}
@@ -38,7 +38,7 @@ public class ProjectTabFolder extends CTabFolder {
 		return project;
 	}
 	
-	public ProjectOverviewComposite getProjectOverviewComposite() {
-		return projectOverviewComposite;
+	public ProjectOverview getProjectOverview() {
+		return projectOverview;
 	}
 }

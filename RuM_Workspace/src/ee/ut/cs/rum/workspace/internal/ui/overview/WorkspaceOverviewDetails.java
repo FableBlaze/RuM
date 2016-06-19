@@ -25,8 +25,8 @@ public class WorkspaceOverviewDetails extends Composite implements RumUpdatableV
 	private Label totalProjects;
 	private Label totalTasks;
 
-	WorkspaceOverviewDetails(Composite parent, RumController rumController) {
-		super(parent, SWT.NONE);
+	WorkspaceOverviewDetails(WorkspaceDetailsContainer workspaceDetailsContainer, RumController rumController) {
+		super(workspaceDetailsContainer, SWT.NONE);
 
 		this.display=Display.getCurrent();
 		this.rumController=rumController;

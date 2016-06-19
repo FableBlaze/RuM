@@ -19,8 +19,8 @@ public class WorkspaceDetailsContainer extends Composite {
 	private WorkspaceOverviewDetails workspaceOverviewDetails;
 	private WorkspaceOverview workspaceOverview;
 	
-	List<Long> selectedProjectIds;
-	List<WorkspaceProjectDetails> workspaceProjectDetailsList;
+	private List<Long> selectedProjectIds;
+	private List<WorkspaceProjectDetails> workspaceProjectDetailsList;
 
 	public WorkspaceDetailsContainer(WorkspaceOverview workspaceOverview, RumController rumController) {
 		super(workspaceOverview, SWT.NONE);

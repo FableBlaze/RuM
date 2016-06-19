@@ -53,7 +53,7 @@ public class TasksTableViewer extends TableViewer implements RumUpdatableView {
 		});
 		
 		this.setContentProvider(new ArrayContentProvider());
-		tasks = TaskAccess.getProjectTasksDataFromDb(tasksTableComposite.getProjectOverviewComposite().getProject().getId());
+		tasks = TaskAccess.getProjectTasksDataFromDb(tasksTableComposite.getProjectOverview().getProject().getId());
 		this.setInput(tasks);
 		
 	}
@@ -118,7 +118,7 @@ public class TasksTableViewer extends TableViewer implements RumUpdatableView {
 	public void controllerUpdateNotify(ControllerUpdateType updateType, Object updatedEntity) {
 		if (updatedEntity instanceof Task) {
 			Task task = (Task) updatedEntity;
-			if (task.getProjectId() == tasksTableComposite.getProjectOverviewComposite().getProject().getId()) {
+			if (task.getProjectId() == tasksTableComposite.getProjectOverview().getProject().getId()) {
 				int projectIndex;
 				switch (updateType) {
 				//Both list and viewer must be updated as updates in one are not reflected automatically to other

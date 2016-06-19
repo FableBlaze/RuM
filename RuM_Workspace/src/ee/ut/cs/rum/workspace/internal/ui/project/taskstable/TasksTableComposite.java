@@ -10,19 +10,19 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 import ee.ut.cs.rum.controller.RumController;
-import ee.ut.cs.rum.workspace.internal.ui.project.ProjectOverviewComposite;
+import ee.ut.cs.rum.workspace.internal.ui.project.ProjectOverview;
 
 public class TasksTableComposite extends Composite {
 	private static final long serialVersionUID = -2229297948236990364L;
 	
 	private TasksTableViewer tasksTableViewer;
 	private TasksTableFilter tasksTableFilter;
-	private ProjectOverviewComposite projectOverviewComposite;
+	private ProjectOverview projectOverview;
 	
-	public TasksTableComposite(ProjectOverviewComposite projectOverviewComposite, RumController rumController) {
-		super(projectOverviewComposite, SWT.NONE);
+	public TasksTableComposite(ProjectOverview projectOverview, RumController rumController) {
+		super(projectOverview, SWT.NONE);
 		
-		this.projectOverviewComposite=projectOverviewComposite;
+		this.projectOverview=projectOverview;
 		
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
 		this.setLayout(new GridLayout(2, false));
@@ -47,13 +47,13 @@ public class TasksTableComposite extends Composite {
 		tasksTableViewer.getTable().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		((GridData) this.tasksTableViewer.getTable().getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
 		
-		tasksTableViewer.addSelectionChangedListener(new TaskSelectionChangedListener());
+		tasksTableViewer.addSelectionChangedListener(new TaskSelectionChangedListener(projectOverview));
 		
 		this.tasksTableFilter = new TasksTableFilter();
 		this.tasksTableViewer.addFilter(tasksTableFilter);
 	}
 
-	public ProjectOverviewComposite getProjectOverviewComposite() {
-		return projectOverviewComposite;
+	public ProjectOverview getProjectOverview() {
+		return projectOverview;
 	}
 }
