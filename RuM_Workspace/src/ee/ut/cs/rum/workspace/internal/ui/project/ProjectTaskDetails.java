@@ -30,6 +30,8 @@ public class ProjectTaskDetails extends Composite implements RumUpdatableView {
 	private Task task;
 	private Label taskName;
 	private Label taskDescription;
+	private Label taskSubTasks;
+	private Label taskStatus;
 	private Label createdAt;
 	private Label lastChangeAt;
 
@@ -39,7 +41,7 @@ public class ProjectTaskDetails extends Composite implements RumUpdatableView {
 
 		this.display=Display.getCurrent();
 		this.rumController=rumController;
-		rumController.registerView(this, ControllerEntityType.PROJECT);
+		rumController.registerView(this, ControllerEntityType.TASK);
 
 		this.projectTabFolder = projectDetailsContainer.getProjectOverview().getProjectTabFolder();
 		this.task=task;
@@ -61,7 +63,21 @@ public class ProjectTaskDetails extends Composite implements RumUpdatableView {
 		taskDescription = new Label(this, SWT.NONE);
 		taskDescription.setText(task.getDescription());
 		taskDescription.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-
+		
+		nameLabel = new Label(this, SWT.NONE);
+		nameLabel.setText("Sub-tasks:");
+		nameLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
+		taskSubTasks = new Label(this, SWT.NONE);
+		taskSubTasks.setText("TODO");
+		taskSubTasks.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		
+		nameLabel = new Label(this, SWT.NONE);
+		nameLabel.setText("Task status:");
+		nameLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
+		taskStatus = new Label(this, SWT.NONE);
+		taskStatus.setText(task.getStatus().toString());
+		taskStatus.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		
 		nameLabel = new Label(this, SWT.NONE);
 		nameLabel.setText("Created at:");
 		nameLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
@@ -115,13 +131,40 @@ public class ProjectTaskDetails extends Composite implements RumUpdatableView {
 
 	@Override
 	public void controllerUpdateNotify(ControllerUpdateType updateType, Object updatedEntity) {
-		// TODO Auto-generated method stub
+		if (updatedEntity instanceof Task) {
+			Task updatedTask=(Task)updatedEntity;
+			if (updatedTask.getId()==task.getId()) {
+				switch (updateType) {
+				case MODIFIY:
+					display.asyncExec(new Runnable() {
+						public void run() {
+							taskName.setText(updatedTask.getName());
+							taskDescription.setText(updatedTask.getDescription());
+							taskStatus.setText(updatedTask.getStatus().toString());
+							//TODO: Project last change
+							lastChangeAt.setText("TODO");
+						}
+					});
+					break;
+				case DELETE:
+					display.asyncExec(new Runnable() {
+						public void run() {
+							//TODO: Display a message to user
+							ProjectTaskDetails.this.dispose();
+						}
+					});
+					break;
+				default:
+					break;
+				}
+			}
+		}
 
 	}
 
 	@Override
 	public void dispose() {
-		rumController.unregisterView(this, ControllerEntityType.PROJECT);
+		rumController.unregisterView(this, ControllerEntityType.TASK);
 		super.dispose();
 	}
 
