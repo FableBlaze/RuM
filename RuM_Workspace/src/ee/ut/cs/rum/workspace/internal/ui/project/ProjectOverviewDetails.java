@@ -77,8 +77,33 @@ public class ProjectOverviewDetails extends Composite implements RumUpdatableVie
 	
 	@Override
 	public void controllerUpdateNotify(ControllerUpdateType updateType, Object updatedEntity) {
-		// TODO Auto-generated method stub
-		
+		if (updatedEntity instanceof Project) {
+			Project updatedProject=(Project)updatedEntity;
+			if (updatedProject.getId()==project.getId()) {
+				switch (updateType) {
+				case MODIFIY:
+					display.asyncExec(new Runnable() {
+						public void run() {
+							projectName.setText(updatedProject.getName());
+							projectDescription.setText(updatedProject.getDescription());
+							//TODO: Project last change
+							lastChangeAt.setText("TODO");
+						}
+					});
+					break;
+				case DELETE:
+					display.asyncExec(new Runnable() {
+						public void run() {
+							//TODO: Display a message to user
+							ProjectOverviewDetails.this.dispose();
+						}
+					});
+					break;
+				default:
+					break;
+				}
+			}
+		}
 	}
 
 	@Override
