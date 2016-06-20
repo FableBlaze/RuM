@@ -22,12 +22,12 @@ public class Task {
 	private Long id;
 	@Column(name = "name")
 	private String name;
+	@Column(name = "description")
+	private String description;
 	@Column(name = "status")
 	private TaskStatus status;
 	@Column(name = "plugin_id")
 	private Long pluginId;
-	@Column(name = "description")
-	private String description;
 	@Column(name = "configuration_values", columnDefinition = "TEXT")
 	private String configurationValues;
 	@Column(name = "created_by")
