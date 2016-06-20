@@ -78,6 +78,8 @@ public class NewProjectDialog extends Dialog {
 					project.setDescription(descriptionValue.getText());
 					project.setCreatedBy("TODO");
 					project.setCreatedAt(new Date());
+					project.setLastModifiedBy("TODO");
+					project.setLastModifiedAt(new Date());
 					rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.PROJECT, project);
 					
 					shell.close();

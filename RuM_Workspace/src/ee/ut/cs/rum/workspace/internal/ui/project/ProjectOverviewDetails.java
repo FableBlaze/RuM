@@ -64,7 +64,7 @@ public class ProjectOverviewDetails extends Composite implements RumUpdatableVie
 		nameLabel.setText("Last change at:");
 		nameLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
 		lastChangeAt = new Label(this, SWT.NONE);
-		lastChangeAt.setText("TODO");
+		lastChangeAt.setText(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(project.getLastModifiedAt()));
 		lastChangeAt.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
 		Label notificationsTable = new Label(this, SWT.NONE);
