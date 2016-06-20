@@ -9,14 +9,14 @@ import org.eclipse.swt.custom.ScrolledComposite;
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.plugins.development.description.PluginInfo;
 import ee.ut.cs.rum.workspace.internal.ui.task.PluginInfoComposite;
-import ee.ut.cs.rum.workspace.internal.ui.task.newtask.NewTaskDetails;
+import ee.ut.cs.rum.workspace.internal.ui.task.newtask.NewTaskDetailsOld;
 import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationComposite;
 import ee.ut.cs.rum.plugins.configuration.util.PluginUtils;
 
 public class PluginSelectionChangedListener implements ISelectionChangedListener {
-	private NewTaskDetails newTaskDetails;
+	private NewTaskDetailsOld newTaskDetails;
 
-	public PluginSelectionChangedListener(NewTaskDetails newTaskDetails) {
+	public PluginSelectionChangedListener(NewTaskDetailsOld newTaskDetails) {
 		this.newTaskDetails=newTaskDetails;
 	}
 

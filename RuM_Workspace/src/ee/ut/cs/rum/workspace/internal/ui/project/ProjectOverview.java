@@ -12,7 +12,7 @@ import org.eclipse.swt.widgets.Listener;
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Project;
 import ee.ut.cs.rum.workspace.internal.ui.project.taskstable.TasksTableComposite;
-import ee.ut.cs.rum.workspace.internal.ui.task.newtask.NewTaskDetails;
+import ee.ut.cs.rum.workspace.internal.ui.task.newtask.NewTaskDetailsOld;
 
 public class ProjectOverview extends Composite {
 	private static final long serialVersionUID = 7059830950897604661L;
@@ -47,7 +47,7 @@ public class ProjectOverview extends Composite {
 				CTabItem cTabItem = null;
 
 				for (CTabItem c : projectTabFolder.getItems()) {
-					if (c.getControl().getClass() == NewTaskDetails.class) {
+					if (c.getControl().getClass() == NewTaskDetailsOld.class) {
 						cTabItem = c;
 						projectTabFolder.setSelection(c);
 					}
@@ -56,7 +56,7 @@ public class ProjectOverview extends Composite {
 				if (cTabItem == null) {
 					cTabItem = new CTabItem (projectTabFolder, SWT.CLOSE);
 					cTabItem.setText ("New task");
-					cTabItem.setControl(new NewTaskDetails(projectTabFolder, rumController));
+					cTabItem.setControl(new NewTaskDetailsOld(projectTabFolder, rumController));
 					projectTabFolder.setSelection(cTabItem);
 				}
 			}

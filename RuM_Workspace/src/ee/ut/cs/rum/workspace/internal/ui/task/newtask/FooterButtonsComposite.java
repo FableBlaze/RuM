@@ -36,10 +36,10 @@ public class FooterButtonsComposite extends Composite {
 
 	private RumController rumController;
 	
-	private NewTaskDetails newTaskDetails;
+	private NewTaskDetailsOld newTaskDetails;
 	private File task_results_root;
 
-	public FooterButtonsComposite(Composite scrolledfooterButtonsComposite, NewTaskDetails newTaskDetails, RumController rumController) {
+	public FooterButtonsComposite(Composite scrolledfooterButtonsComposite, NewTaskDetailsOld newTaskDetails, RumController rumController) {
 		super(scrolledfooterButtonsComposite, SWT.NONE);
 		
 		this.rumController=rumController;

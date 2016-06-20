@@ -10,7 +10,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-import ee.ut.cs.rum.workspace.internal.ui.task.newtask.NewTaskDetails;
+import ee.ut.cs.rum.workspace.internal.ui.task.newtask.NewTaskDetailsOld;
 
 public class PluginsTableComposite extends Composite {
 	private static final long serialVersionUID = 8625656134570039043L;
@@ -19,7 +19,7 @@ public class PluginsTableComposite extends Composite {
 	private ViewerFilter pluginsTableFilter;
 	private PluginSelectionChangedListener pluginSelectionChangedListener;
 
-	public PluginsTableComposite(NewTaskDetails newTaskDetails) {
+	public PluginsTableComposite(NewTaskDetailsOld newTaskDetails) {
 		super(newTaskDetails, SWT.NONE);
 
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));

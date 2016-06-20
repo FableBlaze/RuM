@@ -13,7 +13,7 @@ import ee.ut.cs.rum.workspace.internal.ui.project.ProjectTabFolder;
 import ee.ut.cs.rum.workspace.internal.ui.task.PluginInfoComposite;
 import ee.ut.cs.rum.workspace.internal.ui.task.newtask.pluginstable.PluginsTableComposite;
 
-public class NewTaskDetails extends Composite {
+public class NewTaskDetailsOld extends Composite {
 	private static final long serialVersionUID = 1902692600726551589L;
 	
 	private RumController rumController;
@@ -25,7 +25,7 @@ public class NewTaskDetails extends Composite {
 	private FooterButtonsComposite footerButtonsComposite;
 	private PluginsTableComposite pluginsTableComposite;
 
-	public NewTaskDetails(ProjectTabFolder projectTabFolder, RumController rumController) {
+	public NewTaskDetailsOld(ProjectTabFolder projectTabFolder, RumController rumController) {
 		super(projectTabFolder, SWT.CLOSE | SWT.H_SCROLL | SWT.V_SCROLL);
 		
 		this.rumController=rumController;
@@ -45,7 +45,7 @@ public class NewTaskDetails extends Composite {
 					int pluginInfoCompositeSizeX = pluginInfoComposite.getSize().x;
 					int pluginConfigurationUiSizeX = scrolledPluginConfigurationComposite.getContent().getSize().x;
 
-					if (NewTaskDetails.this.getSize().x > pluginsTableCompositeSizeX+pluginInfoCompositeSizeX+pluginConfigurationUiSizeX) {
+					if (NewTaskDetailsOld.this.getSize().x > pluginsTableCompositeSizeX+pluginInfoCompositeSizeX+pluginConfigurationUiSizeX) {
 						if (((GridData)scrolledPluginInfoComposite.getLayoutData()).grabExcessHorizontalSpace) {
 							((GridData)scrolledPluginInfoComposite.getLayoutData()).grabExcessHorizontalSpace=false;
 						}
@@ -54,7 +54,7 @@ public class NewTaskDetails extends Composite {
 							((GridData)scrolledPluginInfoComposite.getLayoutData()).grabExcessHorizontalSpace=true;
 						}
 					}
-					NewTaskDetails.this.layout();
+					NewTaskDetailsOld.this.layout();
 				}
 			}
 		});
