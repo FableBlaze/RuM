@@ -22,7 +22,7 @@ public class NewTaskDetailsOld extends Composite {
 	private PluginInfoComposite pluginInfoComposite;
 	private ScrolledComposite scrolledPluginInfoComposite;
 	private ScrolledComposite scrolledPluginConfigurationComposite;
-	private FooterButtonsComposite footerButtonsComposite;
+	private FooterButtonsCompositeOld footerButtonsComposite;
 	private PluginsTableComposite pluginsTableComposite;
 
 	public NewTaskDetailsOld(ProjectTabFolder projectTabFolder, RumController rumController) {
@@ -76,7 +76,7 @@ public class NewTaskDetailsOld extends Composite {
 		scrolledfooterButtonsComposite.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, true, false));
 		((GridData) scrolledfooterButtonsComposite.getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
 
-		footerButtonsComposite = new FooterButtonsComposite(scrolledfooterButtonsComposite, this, rumController);
+		footerButtonsComposite = new FooterButtonsCompositeOld(scrolledfooterButtonsComposite, this, rumController);
 		scrolledfooterButtonsComposite.setContent(footerButtonsComposite);
 		footerButtonsComposite.setSize(footerButtonsComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 	}
@@ -89,7 +89,7 @@ public class NewTaskDetailsOld extends Composite {
 		return scrolledPluginConfigurationComposite;
 	}
 
-	public FooterButtonsComposite getFooterButtonsComposite() {
+	public FooterButtonsCompositeOld getFooterButtonsComposite() {
 		return footerButtonsComposite;
 	}
 
