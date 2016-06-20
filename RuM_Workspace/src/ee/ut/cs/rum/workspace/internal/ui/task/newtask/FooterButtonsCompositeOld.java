@@ -31,7 +31,7 @@ import ee.ut.cs.rum.scheduler.util.RumScheduler;
 import ee.ut.cs.rum.workspace.internal.Activator;
 import ee.ut.cs.rum.workspace.internal.ui.task.details.TaskDetails;
 
-public class FooterButtonsComposite extends Composite {
+public class FooterButtonsCompositeOld extends Composite {
 	private static final long serialVersionUID = 688156596045927568L;
 
 	private RumController rumController;
@@ -39,7 +39,7 @@ public class FooterButtonsComposite extends Composite {
 	private NewTaskDetailsOld newTaskDetails;
 	private File task_results_root;
 
-	public FooterButtonsComposite(Composite scrolledfooterButtonsComposite, NewTaskDetailsOld newTaskDetails, RumController rumController) {
+	public FooterButtonsCompositeOld(Composite scrolledfooterButtonsComposite, NewTaskDetailsOld newTaskDetails, RumController rumController) {
 		super(scrolledfooterButtonsComposite, SWT.NONE);
 		
 		this.rumController=rumController;
