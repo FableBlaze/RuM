@@ -118,7 +118,7 @@ public class TasksTableViewer extends TableViewer implements RumUpdatableView {
 	public void controllerUpdateNotify(ControllerUpdateType updateType, Object updatedEntity) {
 		if (updatedEntity instanceof Task) {
 			Task task = (Task) updatedEntity;
-			if (task.getProjectId() == tasksTableComposite.getProjectOverview().getProject().getId()) {
+			if (task.getProject().getId() == tasksTableComposite.getProjectOverview().getProject().getId()) {
 				int projectIndex;
 				switch (updateType) {
 				//Both list and viewer must be updated as updates in one are not reflected automatically to other

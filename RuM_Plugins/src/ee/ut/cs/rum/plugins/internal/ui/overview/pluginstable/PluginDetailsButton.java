@@ -7,18 +7,19 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
+import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.plugins.internal.ui.details.PluginDetails;
 import ee.ut.cs.rum.plugins.ui.PluginsManagementUI;
 
 public class PluginDetailsButton extends Button {
 	private static final long serialVersionUID = -7636382139932347297L;
 
-	private Long pluginId;
+	private Plugin plugin;
 	private PluginsManagementUI pluginsManagementUI;
 
-	public PluginDetailsButton(Composite parent, Long pluginId, PluginsManagementUI pluginsManagementUI) {
+	public PluginDetailsButton(Composite parent, Plugin plugin, PluginsManagementUI pluginsManagementUI) {
 		super(parent, SWT.NONE);
-		this.pluginId = pluginId;
+		this.plugin = plugin;
 		this.pluginsManagementUI = pluginsManagementUI;
 
 		this.setText("Details");
@@ -32,13 +33,13 @@ public class PluginDetailsButton extends Button {
 
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				Long pluginId = ((PluginDetailsButton) arg0.getSource()).getPluginId();
+				Plugin plugin = ((PluginDetailsButton) arg0.getSource()).getPlugin();
 				CTabItem cTabItem = null;
 
 				//Checking if the tab is already open
 				for (CTabItem c : pluginsManagementUI.getItems()) {
 					if (c.getControl().getClass() == PluginDetails.class) {
-						if (((PluginDetails)c.getControl()).getPluginId() == pluginId) {
+						if (((PluginDetails)c.getControl()).getPlugin() == plugin) {
 							cTabItem = c;
 							pluginsManagementUI.setSelection(c);
 						}
@@ -47,8 +48,8 @@ public class PluginDetailsButton extends Button {
 
 				if (cTabItem == null) {
 					cTabItem = new CTabItem (pluginsManagementUI, SWT.CLOSE);
-					cTabItem.setText ("Plugin " + pluginId.toString());
-					cTabItem.setControl(new PluginDetails(pluginsManagementUI, pluginId));
+					cTabItem.setText ("Plugin " + plugin.getId().toString());
+					cTabItem.setControl(new PluginDetails(pluginsManagementUI, plugin));
 					pluginsManagementUI.setSelection(cTabItem);	
 				}
 			}
@@ -59,8 +60,8 @@ public class PluginDetailsButton extends Button {
 		};
 	}
 
-	public Long getPluginId() {
-		return pluginId;
+	public Plugin getPlugin() {
+		return plugin;
 	}
 
 }

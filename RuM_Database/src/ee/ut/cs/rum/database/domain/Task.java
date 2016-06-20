@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -26,8 +27,8 @@ public class Task {
 	private String description;
 	@Column(name = "status")
 	private TaskStatus status;
-	@Column(name = "plugin_id")
-	private Long pluginId;
+	@JoinColumn(name = "plugin_fk")
+	private Plugin plugin;
 	@Column(name = "configuration_values", columnDefinition = "TEXT")
 	private String configurationValues;
 	@Column(name = "created_by")
@@ -35,8 +36,8 @@ public class Task {
 	@Column(name = "created_at")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdAt;
-	@Column(name = "project_id")
-	private Long projectId;
+	@JoinColumn(name = "project_fk")
+	private Project project;
 	@Column(name = "output_path")
 	private String outputPath;
 	
@@ -52,11 +53,11 @@ public class Task {
 	public void setStatus(TaskStatus status) {
 		this.status = status;
 	}
-	public Long getPluginId() {
-		return pluginId;
+	public Plugin getPlugin() {
+		return plugin;
 	}
-	public void setPluginId(Long pluginId) {
-		this.pluginId = pluginId;
+	public void setPlugin(Plugin plugin) {
+		this.plugin = plugin;
 	}
 	public String getDescription() {
 		return description;
@@ -85,11 +86,11 @@ public class Task {
 	public Long getId() {
 		return id;
 	}
-	public Long getProjectId() {
-		return projectId;
+	public Project getProject() {
+		return project;
 	}
-	public void setProjectId(Long projectId) {
-		this.projectId = projectId;
+	public void setProjectId(Project project) {
+		this.project = project;
 	}
 	public String getOutputPath() {
 		return outputPath;
@@ -99,9 +100,9 @@ public class Task {
 	}
 	@Override
 	public String toString() {
-		return "Task [id=" + id + ", name=" + name + ", status=" + status + ", pluginId=" + pluginId + ", description="
+		return "Task [id=" + id + ", name=" + name + ", status=" + status + ", plugin=" + plugin + ", description="
 				+ description + ", configurationValues=" + configurationValues + ", createdBy=" + createdBy
-				+ ", createdAt=" + createdAt + ", projectId=" + projectId + ", outputPath=" + outputPath
+				+ ", createdAt=" + createdAt + ", project=" + project + ", outputPath=" + outputPath
 				+ "]";
 	}
 }

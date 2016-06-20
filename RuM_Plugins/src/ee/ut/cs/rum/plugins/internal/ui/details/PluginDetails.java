@@ -11,7 +11,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
 import ee.ut.cs.rum.database.domain.Plugin;
-import ee.ut.cs.rum.database.util.PluginAccess;
 import ee.ut.cs.rum.plugins.development.description.PluginInfo;
 import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationComposite;
 import ee.ut.cs.rum.plugins.configuration.util.PluginUtils;
@@ -20,26 +19,24 @@ import ee.ut.cs.rum.plugins.ui.PluginsManagementUI;
 public class PluginDetails extends ScrolledComposite {
 	private static final long serialVersionUID = 458942786595146853L;
 	
-	private Long pluginId;
+	private Plugin plugin;
 	private Composite content;
 	
-	public PluginDetails(PluginsManagementUI pluginsManagementUI, Long pluginId) {
+	public PluginDetails(PluginsManagementUI pluginsManagementUI, Plugin plugin) {
 		super(pluginsManagementUI, SWT.CLOSE | SWT.H_SCROLL | SWT.V_SCROLL);
 		
-		this.pluginId = pluginId;
+		this.plugin = plugin;
 		
 		this.content = new Composite(this, SWT.NONE);
 		content.setLayout(new GridLayout(2, false));
 		this.setContent(content);
 		
-		Plugin plugin = PluginAccess.getPluginDataFromDb(pluginId);
-		
-		createContents(plugin);
+		createContents();
 		
 		content.setSize(content.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 	}
 	
-	private void createContents(Plugin plugin) {
+	private void createContents() {
 		Label label = new Label (content, SWT.NONE);
 		label.setText("Plugin details");
 		label.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -121,8 +118,8 @@ public class PluginDetails extends ScrolledComposite {
 		}
 	}
 	
-	public Long getPluginId() {
-		return pluginId;
+	public Plugin getPlugin() {
+		return plugin;
 	}
 
 }

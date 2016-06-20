@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -24,8 +25,8 @@ public class SubTask {
 	private String name;
 	@Column(name = "status")
 	private TaskStatus status;
-	@Column(name = "plugin_id")
-	private Long pluginId;
+	@JoinColumn(name = "plugin_fk")
+	private Plugin plugin;
 	@Column(name = "configuration_values", columnDefinition = "TEXT")
 	private String configurationValues;
 	@Column(name = "created_by")
@@ -33,8 +34,8 @@ public class SubTask {
 	@Column(name = "created_at")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdAt;
-	@Column(name = "task_id")
-	private Long taskId;
+	@JoinColumn(name = "task_fk")
+	private Task task;
 	@Column(name = "output_path")
 	private String outputPath;
 	

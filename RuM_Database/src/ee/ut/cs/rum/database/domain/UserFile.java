@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -27,19 +28,20 @@ public class UserFile {
 
 	@Column(name = "created_by_user_id")
 	private String createdByUserId;
-	@Column(name = "created_by_plugin_id")
-	private Long createdByPluginId;
 	@Column(name = "created_at")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdAt;
 
-	@Column(name = "task_id")
-	private Long taskId;
-	@Column(name = "project_id")
-	private Long projectId;
+	@JoinColumn(name = "task_fk")
+	private Task task;
+	@JoinColumn(name = "project_fk")
+	private Project project;
+	@JoinColumn(name = "plugin_fk")
+	private Plugin plugin;
+	
 	@Column(name = "file_location")
 	private String fileLocation;
-	
+
 	@OneToMany( targetEntity=UserFileType.class, cascade=CascadeType.PERSIST, mappedBy="userFile" )
 	private List<UserFileType> userFileTypes;
 	
@@ -55,11 +57,11 @@ public class UserFile {
 	public void setCreatedByUserId(String createdByUserId) {
 		this.createdByUserId = createdByUserId;
 	}
-	public Long getCreatedByPluginId() {
-		return createdByPluginId;
+	public Plugin getPlugin() {
+		return plugin;
 	}
-	public void setCreatedByPluginId(Long createdByPluginId) {
-		this.createdByPluginId = createdByPluginId;
+	public void setPlugin(Plugin plugin) {
+		this.plugin = plugin;
 	}
 	public Date getCreatedAt() {
 		return createdAt;
@@ -67,17 +69,17 @@ public class UserFile {
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
-	public Long getTaskId() {
-		return taskId;
+	public Task getTask() {
+		return task;
 	}
-	public void setTaskId(Long taskId) {
-		this.taskId = taskId;
+	public void setTask(Task task) {
+		this.task = task;
 	}
-	public Long getProjectId() {
-		return projectId;
+	public Project getProject() {
+		return project;
 	}
-	public void setProjectId(Long projectId) {
-		this.projectId = projectId;
+	public void setProject(Project project) {
+		this.project = project;
 	}
 	public String getFileLocation() {
 		return fileLocation;
@@ -100,8 +102,8 @@ public class UserFile {
 	@Override
 	public String toString() {
 		return "UserFile [id=" + id + ", originalFilename=" + originalFilename + ", createdByUserId=" + createdByUserId
-				+ ", createdByPluginId=" + createdByPluginId + ", createdAt=" + createdAt + ", taskId=" + taskId
-				+ ", projectId=" + projectId + ", fileLocation=" + fileLocation + ", userFileTypes=" + userFileTypes
+				+ ", plugin=" + plugin + ", createdAt=" + createdAt + ", task=" + task
+				+ ", project=" + project + ", fileLocation=" + fileLocation + ", userFileTypes=" + userFileTypes
 				+ "]";
 	}
 	

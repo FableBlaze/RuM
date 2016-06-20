@@ -18,7 +18,6 @@ import ee.ut.cs.rum.database.domain.Task;
 import ee.ut.cs.rum.database.domain.UserFile;
 import ee.ut.cs.rum.database.domain.UserFileType;
 import ee.ut.cs.rum.database.domain.enums.TaskStatus;
-import ee.ut.cs.rum.database.util.PluginAccess;
 import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
 import ee.ut.cs.rum.plugins.configuration.util.PluginUtils;
@@ -32,7 +31,7 @@ import ee.ut.cs.rum.scheduler.internal.util.TasksData;
 public class RumJob implements Job {
 	public static final String TASK_ID = "taskId";
 	
-	private Task rumJobTask;
+	private Task task;
 	private PluginOutput[] rumJobTaskOutputs;
 
 	public RumJob() {
@@ -43,12 +42,12 @@ public class RumJob implements Job {
 		Long taskId = context.getJobDetail().getJobDataMap().getLong(TASK_ID);
 
 		try {
-			rumJobTask = TasksData.updateTaskStatusInDb(taskId, TaskStatus.STARTING);
-			Plugin rumJobPlugin = PluginAccess.getPluginDataFromDb(rumJobTask.getPluginId());
-			Bundle rumJobPluginBundle = findSelectedPluginBundle(rumJobPlugin);
+			task = TasksData.updateTaskStatusInDb(taskId, TaskStatus.STARTING);
+			Plugin plugin = task.getPlugin();
+			Bundle rumJobPluginBundle = findSelectedPluginBundle(plugin);
 
 			if (rumJobPluginBundle==null) {
-				rumJobPluginBundle = installSelectedPluginBundle(rumJobPlugin);
+				rumJobPluginBundle = installSelectedPluginBundle(plugin);
 			}
 
 			RumPluginFactory rumJobPluginFactory = findRumPluginFactoryService(rumJobPluginBundle);
@@ -57,7 +56,7 @@ public class RumJob implements Job {
 			TasksData.updateTaskStatusInDb(taskId, TaskStatus.RUNNING);
 			Activator.getLogger().info("RumJob started: " + jobKey + " executing at " + new Date());
 
-			int rumJobResult = rumJobPluginWorker.runWork(rumJobTask.getConfigurationValues(), new File(rumJobTask.getOutputPath()));
+			int rumJobResult = rumJobPluginWorker.runWork(task.getConfigurationValues(), new File(task.getOutputPath()));
 			Activator.getLogger().info("RumJobResult toString: " + Integer.toString(rumJobResult));
 			
 			if (rumJobResult==0) {
@@ -66,9 +65,9 @@ public class RumJob implements Job {
 				TasksData.updateTaskStatusInDb(taskId, TaskStatus.FAILED);
 			}
 			
-			PluginInfo pluginInfo = PluginUtils.deserializePluginInfo(rumJobPlugin);
+			PluginInfo pluginInfo = PluginUtils.deserializePluginInfo(plugin);
 			rumJobTaskOutputs = pluginInfo.getOutputs();
-			addTaskCreatedFilesToDb(rumJobTask.getOutputPath());
+			addTaskCreatedFilesToDb(task.getOutputPath());
 			
 			Activator.getLogger().info("RumJob done: " + jobKey + " at " + new Date());
 		} catch (Exception e) {
@@ -120,10 +119,10 @@ public class RumJob implements Job {
 				UserFile userFile = new UserFile();
 				userFile.setOriginalFilename(file.getName());
 				userFile.setCreatedByUserId("TODO");
-				userFile.setCreatedByPluginId(rumJobTask.getPluginId());
+				userFile.setPlugin(task.getPlugin());
 				userFile.setCreatedAt(new Date());
-				userFile.setTaskId(rumJobTask.getId());
-				userFile.setProjectId(rumJobTask.getProjectId());
+				userFile.setTask(task);
+				userFile.setProject(task.getProject());
 				userFile.setFileLocation(file.getPath());
 				
 				for (PluginOutput rumJobTaskOutput : rumJobTaskOutputs) {

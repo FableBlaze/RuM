@@ -25,14 +25,6 @@ public final class PluginAccess {
 		return plugins;
 	}
 	
-	public static Plugin getPluginDataFromDb(Long pluginId) {
-		EntityManagerFactory emf = Activator.getEmf();
-		EntityManager em = emf.createEntityManager();
-		
-		Plugin plugin = em.find(Plugin.class, pluginId);
-		return plugin;
-	}
-	
 	public static Plugin addPluginDataToDb(Plugin plugin) {
 		EntityManagerFactory emf = Activator.getEmf();
 		EntityManager em = emf.createEntityManager();

@@ -30,7 +30,7 @@ public final class TaskAccess {
 		EntityManagerFactory emf = Activator.getEmf();
 		EntityManager em = emf.createEntityManager();
 		
-		String queryString = "Select t from Task t where t.projectId = " + projectId + " order by t.id";
+		String queryString = "Select t from Task t where t.project.id = " + projectId + " order by t.id";
 		TypedQuery<Task> query = em.createQuery(queryString, Task.class);
 		List<Task> tasks = query.getResultList();
 		

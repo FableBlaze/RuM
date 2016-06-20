@@ -128,7 +128,7 @@ public class PluginsTableViewer extends TableViewer {
 			public void update(ViewerCell cell) {
 				TableItem item = (TableItem) cell.getItem();
 				Plugin plugin = (Plugin) cell.getElement();
-				PluginDetailsButton pluginDetailsButton = new PluginDetailsButton((Composite) cell.getViewerRow().getControl(), plugin.getId(), pluginsManagementUI);
+				PluginDetailsButton pluginDetailsButton = new PluginDetailsButton((Composite) cell.getViewerRow().getControl(), plugin, pluginsManagementUI);
 				
 				item.addDisposeListener(new DisposeListener() {
 					private static final long serialVersionUID = -927877657358384078L;

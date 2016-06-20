@@ -9,6 +9,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
+import ee.ut.cs.rum.database.domain.Project;
 import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemDouble;
 import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemFile;
 import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemInteger;
@@ -28,13 +29,13 @@ public class PluginConfigurationComposite extends Composite {
 	
 	private Map<String, ConfigurationItemInterface> configurationItems;
 	private PluginInfo pluginInfo;
-	private Long projectId;
+	private Project project;
 	
-	public PluginConfigurationComposite(Composite parent, PluginInfo pluginInfo, Long projectId) {
+	public PluginConfigurationComposite(Composite parent, PluginInfo pluginInfo, Project project) {
 		super(parent, SWT.NONE);
 		
 		this.pluginInfo=pluginInfo;
-		this.projectId=projectId;
+		this.project=project;
 		
 		this.setLayout(new GridLayout(2, false));
 		
@@ -78,7 +79,7 @@ public class PluginConfigurationComposite extends Composite {
 				break; 
 			case FILE:
 				PluginParameterFile parameterFile = (PluginParameterFile) pluginParameter;
-				configurationItems.put(parameterFile.getInternalName(), new ConfigurationItemFile(this, parameterFile, projectId));
+				configurationItems.put(parameterFile.getInternalName(), new ConfigurationItemFile(this, parameterFile, project));
 				break; 
 			default:
 				break;

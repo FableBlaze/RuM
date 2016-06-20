@@ -23,6 +23,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 
+import ee.ut.cs.rum.database.domain.Project;
 import ee.ut.cs.rum.database.domain.UserFile;
 import ee.ut.cs.rum.database.domain.UserFileType;
 import ee.ut.cs.rum.database.domain.enums.SystemParameterName;
@@ -38,14 +39,14 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 	private File temporaryFile;
 	private List<UserFile> userFiles;
 	private Combo fileSelectorCombo;
-	private Long projectId;
+	private Project project;
 	private File user_file_path;
 	PluginParameterFile parameterFile;
 
-	public ConfigurationItemFile(Composite parent, PluginParameterFile parameterFile, Long projectId) {
+	public ConfigurationItemFile(Composite parent, PluginParameterFile parameterFile, Project project) {
 		super(parent, SWT.NONE);
 
-		this.projectId=projectId;
+		this.project=project;
 		this.parameterFile = parameterFile;
 		String user_file_path_asString = SystemParameterAccess.getSystemParameterValue(SystemParameterName.USER_FILE_PATH);
 		if (user_file_path_asString!=null) {
@@ -67,14 +68,14 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 		fileSelectorCombo = new Combo(this, SWT.READ_ONLY);
 		fileSelectorCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
-		if (projectId!=null) {
-			this.userFiles = UserFileAccess.getProjectUserFilesDataFromDb(projectId, parameterFile.getInputTypes());
+		if (project!=null) {
+			this.userFiles = UserFileAccess.getProjectUserFilesDataFromDb(project.getId(), parameterFile.getInputTypes());
 			for (UserFile userFile : userFiles) {
 				fileSelectorCombo.add(userFile.getOriginalFilename() + "  (" + new SimpleDateFormat("dd-MM-yyyy HH:mm").format(userFile.getCreatedAt()) + ")");
 			}
 		}
 
-		if (user_file_path==null && projectId!=null) {
+		if (user_file_path==null && project!=null) {
 			Label label = new Label(this, SWT.NONE);
 			label.setText("File upload disabled!");
 		} else {
@@ -169,7 +170,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 				userFile.setOriginalFilename(temporaryFile.getName());
 				userFile.setCreatedByUserId("TODO");
 				userFile.setCreatedAt(new Date());
-				userFile.setProjectId(projectId);
+				userFile.setProject(project);
 				userFile.setFileLocation(destinationFile.toPath().toString());
 				
 				List<UserFileType> userFileTypes = new ArrayList<UserFileType>();

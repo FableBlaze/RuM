@@ -14,7 +14,6 @@ import org.eclipse.swt.widgets.Listener;
 import com.google.gson.Gson;
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.database.domain.Task;
-import ee.ut.cs.rum.database.util.PluginAccess;
 import ee.ut.cs.rum.database.util.TaskAccess;
 import ee.ut.cs.rum.plugins.development.description.PluginInfo;
 import ee.ut.cs.rum.workspace.internal.ui.project.ProjectTabFolder;
@@ -65,7 +64,7 @@ public class TaskDetails extends Composite {
 
 	@SuppressWarnings("unchecked")
 	private void createContents(Task task) {
-		Plugin plugin = PluginAccess.getPluginDataFromDb(task.getPluginId());
+		Plugin plugin = task.getPlugin();
 
 		scrolledPluginInfoComposite = new ScrolledComposite(this, SWT.H_SCROLL | SWT.V_SCROLL);
 		scrolledPluginInfoComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));

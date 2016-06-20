@@ -134,12 +134,12 @@ public class FooterButtonsComposite extends Composite {
 			task = new Task();
 			task.setName("TODO");
 			task.setStatus(TaskStatus.NEW);
-			task.setPluginId(selectedPlugin.getId());
+			task.setPlugin(selectedPlugin);
 			task.setDescription("TODO");
 			task.setConfigurationValues(configurationValuesString);
 			task.setCreatedBy("TODO");
 			task.setCreatedAt(createdAt);
-			task.setProjectId(newTaskDetails.getProjectTabFolder().getProject().getId());
+			task.setProjectId(newTaskDetails.getProjectTabFolder().getProject());
 			task.setOutputPath(taskResultsPath.getPath());
 			
 			task = (Task)rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.TASK, task);
