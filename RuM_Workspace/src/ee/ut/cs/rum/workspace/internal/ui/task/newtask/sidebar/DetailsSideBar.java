@@ -30,7 +30,7 @@ public class DetailsSideBar extends Composite {
 
 			@Override
 			public void handleEvent(Event arg0) {
-				// TODO Auto-generated method stub
+				newTaskComposite.getNewTaskDetailsContainer().showGeneralInfo();
 				
 			}
 		});
