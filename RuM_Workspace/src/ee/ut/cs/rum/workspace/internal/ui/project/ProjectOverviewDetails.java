@@ -36,7 +36,7 @@ public class ProjectOverviewDetails extends Composite implements RumUpdatableVie
 		
 		this.project=projectDetailsContainer.getProjectOverview().getProject();
 		
-		this.setLayoutData( new GridData(SWT.FILL, SWT.FILL, true, true));
+		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		this.setLayout(new GridLayout(2, false));
 		
 		Label nameLabel = new Label(this, SWT.NONE);
