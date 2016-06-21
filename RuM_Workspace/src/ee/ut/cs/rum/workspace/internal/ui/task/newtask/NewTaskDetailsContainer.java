@@ -17,6 +17,7 @@ public class NewTaskDetailsContainer extends Composite {
 	private NewTaskComposite newTaskComposite;
 	private NewTaskGeneralInfo newTaskGeneralInfo;
 	
+	//Lists only used for UI logic, subTasks read from the state of table when task started
 	private List<SubTask> subTasks;
 	private List<NewTaskSubTaskInfo> newTaskSubTaskInfoList;
 

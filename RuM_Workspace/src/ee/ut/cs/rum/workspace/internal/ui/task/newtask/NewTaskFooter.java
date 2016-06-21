@@ -7,6 +7,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 
 import ee.ut.cs.rum.database.domain.SubTask;
@@ -56,6 +57,8 @@ public class NewTaskFooter extends Composite {
 				SubTask subTask = new SubTask();
 				subTask.setName("Sub-task " + (subTaskTableViewer.getTable().getItemCount()+1));
 				subTaskTableViewer.add(subTask);
+				subTaskTableViewer.getTable().select(subTaskTableViewer.getTable().getItemCount()-1);
+				newTaskComposite.getNewTaskDetailsContainer().showSubTaskInfo(subTask);
 				//TODO: Switch to sub-task
 			}
 		});
@@ -68,8 +71,9 @@ public class NewTaskFooter extends Composite {
 
 			@Override
 			public void handleEvent(Event event) {
-				// TODO Auto-generated method stub
-				
+				Table table = newTaskComposite.getDetailsSideBar().getSubTaskTableViewer().getTable();
+				table.remove((table.getSelectionIndex()));
+				newTaskComposite.getNewTaskDetailsContainer().showGeneralInfo();
 			}
 		});
 		removeSubTaskButton.setVisible(false);
