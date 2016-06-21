@@ -14,6 +14,7 @@ import ee.ut.cs.rum.database.domain.SubTask;
 public class NewTaskDetailsContainer extends Composite {
 	private static final long serialVersionUID = -7982581022298012511L;
 	
+	private RumController rumController;
 	private NewTaskComposite newTaskComposite;
 	private NewTaskGeneralInfo newTaskGeneralInfo;
 	
@@ -24,6 +25,7 @@ public class NewTaskDetailsContainer extends Composite {
 	public NewTaskDetailsContainer(NewTaskComposite newTaskComposite, RumController rumController) {
 		super(newTaskComposite, SWT.NONE);
 		
+		this.rumController=rumController;
 		this.newTaskComposite=newTaskComposite;
 		
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -47,7 +49,7 @@ public class NewTaskDetailsContainer extends Composite {
 	public void showSubTaskInfo(SubTask selectedSubTask) {
 		int subTaskIndex = subTasks.indexOf(selectedSubTask);
 		if (subTaskIndex==-1) {
-			NewTaskSubTaskInfo newTaskSubTaskInfo = new NewTaskSubTaskInfo(this);
+			NewTaskSubTaskInfo newTaskSubTaskInfo = new NewTaskSubTaskInfo(this, rumController);
 			((StackLayout)this.getLayout()).topControl = newTaskSubTaskInfo;
 			subTasks.add(selectedSubTask);
 			newTaskSubTaskInfoList.add(newTaskSubTaskInfo);
