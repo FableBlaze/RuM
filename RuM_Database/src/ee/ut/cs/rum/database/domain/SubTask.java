@@ -39,11 +39,56 @@ public class SubTask {
 	@Column(name = "output_path")
 	private String outputPath;
 	
-	
-	
 	public Long getId() {
 		return id;
 	}
-	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public TaskStatus getStatus() {
+		return status;
+	}
+	public void setStatus(TaskStatus status) {
+		this.status = status;
+	}
+	public Plugin getPlugin() {
+		return plugin;
+	}
+	public void setPlugin(Plugin plugin) {
+		this.plugin = plugin;
+	}
+	public String getConfigurationValues() {
+		return configurationValues;
+	}
+	public void setConfigurationValues(String configurationValues) {
+		this.configurationValues = configurationValues;
+	}
+	public String getCreatedBy() {
+		return createdBy;
+	}
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+	public Task getTask() {
+		return task;
+	}
+	public void setTask(Task task) {
+		this.task = task;
+	}
+	public String getOutputPath() {
+		return outputPath;
+	}
+	public void setOutputPath(String outputPath) {
+		this.outputPath = outputPath;
+	}
 	
 }
