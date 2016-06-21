@@ -15,6 +15,8 @@ public class NewTaskSubTaskInfo extends Composite {
 		this.setLayout(new GridLayout(4, false));
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		
+		
+		
 		Label l = new Label(this, SWT.NONE);
 		l.setText("Sub-task info");
 	}

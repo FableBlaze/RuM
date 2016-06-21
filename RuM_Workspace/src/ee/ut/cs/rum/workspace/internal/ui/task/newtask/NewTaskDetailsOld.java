@@ -11,7 +11,7 @@ import org.eclipse.swt.widgets.Listener;
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.workspace.internal.ui.project.ProjectTabFolder;
 import ee.ut.cs.rum.workspace.internal.ui.task.PluginInfoComposite;
-import ee.ut.cs.rum.workspace.internal.ui.task.newtask.pluginstable.PluginsTableComposite;
+import ee.ut.cs.rum.workspace.internal.ui.task.newtask.pluginstableOld.PluginsTableComposite;
 
 public class NewTaskDetailsOld extends Composite {
 	private static final long serialVersionUID = 1902692600726551589L;

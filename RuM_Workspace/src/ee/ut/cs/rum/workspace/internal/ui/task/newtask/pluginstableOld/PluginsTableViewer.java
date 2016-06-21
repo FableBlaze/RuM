@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.workspace.internal.ui.task.newtask.pluginstable;
+package ee.ut.cs.rum.workspace.internal.ui.task.newtask.pluginstableOld;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
