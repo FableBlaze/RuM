@@ -9,10 +9,10 @@ import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.workspace.internal.ui.project.ProjectTabFolder;
 import ee.ut.cs.rum.workspace.internal.ui.task.newtask.sidebar.DetailsSideBar;
 
-public class NewTaskDetails extends Composite {
+public class NewTask extends Composite {
 	private static final long serialVersionUID = -4167600812621979994L;
 
-	public NewTaskDetails(ProjectTabFolder projectTabFolder, RumController rumController) {
+	public NewTask(ProjectTabFolder projectTabFolder, RumController rumController) {
 		super(projectTabFolder, SWT.NONE);
 		
 		//TODO: Listen to plugin changes

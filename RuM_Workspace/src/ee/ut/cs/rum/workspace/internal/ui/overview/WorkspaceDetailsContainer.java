@@ -28,7 +28,7 @@ public class WorkspaceDetailsContainer extends Composite {
 		this.rumController=rumController;
 		this.workspaceOverview = workspaceOverview;
 		
-		this.setLayoutData( new GridData(SWT.FILL, SWT.FILL, true, true));
+		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		this.setLayout(new StackLayout());
 		
 		workspaceOverviewDetails = new WorkspaceOverviewDetails(this, rumController);

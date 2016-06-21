@@ -12,7 +12,7 @@ import org.eclipse.swt.widgets.Listener;
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Project;
 import ee.ut.cs.rum.workspace.internal.ui.project.taskstable.TasksTableComposite;
-import ee.ut.cs.rum.workspace.internal.ui.task.newtask.NewTaskDetails;
+import ee.ut.cs.rum.workspace.internal.ui.task.newtask.NewTask;
 import ee.ut.cs.rum.workspace.internal.ui.task.newtask.NewTaskDetailsOld;
 
 public class ProjectOverview extends Composite {
@@ -57,7 +57,7 @@ public class ProjectOverview extends Composite {
 				if (cTabItem == null) {
 					cTabItem = new CTabItem (projectTabFolder, SWT.CLOSE);
 					cTabItem.setText ("New task");
-					cTabItem.setControl(new NewTaskDetails(projectTabFolder, rumController));
+					cTabItem.setControl(new NewTask(projectTabFolder, rumController));
 					projectTabFolder.setSelection(cTabItem);
 				}
 			}

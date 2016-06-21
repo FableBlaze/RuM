@@ -11,7 +11,7 @@ import org.eclipse.swt.widgets.Listener;
 public class NewTaskFooter extends Composite {
 	private static final long serialVersionUID = -8265567504413682063L;
 
-	public NewTaskFooter(NewTaskDetails newTaskDetails) {
+	public NewTaskFooter(NewTask newTaskDetails) {
 		super(newTaskDetails, SWT.NONE);
 		
 		this.setLayout(new GridLayout(3, false));

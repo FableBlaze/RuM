@@ -9,12 +9,12 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
-import ee.ut.cs.rum.workspace.internal.ui.task.newtask.NewTaskDetails;
+import ee.ut.cs.rum.workspace.internal.ui.task.newtask.NewTask;
 
 public class DetailsSideBar extends Composite {
 	private static final long serialVersionUID = 17721630002679216L;
 
-	public DetailsSideBar(NewTaskDetails taskDetails) {
+	public DetailsSideBar(NewTask taskDetails) {
 		super(taskDetails, SWT.NONE);
 		
 		this.setLayout(new GridLayout(1, false));
