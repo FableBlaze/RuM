@@ -5,9 +5,11 @@ import java.util.Collections;
 import java.util.List;
 
 import ee.ut.cs.rum.controller.internal.Activator;
+import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.database.domain.Project;
 import ee.ut.cs.rum.database.domain.Task;
 import ee.ut.cs.rum.database.domain.UserFile;
+import ee.ut.cs.rum.database.util.PluginAccess;
 import ee.ut.cs.rum.database.util.ProjectAccess;
 import ee.ut.cs.rum.database.util.TaskAccess;
 import ee.ut.cs.rum.database.util.UserFileAccess;
@@ -46,6 +48,12 @@ public class RumController {
 			if (updatedEntity instanceof UserFile) {
 				UserFile userFile = (UserFile)updatedEntity;
 				updatedEntity = changeDataUserFile(controllerUpdateType, userFile);				
+			}
+			break;
+		case PLUGIN:
+			if (updatedEntity instanceof Plugin) {
+				Plugin plugin = (Plugin)updatedEntity;
+				updatedEntity = changeDataPlugin(controllerUpdateType, plugin);				
 			}
 			break;
 		default:
@@ -136,6 +144,34 @@ public class RumController {
 			thread.start();
 		}
 		return finalUserFile;
+	}
+	
+	private Object changeDataPlugin(ControllerUpdateType controllerUpdateType, Plugin plugin) {
+		switch (controllerUpdateType) {
+		case CREATE:
+			plugin = PluginAccess.addPluginDataToDb(plugin);
+			break;
+		case MODIFIY:
+			plugin = PluginAccess.updatePluginDataInDb(plugin);
+			break;
+		case DELETE:
+			PluginAccess.removePluginDataFromDb(plugin);
+			break;
+		default:
+			break;
+		}
+		final Plugin finalPlugin = plugin;
+		synchronized (userFileListeners) {
+			Thread thread = new Thread(new Runnable() {
+				public void run() {
+					for (RumUpdatableView rumUpdatableView : taskListeners) {
+						rumUpdatableView.controllerUpdateNotify(controllerUpdateType, finalPlugin);
+					}
+				}
+			});  
+			thread.start();
+		}
+		return finalPlugin;
 	}
 
 	public void registerView(RumUpdatableView rumView, ControllerEntityType controllerEntityType) {

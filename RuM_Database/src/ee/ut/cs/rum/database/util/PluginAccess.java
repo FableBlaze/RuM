@@ -37,4 +37,24 @@ public final class PluginAccess {
 		
 		return plugin;
 	}
+
+	public static Plugin updatePluginDataInDb(Plugin plugin) {
+		EntityManagerFactory emf = Activator.getEmf();
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		em.merge(plugin);
+		em.getTransaction().commit();
+		em.close();
+		
+		return plugin;
+	}
+
+	public static void removePluginDataFromDb(Plugin plugin) {
+		EntityManagerFactory emf = Activator.getEmf();
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		em.remove(plugin);
+		em.getTransaction().commit();
+		em.close();
+	}
 }
