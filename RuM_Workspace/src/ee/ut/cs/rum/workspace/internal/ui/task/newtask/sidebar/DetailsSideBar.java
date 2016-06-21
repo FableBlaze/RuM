@@ -9,13 +9,15 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
-import ee.ut.cs.rum.workspace.internal.ui.task.newtask.NewTask;
+import ee.ut.cs.rum.workspace.internal.ui.task.newtask.NewTaskComposite;
 
 public class DetailsSideBar extends Composite {
 	private static final long serialVersionUID = 17721630002679216L;
+	
+	private SubTaskTableViewer subTaskTableViewer;
 
-	public DetailsSideBar(NewTask taskDetails) {
-		super(taskDetails, SWT.NONE);
+	public DetailsSideBar(NewTaskComposite newTaskComposite) {
+		super(newTaskComposite, SWT.NONE);
 		
 		this.setLayout(new GridLayout(1, false));
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
@@ -37,7 +39,10 @@ public class DetailsSideBar extends Composite {
 		label.setText("Sub-tasks:");
 		label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false));
 		
-		new SubTaskTableViewer(this);
+		subTaskTableViewer = new SubTaskTableViewer(this);
 	}
-
+	
+	public SubTaskTableViewer getSubTaskTableViewer() {
+		return subTaskTableViewer;
+	}
 }

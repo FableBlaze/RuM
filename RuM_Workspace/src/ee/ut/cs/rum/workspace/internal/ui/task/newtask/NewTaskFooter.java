@@ -8,11 +8,14 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
+import ee.ut.cs.rum.database.domain.SubTask;
+import ee.ut.cs.rum.workspace.internal.ui.task.newtask.sidebar.SubTaskTableViewer;
+
 public class NewTaskFooter extends Composite {
 	private static final long serialVersionUID = -8265567504413682063L;
-
-	public NewTaskFooter(NewTask newTaskDetails) {
-		super(newTaskDetails, SWT.NONE);
+	
+	public NewTaskFooter(NewTaskComposite newTaskComposite) {
+		super(newTaskComposite, SWT.NONE);
 		
 		this.setLayout(new GridLayout(3, false));
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
@@ -25,7 +28,6 @@ public class NewTaskFooter extends Composite {
 
 			@Override
 			public void handleEvent(Event event) {
-				// TODO Auto-generated method stub
 				
 			}
 		});
@@ -38,8 +40,11 @@ public class NewTaskFooter extends Composite {
 
 			@Override
 			public void handleEvent(Event event) {
-				// TODO Auto-generated method stub
-				
+				SubTaskTableViewer subTaskTableViewer = newTaskComposite.getDetailsSideBar().getSubTaskTableViewer();
+				SubTask subTask = new SubTask();
+				subTask.setName("Sub-task " + (subTaskTableViewer.getTable().getItemCount()+1));
+				subTaskTableViewer.add(subTask);
+				//TODO: Switch to sub-task
 			}
 		});
 		
