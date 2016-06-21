@@ -6,6 +6,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 
 import ee.ut.cs.rum.controller.RumController;
+import ee.ut.cs.rum.database.domain.SubTask;
 
 public class NewTaskDetailsContainer extends Composite {
 	private static final long serialVersionUID = -7982581022298012511L;
@@ -33,7 +34,7 @@ public class NewTaskDetailsContainer extends Composite {
 		newTaskComposite.getNewTaskFooter().setRemoveSubTaskButtonVisible(false);
 	}
 	
-	public void showSubTaskInfo() {
+	public void showSubTaskInfo(SubTask selectedSubTask) {
 		
 		newTaskComposite.getNewTaskFooter().setRemoveSubTaskButtonVisible(true);
 	}
