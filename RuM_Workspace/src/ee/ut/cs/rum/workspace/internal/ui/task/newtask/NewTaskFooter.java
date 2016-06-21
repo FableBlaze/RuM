@@ -7,8 +7,11 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.TableItem;
 
 import ee.ut.cs.rum.database.domain.SubTask;
+import ee.ut.cs.rum.database.domain.Task;
+import ee.ut.cs.rum.workspace.internal.Activator;
 import ee.ut.cs.rum.workspace.internal.ui.task.newtask.sidebar.SubTaskTableViewer;
 
 public class NewTaskFooter extends Composite {
@@ -28,7 +31,14 @@ public class NewTaskFooter extends Composite {
 
 			@Override
 			public void handleEvent(Event event) {
-				
+				Task task = new Task();
+				TableItem[] tableItems = newTaskComposite.getDetailsSideBar().getSubTaskTableViewer().getTable().getItems();
+				for (TableItem tableItem : tableItems) {
+					SubTask subTask = (SubTask)tableItem.getData();
+					subTask.setTask(task);
+					Activator.getLogger().info(subTask.toString());
+				}
+				Activator.getLogger().info(task.toString());
 			}
 		});
 		

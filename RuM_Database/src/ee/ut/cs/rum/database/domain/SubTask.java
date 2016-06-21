@@ -91,4 +91,10 @@ public class SubTask {
 		this.outputPath = outputPath;
 	}
 	
+	@Override
+	public String toString() {
+		return "SubTask [id=" + id + ", name=" + name + ", status=" + status + ", plugin=" + plugin
+				+ ", configurationValues=" + configurationValues + ", createdBy=" + createdBy + ", createdAt="
+				+ createdAt + ", task=" + task + ", outputPath=" + outputPath + "]";
+	}
 }
