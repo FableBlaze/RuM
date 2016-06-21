@@ -21,6 +21,11 @@ public class NewTaskDetails extends Composite {
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		
 		new DetailsSideBar(this);
+		
+		//TODO: Content composite
+		
+		NewTaskFooter newTaskFooter = new NewTaskFooter(this);
+		((GridData) newTaskFooter.getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
 	}
 
 }

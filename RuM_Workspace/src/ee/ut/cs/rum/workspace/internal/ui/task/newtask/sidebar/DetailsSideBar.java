@@ -23,7 +23,6 @@ public class DetailsSideBar extends Composite {
 		Button generalInfoButton = new Button(this, SWT.PUSH);
 		generalInfoButton.setText("General info");
 		generalInfoButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		
 		generalInfoButton.addListener(SWT.Selection, new Listener() {
 			private static final long serialVersionUID = -9188529455494099314L;
 
