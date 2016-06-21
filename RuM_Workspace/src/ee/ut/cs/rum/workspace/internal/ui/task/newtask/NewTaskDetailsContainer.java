@@ -10,10 +10,13 @@ import ee.ut.cs.rum.controller.RumController;
 public class NewTaskDetailsContainer extends Composite {
 	private static final long serialVersionUID = -7982581022298012511L;
 	
+	private NewTaskComposite newTaskComposite;
 	private NewTaskGeneralInfo newTaskGeneralInfo;
 
-	public NewTaskDetailsContainer(NewTaskComposite newTask, RumController rumController) {
-		super(newTask, SWT.NONE);
+	public NewTaskDetailsContainer(NewTaskComposite newTaskComposite, RumController rumController) {
+		super(newTaskComposite, SWT.NONE);
+		
+		this.newTaskComposite=newTaskComposite;
 		
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		this.setLayout(new StackLayout());
@@ -27,5 +30,11 @@ public class NewTaskDetailsContainer extends Composite {
 	public void showGeneralInfo() {
 		((StackLayout)this.getLayout()).topControl = newTaskGeneralInfo;
 		this.layout();
+		newTaskComposite.getNewTaskFooter().setRemoveSubTaskButtonVisible(false);
+	}
+	
+	public void showSubTaskInfo() {
+		
+		newTaskComposite.getNewTaskFooter().setRemoveSubTaskButtonVisible(true);
 	}
 }

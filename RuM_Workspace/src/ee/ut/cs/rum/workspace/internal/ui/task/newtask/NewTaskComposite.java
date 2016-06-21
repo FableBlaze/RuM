@@ -14,6 +14,7 @@ public class NewTaskComposite extends Composite {
 
 	private DetailsSideBar detailsSideBar;
 	private NewTaskDetailsContainer newTaskDetailsContainer;
+	private NewTaskFooter newTaskFooter;
 
 	public NewTaskComposite(ProjectTabFolder projectTabFolder, RumController rumController) {
 		super(projectTabFolder, SWT.NONE);
@@ -27,7 +28,7 @@ public class NewTaskComposite extends Composite {
 
 		newTaskDetailsContainer = new NewTaskDetailsContainer(this, rumController);
 
-		NewTaskFooter newTaskFooter = new NewTaskFooter(this);
+		newTaskFooter = new NewTaskFooter(this);
 		((GridData) newTaskFooter.getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
 	}
 
@@ -37,5 +38,9 @@ public class NewTaskComposite extends Composite {
 
 	public NewTaskDetailsContainer getNewTaskDetailsContainer() {
 		return newTaskDetailsContainer;
+	}
+	
+	public NewTaskFooter getNewTaskFooter() {
+		return newTaskFooter;
 	}
 }

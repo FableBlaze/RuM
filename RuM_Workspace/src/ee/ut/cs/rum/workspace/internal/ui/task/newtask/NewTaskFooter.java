@@ -17,6 +17,8 @@ import ee.ut.cs.rum.workspace.internal.ui.task.newtask.sidebar.SubTaskTableViewe
 public class NewTaskFooter extends Composite {
 	private static final long serialVersionUID = -8265567504413682063L;
 	
+	private Button removeSubTaskButton;
+	
 	public NewTaskFooter(NewTaskComposite newTaskComposite) {
 		super(newTaskComposite, SWT.NONE);
 		
@@ -58,7 +60,7 @@ public class NewTaskFooter extends Composite {
 			}
 		});
 		
-		Button removeSubTaskButton = new Button(this, SWT.PUSH);
+		removeSubTaskButton = new Button(this, SWT.PUSH);
 		removeSubTaskButton.setText("Remove sub-task");
 		removeSubTaskButton.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false));
 		removeSubTaskButton.addListener(SWT.Selection, new Listener() {
@@ -70,5 +72,10 @@ public class NewTaskFooter extends Composite {
 				
 			}
 		});
+		removeSubTaskButton.setVisible(false);
+	}
+	
+	public void setRemoveSubTaskButtonVisible(boolean visible) {
+		removeSubTaskButton.setVisible(visible);
 	}
 }
