@@ -57,4 +57,8 @@ public class NewTaskDetailsContainer extends Composite {
 		this.layout();
 		newTaskComposite.getNewTaskFooter().setRemoveSubTaskButtonVisible(true);
 	}
+	
+	public NewTaskGeneralInfo getNewTaskGeneralInfo() {
+		return newTaskGeneralInfo;
+	}
 }

@@ -41,4 +41,12 @@ public class NewTaskGeneralInfo extends Composite {
 		subTaskGraphComposite.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true));
 		((GridData) subTaskGraphComposite.getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
 	}
+	
+	public String getNewTaskName() {
+		return taskNameText.getText();
+	}
+	
+	public String getNewTaskDescription() {
+		return taskDescriptionText.getText();
+	}
 }

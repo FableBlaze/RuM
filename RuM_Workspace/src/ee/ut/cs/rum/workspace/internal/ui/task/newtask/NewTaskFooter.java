@@ -35,6 +35,10 @@ public class NewTaskFooter extends Composite {
 			@Override
 			public void handleEvent(Event event) {
 				Task task = new Task();
+				NewTaskGeneralInfo newTaskGeneralInfo = newTaskComposite.getNewTaskDetailsContainer().getNewTaskGeneralInfo();
+				task.setName(newTaskGeneralInfo.getNewTaskName());
+				task.setDescription(newTaskGeneralInfo.getNewTaskDescription());
+				
 				TableItem[] tableItems = newTaskComposite.getDetailsSideBar().getSubTaskTableViewer().getTable().getItems();
 				for (TableItem tableItem : tableItems) {
 					SubTask subTask = (SubTask)tableItem.getData();
