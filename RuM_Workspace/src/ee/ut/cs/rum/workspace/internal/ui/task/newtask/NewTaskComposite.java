@@ -32,7 +32,7 @@ public class NewTaskComposite extends Composite {
 
 		newTaskDetailsContainer = new NewTaskDetailsContainer(this, rumController);
 
-		newTaskFooter = new NewTaskFooter(this);
+		newTaskFooter = new NewTaskFooter(this, rumController);
 		((GridData) newTaskFooter.getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
 	}
 

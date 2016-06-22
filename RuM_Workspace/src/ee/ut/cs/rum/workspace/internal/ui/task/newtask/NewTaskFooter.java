@@ -1,5 +1,6 @@
 package ee.ut.cs.rum.workspace.internal.ui.task.newtask;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -14,8 +15,13 @@ import org.eclipse.swt.widgets.Table;
 
 import com.google.gson.Gson;
 
+import ee.ut.cs.rum.controller.RumController;
+import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.database.domain.SubTask;
 import ee.ut.cs.rum.database.domain.Task;
+import ee.ut.cs.rum.database.domain.enums.TaskStatus;
+import ee.ut.cs.rum.enums.ControllerEntityType;
+import ee.ut.cs.rum.enums.ControllerUpdateType;
 import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationComposite;
 import ee.ut.cs.rum.workspace.internal.Activator;
 import ee.ut.cs.rum.workspace.internal.ui.task.newtask.sidebar.SubTaskTableViewer;
@@ -26,7 +32,7 @@ public class NewTaskFooter extends Composite {
 	private int subTaskNameCounter;
 	private Button removeSubTaskButton;
 	
-	public NewTaskFooter(NewTaskComposite newTaskComposite) {
+	public NewTaskFooter(NewTaskComposite newTaskComposite, RumController rumController) {
 		super(newTaskComposite, SWT.NONE);
 		
 		subTaskNameCounter=1;
@@ -46,12 +52,24 @@ public class NewTaskFooter extends Composite {
 				NewTaskGeneralInfo newTaskGeneralInfo = newTaskComposite.getNewTaskDetailsContainer().getNewTaskGeneralInfo();
 				task.setName(newTaskGeneralInfo.getNewTaskName());
 				task.setDescription(newTaskGeneralInfo.getNewTaskDescription());
+				task.setStatus(TaskStatus.NEW);
+				task.setCreatedBy("TODO");
+				task.setProjectId(newTaskComposite.getProjectTabFolder().getProject());
+				task.setCreatedAt(new Date());
+				
+				//TODO: Task should be added in the same transaction with subTasks
+				task = (Task)rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.TASK, task);
 				
 				List<NewTaskSubTaskInfo> newTaskSubTaskInfoList = newTaskComposite.getNewTaskDetailsContainer().getNewTaskSubTaskInfoList();
 				for (NewTaskSubTaskInfo newTaskSubTaskInfo : newTaskSubTaskInfoList) {
 					SubTask subTask = new SubTask();
 					subTask.setName(newTaskSubTaskInfo.getSubTaskName());
 					subTask.setDescription(newTaskSubTaskInfo.getSubTaskDescription());
+					subTask.setStatus(TaskStatus.NEW);
+					
+					Table table = newTaskSubTaskInfo.getPluginsTableComposite().getPluginsTableViewer().getTable();
+					Plugin plugin = (Plugin)table.getItem(table.getSelectionIndex()).getData();
+					subTask.setPlugin(plugin);
 					
 					PluginConfigurationComposite pluginConfigurationComposite = (PluginConfigurationComposite)newTaskSubTaskInfo.getScrolledPluginConfigurationComposite().getContent();
 					Map<String, String> configurationValues = pluginConfigurationComposite.getConfigurationValues();

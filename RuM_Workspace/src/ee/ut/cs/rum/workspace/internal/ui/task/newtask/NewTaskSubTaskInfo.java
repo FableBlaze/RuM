@@ -23,6 +23,7 @@ public class NewTaskSubTaskInfo extends Composite {
 	private Text subTaskNameText;
 	private Text subTaskDescriptionText;
 	
+	private PluginsTableComposite pluginsTableComposite;
 	private PluginInfoComposite pluginInfoComposite;
 	private ScrolledComposite scrolledPluginConfigurationComposite;
 
@@ -34,7 +35,7 @@ public class NewTaskSubTaskInfo extends Composite {
 		this.setLayout(new GridLayout(4, false));
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		
-		PluginsTableComposite pluginsTableComposite = new PluginsTableComposite(this, rumController);
+		pluginsTableComposite = new PluginsTableComposite(this, rumController);
 		((GridData) pluginsTableComposite.getLayoutData()).verticalSpan=3;
 		
 		pluginInfoComposite = new PluginInfoComposite(this);
@@ -66,6 +67,10 @@ public class NewTaskSubTaskInfo extends Composite {
 		scrolledPluginConfigurationComposite = new ScrolledComposite(this, SWT.H_SCROLL | SWT.V_SCROLL);
 		scrolledPluginConfigurationComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		((GridData) scrolledPluginConfigurationComposite.getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns-2;
+	}
+	
+	public PluginsTableComposite getPluginsTableComposite() {
+		return pluginsTableComposite;
 	}
 	
 	public NewTaskDetailsContainer getNewTaskDetailsContainer() {

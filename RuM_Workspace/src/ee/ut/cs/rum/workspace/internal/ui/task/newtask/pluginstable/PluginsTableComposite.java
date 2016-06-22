@@ -56,5 +56,9 @@ public class PluginsTableComposite extends Composite {
 	public NewTaskSubTaskInfo getNewTaskSubTaskInfo() {
 		return newTaskSubTaskInfo;
 	}
+	
+	public PluginsTableViewer getPluginsTableViewer() {
+		return pluginsTableViewer;
+	}
 
 }

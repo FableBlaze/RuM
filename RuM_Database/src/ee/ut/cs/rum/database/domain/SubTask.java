@@ -1,7 +1,5 @@
 package ee.ut.cs.rum.database.domain;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,9 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 import ee.ut.cs.rum.database.domain.enums.TaskStatus;
 
 @Entity
@@ -31,11 +26,6 @@ public class SubTask {
 	private Plugin plugin;
 	@Column(name = "configuration_values", columnDefinition = "TEXT")
 	private String configurationValues;
-	@Column(name = "created_by")
-	private String createdBy;
-	@Column(name = "created_at")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date createdAt;
 	@JoinColumn(name = "task_fk")
 	private Task task;
 	@Column(name = "output_path")
@@ -74,18 +64,6 @@ public class SubTask {
 	public void setConfigurationValues(String configurationValues) {
 		this.configurationValues = configurationValues;
 	}
-	public String getCreatedBy() {
-		return createdBy;
-	}
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
-	}
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
 	public Task getTask() {
 		return task;
 	}
@@ -102,7 +80,6 @@ public class SubTask {
 	@Override
 	public String toString() {
 		return "SubTask [id=" + id + ", name=" + name + ", description=" + description + ", status=" + status + ", plugin=" + plugin
-				+ ", configurationValues=" + configurationValues + ", createdBy=" + createdBy + ", createdAt="
-				+ createdAt + ", task=" + task + ", outputPath=" + outputPath + "]";
+				+ ", configurationValues=" + configurationValues + ", task=" + task + ", outputPath=" + outputPath + "]";
 	}
 }
