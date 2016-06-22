@@ -31,6 +31,7 @@ public class DetailsSideBar extends Composite {
 			@Override
 			public void handleEvent(Event arg0) {
 				newTaskComposite.getNewTaskDetailsContainer().showGeneralInfo();
+				subTaskTableViewer.getTable().deselectAll();
 			}
 		});
 		
