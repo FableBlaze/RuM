@@ -34,6 +34,8 @@ public class UserFile {
 
 	@JoinColumn(name = "task_fk")
 	private Task task;
+	@JoinColumn(name = "sub_task_fk")
+	private SubTask subTask;
 	@JoinColumn(name = "project_fk")
 	private Project project;
 	@JoinColumn(name = "plugin_fk")
@@ -75,6 +77,12 @@ public class UserFile {
 	public void setTask(Task task) {
 		this.task = task;
 	}
+	public SubTask getSubTask() {
+		return subTask;
+	}
+	public void setSubTask(SubTask subTask) {
+		this.subTask = subTask;
+	}
 	public Project getProject() {
 		return project;
 	}
@@ -102,9 +110,7 @@ public class UserFile {
 	@Override
 	public String toString() {
 		return "UserFile [id=" + id + ", originalFilename=" + originalFilename + ", createdByUserId=" + createdByUserId
-				+ ", plugin=" + plugin + ", createdAt=" + createdAt + ", task=" + task
-				+ ", project=" + project + ", fileLocation=" + fileLocation + ", userFileTypes=" + userFileTypes
-				+ "]";
+				+ ", createdAt=" + createdAt + ", task=" + task + ", subTask=" + subTask + ", project=" + project
+				+ ", plugin=" + plugin + ", fileLocation=" + fileLocation + ", userFileTypes=" + userFileTypes + "]";
 	}
-	
 }

@@ -32,7 +32,7 @@ public class PluginsTableViewer extends TableViewer implements RumUpdatableView 
 		super(pluginsTableComposite, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 
 		this.display=Display.getCurrent();
-		rumController.registerView(this, ControllerEntityType.TASK);
+		rumController.registerView(this, ControllerEntityType.PLUGIN);
 
 		createColumns(this);
 
@@ -46,7 +46,7 @@ public class PluginsTableViewer extends TableViewer implements RumUpdatableView 
 
 			@Override
 			public void widgetDisposed(DisposeEvent arg0) {
-				rumController.unregisterView(PluginsTableViewer.this, ControllerEntityType.TASK);
+				rumController.unregisterView(PluginsTableViewer.this, ControllerEntityType.PLUGIN);
 			}
 		});
 

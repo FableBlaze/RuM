@@ -14,7 +14,7 @@ import org.quartz.JobExecutionException;
 import org.quartz.JobKey;
 
 import ee.ut.cs.rum.database.domain.Plugin;
-import ee.ut.cs.rum.database.domain.Task;
+import ee.ut.cs.rum.database.domain.SubTask;
 import ee.ut.cs.rum.database.domain.UserFile;
 import ee.ut.cs.rum.database.domain.UserFileType;
 import ee.ut.cs.rum.database.domain.enums.TaskStatus;
@@ -31,7 +31,7 @@ import ee.ut.cs.rum.scheduler.internal.util.TasksData;
 public class RumJob implements Job {
 	public static final String TASK_ID = "taskId";
 	
-	private Task task;
+	private SubTask subTask;
 	private PluginOutput[] rumJobTaskOutputs;
 
 	public RumJob() {
@@ -42,8 +42,8 @@ public class RumJob implements Job {
 		Long taskId = context.getJobDetail().getJobDataMap().getLong(TASK_ID);
 
 		try {
-			task = TasksData.updateTaskStatusInDb(taskId, TaskStatus.STARTING);
-			Plugin plugin = task.getPlugin();
+			subTask = TasksData.updateTaskStatusInDb(taskId, TaskStatus.STARTING);
+			Plugin plugin = subTask.getPlugin();
 			Bundle rumJobPluginBundle = findSelectedPluginBundle(plugin);
 
 			if (rumJobPluginBundle==null) {
@@ -52,22 +52,24 @@ public class RumJob implements Job {
 
 			RumPluginFactory rumJobPluginFactory = findRumPluginFactoryService(rumJobPluginBundle);
 			RumPluginWorker rumJobPluginWorker = rumJobPluginFactory.createRumPluginWorker();
-
-			TasksData.updateTaskStatusInDb(taskId, TaskStatus.RUNNING);
-			Activator.getLogger().info("RumJob started: " + jobKey + " executing at " + new Date());
-
-			int rumJobResult = rumJobPluginWorker.runWork(task.getConfigurationValues(), new File(task.getOutputPath()));
-			Activator.getLogger().info("RumJobResult toString: " + Integer.toString(rumJobResult));
 			
-			if (rumJobResult==0) {
-				TasksData.updateTaskStatusInDb(taskId, TaskStatus.DONE);
-			} else {
-				TasksData.updateTaskStatusInDb(taskId, TaskStatus.FAILED);
-			}
-			
-			PluginInfo pluginInfo = PluginUtils.deserializePluginInfo(plugin);
-			rumJobTaskOutputs = pluginInfo.getOutputs();
-			addTaskCreatedFilesToDb(task.getOutputPath());
+			File outputDirectory = new File(subTask.getOutputPath());
+			if (outputDirectory.mkdir()) {
+				TasksData.updateTaskStatusInDb(taskId, TaskStatus.RUNNING);
+				Activator.getLogger().info("RumJob started: " + jobKey + " executing at " + new Date());
+				
+				int rumJobResult = rumJobPluginWorker.runWork(subTask.getConfigurationValues(), outputDirectory);
+				Activator.getLogger().info("RumJobResult toString: " + Integer.toString(rumJobResult));
+				
+				if (rumJobResult==0) {
+					TasksData.updateTaskStatusInDb(taskId, TaskStatus.DONE);
+				} else {
+					TasksData.updateTaskStatusInDb(taskId, TaskStatus.FAILED);
+				}				
+				PluginInfo pluginInfo = PluginUtils.deserializePluginInfo(plugin);
+				rumJobTaskOutputs = pluginInfo.getOutputs();
+				addTaskCreatedFilesToDb(outputDirectory);
+			}			
 			
 			Activator.getLogger().info("RumJob done: " + jobKey + " at " + new Date());
 		} catch (Exception e) {
@@ -110,19 +112,19 @@ public class RumJob implements Job {
 		return null;
 	}
 
-	public void addTaskCreatedFilesToDb(String directoryPath) {
-		File directory = new File(directoryPath);
-
+	public void addTaskCreatedFilesToDb(File directory) {
+		
 		File[] fList = directory.listFiles();
 		for (File file : fList) {
 			if (file.isFile()) {
 				UserFile userFile = new UserFile();
 				userFile.setOriginalFilename(file.getName());
 				userFile.setCreatedByUserId("TODO");
-				userFile.setPlugin(task.getPlugin());
+				userFile.setPlugin(subTask.getPlugin());
 				userFile.setCreatedAt(new Date());
-				userFile.setTask(task);
-				userFile.setProject(task.getProject());
+				userFile.setTask(subTask.getTask());
+				userFile.setSubTask(subTask);
+				userFile.setProject(subTask.getTask().getProject());
 				userFile.setFileLocation(file.getPath());
 				
 				for (PluginOutput rumJobTaskOutput : rumJobTaskOutputs) {
@@ -140,7 +142,7 @@ public class RumJob implements Job {
 				}
 				userFile = (UserFile)Activator.getRumController().changeData(ControllerUpdateType.CREATE, ControllerEntityType.USER_FILE, userFile);
 			} else if (file.isDirectory()) {
-				addTaskCreatedFilesToDb(file.getAbsolutePath());
+				addTaskCreatedFilesToDb(file);
 			}
 		}
 	}

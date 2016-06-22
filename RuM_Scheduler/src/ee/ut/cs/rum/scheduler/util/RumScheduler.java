@@ -16,20 +16,20 @@ public final class RumScheduler {
 	private RumScheduler() {
 	}
 
-	public static void scheduleTask(Long taskId) {
+	public static void scheduleTask(Long subTaskId) {
 		Scheduler scheduler = Activator.getScheduler();
 
-		String rumJobName = "RumJob"+taskId.toString();
+		String rumJobName = "RumJob"+subTaskId.toString();
 		JobDetail job = JobBuilder.newJob(RumJob.class).withIdentity(rumJobName, "RumJobs").build();
-		job.getJobDataMap().put(RumJob.TASK_ID, taskId);
+		job.getJobDataMap().put(RumJob.TASK_ID, subTaskId);
 
 		Trigger trigger = TriggerBuilder.newTrigger().withIdentity(rumJobName, "RumJobs").startNow().build();
 
 		try {
 			scheduler.scheduleJob(job, trigger);
-			Activator.getLogger().info("Added task to queue: " + taskId.toString() + " (" +rumJobName + ")");
+			Activator.getLogger().info("Added task to queue: " + subTaskId.toString() + " (" +rumJobName + ")");
 		} catch (SchedulerException e) {
-			Activator.getLogger().info("Failed scheduling task: " + taskId.toString() + " (" +rumJobName + ")");
+			Activator.getLogger().info("Failed scheduling task: " + subTaskId.toString() + " (" +rumJobName + ")");
 			e.printStackTrace();
 		}
 	}

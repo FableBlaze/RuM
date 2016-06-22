@@ -27,6 +27,7 @@ import ee.ut.cs.rum.database.util.SystemParameterAccess;
 import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
 import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationComposite;
+import ee.ut.cs.rum.scheduler.util.RumScheduler;
 import ee.ut.cs.rum.workspace.internal.Activator;
 import ee.ut.cs.rum.workspace.internal.ui.task.newtask.sidebar.SubTaskTableViewer;
 
@@ -95,6 +96,8 @@ public class NewTaskFooter extends Composite {
 						subTask.setOutputPath(taskResultsPath.getPath());
 						
 						subTask = (SubTask)rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.SUBTASK, subTask);
+						
+						RumScheduler.scheduleTask(subTask.getId());
 					}
 					Activator.getLogger().info(task.toString());
 				}

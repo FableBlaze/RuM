@@ -10,6 +10,14 @@ public final class SubTaskAccess {
 	private SubTaskAccess() {
 	}
 	
+	public static SubTask getSubTaskDataFromDb(Long subTaskId) {
+		EntityManagerFactory emf = Activator.getEmf();
+		EntityManager em = emf.createEntityManager();
+		
+		SubTask subTask = em.find(SubTask.class, subTaskId);
+		return subTask;
+	}
+	
 	public static SubTask addSubTaskDataToDb(SubTask subTask) {
 		EntityManagerFactory emf = Activator.getEmf();
 		EntityManager em = emf.createEntityManager();
