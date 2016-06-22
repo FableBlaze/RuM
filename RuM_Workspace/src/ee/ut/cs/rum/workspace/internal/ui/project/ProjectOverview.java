@@ -13,7 +13,6 @@ import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Project;
 import ee.ut.cs.rum.workspace.internal.ui.project.taskstable.TasksTableComposite;
 import ee.ut.cs.rum.workspace.internal.ui.task.newtask.NewTaskComposite;
-import ee.ut.cs.rum.workspace.internal.ui.task.newtask.NewTaskDetailsOld;
 
 public class ProjectOverview extends Composite {
 	private static final long serialVersionUID = 7059830950897604661L;
@@ -48,7 +47,7 @@ public class ProjectOverview extends Composite {
 				CTabItem cTabItem = null;
 
 				for (CTabItem c : projectTabFolder.getItems()) {
-					if (c.getControl().getClass() == NewTaskDetailsOld.class) {
+					if (c.getControl().getClass() == NewTaskComposite.class) {
 						cTabItem = c;
 						projectTabFolder.setSelection(c);
 					}
