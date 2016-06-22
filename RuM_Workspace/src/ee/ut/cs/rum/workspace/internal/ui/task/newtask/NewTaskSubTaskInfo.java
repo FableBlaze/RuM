@@ -1,6 +1,7 @@
 package ee.ut.cs.rum.workspace.internal.ui.task.newtask;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
@@ -17,13 +18,18 @@ import ee.ut.cs.rum.workspace.internal.ui.task.newtask.pluginstable.PluginsTable
 public class NewTaskSubTaskInfo extends Composite {
 	private static final long serialVersionUID = -9081862727975335668L;
 	
+	private NewTaskDetailsContainer newTaskDetailsContainer;
+	
 	private Text subTaskNameText;
 	private Text subTaskDescriptionText;
 	
 	private PluginInfoComposite pluginInfoComposite;
+	private ScrolledComposite scrolledPluginConfigurationComposite;
 
 	public NewTaskSubTaskInfo(NewTaskDetailsContainer newTaskDetailsContainer, RumController rumController) {
 		super(newTaskDetailsContainer, SWT.NONE);
+		
+		this.newTaskDetailsContainer=newTaskDetailsContainer;
 		
 		this.setLayout(new GridLayout(4, false));
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -56,10 +62,13 @@ public class NewTaskSubTaskInfo extends Composite {
 		subTaskDescriptionText = new Text(this, SWT.BORDER);
 		subTaskDescriptionText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
-		label = new Label(this, SWT.NONE);
-		label.setText("Plugin configuration UI (TODO)");
-		label.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true));
-		((GridData) label.getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns-1;
+		scrolledPluginConfigurationComposite = new ScrolledComposite(this, SWT.H_SCROLL | SWT.V_SCROLL);
+		scrolledPluginConfigurationComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		((GridData) scrolledPluginConfigurationComposite.getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns-1;
+	}
+	
+	public NewTaskDetailsContainer getNewTaskDetailsContainer() {
+		return newTaskDetailsContainer;
 	}
 	
 	public String getSubTaskName() {
@@ -72,5 +81,9 @@ public class NewTaskSubTaskInfo extends Composite {
 	
 	public PluginInfoComposite getPluginInfoComposite() {
 		return pluginInfoComposite;
+	}
+	
+	public ScrolledComposite getScrolledPluginConfigurationComposite() {
+		return scrolledPluginConfigurationComposite;
 	}
 }

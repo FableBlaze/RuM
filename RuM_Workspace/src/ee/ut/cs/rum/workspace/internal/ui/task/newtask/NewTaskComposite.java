@@ -12,6 +12,8 @@ import ee.ut.cs.rum.workspace.internal.ui.task.newtask.sidebar.DetailsSideBar;
 public class NewTaskComposite extends Composite {
 	private static final long serialVersionUID = -4167600812621979994L;
 
+	private ProjectTabFolder projectTabFolder;
+	
 	private DetailsSideBar detailsSideBar;
 	private NewTaskDetailsContainer newTaskDetailsContainer;
 	private NewTaskFooter newTaskFooter;
@@ -20,6 +22,8 @@ public class NewTaskComposite extends Composite {
 		super(projectTabFolder, SWT.NONE);
 
 		//TODO: Listen to plugin changes
+		
+		this.projectTabFolder=projectTabFolder;
 
 		this.setLayout(new GridLayout(2, false));
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -32,6 +36,10 @@ public class NewTaskComposite extends Composite {
 		((GridData) newTaskFooter.getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
 	}
 
+	public ProjectTabFolder getProjectTabFolder() {
+		return projectTabFolder;
+	}
+	
 	public DetailsSideBar getDetailsSideBar() {
 		return detailsSideBar;
 	}
