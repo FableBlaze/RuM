@@ -7,6 +7,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
 
 import ee.ut.cs.rum.controller.RumController;
@@ -36,8 +37,9 @@ public class NewTaskSubTaskInfo extends Composite {
 			private static final long serialVersionUID = -4275986926694404712L;
 
 			@Override
-			public void modifyText(ModifyEvent arg0) {
-				
+			public void modifyText(ModifyEvent event) {
+				Table table = newTaskDetailsContainer.getNewTaskComposite().getDetailsSideBar().getSubTaskTableViewer().getTable();
+				table.getItem(table.getSelectionIndex()).setText(0, subTaskNameText.getText());
 			}
 		});
 		

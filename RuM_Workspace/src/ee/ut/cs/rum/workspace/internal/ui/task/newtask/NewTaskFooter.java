@@ -65,7 +65,7 @@ public class NewTaskFooter extends Composite {
 			public void handleEvent(Event event) {
 				SubTaskTableViewer subTaskTableViewer = newTaskComposite.getDetailsSideBar().getSubTaskTableViewer();
 				SubTask subTask = new SubTask();
-				subTask.setName("Sub-task " + subTaskNameCounter++);
+				subTask.setName("(Sub-task " + subTaskNameCounter++ + ")");
 				subTaskTableViewer.add(subTask);
 				subTaskTableViewer.getTable().select(subTaskTableViewer.getTable().getItemCount()-1);
 				newTaskComposite.getNewTaskDetailsContainer().showSubTaskInfo(subTaskTableViewer.getTable().getItemCount()-1);
