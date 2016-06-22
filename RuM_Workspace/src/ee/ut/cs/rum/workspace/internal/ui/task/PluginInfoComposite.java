@@ -48,6 +48,7 @@ public class PluginInfoComposite extends Composite {
 			contentsInitialized=false;
 			headerLabel.setText("No plugin selected");
 		}
+		this.layout();
 	}
 
 	private void createContents() {

@@ -11,6 +11,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
 
 import ee.ut.cs.rum.controller.RumController;
+import ee.ut.cs.rum.workspace.internal.ui.task.PluginInfoComposite;
 import ee.ut.cs.rum.workspace.internal.ui.task.newtask.pluginstable.PluginsTableComposite;
 
 public class NewTaskSubTaskInfo extends Composite {
@@ -18,6 +19,8 @@ public class NewTaskSubTaskInfo extends Composite {
 	
 	private Text subTaskNameText;
 	private Text subTaskDescriptionText;
+	
+	private PluginInfoComposite pluginInfoComposite;
 
 	public NewTaskSubTaskInfo(NewTaskDetailsContainer newTaskDetailsContainer, RumController rumController) {
 		super(newTaskDetailsContainer, SWT.NONE);
@@ -43,10 +46,9 @@ public class NewTaskSubTaskInfo extends Composite {
 			}
 		});
 		
-		label = new Label(this, SWT.NONE);
-		label.setText("Selected plugin info (TODO)");
-		label.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true));
-		((GridData) label.getLayoutData()).verticalSpan=2;
+		pluginInfoComposite = new PluginInfoComposite(this);
+		pluginInfoComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		((GridData) pluginInfoComposite.getLayoutData()).verticalSpan=2;
 		
 		label = new Label(this, SWT.NONE);
 		label.setText("Sub-task description:");
@@ -66,5 +68,9 @@ public class NewTaskSubTaskInfo extends Composite {
 	
 	public String getSubTaskDescription() {
 		return subTaskDescriptionText.getText();
+	}
+	
+	public PluginInfoComposite getPluginInfoComposite() {
+		return pluginInfoComposite;
 	}
 }

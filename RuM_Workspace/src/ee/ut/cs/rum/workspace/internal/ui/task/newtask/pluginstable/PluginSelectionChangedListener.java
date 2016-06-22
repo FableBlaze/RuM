@@ -17,12 +17,13 @@ public class PluginSelectionChangedListener implements ISelectionChangedListener
 
 	@Override
 	public void selectionChanged(SelectionChangedEvent event) {
-		Plugin selectedPlugin = null;
+		Plugin plugin = null;
 		
 		if (event!=null) {
 			IStructuredSelection selection = (IStructuredSelection)event.getSelection();
-			selectedPlugin = (Plugin) selection.getFirstElement();			
+			plugin = (Plugin) selection.getFirstElement();			
 		}
-		//TODO: Update plugin related UI
+		
+		newTaskSubTaskInfo.getPluginInfoComposite().updateSelectedPluginInfo(plugin);
 	}
 }
