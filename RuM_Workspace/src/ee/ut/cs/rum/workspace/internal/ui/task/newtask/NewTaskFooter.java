@@ -1,6 +1,7 @@
 package ee.ut.cs.rum.workspace.internal.ui.task.newtask;
 
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -11,8 +12,11 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
 
+import com.google.gson.Gson;
+
 import ee.ut.cs.rum.database.domain.SubTask;
 import ee.ut.cs.rum.database.domain.Task;
+import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationComposite;
 import ee.ut.cs.rum.workspace.internal.Activator;
 import ee.ut.cs.rum.workspace.internal.ui.task.newtask.sidebar.SubTaskTableViewer;
 
@@ -48,6 +52,13 @@ public class NewTaskFooter extends Composite {
 					SubTask subTask = new SubTask();
 					subTask.setName(newTaskSubTaskInfo.getSubTaskName());
 					subTask.setDescription(newTaskSubTaskInfo.getSubTaskDescription());
+					
+					PluginConfigurationComposite pluginConfigurationComposite = (PluginConfigurationComposite)newTaskSubTaskInfo.getScrolledPluginConfigurationComposite().getContent();
+					Map<String, String> configurationValues = pluginConfigurationComposite.getConfigurationValues();
+					Gson gson = new Gson();
+					String configurationValuesString = gson.toJson(configurationValues);
+					subTask.setConfigurationValues(configurationValuesString);
+					
 					subTask.setTask(task);
 					Activator.getLogger().info(subTask.toString());
 				}
