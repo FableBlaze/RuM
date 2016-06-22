@@ -94,7 +94,7 @@ public class NewTaskFooter extends Composite {
 						File taskResultsPath = new File(task_results_root, new SimpleDateFormat("ddMMyyyy_HHmmssSSS").format(createdAt));
 						subTask.setOutputPath(taskResultsPath.getPath());
 						
-						Activator.getLogger().info(subTask.toString());
+						subTask = (SubTask)rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.SUBTASK, subTask);
 					}
 					Activator.getLogger().info(task.toString());
 				}

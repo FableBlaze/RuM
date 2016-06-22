@@ -7,10 +7,12 @@ import java.util.List;
 import ee.ut.cs.rum.controller.internal.Activator;
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.database.domain.Project;
+import ee.ut.cs.rum.database.domain.SubTask;
 import ee.ut.cs.rum.database.domain.Task;
 import ee.ut.cs.rum.database.domain.UserFile;
 import ee.ut.cs.rum.database.util.PluginAccess;
 import ee.ut.cs.rum.database.util.ProjectAccess;
+import ee.ut.cs.rum.database.util.SubTaskAccess;
 import ee.ut.cs.rum.database.util.TaskAccess;
 import ee.ut.cs.rum.database.util.UserFileAccess;
 import ee.ut.cs.rum.enums.ControllerEntityType;
@@ -22,11 +24,15 @@ public class RumController {
 	private List<RumUpdatableView> projectListeners;
 	private List<RumUpdatableView> taskListeners;
 	private List<RumUpdatableView> userFileListeners;
+	private List<RumUpdatableView> pluginListeners;
+	private List<RumUpdatableView> subTaskListeners;
 
 	public RumController() {
-		taskListeners = Collections.synchronizedList(new ArrayList<RumUpdatableView>());
 		projectListeners = Collections.synchronizedList(new ArrayList<RumUpdatableView>());
+		taskListeners = Collections.synchronizedList(new ArrayList<RumUpdatableView>());
 		userFileListeners = Collections.synchronizedList(new ArrayList<RumUpdatableView>());
+		pluginListeners = Collections.synchronizedList(new ArrayList<RumUpdatableView>());
+		subTaskListeners = Collections.synchronizedList(new ArrayList<RumUpdatableView>());
 	}
 
 	public Object changeData(ControllerUpdateType controllerUpdateType, ControllerEntityType controllerEntityType, Object updatedEntity) {
@@ -54,6 +60,12 @@ public class RumController {
 			if (updatedEntity instanceof Plugin) {
 				Plugin plugin = (Plugin)updatedEntity;
 				updatedEntity = changeDataPlugin(controllerUpdateType, plugin);				
+			}
+			break;
+		case SUBTASK:
+			if (updatedEntity instanceof SubTask) {
+				SubTask subTask = (SubTask)updatedEntity;
+				updatedEntity = changeDataSubTask(controllerUpdateType, subTask);				
 			}
 			break;
 		default:
@@ -136,7 +148,7 @@ public class RumController {
 		synchronized (userFileListeners) {
 			Thread thread = new Thread(new Runnable() {
 				public void run() {
-					for (RumUpdatableView rumUpdatableView : taskListeners) {
+					for (RumUpdatableView rumUpdatableView : userFileListeners) {
 						rumUpdatableView.controllerUpdateNotify(controllerUpdateType, finalUserFile);
 					}
 				}
@@ -161,10 +173,10 @@ public class RumController {
 			break;
 		}
 		final Plugin finalPlugin = plugin;
-		synchronized (userFileListeners) {
+		synchronized (pluginListeners) {
 			Thread thread = new Thread(new Runnable() {
 				public void run() {
-					for (RumUpdatableView rumUpdatableView : taskListeners) {
+					for (RumUpdatableView rumUpdatableView : pluginListeners) {
 						rumUpdatableView.controllerUpdateNotify(controllerUpdateType, finalPlugin);
 					}
 				}
@@ -172,6 +184,34 @@ public class RumController {
 			thread.start();
 		}
 		return finalPlugin;
+	}
+	
+	private Object changeDataSubTask(ControllerUpdateType controllerUpdateType, SubTask subTask) {
+		switch (controllerUpdateType) {
+		case CREATE:
+			subTask = SubTaskAccess.addSubTaskDataToDb(subTask);
+			break;
+		case MODIFIY:
+			subTask = SubTaskAccess.updateSubTaskDataInDb(subTask);
+			break;
+		case DELETE:
+			SubTaskAccess.removeSubTaskDataFromDb(subTask);
+			break;
+		default:
+			break;
+		}
+		final SubTask finalSubTask = subTask;
+		synchronized (subTaskListeners) {
+			Thread thread = new Thread(new Runnable() {
+				public void run() {
+					for (RumUpdatableView rumUpdatableView : subTaskListeners) {
+						rumUpdatableView.controllerUpdateNotify(controllerUpdateType, finalSubTask);
+					}
+				}
+			});  
+			thread.start();
+		}
+		return finalSubTask;
 	}
 
 	public void registerView(RumUpdatableView rumView, ControllerEntityType controllerEntityType) {
@@ -184,6 +224,12 @@ public class RumController {
 			break;
 		case USER_FILE:
 			userFileListeners.add(rumView);
+			break;
+		case PLUGIN:
+			pluginListeners.add(rumView);
+			break;
+		case SUBTASK:
+			subTaskListeners.add(rumView);
 			break;
 		default:
 			break;
@@ -201,6 +247,12 @@ public class RumController {
 			break;
 		case USER_FILE:
 			userFileListeners.remove(rumView);
+			break;
+		case PLUGIN:
+			pluginListeners.remove(rumView);
+			break;
+		case SUBTASK:
+			subTaskListeners.remove(rumView);
 			break;
 		default:
 			break;

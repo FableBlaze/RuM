@@ -4,5 +4,6 @@ public enum ControllerEntityType {
 	PROJECT,
 	TASK,
 	USER_FILE,
-	PLUGIN
+	PLUGIN,
+	SUBTASK
 }
