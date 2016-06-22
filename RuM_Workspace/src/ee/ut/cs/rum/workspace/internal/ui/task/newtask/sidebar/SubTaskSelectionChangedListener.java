@@ -14,6 +14,10 @@ public class SubTaskSelectionChangedListener implements ISelectionChangedListene
 	
 	public void selectionChanged(final SelectionChangedEvent event) {
 		int selectionIndex = newTaskComposite.getDetailsSideBar().getSubTaskTableViewer().getTable().getSelectionIndex();
-		newTaskComposite.getNewTaskDetailsContainer().showSubTaskInfo(selectionIndex);
+		if (selectionIndex == -1) {
+			newTaskComposite.getNewTaskDetailsContainer().showGeneralInfo();
+		} else {
+			newTaskComposite.getNewTaskDetailsContainer().showSubTaskInfo(selectionIndex);			
+		}
 	}
 }
