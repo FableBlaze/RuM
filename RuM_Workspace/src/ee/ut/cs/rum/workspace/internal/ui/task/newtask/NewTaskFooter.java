@@ -1,5 +1,7 @@
 package ee.ut.cs.rum.workspace.internal.ui.task.newtask;
 
+import java.util.List;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -8,7 +10,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableItem;
 
 import ee.ut.cs.rum.database.domain.SubTask;
 import ee.ut.cs.rum.database.domain.Task;
@@ -42,9 +43,11 @@ public class NewTaskFooter extends Composite {
 				task.setName(newTaskGeneralInfo.getNewTaskName());
 				task.setDescription(newTaskGeneralInfo.getNewTaskDescription());
 				
-				TableItem[] tableItems = newTaskComposite.getDetailsSideBar().getSubTaskTableViewer().getTable().getItems();
-				for (TableItem tableItem : tableItems) {
-					SubTask subTask = (SubTask)tableItem.getData();
+				List<NewTaskSubTaskInfo> newTaskSubTaskInfoList = newTaskComposite.getNewTaskDetailsContainer().getNewTaskSubTaskInfoList();
+				for (NewTaskSubTaskInfo newTaskSubTaskInfo : newTaskSubTaskInfoList) {
+					SubTask subTask = new SubTask();
+					subTask.setName(newTaskSubTaskInfo.getSubTaskName());
+					subTask.setDescription(newTaskSubTaskInfo.getSubTaskDescription());
 					subTask.setTask(task);
 					Activator.getLogger().info(subTask.toString());
 				}
@@ -66,7 +69,6 @@ public class NewTaskFooter extends Composite {
 				subTaskTableViewer.add(subTask);
 				subTaskTableViewer.getTable().select(subTaskTableViewer.getTable().getItemCount()-1);
 				newTaskComposite.getNewTaskDetailsContainer().showSubTaskInfo(subTaskTableViewer.getTable().getItemCount()-1);
-				//TODO: Switch to sub-task
 			}
 		});
 		
@@ -79,7 +81,7 @@ public class NewTaskFooter extends Composite {
 			@Override
 			public void handleEvent(Event event) {
 				Table table = newTaskComposite.getDetailsSideBar().getSubTaskTableViewer().getTable();
-				newTaskComposite.getNewTaskDetailsContainer().removeFromNewTaskSubTaskInfoList(table.getSelectionIndex());
+				newTaskComposite.getNewTaskDetailsContainer().getNewTaskSubTaskInfoList().remove(table.getSelectionIndex());
 				table.remove(table.getSelectionIndex());
 				newTaskComposite.getNewTaskDetailsContainer().showGeneralInfo();
 			}

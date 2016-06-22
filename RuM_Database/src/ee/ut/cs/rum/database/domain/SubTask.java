@@ -23,6 +23,8 @@ public class SubTask {
 	private Long id;
 	@Column(name = "name")
 	private String name;
+	@Column(name = "description")
+	private String description;
 	@Column(name = "status")
 	private TaskStatus status;
 	@JoinColumn(name = "plugin_fk")
@@ -47,6 +49,12 @@ public class SubTask {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	public TaskStatus getStatus() {
 		return status;
@@ -93,7 +101,7 @@ public class SubTask {
 	
 	@Override
 	public String toString() {
-		return "SubTask [id=" + id + ", name=" + name + ", status=" + status + ", plugin=" + plugin
+		return "SubTask [id=" + id + ", name=" + name + ", description=" + description + ", status=" + status + ", plugin=" + plugin
 				+ ", configurationValues=" + configurationValues + ", createdBy=" + createdBy + ", createdAt="
 				+ createdAt + ", task=" + task + ", outputPath=" + outputPath + "]";
 	}
