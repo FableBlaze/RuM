@@ -5,6 +5,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.widgets.Composite;
 
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.database.domain.Project;
@@ -14,9 +15,9 @@ import ee.ut.cs.rum.plugins.development.description.PluginInfo;
 import ee.ut.cs.rum.workspace.internal.ui.task.newtask.NewTaskSubTaskInfo;
 
 public class PluginSelectionChangedListener implements ISelectionChangedListener {
-	
+
 	private NewTaskSubTaskInfo newTaskSubTaskInfo;
-	
+
 	public PluginSelectionChangedListener(NewTaskSubTaskInfo newTaskSubTaskInfo) {
 		this.newTaskSubTaskInfo=newTaskSubTaskInfo;
 	}
@@ -24,26 +25,30 @@ public class PluginSelectionChangedListener implements ISelectionChangedListener
 	@Override
 	public void selectionChanged(SelectionChangedEvent event) {
 		Plugin plugin = null;
-		
+
 		if (event!=null) {
 			IStructuredSelection selection = (IStructuredSelection)event.getSelection();
 			plugin = (Plugin) selection.getFirstElement();			
 		}
-		
+
 		newTaskSubTaskInfo.getPluginInfoComposite().updateSelectedPluginInfo(plugin);
-		
+
 		ScrolledComposite scrolledPluginConfigurationComposite = newTaskSubTaskInfo.getScrolledPluginConfigurationComposite();
 
 		if (scrolledPluginConfigurationComposite.getContent()!=null && !scrolledPluginConfigurationComposite.getContent().isDisposed()) {
 			scrolledPluginConfigurationComposite.getContent().dispose();
 		}
-		
-		PluginInfo pluginInfo = PluginUtils.deserializePluginInfo(plugin);
-		
-		Project project = newTaskSubTaskInfo.getNewTaskDetailsContainer().getNewTaskComposite().getProjectTabFolder().getProject();
-		
-		PluginConfigurationComposite pluginConfigurationComposite = new PluginConfigurationComposite(scrolledPluginConfigurationComposite, pluginInfo, project);
-		scrolledPluginConfigurationComposite.setContent(pluginConfigurationComposite);
-		pluginConfigurationComposite.setSize(pluginConfigurationComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+
+		if (plugin !=null) {
+			PluginInfo pluginInfo = PluginUtils.deserializePluginInfo(plugin);
+
+			Project project = newTaskSubTaskInfo.getNewTaskDetailsContainer().getNewTaskComposite().getProjectTabFolder().getProject();
+
+			PluginConfigurationComposite pluginConfigurationComposite = new PluginConfigurationComposite(scrolledPluginConfigurationComposite, pluginInfo, project);
+			scrolledPluginConfigurationComposite.setContent(pluginConfigurationComposite);
+			pluginConfigurationComposite.setSize(pluginConfigurationComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+		} else {
+			scrolledPluginConfigurationComposite.setContent(new Composite(scrolledPluginConfigurationComposite, SWT.NONE));
+		}
 	}
 }
