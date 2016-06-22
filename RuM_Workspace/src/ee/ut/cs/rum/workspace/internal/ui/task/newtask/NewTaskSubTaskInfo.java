@@ -1,6 +1,8 @@
 package ee.ut.cs.rum.workspace.internal.ui.task.newtask;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -30,6 +32,14 @@ public class NewTaskSubTaskInfo extends Composite {
 		label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false));
 		subTaskNameText = new Text(this, SWT.BORDER);
 		subTaskNameText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		subTaskNameText.addModifyListener(new ModifyListener() {
+			private static final long serialVersionUID = -4275986926694404712L;
+
+			@Override
+			public void modifyText(ModifyEvent arg0) {
+				
+			}
+		});
 		
 		label = new Label(this, SWT.NONE);
 		label.setText("Selected plugin info (TODO)");
@@ -46,14 +56,5 @@ public class NewTaskSubTaskInfo extends Composite {
 		label.setText("Plugin configuration UI (TODO)");
 		label.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true));
 		((GridData) label.getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns-1;
-		
-	}
-	
-	public String getSubTaskNameText() {
-		return subTaskNameText.getText();
-	}
-	
-	public String getSubTaskDescription() {
-		return subTaskDescriptionText.getText();
 	}
 }

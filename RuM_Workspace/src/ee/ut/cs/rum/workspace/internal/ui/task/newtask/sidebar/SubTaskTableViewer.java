@@ -25,8 +25,8 @@ public class SubTaskTableViewer extends TableViewer {
 	}
 	
 	private static void createColumns(final TableViewer viewer) {
-		String[] titles = { "Name"};
-		int[] bounds = { 200};
+		String[] titles = {"Name"};
+		int[] bounds = {200};
 
 		TableViewerColumn nameColumn = createTableViewerColumn(titles[0], bounds[0], viewer);
 		nameColumn.setLabelProvider(new ColumnLabelProvider() {

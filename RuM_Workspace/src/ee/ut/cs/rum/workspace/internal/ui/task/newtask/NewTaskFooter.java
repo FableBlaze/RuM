@@ -18,10 +18,13 @@ import ee.ut.cs.rum.workspace.internal.ui.task.newtask.sidebar.SubTaskTableViewe
 public class NewTaskFooter extends Composite {
 	private static final long serialVersionUID = -8265567504413682063L;
 	
+	private int subTaskNameCounter;
 	private Button removeSubTaskButton;
 	
 	public NewTaskFooter(NewTaskComposite newTaskComposite) {
 		super(newTaskComposite, SWT.NONE);
+		
+		subTaskNameCounter=1;
 		
 		this.setLayout(new GridLayout(3, false));
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
@@ -59,10 +62,10 @@ public class NewTaskFooter extends Composite {
 			public void handleEvent(Event event) {
 				SubTaskTableViewer subTaskTableViewer = newTaskComposite.getDetailsSideBar().getSubTaskTableViewer();
 				SubTask subTask = new SubTask();
-				subTask.setName("Sub-task " + (subTaskTableViewer.getTable().getItemCount()+1));
+				subTask.setName("Sub-task " + subTaskNameCounter++);
 				subTaskTableViewer.add(subTask);
 				subTaskTableViewer.getTable().select(subTaskTableViewer.getTable().getItemCount()-1);
-				newTaskComposite.getNewTaskDetailsContainer().showSubTaskInfo(subTask);
+				newTaskComposite.getNewTaskDetailsContainer().showSubTaskInfo(subTaskTableViewer.getTable().getItemCount()-1);
 				//TODO: Switch to sub-task
 			}
 		});
@@ -76,7 +79,8 @@ public class NewTaskFooter extends Composite {
 			@Override
 			public void handleEvent(Event event) {
 				Table table = newTaskComposite.getDetailsSideBar().getSubTaskTableViewer().getTable();
-				table.remove((table.getSelectionIndex()));
+				newTaskComposite.getNewTaskDetailsContainer().removeFromNewTaskSubTaskInfoList(table.getSelectionIndex());
+				table.remove(table.getSelectionIndex());
 				newTaskComposite.getNewTaskDetailsContainer().showGeneralInfo();
 			}
 		});
