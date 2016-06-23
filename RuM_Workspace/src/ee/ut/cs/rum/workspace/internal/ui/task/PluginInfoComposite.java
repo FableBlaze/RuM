@@ -13,12 +13,12 @@ public class PluginInfoComposite extends Composite {
 	private Label headerLabel;
 	private boolean contentsInitialized = false;
 
+	private Label nameLabel;
+	private Label nameValueLabel;
 	private Label symbolicNameLabel;
 	private Label symbolicNameValueLabel;
 	private Label versionLabel;
 	private Label versionValueLabel;
-	private Label nameLabel;
-	private Label nameValueLabel;
 	private Label vendorLabel;
 	private Label vendorValueLabel;
 	private Label descriptionLabel;
@@ -51,29 +51,40 @@ public class PluginInfoComposite extends Composite {
 		this.layout();
 	}
 
-	private void createContents() {
+	private void createContents() {		
+		nameLabel = new Label (this, SWT.NONE);
+		nameLabel.setText("Name:");
+		nameLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false));
+		nameValueLabel = new Label (this, SWT.NONE);
+		
 		symbolicNameLabel = new Label (this, SWT.NONE);
 		symbolicNameLabel.setText("Symbolic name:");
+		symbolicNameLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false));
 		symbolicNameValueLabel = new Label (this, SWT.NONE);
 
 		versionLabel = new Label (this, SWT.NONE);
 		versionLabel.setText("Version:");
+		versionLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false));
 		versionValueLabel = new Label (this, SWT.NONE);
-
-		nameLabel = new Label (this, SWT.NONE);
-		nameLabel.setText("Name:");
-		nameValueLabel = new Label (this, SWT.NONE);
 
 		vendorLabel = new Label (this, SWT.NONE);
 		vendorLabel.setText("Vendor:");
+		vendorLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false));
 		vendorValueLabel = new Label (this, SWT.NONE);
 
 		descriptionLabel = new Label (this, SWT.NONE);
 		descriptionLabel.setText("Description:");
+		descriptionLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false));
 		descriptionValueLabel = new Label (this, SWT.NONE);
 	}
 
 	private void removeContents() {
+		if (!nameLabel.isDisposed()) {
+			nameLabel.dispose();
+		}
+		if (!nameValueLabel.isDisposed()) {
+			nameValueLabel.dispose();
+		}
 		if (!symbolicNameLabel.isDisposed()) {
 			symbolicNameLabel.dispose();
 		}
@@ -85,12 +96,6 @@ public class PluginInfoComposite extends Composite {
 		}
 		if (!versionValueLabel.isDisposed()) {
 			versionValueLabel.dispose();
-		}
-		if (!nameLabel.isDisposed()) {
-			nameLabel.dispose();
-		}
-		if (!nameValueLabel.isDisposed()) {
-			nameValueLabel.dispose();
 		}
 		if (!vendorLabel.isDisposed()) {
 			vendorLabel.dispose();
@@ -107,9 +112,9 @@ public class PluginInfoComposite extends Composite {
 	}
 
 	private void updateContents(Plugin plugin) {
+		this.nameValueLabel.setText(plugin.getBundleName());
 		this.symbolicNameValueLabel.setText(plugin.getBundleSymbolicName());
 		this.versionValueLabel.setText(plugin.getBundleVersion());
-		this.nameValueLabel.setText(plugin.getBundleName());
 		this.vendorValueLabel.setText(plugin.getBundleVendor());
 		this.descriptionValueLabel.setText(plugin.getBundleDescription());
 	}
