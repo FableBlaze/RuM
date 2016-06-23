@@ -34,7 +34,7 @@ public class DetailsSidebar extends Composite {
 
 			@Override
 			public void handleEvent(Event arg0) {
-				//TODO: Switch to general info
+				taskDetailsComposite.getTaskDetailsContainer().showGeneralInfo();
 			}
 		});
 		
