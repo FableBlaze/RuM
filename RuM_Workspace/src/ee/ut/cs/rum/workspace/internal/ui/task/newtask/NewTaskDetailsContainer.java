@@ -28,7 +28,7 @@ public class NewTaskDetailsContainer extends Composite {
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		this.setLayout(new StackLayout());
 		
-		newTaskGeneralInfo = new NewTaskGeneralInfo(this);
+		this.newTaskGeneralInfo = new NewTaskGeneralInfo(this);
 		
 		this.newTaskSubTaskInfoList = new ArrayList<NewTaskSubTaskInfo>();
 		
