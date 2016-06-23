@@ -16,12 +16,12 @@ public class TaskDetailsComposite extends Composite {
 	
 	private DetailsSidebar detailsSidebar;
 	private TaskDetailsContainer taskDetailsContainer;
+	private Task task;
 
 	public TaskDetailsComposite(ProjectTabFolder projectTabFolder, RumController rumController, Long taskId) {
 		super(projectTabFolder, SWT.NONE);
 		
-		Task task = TaskAccess.getTaskDataFromDb(taskId);
-		//TODO: Get subTasks
+		this.task = TaskAccess.getTaskDataFromDb(taskId);
 		
 		this.setLayout(new GridLayout(2, false));
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -37,8 +37,10 @@ public class TaskDetailsComposite extends Composite {
 	public DetailsSidebar getDetailsSidebar() {
 		return detailsSidebar;
 	}
-	
 	public TaskDetailsContainer getTaskDetailsContainer() {
 		return taskDetailsContainer;
+	}
+	public Task getTask() {
+		return task;
 	}
 }

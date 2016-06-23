@@ -9,6 +9,8 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 
 import ee.ut.cs.rum.database.domain.SubTask;
+import ee.ut.cs.rum.database.domain.Task;
+import ee.ut.cs.rum.database.util.SubTaskAccess;
 
 public class SubTaskTableViewer extends TableViewer {
 	private static final long serialVersionUID = -8187726968272906469L;
@@ -22,6 +24,9 @@ public class SubTaskTableViewer extends TableViewer {
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
+		
+		Task task = detailsSideBar.getTaskDetailsComposite().getTask();
+		this.add(SubTaskAccess.getTaskSubtasksDataFromDb(task.getId()).toArray());
 	}
 	
 	private static void createColumns(final TableViewer viewer) {

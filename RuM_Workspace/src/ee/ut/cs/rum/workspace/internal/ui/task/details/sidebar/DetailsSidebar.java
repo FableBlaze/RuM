@@ -15,10 +15,13 @@ import ee.ut.cs.rum.workspace.internal.ui.task.details.TaskDetailsComposite;
 public class DetailsSidebar extends Composite {
 	private static final long serialVersionUID = -4976100121238756769L;
 	
+	private TaskDetailsComposite taskDetailsComposite;
 	private SubTaskTableViewer subTaskTableViewer;
 
 	public DetailsSidebar(TaskDetailsComposite taskDetailsComposite, RumController rumController) {
 		super(taskDetailsComposite, SWT.NONE);
+		
+		this.taskDetailsComposite=taskDetailsComposite;
 		
 		this.setLayout(new GridLayout(1, false));
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
@@ -45,5 +48,8 @@ public class DetailsSidebar extends Composite {
 	
 	public SubTaskTableViewer getSubTaskTableViewer() {
 		return subTaskTableViewer;
+	}
+	public TaskDetailsComposite getTaskDetailsComposite() {
+		return taskDetailsComposite;
 	}
 }
