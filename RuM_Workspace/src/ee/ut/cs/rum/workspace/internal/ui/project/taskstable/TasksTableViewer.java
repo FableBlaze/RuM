@@ -119,7 +119,7 @@ public class TasksTableViewer extends TableViewer implements RumUpdatableView {
 		if (updatedEntity instanceof Task) {
 			Task task = (Task) updatedEntity;
 			if (task.getProject().getId() == tasksTableComposite.getProjectOverview().getProject().getId()) {
-				int projectIndex;
+				int updatedEntityIndex;
 				switch (updateType) {
 				//Both list and viewer must be updated as updates in one are not reflected automatically to other
 				case CREATE:
@@ -131,24 +131,24 @@ public class TasksTableViewer extends TableViewer implements RumUpdatableView {
 					});
 					break;
 				case MODIFIY:
-					projectIndex = findTaskIndex(task);
-					if (projectIndex != -1) {
-						tasks.set(projectIndex, task);
+					updatedEntityIndex = findTaskIndex(task);
+					if (updatedEntityIndex != -1) {
+						tasks.set(updatedEntityIndex, task);
 						display.asyncExec(new Runnable() {
 							public void run() {
-								TasksTableViewer.this.replace(task, projectIndex);
+								TasksTableViewer.this.replace(task, updatedEntityIndex);
 							}
 						});
 					}
 					break;
 				case DELETE:
-					projectIndex = findTaskIndex(task);
-					if (projectIndex != -1) {
+					updatedEntityIndex = findTaskIndex(task);
+					if (updatedEntityIndex != -1) {
 						synchronized(this){
 							display.asyncExec(new Runnable() {
 								public void run() {
-									TasksTableViewer.this.remove(tasks.get(projectIndex));
-									tasks.remove(projectIndex);
+									TasksTableViewer.this.remove(tasks.get(updatedEntityIndex));
+									tasks.remove(updatedEntityIndex);
 								}
 							});
 						}

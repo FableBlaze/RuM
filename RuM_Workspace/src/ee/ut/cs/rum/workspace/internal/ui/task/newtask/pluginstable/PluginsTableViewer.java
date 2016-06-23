@@ -15,7 +15,6 @@ import org.eclipse.swt.widgets.TableColumn;
 
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Plugin;
-import ee.ut.cs.rum.database.domain.Task;
 import ee.ut.cs.rum.database.util.PluginAccess;
 import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
@@ -93,9 +92,9 @@ public class PluginsTableViewer extends TableViewer implements RumUpdatableView 
 
 	@Override
 	public void controllerUpdateNotify(ControllerUpdateType updateType, Object updatedEntity) {
-		if (updatedEntity instanceof Task) {
+		if (updatedEntity instanceof Plugin) {
 			Plugin plugin = (Plugin) updatedEntity;
-			int projectIndex;
+			int updatedEntityIndex;
 			switch (updateType) {
 			//Both list and viewer must be updated as updates in one are not reflected automatically to other
 			case CREATE:
@@ -107,24 +106,24 @@ public class PluginsTableViewer extends TableViewer implements RumUpdatableView 
 				});
 				break;
 			case MODIFIY:
-				projectIndex = findPluginIndex(plugin);
-				if (projectIndex != -1) {
-					plugins.set(projectIndex, plugin);
+				updatedEntityIndex = findPluginIndex(plugin);
+				if (updatedEntityIndex != -1) {
+					plugins.set(updatedEntityIndex, plugin);
 					display.asyncExec(new Runnable() {
 						public void run() {
-							PluginsTableViewer.this.replace(plugin, projectIndex);
+							PluginsTableViewer.this.replace(plugin, updatedEntityIndex);
 						}
 					});
 				}
 				break;
 			case DELETE:
-				projectIndex = findPluginIndex(plugin);
-				if (projectIndex != -1) {
+				updatedEntityIndex = findPluginIndex(plugin);
+				if (updatedEntityIndex != -1) {
 					synchronized(this){
 						display.asyncExec(new Runnable() {
 							public void run() {
-								PluginsTableViewer.this.remove(plugins.get(projectIndex));
-								plugins.remove(projectIndex);
+								PluginsTableViewer.this.remove(plugins.get(updatedEntityIndex));
+								plugins.remove(updatedEntityIndex);
 							}
 						});
 					}

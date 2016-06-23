@@ -115,7 +115,7 @@ public class ProjectsTableViewer extends TableViewer implements RumUpdatableView
 	public void controllerUpdateNotify(ControllerUpdateType updateType, Object updatedEntity) {
 		if (updatedEntity instanceof Project) {
 			Project project = (Project) updatedEntity;
-			int projectIndex;
+			int updatedEntityIndex;
 			switch (updateType) {
 			//Both list and viewer must be updated as updates in one are not reflected automatically to other
 			case CREATE:
@@ -127,24 +127,24 @@ public class ProjectsTableViewer extends TableViewer implements RumUpdatableView
 				});
 				break;
 			case MODIFIY:
-				projectIndex = findProjectIndex(project);
-				if (projectIndex != -1) {
-					projects.set(projectIndex, project);
+				updatedEntityIndex = findProjectIndex(project);
+				if (updatedEntityIndex != -1) {
+					projects.set(updatedEntityIndex, project);
 					display.asyncExec(new Runnable() {
 						public void run() {
-							ProjectsTableViewer.this.replace(project, projectIndex);
+							ProjectsTableViewer.this.replace(project, updatedEntityIndex);
 						}
 					});
 				}
 				break;
 			case DELETE:
-				projectIndex = findProjectIndex(project);
-				if (projectIndex != -1) {
+				updatedEntityIndex = findProjectIndex(project);
+				if (updatedEntityIndex != -1) {
 					synchronized(this){
 						display.asyncExec(new Runnable() {
 							public void run() {
-								ProjectsTableViewer.this.remove(projects.get(projectIndex));
-								projects.remove(projectIndex);
+								ProjectsTableViewer.this.remove(projects.get(updatedEntityIndex));
+								projects.remove(updatedEntityIndex);
 							}
 						});
 					}
