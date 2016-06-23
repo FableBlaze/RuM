@@ -58,7 +58,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 		gridLayout.marginWidth = 0;
 		this.setLayout(gridLayout);
 
-		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		this.setToolTipText(parameterFile.getDescription());
 		
 		createContents();

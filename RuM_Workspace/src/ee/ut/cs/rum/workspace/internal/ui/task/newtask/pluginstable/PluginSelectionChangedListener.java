@@ -46,7 +46,7 @@ public class PluginSelectionChangedListener implements ISelectionChangedListener
 
 			PluginConfigurationComposite pluginConfigurationComposite = new PluginConfigurationComposite(scrolledPluginConfigurationComposite, pluginInfo, project);
 			scrolledPluginConfigurationComposite.setContent(pluginConfigurationComposite);
-			pluginConfigurationComposite.setSize(pluginConfigurationComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+			pluginConfigurationComposite.setSize(scrolledPluginConfigurationComposite.getSize());
 		} else {
 			scrolledPluginConfigurationComposite.setContent(new Composite(scrolledPluginConfigurationComposite, SWT.NONE));
 		}

@@ -13,7 +13,7 @@ public class ConfigurationItemString extends Text implements ConfigurationItemIn
 	public ConfigurationItemString(Composite parent, PluginParameterString parameterString) {
 		super(parent, SWT.BORDER);
 		
-		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		this.setText(parameterString.getDefaultValue());
 		this.setToolTipText(parameterString.getDescription());
 	}

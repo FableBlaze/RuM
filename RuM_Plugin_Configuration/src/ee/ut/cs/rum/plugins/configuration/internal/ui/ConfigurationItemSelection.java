@@ -21,7 +21,7 @@ public class ConfigurationItemSelection extends Combo implements ConfigurationIt
 		
 		selectionItems = new ArrayList<PluginParameterSelectionItem>();
 
-		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		this.setToolTipText(parameterSelection.getDescription());
 
 		for (PluginParameterSelectionItem parameterSelectionItem : parameterSelection.getSelectionItems()) {

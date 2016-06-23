@@ -38,15 +38,12 @@ public class NewTaskSubTaskInfo extends Composite {
 		pluginsTableComposite = new PluginsTableComposite(this, rumController);
 		((GridData) pluginsTableComposite.getLayoutData()).verticalSpan=3;
 		
-		pluginInfoComposite = new PluginInfoComposite(this);
-		pluginInfoComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		((GridData) pluginInfoComposite.getLayoutData()).verticalSpan=3;
-		
 		Label label = new Label(this, SWT.NONE);
 		label.setText("Sub-task name:");
 		label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false));
 		subTaskNameText = new Text(this, SWT.BORDER);
-		subTaskNameText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		subTaskNameText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+		((GridData)subTaskNameText.getLayoutData()).widthHint=200;
 		subTaskNameText.addModifyListener(new ModifyListener() {
 			private static final long serialVersionUID = -4275986926694404712L;
 
@@ -56,17 +53,24 @@ public class NewTaskSubTaskInfo extends Composite {
 				table.getItem(table.getSelectionIndex()).setText(0, subTaskNameText.getText());
 			}
 		});
+
+		scrolledPluginConfigurationComposite = new ScrolledComposite(this, SWT.H_SCROLL | SWT.V_SCROLL);
+		scrolledPluginConfigurationComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		//((GridData) scrolledPluginConfigurationComposite.getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns-2;
+		((GridData) scrolledPluginConfigurationComposite.getLayoutData()).verticalSpan=3;
 		
 		label = new Label(this, SWT.NONE);
 		label.setText("Sub-task description:");
 		label.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, false, false));
 		subTaskDescriptionText = new Text(this, SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL);
-		subTaskDescriptionText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		subTaskDescriptionText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+		((GridData)subTaskDescriptionText.getLayoutData()).widthHint=200;
 		((GridData)subTaskDescriptionText.getLayoutData()).heightHint=75;
-		
-		scrolledPluginConfigurationComposite = new ScrolledComposite(this, SWT.H_SCROLL | SWT.V_SCROLL);
-		scrolledPluginConfigurationComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		((GridData) scrolledPluginConfigurationComposite.getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns-2;
+
+		pluginInfoComposite = new PluginInfoComposite(this);
+		pluginInfoComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
+		((GridData) pluginInfoComposite.getLayoutData()).horizontalSpan=2;
+		((GridData) pluginInfoComposite.getLayoutData()).verticalSpan=3;
 	}
 	
 	public PluginsTableComposite getPluginsTableComposite() {

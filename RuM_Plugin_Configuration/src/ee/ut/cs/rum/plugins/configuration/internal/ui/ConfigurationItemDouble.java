@@ -13,7 +13,7 @@ public class ConfigurationItemDouble extends Text implements ConfigurationItemIn
 	public ConfigurationItemDouble(Composite parent, PluginParameterDouble parameterDouble) {
 		super(parent, SWT.BORDER);
 		
-		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		this.setText(Double.toString(parameterDouble.getDefaultValue()));
 		this.setToolTipText(parameterDouble.getDescription());
 	}

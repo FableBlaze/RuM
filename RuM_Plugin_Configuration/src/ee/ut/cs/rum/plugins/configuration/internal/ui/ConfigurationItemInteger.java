@@ -13,7 +13,7 @@ public class ConfigurationItemInteger extends Text implements ConfigurationItemI
 	public ConfigurationItemInteger(Composite parent, PluginParameterInteger parameterInteger) {
 		super(parent, SWT.BORDER);
 		
-		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		this.setText(Integer.toString(parameterInteger.getDefaultValue()));
 		this.setToolTipText(parameterInteger.getDescription());
 	}

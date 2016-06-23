@@ -44,14 +44,9 @@ public class PluginConfigurationComposite extends Composite {
 
 	private void createContents() {
 		configurationItems = new HashMap<String, ConfigurationItemInterface>();
-		
-		Label label = new Label (this, SWT.NONE);
-		label.setText(pluginInfo.getName());
-		label.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		((GridData) label.getLayoutData()).horizontalSpan = ((GridLayout) this.getLayout()).numColumns;
 
-		label = new Label (this, SWT.NONE);
-		label.setText(pluginInfo.getDescription());
+		Label label = new Label (this, SWT.NONE);
+		label.setText("Plugin configuration:");
 		label.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		((GridData) label.getLayoutData()).horizontalSpan = ((GridLayout) this.getLayout()).numColumns;
 		
@@ -59,6 +54,7 @@ public class PluginConfigurationComposite extends Composite {
 			
 			label = new Label (this, SWT.NONE);
 			label.setText(pluginParameter.getDisplayName());
+			label.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
 			
 			switch (pluginParameter.getParameterType()) {
 			case STRING:

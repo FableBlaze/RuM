@@ -38,7 +38,7 @@ public class PluginInfoComposite extends Composite {
 	public void updateSelectedPluginInfo(Plugin plugin) {
 		if (!contentsInitialized) {
 			createContents();
-			headerLabel.setText("Plugin details");
+			headerLabel.setText("Plugin info");
 			contentsInitialized=true;
 			updateContents(plugin);
 		} else if (contentsInitialized && plugin!=null) {
