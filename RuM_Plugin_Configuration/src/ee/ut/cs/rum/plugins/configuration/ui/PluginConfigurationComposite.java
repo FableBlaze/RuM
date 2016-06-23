@@ -17,6 +17,7 @@ import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemInterface
 import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemSelection;
 import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemString;
 import ee.ut.cs.rum.plugins.development.description.PluginInfo;
+import ee.ut.cs.rum.plugins.development.description.PluginOutput;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameter;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterDouble;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterFile;
@@ -43,12 +44,23 @@ public class PluginConfigurationComposite extends Composite {
 	}
 
 	private void createContents() {
+		Label label;
 		configurationItems = new HashMap<String, ConfigurationItemInterface>();
 
-		Label label = new Label (this, SWT.NONE);
+		label = new Label (this, SWT.NONE);
+		label.setText("Plugin description:");
+		label.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
+		
+		label = new Label (this, SWT.NONE);
+		label.setText(pluginInfo.getDescription());
+		label.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		
+		label = new Label (this, SWT.NONE);
 		label.setText("Plugin configuration:");
-		label.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		((GridData) label.getLayoutData()).horizontalSpan = ((GridLayout) this.getLayout()).numColumns;
+		label.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
+		
+		label = new Label (this, SWT.NONE);
+		label.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
 		for (PluginParameter pluginParameter : pluginInfo.getParameters()) {
 			
@@ -80,6 +92,30 @@ public class PluginConfigurationComposite extends Composite {
 			default:
 				break;
 			}
+		}
+		
+		label = new Label (this, SWT.NONE);
+		label.setText("Plugin outputs:");
+		label.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
+		
+		label = new Label (this, SWT.NONE);
+		label.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		
+		for (PluginOutput pluginOutput : pluginInfo.getOutputs()) {
+			label = new Label (this, SWT.NONE);
+			label.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
+			
+			String fileTypeString = "";
+			for (String fileType : pluginOutput.getFileTypes()) {
+				fileTypeString+=fileType+", ";
+			}
+			if (!fileTypeString.isEmpty()) {
+				fileTypeString=fileTypeString.substring(0, fileTypeString.length()-2);
+			}
+			
+			label = new Label (this, SWT.NONE);
+			label.setText(pluginOutput.getFileName() + " (" + fileTypeString + ")");
+			label.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		}
 	}
 	
