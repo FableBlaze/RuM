@@ -15,6 +15,8 @@ public class TaskDetailsContainer extends Composite {
 	
 	private RumController rumController;
 	
+	private TaskDetailsComposite taskDetailsComposite;
+	
 	private TaskGeneralInfo taskGeneralInfo;
 	private List<TaskSubTaskInfo> taskSubTaskInfoList;
 
@@ -24,6 +26,8 @@ public class TaskDetailsContainer extends Composite {
 		//TODO: Make UI updatable
 		
 		this.rumController=rumController;
+		
+		this.taskDetailsComposite=taskDetailsComposite;
 		
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		this.setLayout(new StackLayout());
@@ -50,5 +54,9 @@ public class TaskDetailsContainer extends Composite {
 			taskSubTaskInfoList.add(newTaskSubTaskInfo);
 		}
 		this.layout();
+	}
+	
+	public TaskDetailsComposite getTaskDetailsComposite() {
+		return taskDetailsComposite;
 	}
 }
