@@ -28,11 +28,11 @@ public class NewTaskComposite extends Composite {
 		this.setLayout(new GridLayout(2, false));
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
-		detailsSideBar = new DetailsSideBar(this);
+		this.detailsSideBar = new DetailsSideBar(this);
 
-		newTaskDetailsContainer = new NewTaskDetailsContainer(this, rumController);
+		this.newTaskDetailsContainer = new NewTaskDetailsContainer(this, rumController);
 
-		newTaskFooter = new NewTaskFooter(this, rumController);
+		this.newTaskFooter = new NewTaskFooter(this, rumController);
 		((GridData) newTaskFooter.getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
 	}
 

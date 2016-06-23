@@ -19,6 +19,7 @@ import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
 import ee.ut.cs.rum.interfaces.RumUpdatableView;
 import ee.ut.cs.rum.workspace.internal.ui.task.details.TaskDetails;
+import ee.ut.cs.rum.workspace.internal.ui.task.details.TaskDetailsComposite;
 
 public class ProjectTaskDetails extends Composite implements RumUpdatableView {
 	private static final long serialVersionUID = 6334776047604763250L;
@@ -122,7 +123,7 @@ public class ProjectTaskDetails extends Composite implements RumUpdatableView {
 				if (cTabItem == null) {
 					cTabItem = new CTabItem (projectTabFolder, SWT.CLOSE);
 					cTabItem.setText ("Task " + taskId.toString());
-					cTabItem.setControl(new TaskDetails(projectTabFolder, taskId));
+					cTabItem.setControl(new TaskDetailsComposite(projectTabFolder, rumController, taskId));
 					projectTabFolder.setSelection(cTabItem);	
 				}
 			}
