@@ -2,6 +2,7 @@ package ee.ut.cs.rum.workspace.internal.ui.task.details.sidebar;
 
 import java.util.List;
 
+import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
@@ -52,7 +53,9 @@ public class SubTaskTableViewer extends TableViewer implements RumUpdatableView 
 		});
 
 		Task task = detailsSideBar.getTaskDetailsComposite().getTask();
-		this.add(SubTaskAccess.getTaskSubtasksDataFromDb(task.getId()).toArray());
+		this.setContentProvider(new ArrayContentProvider());
+		subTasks = SubTaskAccess.getTaskSubtasksDataFromDb(task.getId());
+		this.setInput(subTasks);
 	}
 
 	private static void createColumns(final TableViewer viewer) {

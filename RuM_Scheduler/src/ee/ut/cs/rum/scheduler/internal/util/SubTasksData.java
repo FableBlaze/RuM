@@ -7,11 +7,11 @@ import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
 import ee.ut.cs.rum.scheduler.internal.Activator;
 
-public final class TasksData {
-	private TasksData() {
+public final class SubTasksData {
+	private SubTasksData() {
 	}
 	
-	public static SubTask updateTaskStatusInDb(Long subTaskId, TaskStatus taskStatus) {
+	public static SubTask updateSubTaskStatusInDb(Long subTaskId, TaskStatus taskStatus) {
 		SubTask subTask = SubTaskAccess.getSubTaskDataFromDb(subTaskId);
 		subTask.setStatus(taskStatus);
 		

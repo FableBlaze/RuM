@@ -81,6 +81,7 @@ public class NewTaskFooter extends Composite {
 						subTask.setCreatedAt(createdAt);
 
 						Table table = newTaskSubTaskInfo.getPluginsTableComposite().getPluginsTableViewer().getTable();
+						//TODO: Button should be disabled when a sub-task has no plugin selected
 						Plugin plugin = (Plugin)table.getItem(table.getSelectionIndex()).getData();
 						subTask.setPlugin(plugin);
 
