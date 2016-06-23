@@ -31,9 +31,9 @@ public class NewTaskGeneralInfo extends Composite {
 		((GridData) outputFilesTable.getLayoutData()).verticalSpan=2;
 		
 		label = new Label(this, SWT.NONE);
-		label.setText("General info:");
+		label.setText("Task description:");
 		label.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
-		taskDescriptionText = new Text(this, SWT.BORDER);
+		taskDescriptionText = new Text(this, SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL);
 		taskDescriptionText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
 		Label subTaskGraphComposite = new Label(this, SWT.NONE);
