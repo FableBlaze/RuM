@@ -39,7 +39,7 @@ public class DetailsSideBar extends Composite {
 		label.setText("Sub-tasks:");
 		label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false));
 		
-		subTaskTableViewer = new SubTaskTableViewer(this);
+		this.subTaskTableViewer = new SubTaskTableViewer(this);
 		subTaskTableViewer.addSelectionChangedListener(new SubTaskSelectionChangedListener(newTaskComposite));
 	}
 	
