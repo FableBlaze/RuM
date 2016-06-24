@@ -168,7 +168,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 			if (copySucceeded) {
 				UserFile userFile = new UserFile();
 				userFile.setOriginalFilename(temporaryFile.getName());
-				userFile.setCreatedByUserId("TODO");
+				userFile.setCreatedBy("TODO");
 				userFile.setCreatedAt(new Date());
 				userFile.setProject(project);
 				userFile.setFileLocation(destinationFile.toPath().toString());

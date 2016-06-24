@@ -15,61 +15,53 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import ee.ut.cs.rum.database.domain.interfaces.RumUpdatableEntity;
+
 @Entity
 @Table(name="user_file")
-public class UserFile {
+public class UserFile implements RumUpdatableEntity {
 	//Named UserFile to avoid name conflict with File
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
-	@Column(name = "original_filename")
-	private String originalFilename;
 
-	@Column(name = "created_by_user_id")
-	private String createdByUserId;
-	@Column(name = "created_at")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date createdAt;
-
+	@JoinColumn(name = "project_fk")
+	private Project project;
 	@JoinColumn(name = "task_fk")
 	private Task task;
 	@JoinColumn(name = "sub_task_fk")
 	private SubTask subTask;
-	@JoinColumn(name = "project_fk")
-	private Project project;
 	@JoinColumn(name = "plugin_fk")
 	private Plugin plugin;
 	
+	@Column(name = "original_filename")
+	private String originalFilename;
 	@Column(name = "file_location")
 	private String fileLocation;
-
+	
+	@Column(name = "created_by")
+	private String createdBy;
+	@Column(name = "created_at")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date createdAt;
+	@Column(name = "last_modified_by")
+	private String lastModifiedBy;
+	@Column(name = "last_modified_at") //TODO: Implement modifying functionality 
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date lastModifiedAt;
+	
 	@OneToMany( targetEntity=UserFileType.class, cascade=CascadeType.PERSIST, mappedBy="userFile" )
 	private List<UserFileType> userFileTypes;
 	
-	public String getOriginalFilename() {
-		return originalFilename;
+	public Long getId() {
+		return id;
 	}
-	public void setOriginalFilename(String originalFilename) {
-		this.originalFilename = originalFilename;
+	public Project getProject() {
+		return project;
 	}
-	public String getCreatedByUserId() {
-		return createdByUserId;
-	}
-	public void setCreatedByUserId(String createdByUserId) {
-		this.createdByUserId = createdByUserId;
-	}
-	public Plugin getPlugin() {
-		return plugin;
-	}
-	public void setPlugin(Plugin plugin) {
-		this.plugin = plugin;
-	}
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
+	public void setProject(Project project) {
+		this.project = project;
 	}
 	public Task getTask() {
 		return task;
@@ -83,11 +75,17 @@ public class UserFile {
 	public void setSubTask(SubTask subTask) {
 		this.subTask = subTask;
 	}
-	public Project getProject() {
-		return project;
+	public Plugin getPlugin() {
+		return plugin;
 	}
-	public void setProject(Project project) {
-		this.project = project;
+	public void setPlugin(Plugin plugin) {
+		this.plugin = plugin;
+	}
+	public String getOriginalFilename() {
+		return originalFilename;
+	}
+	public void setOriginalFilename(String originalFilename) {
+		this.originalFilename = originalFilename;
 	}
 	public String getFileLocation() {
 		return fileLocation;
@@ -95,8 +93,29 @@ public class UserFile {
 	public void setFileLocation(String fileLocation) {
 		this.fileLocation = fileLocation;
 	}
-	public Long getId() {
-		return id;
+	public String getCreatedBy() {
+		return createdBy;
+	}
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+	public String getLastModifiedBy() {
+		return lastModifiedBy;
+	}
+	public void setLastModifiedBy(String lastModifiedBy) {
+		this.lastModifiedBy = lastModifiedBy;
+	}
+	public Date getLastModifiedAt() {
+		return lastModifiedAt;
+	}
+	public void setLastModifiedAt(Date lastModifiedAt) {
+		this.lastModifiedAt = lastModifiedAt;
 	}
 	public List<UserFileType> getUserFileTypes() {
 		return userFileTypes;
@@ -107,10 +126,12 @@ public class UserFile {
 		}
 		this.userFileTypes = userFileTypes;
 	}
+	
 	@Override
 	public String toString() {
-		return "UserFile [id=" + id + ", originalFilename=" + originalFilename + ", createdByUserId=" + createdByUserId
-				+ ", createdAt=" + createdAt + ", task=" + task + ", subTask=" + subTask + ", project=" + project
-				+ ", plugin=" + plugin + ", fileLocation=" + fileLocation + ", userFileTypes=" + userFileTypes + "]";
+		return "UserFile [id=" + id + ", project=" + project + ", task=" + task + ", subTask=" + subTask + ", plugin="
+				+ plugin + ", originalFilename=" + originalFilename + ", fileLocation=" + fileLocation + ", createdBy="
+				+ createdBy + ", createdAt=" + createdAt + ", lastModifiedBy=" + lastModifiedBy + ", lastModifiedAt="
+				+ lastModifiedAt + ", userFileTypes=" + userFileTypes + "]";
 	}
 }

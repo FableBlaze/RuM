@@ -13,10 +13,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import ee.ut.cs.rum.database.domain.enums.TaskStatus;
+import ee.ut.cs.rum.database.domain.interfaces.RumUpdatableEntity;
 
 @Entity
 @Table(name="sub_task")
-public class SubTask {
+public class SubTask implements RumUpdatableEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")

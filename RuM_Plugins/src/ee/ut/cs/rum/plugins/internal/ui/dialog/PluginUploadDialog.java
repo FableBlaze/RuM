@@ -149,8 +149,8 @@ public class PluginUploadDialog extends Dialog {
 					}
 					
 					if (copySucceeded) {
-						temporaryPlugin.setUploadedAt(new Date());
-						temporaryPlugin.setUploadedBy("TODO"); //TODO: Add reference to the user
+						temporaryPlugin.setCreatedAt(new Date());
+						temporaryPlugin.setCreatedBy("TODO"); //TODO: Add reference to the user
 						temporaryPlugin.setFileLocation(destinationFile.toPath().toString());
 						rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.PLUGIN, temporaryPlugin);
 						

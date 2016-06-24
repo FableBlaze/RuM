@@ -129,7 +129,7 @@ public class PluginsTableViewer extends TableViewer implements RumUpdatableView 
 			@Override
 			public String getText(Object element) {
 				Plugin plugin = (Plugin) element;
-				return plugin.getUploadedBy();
+				return plugin.getCreatedBy();
 			}
 		});
 
@@ -140,7 +140,7 @@ public class PluginsTableViewer extends TableViewer implements RumUpdatableView 
 			@Override
 			public String getText(Object element) {
 				Plugin plugin = (Plugin) element;
-				return new SimpleDateFormat("dd-MM-yyyy").format(plugin.getUploadedAt());
+				return new SimpleDateFormat("dd-MM-yyyy").format(plugin.getCreatedAt());
 			}
 		});
 

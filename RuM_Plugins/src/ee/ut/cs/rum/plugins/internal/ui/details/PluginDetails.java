@@ -85,12 +85,12 @@ public class PluginDetails extends ScrolledComposite {
 		label = new Label (content, SWT.NONE);
 		label.setText("Uploaded at:");
 		label = new Label (content, SWT.NONE);
-		label.setText(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(plugin.getUploadedAt()));
+		label.setText(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(plugin.getCreatedAt()));
 		
 		label = new Label (content, SWT.NONE);
 		label.setText("Uploaded by:");
 		label = new Label (content, SWT.NONE);
-		label.setText(plugin.getUploadedBy());
+		label.setText(plugin.getCreatedBy());
 
 		label = new Label (content, SWT.NONE);
 		label.setText("File path:");

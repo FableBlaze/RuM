@@ -11,9 +11,11 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import ee.ut.cs.rum.database.domain.interfaces.RumUpdatableEntity;
+
 @Entity
 @Table(name="project")
-public class Project {
+public class Project implements RumUpdatableEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")

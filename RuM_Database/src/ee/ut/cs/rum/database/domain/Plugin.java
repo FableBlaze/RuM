@@ -11,9 +11,11 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import ee.ut.cs.rum.database.domain.interfaces.RumUpdatableEntity;
+
 @Entity
 @Table(name="plugin")
-public class Plugin {
+public class Plugin implements RumUpdatableEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
@@ -38,142 +40,134 @@ public class Plugin {
 	@Column(name = "plugin_description")
 	private String pluginDescription;
 	@Column(name = "plugin_info", columnDefinition = "TEXT")
-	private String plugininfo;
+	private String pluginInfo;
 	
 	@Column(name = "original_filename")
 	private String originalFilename;
-	@Column(name = "uploaded_by")
-	private String uploadedBy;
-	@Column(name = "uploaded_at")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date uploadedAt;
 	@Column(name = "file_location")
 	private String fileLocation;
+	
+	@Column(name = "created_by")
+	private String createdBy;
+	@Column(name = "created_at")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date createdAt;
+	@Column(name = "last_modified_by")
+	private String lastModifiedBy;
+	@Column(name = "last_modified_at") //TODO: Implement modifying functionality 
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date lastModifiedAt;
+	
 	
 	public Long getId() {
 		return id;
 	}
-	
 	public String getBundleSymbolicName() {
 		return bundleSymbolicName;
 	}
-	
+	public String getBundleVersion() {
+		return bundleVersion;
+	}
+	public void setBundleVersion(String bundleVersion) {
+		this.bundleVersion = bundleVersion;
+	}
+	public String getBundleName() {
+		return bundleName;
+	}
+	public void setBundleName(String bundleName) {
+		this.bundleName = bundleName;
+	}
+	public String getBundleVendor() {
+		return bundleVendor;
+	}
+	public void setBundleVendor(String bundleVendor) {
+		this.bundleVendor = bundleVendor;
+	}
+	public String getBundleDescription() {
+		return bundleDescription;
+	}
+	public void setBundleDescription(String bundleDescription) {
+		this.bundleDescription = bundleDescription;
+	}
+	public String getBundleActivator() {
+		return bundleActivator;
+	}
+	public void setBundleActivator(String bundleActivator) {
+		this.bundleActivator = bundleActivator;
+	}
+	public String getBundleImportPackage() {
+		return bundleImportPackage;
+	}
+	public void setBundleImportPackage(String bundleImportPackage) {
+		this.bundleImportPackage = bundleImportPackage;
+	}
+	public String getPluginName() {
+		return pluginName;
+	}
+	public void setPluginName(String pluginName) {
+		this.pluginName = pluginName;
+	}
+	public String getPluginDescription() {
+		return pluginDescription;
+	}
+	public void setPluginDescription(String pluginDescription) {
+		this.pluginDescription = pluginDescription;
+	}
+	public String getPluginInfo() {
+		return pluginInfo;
+	}
+	public void setPluginInfo(String pluginInfo) {
+		this.pluginInfo = pluginInfo;
+	}
+	public String getOriginalFilename() {
+		return originalFilename;
+	}
+	public void setOriginalFilename(String originalFilename) {
+		this.originalFilename = originalFilename;
+	}
+	public String getFileLocation() {
+		return fileLocation;
+	}
+	public void setFileLocation(String fileLocation) {
+		this.fileLocation = fileLocation;
+	}
+	public String getCreatedBy() {
+		return createdBy;
+	}
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+	public String getLastModifiedBy() {
+		return lastModifiedBy;
+	}
+	public void setLastModifiedBy(String lastModifiedBy) {
+		this.lastModifiedBy = lastModifiedBy;
+	}
+	public Date getLastModifiedAt() {
+		return lastModifiedAt;
+	}
+	public void setLastModifiedAt(Date lastModifiedAt) {
+		this.lastModifiedAt = lastModifiedAt;
+	}
 	public void setBundleSymbolicName(String bundleSymbolicName) {
 		this.bundleSymbolicName = bundleSymbolicName;
 	}
 	
-	public String getBundleVersion() {
-		return bundleVersion;
-	}
-	
-	public void setBundleVersion(String bundleVersion) {
-		this.bundleVersion = bundleVersion;
-	}
-	
-	public String getBundleName() {
-		return bundleName;
-	}
-	
-	public void setBundleName(String bundleName) {
-		this.bundleName = bundleName;
-	}
-	
-	public String getBundleVendor() {
-		return bundleVendor;
-	}
-	
-	public void setBundleVendor(String bundleVendor) {
-		this.bundleVendor = bundleVendor;
-	}
-	
-	public String getBundleDescription() {
-		return bundleDescription;
-	}
-	
-	public void setBundleDescription(String bundleDescription) {
-		this.bundleDescription = bundleDescription;
-	}
-	
-	public String getBundleActivator() {
-		return bundleActivator;
-	}
-	
-	public void setBundleActivator(String bundleActivator) {
-		this.bundleActivator = bundleActivator;
-	}
-	
-	public String getBundleImportPackage() {
-		return bundleImportPackage;
-	}
-	
-	public void setBundleImportPackage(String bundleImportPackage) {
-		this.bundleImportPackage = bundleImportPackage;
-	}
-	
-	public String getPluginName() {
-		return pluginName;
-	}
-	
-	public void setPluginName(String pluginName) {
-		this.pluginName = pluginName;
-	}
-	
-	public String getPluginDescription() {
-		return pluginDescription;
-	}
-	
-	public void setPluginDescription(String pluginDescription) {
-		this.pluginDescription = pluginDescription;
-	}
-	
-	public String getPluginInfo() {
-		return plugininfo;
-	}
-
-	public void setPluginInfo(String plugininfo) {
-		this.plugininfo = plugininfo;
-	}
-
-	public String getOriginalFilename() {
-		return originalFilename;
-	}
-	
-	public void setOriginalFilename(String originalFilename) {
-		this.originalFilename = originalFilename;
-	}
-	
-	public String getUploadedBy() {
-		return uploadedBy;
-	}
-	
-	public void setUploadedBy(String uploadedBy) {
-		this.uploadedBy = uploadedBy;
-	}
-	
-	public Date getUploadedAt() {
-		return uploadedAt;
-	}
-	
-	public void setUploadedAt(Date uploadedAt) {
-		this.uploadedAt = uploadedAt;
-	}
-	
-	public String getFileLocation() {
-		return fileLocation;
-	}
-	
-	public void setFileLocation(String fileLocation) {
-		this.fileLocation = fileLocation;
-	}
-
 	@Override
 	public String toString() {
 		return "Plugin [id=" + id + ", bundleSymbolicName=" + bundleSymbolicName + ", bundleVersion=" + bundleVersion
 				+ ", bundleName=" + bundleName + ", bundleVendor=" + bundleVendor + ", bundleDescription="
 				+ bundleDescription + ", bundleActivator=" + bundleActivator + ", bundleImportPackage="
 				+ bundleImportPackage + ", pluginName=" + pluginName + ", pluginDescription=" + pluginDescription
-				+ ", plugininfo=" + plugininfo + ", originalFilename=" + originalFilename + ", uploadedBy="
-				+ uploadedBy + ", uploadedAt=" + uploadedAt + ", fileLocation=" + fileLocation + "]";
+				+ ", plugininfo=" + pluginInfo + ", originalFilename=" + originalFilename + ", fileLocation="
+				+ fileLocation + ", createdBy=" + createdBy + ", createdAt=" + createdAt + ", lastModifiedBy="
+				+ lastModifiedBy + ", lastModifiedAt=" + lastModifiedAt + "]";
 	}
 	
 }
