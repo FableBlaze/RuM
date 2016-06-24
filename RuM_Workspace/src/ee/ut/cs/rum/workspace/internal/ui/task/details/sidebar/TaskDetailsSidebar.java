@@ -26,6 +26,10 @@ public class TaskDetailsSidebar extends Composite {
 		this.setLayout(new GridLayout(1, false));
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
 		
+		Label label = new Label(this, SWT.NONE);
+		label.setText("Sub-tasks:");
+		label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false));
+		
 		Button generalInfoButton = new Button(this, SWT.PUSH);
 		generalInfoButton.setText("General info");
 		generalInfoButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
@@ -35,12 +39,9 @@ public class TaskDetailsSidebar extends Composite {
 			@Override
 			public void handleEvent(Event arg0) {
 				taskDetailsComposite.getTaskDetailsContainer().showGeneralInfo();
+				subTaskTableViewer.getTable().deselectAll();
 			}
 		});
-		
-		Label label = new Label(this, SWT.NONE);
-		label.setText("Sub-tasks:");
-		label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false));
 		
 		this.subTaskTableViewer = new SubTaskTableViewer(this, rumController);
 		subTaskTableViewer.addSelectionChangedListener(new SubTaskSelectionChangedListener(taskDetailsComposite));
