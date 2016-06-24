@@ -11,12 +11,12 @@ import org.eclipse.swt.widgets.Listener;
 
 import ee.ut.cs.rum.workspace.internal.ui.task.newtask.NewTaskComposite;
 
-public class DetailsSideBar extends Composite {
+public class NewTaskDetailsSideBar extends Composite {
 	private static final long serialVersionUID = 17721630002679216L;
 	
 	private SubTaskTableViewer subTaskTableViewer;
 
-	public DetailsSideBar(NewTaskComposite newTaskComposite) {
+	public NewTaskDetailsSideBar(NewTaskComposite newTaskComposite) {
 		super(newTaskComposite, SWT.NONE);
 		
 		this.setLayout(new GridLayout(1, false));

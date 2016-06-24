@@ -13,7 +13,7 @@ import ee.ut.cs.rum.database.domain.SubTask;
 public class SubTaskTableViewer extends TableViewer {
 	private static final long serialVersionUID = 4958313014677361572L;
 
-	public SubTaskTableViewer(DetailsSideBar detailsSideBar) {
+	public SubTaskTableViewer(NewTaskDetailsSideBar detailsSideBar) {
 		super(detailsSideBar, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 		
 		createColumns(this);

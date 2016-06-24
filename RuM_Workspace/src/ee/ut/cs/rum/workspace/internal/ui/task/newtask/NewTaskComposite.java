@@ -7,14 +7,14 @@ import org.eclipse.swt.widgets.Composite;
 
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.workspace.internal.ui.project.ProjectTabFolder;
-import ee.ut.cs.rum.workspace.internal.ui.task.newtask.sidebar.DetailsSideBar;
+import ee.ut.cs.rum.workspace.internal.ui.task.newtask.sidebar.NewTaskDetailsSideBar;
 
 public class NewTaskComposite extends Composite {
 	private static final long serialVersionUID = -4167600812621979994L;
 
 	private ProjectTabFolder projectTabFolder;
 	
-	private DetailsSideBar detailsSideBar;
+	private NewTaskDetailsSideBar detailsSideBar;
 	private NewTaskDetailsContainer newTaskDetailsContainer;
 	private NewTaskFooter newTaskFooter;
 
@@ -28,7 +28,7 @@ public class NewTaskComposite extends Composite {
 		this.setLayout(new GridLayout(2, false));
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
-		this.detailsSideBar = new DetailsSideBar(this);
+		this.detailsSideBar = new NewTaskDetailsSideBar(this);
 
 		this.newTaskDetailsContainer = new NewTaskDetailsContainer(this, rumController);
 
@@ -40,7 +40,7 @@ public class NewTaskComposite extends Composite {
 		return projectTabFolder;
 	}
 	
-	public DetailsSideBar getDetailsSideBar() {
+	public NewTaskDetailsSideBar getDetailsSideBar() {
 		return detailsSideBar;
 	}
 

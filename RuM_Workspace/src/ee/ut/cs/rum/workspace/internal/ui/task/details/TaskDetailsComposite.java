@@ -9,12 +9,12 @@ import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Task;
 import ee.ut.cs.rum.database.util.TaskAccess;
 import ee.ut.cs.rum.workspace.internal.ui.project.ProjectTabFolder;
-import ee.ut.cs.rum.workspace.internal.ui.task.details.sidebar.DetailsSidebar;
+import ee.ut.cs.rum.workspace.internal.ui.task.details.sidebar.TaskDetailsSidebar;
 
 public class TaskDetailsComposite extends Composite {
 	private static final long serialVersionUID = 4750338366397123743L;
 	
-	private DetailsSidebar detailsSidebar;
+	private TaskDetailsSidebar detailsSidebar;
 	private TaskDetailsContainer taskDetailsContainer;
 	private Task task;
 
@@ -26,7 +26,7 @@ public class TaskDetailsComposite extends Composite {
 		this.setLayout(new GridLayout(2, false));
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		
-		this.detailsSidebar = new DetailsSidebar(this, rumController);
+		this.detailsSidebar = new TaskDetailsSidebar(this, rumController);
 		
 		this.taskDetailsContainer = new TaskDetailsContainer(this, rumController);
 		
@@ -34,7 +34,7 @@ public class TaskDetailsComposite extends Composite {
 		((GridData) taskDetailsFooter.getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
 	}
 	
-	public DetailsSidebar getDetailsSidebar() {
+	public TaskDetailsSidebar getDetailsSidebar() {
 		return detailsSidebar;
 	}
 	public TaskDetailsContainer getTaskDetailsContainer() {

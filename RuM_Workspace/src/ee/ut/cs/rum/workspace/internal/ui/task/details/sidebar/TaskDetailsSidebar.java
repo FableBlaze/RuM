@@ -12,13 +12,13 @@ import org.eclipse.swt.widgets.Listener;
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.workspace.internal.ui.task.details.TaskDetailsComposite;
 
-public class DetailsSidebar extends Composite {
+public class TaskDetailsSidebar extends Composite {
 	private static final long serialVersionUID = -4976100121238756769L;
 	
 	private TaskDetailsComposite taskDetailsComposite;
 	private SubTaskTableViewer subTaskTableViewer;
 
-	public DetailsSidebar(TaskDetailsComposite taskDetailsComposite, RumController rumController) {
+	public TaskDetailsSidebar(TaskDetailsComposite taskDetailsComposite, RumController rumController) {
 		super(taskDetailsComposite, SWT.NONE);
 		
 		this.taskDetailsComposite=taskDetailsComposite;

@@ -29,7 +29,7 @@ public class SubTaskTableViewer extends TableViewer implements RumUpdatableView 
 
 	private List<SubTask> subTasks;
 
-	public SubTaskTableViewer(DetailsSidebar detailsSideBar, RumController rumController) {
+	public SubTaskTableViewer(TaskDetailsSidebar detailsSideBar, RumController rumController) {
 		super(detailsSideBar, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 
 		this.display=Display.getCurrent();
