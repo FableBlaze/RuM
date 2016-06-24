@@ -25,16 +25,16 @@ public class RumController {
 
 	private List<RumUpdatableView> projectListeners;
 	private List<RumUpdatableView> taskListeners;
+	private List<RumUpdatableView> subTaskListeners;
 	private List<RumUpdatableView> userFileListeners;
 	private List<RumUpdatableView> pluginListeners;
-	private List<RumUpdatableView> subTaskListeners;
 
 	public RumController() {
 		projectListeners = Collections.synchronizedList(new ArrayList<RumUpdatableView>());
 		taskListeners = Collections.synchronizedList(new ArrayList<RumUpdatableView>());
+		subTaskListeners = Collections.synchronizedList(new ArrayList<RumUpdatableView>());
 		userFileListeners = Collections.synchronizedList(new ArrayList<RumUpdatableView>());
 		pluginListeners = Collections.synchronizedList(new ArrayList<RumUpdatableView>());
-		subTaskListeners = Collections.synchronizedList(new ArrayList<RumUpdatableView>());
 	}
 
 	public Object changeData(ControllerUpdateType controllerUpdateType, ControllerEntityType controllerEntityType, Object updatedEntity, String user) {
@@ -54,6 +54,12 @@ public class RumController {
 					updatedEntity = changeDataTask(controllerUpdateType, task);				
 				}
 				break;
+			case SUBTASK:
+				if (updatedEntity instanceof SubTask) {
+					SubTask subTask = (SubTask)updatedEntity;
+					updatedEntity = changeDataSubTask(controllerUpdateType, subTask);				
+				}
+				break;
 			case USER_FILE:
 				if (updatedEntity instanceof UserFile) {
 					UserFile userFile = (UserFile)updatedEntity;
@@ -66,12 +72,6 @@ public class RumController {
 					updatedEntity = changeDataPlugin(controllerUpdateType, plugin);				
 				}
 				break;
-			case SUBTASK:
-				if (updatedEntity instanceof SubTask) {
-					SubTask subTask = (SubTask)updatedEntity;
-					updatedEntity = changeDataSubTask(controllerUpdateType, subTask);				
-				}
-				break;
 			default:
 				break;
 			}
@@ -80,6 +80,8 @@ public class RumController {
 	}
 
 	private Object updateCreateModifyInfo(RumUpdatableEntity updatedEntity, ControllerUpdateType controllerUpdateType, String user) {
+		//TODO: This method causes taskModifiedAt to be slightly out of sync between subTask, task and project
+		//TODO: This method causes subTaskOutputFolder to be slightly out of sync with createdAt
 		Date date = new Date();
 		if (controllerUpdateType==ControllerUpdateType.CREATE) {
 			updatedEntity.setCreatedBy(user);
@@ -125,6 +127,7 @@ public class RumController {
 			break;
 		case MODIFIY:
 			task = TaskAccess.updateTaskDataInDb(task);
+			changeData(ControllerUpdateType.MODIFIY, ControllerEntityType.PROJECT, task.getProject(), task.getLastModifiedBy());
 			break;
 		case DELETE:
 			TaskAccess.removeTaskDataFromDb(task);
@@ -144,6 +147,35 @@ public class RumController {
 			thread.start();
 		}
 		return finalTask;
+	}
+	
+	private Object changeDataSubTask(ControllerUpdateType controllerUpdateType, SubTask subTask) {
+		switch (controllerUpdateType) {
+		case CREATE:
+			subTask = SubTaskAccess.addSubTaskDataToDb(subTask);
+			break;
+		case MODIFIY:
+			subTask = SubTaskAccess.updateSubTaskDataInDb(subTask);
+			changeData(ControllerUpdateType.MODIFIY, ControllerEntityType.TASK, subTask.getTask(), subTask.getLastModifiedBy());
+			break;
+		case DELETE:
+			SubTaskAccess.removeSubTaskDataFromDb(subTask);
+			break;
+		default:
+			break;
+		}
+		final SubTask finalSubTask = subTask;
+		synchronized (subTaskListeners) {
+			Thread thread = new Thread(new Runnable() {
+				public void run() {
+					for (RumUpdatableView rumUpdatableView : subTaskListeners) {
+						rumUpdatableView.controllerUpdateNotify(controllerUpdateType, finalSubTask);
+					}
+				}
+			});  
+			thread.start();
+		}
+		return finalSubTask;
 	}
 	
 	private Object changeDataUserFile(ControllerUpdateType controllerUpdateType, UserFile userFile) {
@@ -202,34 +234,6 @@ public class RumController {
 		return finalPlugin;
 	}
 	
-	private Object changeDataSubTask(ControllerUpdateType controllerUpdateType, SubTask subTask) {
-		switch (controllerUpdateType) {
-		case CREATE:
-			subTask = SubTaskAccess.addSubTaskDataToDb(subTask);
-			break;
-		case MODIFIY:
-			subTask = SubTaskAccess.updateSubTaskDataInDb(subTask);
-			break;
-		case DELETE:
-			SubTaskAccess.removeSubTaskDataFromDb(subTask);
-			break;
-		default:
-			break;
-		}
-		final SubTask finalSubTask = subTask;
-		synchronized (subTaskListeners) {
-			Thread thread = new Thread(new Runnable() {
-				public void run() {
-					for (RumUpdatableView rumUpdatableView : subTaskListeners) {
-						rumUpdatableView.controllerUpdateNotify(controllerUpdateType, finalSubTask);
-					}
-				}
-			});  
-			thread.start();
-		}
-		return finalSubTask;
-	}
-
 	public void registerView(RumUpdatableView rumView, ControllerEntityType controllerEntityType) {
 		switch (controllerEntityType) {
 		case TASK:

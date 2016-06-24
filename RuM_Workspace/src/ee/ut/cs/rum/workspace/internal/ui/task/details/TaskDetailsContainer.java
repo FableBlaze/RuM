@@ -25,8 +25,6 @@ public class TaskDetailsContainer extends Composite {
 	public TaskDetailsContainer(TaskDetailsComposite taskDetailsComposite, RumController rumController) {
 		super(taskDetailsComposite, SWT.NONE);
 		
-		//TODO: Make UI updatable
-		
 		this.rumController=rumController;
 		
 		this.taskDetailsComposite=taskDetailsComposite;

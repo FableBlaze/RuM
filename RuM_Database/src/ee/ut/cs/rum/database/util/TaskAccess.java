@@ -14,23 +14,11 @@ public final class TaskAccess {
 	private TaskAccess() {
 	}
 	
-	//TODO: Add overview of all tasks to the UI
 	public static List<Task> getTasksDataFromDb() {
 		EntityManagerFactory emf = Activator.getEmf();
 		EntityManager em = emf.createEntityManager();
 		
 		String queryString = "Select t from Task t order by t.id";
-		TypedQuery<Task> query = em.createQuery(queryString, Task.class);
-		List<Task> tasks = query.getResultList();
-		
-		return tasks;
-	}
-	
-	public static List<Task> getProjectTasksDataFromDb(Long projectId) {
-		EntityManagerFactory emf = Activator.getEmf();
-		EntityManager em = emf.createEntityManager();
-		
-		String queryString = "Select t from Task t where t.project.id = " + projectId + " order by t.id";
 		TypedQuery<Task> query = em.createQuery(queryString, Task.class);
 		List<Task> tasks = query.getResultList();
 		
@@ -74,5 +62,16 @@ public final class TaskAccess {
 		em.remove(task);
 		em.getTransaction().commit();
 		em.close();
+	}
+
+	public static List<Task> getProjectTasksDataFromDb(Long projectId) {
+		EntityManagerFactory emf = Activator.getEmf();
+		EntityManager em = emf.createEntityManager();
+		
+		String queryString = "Select t from Task t where t.project.id = " + projectId + " order by t.id";
+		TypedQuery<Task> query = em.createQuery(queryString, Task.class);
+		List<Task> tasks = query.getResultList();
+		
+		return tasks;
 	}
 }
