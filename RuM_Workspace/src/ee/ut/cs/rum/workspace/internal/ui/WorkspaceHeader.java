@@ -26,7 +26,7 @@ public class WorkspaceHeader extends Composite {
 
 		this.projectSelectorCombo = new ProjectSelectorCombo(this, workspaceUI, rumController);
 		
-		headerTitle.setText("Projects");
+		setHeaderTitle("Workspace overview");
 	}
 
 	public void setHeaderTitle(String titleString) {
