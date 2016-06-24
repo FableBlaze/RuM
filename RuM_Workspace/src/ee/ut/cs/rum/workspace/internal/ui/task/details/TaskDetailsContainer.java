@@ -9,6 +9,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 
 import ee.ut.cs.rum.controller.RumController;
+import ee.ut.cs.rum.database.domain.SubTask;
 
 public class TaskDetailsContainer extends Composite {
 	private static final long serialVersionUID = -8224474950844756812L;
@@ -45,11 +46,11 @@ public class TaskDetailsContainer extends Composite {
 		this.layout();
 	}
 
-	public void showSubTaskInfo(int subTaskIndex) {
+	public void showSubTaskInfo(int subTaskIndex, SubTask subTask) {
 		if (subTaskIndex < taskSubTaskInfoList.size()) {
 			((StackLayout)this.getLayout()).topControl = taskSubTaskInfoList.get(subTaskIndex);
 		} else {
-			TaskSubTaskInfo newTaskSubTaskInfo = new TaskSubTaskInfo(this, rumController);
+			TaskSubTaskInfo newTaskSubTaskInfo = new TaskSubTaskInfo(this, rumController, subTask);
 			((StackLayout)this.getLayout()).topControl = newTaskSubTaskInfo;
 			taskSubTaskInfoList.add(newTaskSubTaskInfo);
 		}
