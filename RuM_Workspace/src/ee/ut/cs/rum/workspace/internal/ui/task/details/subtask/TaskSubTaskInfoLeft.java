@@ -10,6 +10,7 @@ import org.eclipse.swt.widgets.Label;
 
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.SubTask;
+import ee.ut.cs.rum.workspace.internal.ui.task.PluginInfoComposite;
 
 public class TaskSubTaskInfoLeft extends Composite {
 	private static final long serialVersionUID = -3780211750244322039L;
@@ -21,6 +22,11 @@ public class TaskSubTaskInfoLeft extends Composite {
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
 
 		Label label;
+		
+		label = new Label(this, SWT.NONE);
+		label.setText("Sub-task Info");
+		label.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, true, false));
+		((GridData) label.getLayoutData()).horizontalSpan = ((GridLayout)this.getLayout()).numColumns;
 
 		label = new Label(this, SWT.NONE);
 		label.setText("Sub-task name:");
@@ -44,13 +50,6 @@ public class TaskSubTaskInfoLeft extends Composite {
 		label.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, false));
 		
 		label = new Label(this, SWT.NONE);
-		label.setText("Plugin:");
-		label.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
-		label = new Label(this, SWT.NONE);
-		label.setText(subTask.getPlugin().getBundleName());
-		label.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, false));
-		
-		label = new Label(this, SWT.NONE);
 		label.setText("Last change at:");
 		label.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
 		label = new Label(this, SWT.NONE);
@@ -64,9 +63,9 @@ public class TaskSubTaskInfoLeft extends Composite {
 		label.setText(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(subTask.getCreatedAt()));
 		label.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, false));
 		
-		Label pluginInfo = new Label(this, SWT.NONE);
-		pluginInfo.setText("Plugin info (TODO)");
-		pluginInfo.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true));
-		((GridData) pluginInfo.getLayoutData()).horizontalSpan = 2;
+		PluginInfoComposite pluginInfoComposite = new PluginInfoComposite(this);
+		pluginInfoComposite.updateSelectedPluginInfo(subTask.getPlugin());
+		pluginInfoComposite.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, true));
+		((GridData) pluginInfoComposite.getLayoutData()).horizontalSpan = ((GridLayout)this.getLayout()).numColumns;
 	}
 }
