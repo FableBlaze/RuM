@@ -5,8 +5,11 @@ import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
 import ee.ut.cs.rum.controller.RumController;
@@ -33,13 +36,26 @@ public class TasksTableComposite extends Composite {
 		
 		Text taskSearchInput = new Text(this, SWT.BORDER);
 		taskSearchInput.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
-		
 		taskSearchInput.addKeyListener(new KeyAdapter() {
 			private static final long serialVersionUID = -540605670370011877L;
 
 			public void keyReleased(KeyEvent ke) {
 				((TasksTableFilter) tasksTableFilter).setSearchText(taskSearchInput.getText());
 				tasksTableViewer.refresh();
+			}
+		});
+		
+		Button generalInfoButton = new Button(this, SWT.PUSH);
+		generalInfoButton.setText("General info");
+		generalInfoButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		((GridData) generalInfoButton.getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
+		generalInfoButton.addListener(SWT.Selection, new Listener() {
+			private static final long serialVersionUID = -9188529455494099314L;
+			
+			@Override
+			public void handleEvent(Event arg0) {
+				projectOverview.getProjectDetailsContainer().showDetailsOf(null);
+				tasksTableViewer.getTable().deselectAll();
 			}
 		});
 		
