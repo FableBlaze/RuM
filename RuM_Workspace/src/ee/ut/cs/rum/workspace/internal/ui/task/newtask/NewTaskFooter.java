@@ -66,7 +66,7 @@ public class NewTaskFooter extends Composite {
 					task.setProject(newTaskComposite.getProjectTabFolder().getProject());
 
 					//TODO: Task should be added in the same transaction with subTasks
-					task = (Task)rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.TASK, task);
+					task = (Task)rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.TASK, task, "TODO");
 
 					List<NewTaskSubTaskInfo> newTaskSubTaskInfoList = newTaskComposite.getNewTaskDetailsContainer().getNewTaskSubTaskInfoList();
 					for (NewTaskSubTaskInfo newTaskSubTaskInfo : newTaskSubTaskInfoList) {
@@ -94,7 +94,7 @@ public class NewTaskFooter extends Composite {
 						File taskResultsPath = new File(task_results_root, new SimpleDateFormat("ddMMyyyy_HHmmssSSS").format(createdAt));
 						subTask.setOutputPath(taskResultsPath.getPath());
 						
-						subTask = (SubTask)rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.SUBTASK, subTask);
+						subTask = (SubTask)rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.SUBTASK, subTask, "TODO");
 						
 						RumScheduler.scheduleTask(subTask.getId());
 					}

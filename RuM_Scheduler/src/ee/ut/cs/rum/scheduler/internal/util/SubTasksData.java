@@ -15,7 +15,7 @@ public final class SubTasksData {
 		SubTask subTask = SubTaskAccess.getSubTaskDataFromDb(subTaskId);
 		subTask.setStatus(taskStatus);
 		
-		subTask = (SubTask)Activator.getRumController().changeData(ControllerUpdateType.MODIFIY, ControllerEntityType.SUBTASK, subTask);
+		subTask = (SubTask)Activator.getRumController().changeData(ControllerUpdateType.MODIFIY, ControllerEntityType.SUBTASK, subTask, "SYS (TODO)");
 		
 		return subTask;
 	}

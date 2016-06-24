@@ -150,7 +150,7 @@ public class PluginUploadDialog extends Dialog {
 					
 					if (copySucceeded) {
 						temporaryPlugin.setFileLocation(destinationFile.toPath().toString());
-						rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.PLUGIN, temporaryPlugin);
+						rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.PLUGIN, temporaryPlugin, "TODO");
 						
 						shell.close();
 					} else {

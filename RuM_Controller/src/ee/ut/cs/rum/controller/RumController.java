@@ -37,10 +37,10 @@ public class RumController {
 		subTaskListeners = Collections.synchronizedList(new ArrayList<RumUpdatableView>());
 	}
 
-	public Object changeData(ControllerUpdateType controllerUpdateType, ControllerEntityType controllerEntityType, Object updatedEntity) {
+	public Object changeData(ControllerUpdateType controllerUpdateType, ControllerEntityType controllerEntityType, Object updatedEntity, String user) {
 		Activator.getLogger().info("changeData - updateType: " + controllerUpdateType + ", entityType: " + controllerEntityType + ", entity: " + updatedEntity.toString());
 		if (updatedEntity instanceof RumUpdatableEntity) {			
-			updatedEntity = updateCreateModifyInfo((RumUpdatableEntity)updatedEntity, controllerUpdateType);
+			updatedEntity = updateCreateModifyInfo((RumUpdatableEntity)updatedEntity, controllerUpdateType, user);
 			switch (controllerEntityType) {
 			case PROJECT:
 				if (updatedEntity instanceof Project) {
@@ -79,13 +79,13 @@ public class RumController {
 		return updatedEntity;
 	}
 
-	private Object updateCreateModifyInfo(RumUpdatableEntity updatedEntity, ControllerUpdateType controllerUpdateType) {
+	private Object updateCreateModifyInfo(RumUpdatableEntity updatedEntity, ControllerUpdateType controllerUpdateType, String user) {
 		Date date = new Date();
 		if (controllerUpdateType==ControllerUpdateType.CREATE) {
-			updatedEntity.setCreatedBy("TODO");
+			updatedEntity.setCreatedBy(user);
 			updatedEntity.setCreatedAt(date);
 		}
-		updatedEntity.setLastModifiedBy("TODO");
+		updatedEntity.setLastModifiedBy(user);
 		updatedEntity.setLastModifiedAt(date);
 		return updatedEntity;
 	}

@@ -75,7 +75,7 @@ public class NewProjectDialog extends Dialog {
 					Project project = new Project();
 					project.setName(nameValue.getText());
 					project.setDescription(descriptionValue.getText());
-					rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.PROJECT, project);
+					rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.PROJECT, project, "TODO");
 					
 					shell.close();
 				}

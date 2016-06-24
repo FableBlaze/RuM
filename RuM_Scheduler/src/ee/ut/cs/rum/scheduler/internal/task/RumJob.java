@@ -138,7 +138,7 @@ public class RumJob implements Job {
 						Activator.getLogger().info("Found plugin output file with types: " + rumJobTaskOutput.getFileTypes().toString());
 					}
 				}
-				userFile = (UserFile)Activator.getRumController().changeData(ControllerUpdateType.CREATE, ControllerEntityType.USER_FILE, userFile);
+				userFile = (UserFile)Activator.getRumController().changeData(ControllerUpdateType.CREATE, ControllerEntityType.USER_FILE, userFile, "SYS (TODO)");
 			} else if (file.isDirectory()) {
 				addTaskCreatedFilesToDb(file);
 			}
