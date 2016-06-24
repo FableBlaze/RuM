@@ -48,47 +48,52 @@ public class ProjectTaskDetails extends Composite implements RumUpdatableView {
 		this.task=task;
 
 		this.setLayoutData( new GridData(SWT.FILL, SWT.FILL, true, true));
-		this.setLayout(new GridLayout(2, false));
+		this.setLayout(new GridLayout(3, false));
 
-
-		Label nameLabel = new Label(this, SWT.NONE);
-		nameLabel.setText("Task name:");
-		nameLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
+		Label label;
+		label = new Label(this, SWT.NONE);
+		label.setText("Task name:");
+		label.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
 		taskName = new Label(this, SWT.NONE);
 		taskName.setText(task.getName());
 		taskName.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		
+		Label taskOutputsTable = new Label(this, SWT.NONE);
+		taskOutputsTable.setText("Task output files (TODO)");
+		taskOutputsTable.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true));
+		((GridData) taskOutputsTable.getLayoutData()).verticalSpan = 6;
 
-		nameLabel = new Label(this, SWT.NONE);
-		nameLabel.setText("Task description:");
-		nameLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
+		label = new Label(this, SWT.NONE);
+		label.setText("Task description:");
+		label.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
 		taskDescription = new Label(this, SWT.NONE);
 		taskDescription.setText(task.getDescription());
 		taskDescription.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
-		nameLabel = new Label(this, SWT.NONE);
-		nameLabel.setText("Sub-tasks:");
-		nameLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
+		label = new Label(this, SWT.NONE);
+		label.setText("Sub-tasks:");
+		label.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
 		taskSubTasks = new Label(this, SWT.NONE);
 		taskSubTasks.setText("TODO");
 		taskSubTasks.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
-		nameLabel = new Label(this, SWT.NONE);
-		nameLabel.setText("Task status:");
-		nameLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
+		label = new Label(this, SWT.NONE);
+		label.setText("Task status:");
+		label.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
 		taskStatus = new Label(this, SWT.NONE);
 		taskStatus.setText(task.getStatus().toString());
 		taskStatus.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
-		nameLabel = new Label(this, SWT.NONE);
-		nameLabel.setText("Created at:");
-		nameLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
+		label = new Label(this, SWT.NONE);
+		label.setText("Created at:");
+		label.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
 		createdAt = new Label(this, SWT.NONE);
 		createdAt.setText(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(task.getCreatedAt()));
 		createdAt.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
-		nameLabel = new Label(this, SWT.NONE);
-		nameLabel.setText("Last change at:");
-		nameLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
+		label = new Label(this, SWT.NONE);
+		label.setText("Last change at:");
+		label.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
 		lastChangeAt = new Label(this, SWT.NONE);
 		lastChangeAt.setText("TODO");
 		lastChangeAt.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));

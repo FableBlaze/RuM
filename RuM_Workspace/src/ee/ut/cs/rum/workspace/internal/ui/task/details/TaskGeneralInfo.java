@@ -34,7 +34,7 @@ public class TaskGeneralInfo extends Composite {
 		Label taskOutputsTable = new Label(this, SWT.NONE);
 		taskOutputsTable.setText("Task output files (TODO)");
 		taskOutputsTable.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true));
-		((GridData) taskOutputsTable.getLayoutData()).verticalSpan = 5;
+		((GridData) taskOutputsTable.getLayoutData()).verticalSpan = 6;
 		
 		label = new Label(this, SWT.NONE);
 		label.setText("Task description:");
@@ -49,6 +49,13 @@ public class TaskGeneralInfo extends Composite {
 		label = new Label(this, SWT.NONE);
 		label.setText("TODO");
 		label.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, false));
+		
+		label = new Label(this, SWT.NONE);
+		label.setText("Task status:");
+		label.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
+		label = new Label(this, SWT.NONE);
+		label.setText(task.getStatus().toString());
+		label.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
 		label = new Label(this, SWT.NONE);
 		label.setText("Last change at:");
