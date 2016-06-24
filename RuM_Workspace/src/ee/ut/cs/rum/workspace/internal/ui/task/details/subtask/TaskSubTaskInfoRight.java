@@ -1,6 +1,7 @@
 package ee.ut.cs.rum.workspace.internal.ui.task.details.subtask;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -8,6 +9,9 @@ import org.eclipse.swt.widgets.Label;
 
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.SubTask;
+import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationComposite;
+import ee.ut.cs.rum.plugins.configuration.util.PluginUtils;
+import ee.ut.cs.rum.plugins.development.description.PluginInfo;
 
 public class TaskSubTaskInfoRight extends Composite {
 	private static final long serialVersionUID = 2108550824294466913L;
@@ -18,9 +22,13 @@ public class TaskSubTaskInfoRight extends Composite {
 		this.setLayout(new GridLayout(1, false));
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		
-		Label pluginConfiguration = new Label(this, SWT.NONE);
-		pluginConfiguration.setText("Plugin configuration (TODO)");
-		pluginConfiguration.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true));
+		ScrolledComposite scrolledPluginConfigurationComposite = new ScrolledComposite(this, SWT.H_SCROLL | SWT.V_SCROLL);
+		scrolledPluginConfigurationComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		PluginInfo pluginInfo = PluginUtils.deserializePluginInfo(subTask.getPlugin());
+		PluginConfigurationComposite pluginConfigurationComposite = new PluginConfigurationComposite(scrolledPluginConfigurationComposite, pluginInfo, null);
+		pluginConfigurationComposite.setEnabled(false);
+		scrolledPluginConfigurationComposite.setContent(pluginConfigurationComposite);
+		pluginConfigurationComposite.setSize(pluginConfigurationComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 		
 		Label taskOutputFiles = new Label(this, SWT.NONE);
 		taskOutputFiles.setText("Task output files (TODO)");
