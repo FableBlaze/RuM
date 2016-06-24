@@ -10,6 +10,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
+import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.plugins.internal.ui.overview.OverviewTabContents;
 import ee.ut.cs.rum.plugins.ui.PluginsManagementUI;
 
@@ -19,7 +20,7 @@ public class PluginsTableComposite extends Composite {
 	private PluginsTableViewer pluginsTableViewer;
 	private ViewerFilter pluginsTableFilter;
 	
-	public PluginsTableComposite(OverviewTabContents overviewTabContents, PluginsManagementUI pluginsManagementUI) {
+	public PluginsTableComposite(OverviewTabContents overviewTabContents, PluginsManagementUI pluginsManagementUI, RumController rumController) {
 		super(overviewTabContents, SWT.NONE);
 		
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -41,7 +42,7 @@ public class PluginsTableComposite extends Composite {
 
 		    });
 		
-		this.pluginsTableViewer = new PluginsTableViewer(this, pluginsManagementUI);
+		this.pluginsTableViewer = new PluginsTableViewer(this, pluginsManagementUI, rumController);
 		((GridData) this.pluginsTableViewer.getTable().getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
 		
 		this.pluginsTableFilter = new PluginsTableFilter();

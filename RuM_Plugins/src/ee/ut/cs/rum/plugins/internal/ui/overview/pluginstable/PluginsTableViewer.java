@@ -1,6 +1,7 @@
 package ee.ut.cs.rum.plugins.internal.ui.overview.pluginstable;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
@@ -13,19 +14,31 @@ import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
+import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.database.util.PluginAccess;
+import ee.ut.cs.rum.enums.ControllerEntityType;
+import ee.ut.cs.rum.enums.ControllerUpdateType;
+import ee.ut.cs.rum.interfaces.RumUpdatableView;
 import ee.ut.cs.rum.plugins.ui.PluginsManagementUI;
 
-public class PluginsTableViewer extends TableViewer {
+public class PluginsTableViewer extends TableViewer implements RumUpdatableView {
 	private static final long serialVersionUID = -2085870762932626509L;
 
-	public PluginsTableViewer(PluginsTableComposite pluginsTableComposite, PluginsManagementUI pluginsManagementUI) {
+	private Display display;
+	
+	private List<Plugin> plugins;
+
+	public PluginsTableViewer(PluginsTableComposite pluginsTableComposite, PluginsManagementUI pluginsManagementUI, RumController rumController) {
 		super(pluginsTableComposite, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
+
+		this.display=Display.getCurrent();
+		rumController.registerView(this, ControllerEntityType.PLUGIN);
 
 		createColumns(this, pluginsManagementUI);
 
@@ -34,8 +47,19 @@ public class PluginsTableViewer extends TableViewer {
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 
+		//Listening to Table dispose because dispose is not called on TableViewer
+		table.addDisposeListener(new DisposeListener() {
+			private static final long serialVersionUID = 7634726052580474495L;
+
+			@Override
+			public void widgetDisposed(DisposeEvent arg0) {
+				rumController.unregisterView(PluginsTableViewer.this, ControllerEntityType.PLUGIN);
+			}
+		});
+
 		this.setContentProvider(new ArrayContentProvider());
-		this.setInput(PluginAccess.getPluginsDataFromDb());
+		this.plugins=PluginAccess.getPluginsDataFromDb();
+		this.setInput(plugins);
 	}
 
 
@@ -123,13 +147,13 @@ public class PluginsTableViewer extends TableViewer {
 		TableViewerColumn detailsButtonColumn = createTableViewerColumn(titles[7], bounds[7], viewer);
 		detailsButtonColumn.setLabelProvider(new ColumnLabelProvider() {
 			private static final long serialVersionUID = 4559441071410857663L;
-			
+
 			@Override
 			public void update(ViewerCell cell) {
 				TableItem item = (TableItem) cell.getItem();
 				Plugin plugin = (Plugin) cell.getElement();
 				PluginDetailsButton pluginDetailsButton = new PluginDetailsButton((Composite) cell.getViewerRow().getControl(), plugin, pluginsManagementUI);
-				
+
 				item.addDisposeListener(new DisposeListener() {
 					private static final long serialVersionUID = -927877657358384078L;
 
@@ -140,7 +164,7 @@ public class PluginsTableViewer extends TableViewer {
 						pluginDetailsButton.dispose();
 					}
 				});
-				
+
 				TableEditor editor = new TableEditor(item.getParent());
 				editor.grabHorizontal  = true;
 				editor.grabVertical = true;
@@ -160,4 +184,58 @@ public class PluginsTableViewer extends TableViewer {
 		return viewerColumn;
 	}
 
+
+	@Override
+	public void controllerUpdateNotify(ControllerUpdateType updateType, Object updatedEntity) {
+		if (updatedEntity instanceof Plugin) {
+			Plugin plugin = (Plugin) updatedEntity;
+			int updatedEntityIndex;
+			switch (updateType) {
+			//Both list and viewer must be updated as updates in one are not reflected automatically to other
+			case CREATE:
+				plugins.add(plugin);
+				display.asyncExec(new Runnable() {
+					public void run() {
+						PluginsTableViewer.this.add(plugin);
+					}
+				});
+				break;
+			case MODIFIY:
+				updatedEntityIndex = findPluginIndex(plugin);
+				if (updatedEntityIndex != -1) {
+					plugins.set(updatedEntityIndex, plugin);
+					display.asyncExec(new Runnable() {
+						public void run() {
+							PluginsTableViewer.this.replace(plugin, updatedEntityIndex);
+						}
+					});
+				}
+				break;
+			case DELETE:
+				updatedEntityIndex = findPluginIndex(plugin);
+				if (updatedEntityIndex != -1) {
+					synchronized(this){
+						display.asyncExec(new Runnable() {
+							public void run() {
+								PluginsTableViewer.this.remove(plugins.get(updatedEntityIndex));
+								plugins.remove(updatedEntityIndex);
+							}
+						});
+					}
+				}
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
+	private int findPluginIndex(Plugin plugin) {
+		for (int i = 0; i < this.plugins.size(); i++) {
+			if (this.plugins.get(i).getId()==plugin.getId()) {
+				return i;
+			}
+		}
+		return -1;
+	}
 }

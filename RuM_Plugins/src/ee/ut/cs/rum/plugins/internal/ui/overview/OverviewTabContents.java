@@ -16,6 +16,6 @@ public class OverviewTabContents extends Composite {
 		this.setLayout(new GridLayout(2, false));
 		
 		new PluginsOverview(this, rumController);
-		new PluginsTableComposite(this, pluginsManagementUI);
+		new PluginsTableComposite(this, pluginsManagementUI, rumController);
 	}
 }
