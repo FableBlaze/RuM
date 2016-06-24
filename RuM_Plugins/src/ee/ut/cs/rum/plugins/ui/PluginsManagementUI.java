@@ -15,14 +15,14 @@ public class PluginsManagementUI extends CTabFolder {
 	private CTabItem overviewTab;
 	private OverviewTabContents overviewTabContents;
 	
-	public PluginsManagementUI(Composite parent, RumController rumcontroller) {
+	public PluginsManagementUI(Composite parent, RumController rumController) {
 		super(parent, SWT.NONE);
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		
 		this.overviewTab = new CTabItem (this, SWT.NONE);
 		overviewTab.setText ("Overview");
 		
-		this.overviewTabContents = new OverviewTabContents(this);
+		this.overviewTabContents = new OverviewTabContents(this, rumController);
 		overviewTab.setControl (overviewTabContents);
 		
 		this.setSelection(0);

@@ -20,16 +20,22 @@ import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+
+import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.database.domain.enums.SystemParameterName;
 import ee.ut.cs.rum.database.util.PluginAccess;
 import ee.ut.cs.rum.database.util.SystemParameterAccess;
+import ee.ut.cs.rum.enums.ControllerEntityType;
+import ee.ut.cs.rum.enums.ControllerUpdateType;
 import ee.ut.cs.rum.plugins.internal.Activator;
 import ee.ut.cs.rum.plugins.internal.ui.overview.OverviewTabContents;
 
 public class PluginUploadDialog extends Dialog {
 	private static final long serialVersionUID = 3382119816602279394L;
 
+	private RumController rumController;
+	
 	private OverviewTabContents overviewTabContents;
 
 	private File temporaryFile;
@@ -46,8 +52,10 @@ public class PluginUploadDialog extends Dialog {
 
 	private Button okButton;
 
-	public PluginUploadDialog(Shell activeShell, OverviewTabContents overviewTabContents) {
+	public PluginUploadDialog(Shell activeShell, OverviewTabContents overviewTabContents, RumController rumController) {
 		super(activeShell, SWT.APPLICATION_MODAL | SWT.TITLE | SWT.BORDER);
+		
+		this.rumController=rumController;
 		this.overviewTabContents = overviewTabContents;
 	}
 
@@ -151,7 +159,7 @@ public class PluginUploadDialog extends Dialog {
 						temporaryPlugin.setUploadedAt(new Date());
 						temporaryPlugin.setUploadedBy("TODO"); //TODO: Add reference to the user
 						temporaryPlugin.setFileLocation(destinationFile.toPath().toString());
-						temporaryPlugin = PluginAccess.addPluginDataToDb(temporaryPlugin);
+						rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.PLUGIN, temporaryPlugin);
 						
 						//TODO: Implement proper UI updating (MCV)
 						List<Plugin> plugins = PluginAccess.getPluginsDataFromDb();

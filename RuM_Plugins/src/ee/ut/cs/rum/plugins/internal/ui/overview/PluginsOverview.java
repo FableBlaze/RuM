@@ -10,20 +10,23 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
+import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.util.PluginAccess;
 import ee.ut.cs.rum.plugins.internal.ui.dialog.PluginUploadDialog;
 
 public class PluginsOverview extends Composite {
 	private static final long serialVersionUID = 6363000997779117721L;
 	
+	private RumController rumController;
 	private OverviewTabContents overviewTabContents;
 	
 	private Label numberOfPluginsLable;
 
-	public PluginsOverview(OverviewTabContents overviewTabContents) {
+	public PluginsOverview(OverviewTabContents overviewTabContents, RumController rumController) {
 		super(overviewTabContents, SWT.NONE);
 		
 		this.overviewTabContents = overviewTabContents;
+		this.rumController=rumController;
 		
 		this.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, true));
 		this.setLayout(new GridLayout(2, false));
@@ -52,7 +55,7 @@ public class PluginsOverview extends Composite {
 
 			@Override
 			public void handleEvent(Event arg0) {
-				PluginUploadDialog pluginUploadDialog = new PluginUploadDialog(Display.getCurrent().getActiveShell(), overviewTabContents);
+				PluginUploadDialog pluginUploadDialog = new PluginUploadDialog(Display.getCurrent().getActiveShell(), overviewTabContents, rumController);
 				pluginUploadDialog.open();
 			}
 		});
@@ -60,6 +63,5 @@ public class PluginsOverview extends Composite {
 	
 	public Label getNumberOfPluginsLable() {
 		return numberOfPluginsLable;
-	}
-	
+	}	
 }

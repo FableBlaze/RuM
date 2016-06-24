@@ -4,6 +4,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
+import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.plugins.internal.ui.overview.pluginstable.PluginsTableComposite;
 import ee.ut.cs.rum.plugins.ui.PluginsManagementUI;
 
@@ -13,11 +14,11 @@ public class OverviewTabContents extends Composite {
 	private PluginsOverview pluginsOverview;
 	private PluginsTableComposite pluginsTableComposite;
 
-	public OverviewTabContents(PluginsManagementUI pluginsManagementUI) {
+	public OverviewTabContents(PluginsManagementUI pluginsManagementUI, RumController rumController) {
 		super(pluginsManagementUI, SWT.NONE);
 		this.setLayout(new GridLayout(2, false));
 		
-		this.pluginsOverview = new PluginsOverview(this);
+		this.pluginsOverview = new PluginsOverview(this, rumController);
 		this.pluginsTableComposite = new PluginsTableComposite(this, pluginsManagementUI);
 	}
 	
