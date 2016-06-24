@@ -3,6 +3,7 @@
 	<name>RuM_Plugins</name>
 	<comment></comment>
 	<projects>
+		<project>RuM_Controller</project>
 		<project>RuM_Database</project>
 		<project>RuM_Plugin_Configuration</project>
 		<project>RuM_Plugin_Development</project>

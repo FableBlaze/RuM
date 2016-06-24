@@ -6,7 +6,8 @@ Bundle-Name: RuM_SystemAdministration
 Bundle-ManifestVersion: 2
 Bundle-Vendor: University of Tartu
 Bundle-Activator: ee.ut.cs.rum.administration.internal.Activator
-Import-Package: ee.ut.cs.rum.database,
+Import-Package: ee.ut.cs.rum.controller,
+ ee.ut.cs.rum.database,
  ee.ut.cs.rum.database.domain,
  ee.ut.cs.rum.database.domain.enums,
  ee.ut.cs.rum.database.util,

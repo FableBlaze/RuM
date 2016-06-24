@@ -42,8 +42,8 @@ public class RumUI extends AbstractEntryPoint {
 		
 		workspaceSection = new WorkspaceUI(sectionContainer, rumController);
 		filesSection = new Composite(sectionContainer, SWT.NONE);
-		pluginsManagementSection = new PluginsManagementUI(sectionContainer);
-		systemAdministrationSection = new SystemAdministrationUI(sectionContainer);
+		pluginsManagementSection = new PluginsManagementUI(sectionContainer, rumController);
+		systemAdministrationSection = new SystemAdministrationUI(sectionContainer, rumController);
 		accountDetailsSection = new Composite(sectionContainer, SWT.NONE);
 		
 		((StackLayout)sectionContainer.getLayout()).topControl = workspaceSection;

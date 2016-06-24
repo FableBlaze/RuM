@@ -6,6 +6,7 @@ import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 
+import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.plugins.internal.ui.overview.OverviewTabContents;
 
 public class PluginsManagementUI extends CTabFolder {
@@ -14,7 +15,7 @@ public class PluginsManagementUI extends CTabFolder {
 	private CTabItem overviewTab;
 	private OverviewTabContents overviewTabContents;
 	
-	public PluginsManagementUI(Composite parent) {
+	public PluginsManagementUI(Composite parent, RumController rumcontroller) {
 		super(parent, SWT.NONE);
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		
