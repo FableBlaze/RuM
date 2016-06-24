@@ -16,7 +16,7 @@ public class SystemAdministrationUI extends Composite {
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		this.setLayout(new GridLayout());
 		
-		new SystemParametersTableViewer(this);
+		new SystemParametersTableViewer(this, rumcontroller);
 	}
 
 }

@@ -5,5 +5,6 @@ public enum ControllerEntityType {
 	TASK,
 	SUBTASK,
 	USER_FILE,
-	PLUGIN
+	PLUGIN,
+	SYSTEM_PARAMETER
 }
