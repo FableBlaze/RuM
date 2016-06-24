@@ -47,7 +47,7 @@ public class UserFile implements RumUpdatableEntity {
 	private Date createdAt;
 	@Column(name = "last_modified_by")
 	private String lastModifiedBy;
-	@Column(name = "last_modified_at") //TODO: Implement modifying functionality 
+	@Column(name = "last_modified_at") 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastModifiedAt;
 	

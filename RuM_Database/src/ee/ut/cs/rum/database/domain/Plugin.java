@@ -54,7 +54,7 @@ public class Plugin implements RumUpdatableEntity {
 	private Date createdAt;
 	@Column(name = "last_modified_by")
 	private String lastModifiedBy;
-	@Column(name = "last_modified_at") //TODO: Implement modifying functionality 
+	@Column(name = "last_modified_at") 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastModifiedAt;
 	
@@ -64,6 +64,9 @@ public class Plugin implements RumUpdatableEntity {
 	}
 	public String getBundleSymbolicName() {
 		return bundleSymbolicName;
+	}
+	public void setBundleSymbolicName(String bundleSymbolicName) {
+		this.bundleSymbolicName = bundleSymbolicName;
 	}
 	public String getBundleVersion() {
 		return bundleVersion;
@@ -154,9 +157,6 @@ public class Plugin implements RumUpdatableEntity {
 	}
 	public void setLastModifiedAt(Date lastModifiedAt) {
 		this.lastModifiedAt = lastModifiedAt;
-	}
-	public void setBundleSymbolicName(String bundleSymbolicName) {
-		this.bundleSymbolicName = bundleSymbolicName;
 	}
 	
 	@Override

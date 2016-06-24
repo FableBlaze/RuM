@@ -2,6 +2,7 @@ package ee.ut.cs.rum.controller;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import ee.ut.cs.rum.controller.internal.Activator;
@@ -10,6 +11,7 @@ import ee.ut.cs.rum.database.domain.Project;
 import ee.ut.cs.rum.database.domain.SubTask;
 import ee.ut.cs.rum.database.domain.Task;
 import ee.ut.cs.rum.database.domain.UserFile;
+import ee.ut.cs.rum.database.domain.interfaces.RumUpdatableEntity;
 import ee.ut.cs.rum.database.util.PluginAccess;
 import ee.ut.cs.rum.database.util.ProjectAccess;
 import ee.ut.cs.rum.database.util.SubTaskAccess;
@@ -37,40 +39,54 @@ public class RumController {
 
 	public Object changeData(ControllerUpdateType controllerUpdateType, ControllerEntityType controllerEntityType, Object updatedEntity) {
 		Activator.getLogger().info("changeData - updateType: " + controllerUpdateType + ", entityType: " + controllerEntityType + ", entity: " + updatedEntity.toString());
-		switch (controllerEntityType) {
-		case PROJECT:
-			if (updatedEntity instanceof Project) {
-				Project project = (Project)updatedEntity;
-				updatedEntity = changeDataProject(controllerUpdateType, project);				
+		if (updatedEntity instanceof RumUpdatableEntity) {			
+			updatedEntity = updateCreateModifyInfo((RumUpdatableEntity)updatedEntity, controllerUpdateType);
+			switch (controllerEntityType) {
+			case PROJECT:
+				if (updatedEntity instanceof Project) {
+					Project project = (Project)updatedEntity;
+					updatedEntity = changeDataProject(controllerUpdateType, project);				
+				}
+				break;
+			case TASK:
+				if (updatedEntity instanceof Task) {
+					Task task = (Task)updatedEntity;
+					updatedEntity = changeDataTask(controllerUpdateType, task);				
+				}
+				break;
+			case USER_FILE:
+				if (updatedEntity instanceof UserFile) {
+					UserFile userFile = (UserFile)updatedEntity;
+					updatedEntity = changeDataUserFile(controllerUpdateType, userFile);				
+				}
+				break;
+			case PLUGIN:
+				if (updatedEntity instanceof Plugin) {
+					Plugin plugin = (Plugin)updatedEntity;
+					updatedEntity = changeDataPlugin(controllerUpdateType, plugin);				
+				}
+				break;
+			case SUBTASK:
+				if (updatedEntity instanceof SubTask) {
+					SubTask subTask = (SubTask)updatedEntity;
+					updatedEntity = changeDataSubTask(controllerUpdateType, subTask);				
+				}
+				break;
+			default:
+				break;
 			}
-			break;
-		case TASK:
-			if (updatedEntity instanceof Task) {
-				Task task = (Task)updatedEntity;
-				updatedEntity = changeDataTask(controllerUpdateType, task);				
-			}
-			break;
-		case USER_FILE:
-			if (updatedEntity instanceof UserFile) {
-				UserFile userFile = (UserFile)updatedEntity;
-				updatedEntity = changeDataUserFile(controllerUpdateType, userFile);				
-			}
-			break;
-		case PLUGIN:
-			if (updatedEntity instanceof Plugin) {
-				Plugin plugin = (Plugin)updatedEntity;
-				updatedEntity = changeDataPlugin(controllerUpdateType, plugin);				
-			}
-			break;
-		case SUBTASK:
-			if (updatedEntity instanceof SubTask) {
-				SubTask subTask = (SubTask)updatedEntity;
-				updatedEntity = changeDataSubTask(controllerUpdateType, subTask);				
-			}
-			break;
-		default:
-			break;
 		}
+		return updatedEntity;
+	}
+
+	private Object updateCreateModifyInfo(RumUpdatableEntity updatedEntity, ControllerUpdateType controllerUpdateType) {
+		Date date = new Date();
+		if (controllerUpdateType==ControllerUpdateType.CREATE) {
+			updatedEntity.setCreatedBy("TODO");
+			updatedEntity.setCreatedAt(date);
+		}
+		updatedEntity.setLastModifiedBy("TODO");
+		updatedEntity.setLastModifiedAt(date);
 		return updatedEntity;
 	}
 

@@ -1,6 +1,5 @@
 package ee.ut.cs.rum.workspace.internal.ui.project.dialog;
 
-import java.util.Date;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -76,10 +75,6 @@ public class NewProjectDialog extends Dialog {
 					Project project = new Project();
 					project.setName(nameValue.getText());
 					project.setDescription(descriptionValue.getText());
-					project.setCreatedBy("TODO");
-					project.setCreatedAt(new Date());
-					project.setLastModifiedBy("TODO");
-					project.setLastModifiedAt(new Date());
 					rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.PROJECT, project);
 					
 					shell.close();

@@ -46,6 +46,9 @@ public class SystemParameter implements RumUpdatableEntity {
 	public String getName() {
 		return name;
 	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	public String getDescription() {
 		return description;
 	}
@@ -81,9 +84,6 @@ public class SystemParameter implements RumUpdatableEntity {
 	}
 	public void setLastModifiedAt(Date lastModifiedAt) {
 		this.lastModifiedAt = lastModifiedAt;
-	}
-	public void setName(String name) {
-		this.name = name;
 	}
 	
 	@Override

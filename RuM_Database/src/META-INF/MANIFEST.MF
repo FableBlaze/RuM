@@ -15,6 +15,7 @@ Bundle-Activator: ee.ut.cs.rum.database.internal.Activator
 Export-Package: ee.ut.cs.rum.database,
  ee.ut.cs.rum.database.domain,
  ee.ut.cs.rum.database.domain.enums,
+ ee.ut.cs.rum.database.domain.interfaces,
  ee.ut.cs.rum.database.util
 Import-Bundle: org.postgresql.jdbc41;version="[9.4.0.build-1206,9.4.0.build-1206]"
 
