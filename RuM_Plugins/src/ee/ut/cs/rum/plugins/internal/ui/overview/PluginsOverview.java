@@ -18,14 +18,12 @@ public class PluginsOverview extends Composite {
 	private static final long serialVersionUID = 6363000997779117721L;
 	
 	private RumController rumController;
-	private OverviewTabContents overviewTabContents;
 	
 	private Label numberOfPluginsLable;
 
 	public PluginsOverview(OverviewTabContents overviewTabContents, RumController rumController) {
 		super(overviewTabContents, SWT.NONE);
 		
-		this.overviewTabContents = overviewTabContents;
 		this.rumController=rumController;
 		
 		this.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, true));
@@ -55,13 +53,9 @@ public class PluginsOverview extends Composite {
 
 			@Override
 			public void handleEvent(Event arg0) {
-				PluginUploadDialog pluginUploadDialog = new PluginUploadDialog(Display.getCurrent().getActiveShell(), overviewTabContents, rumController);
+				PluginUploadDialog pluginUploadDialog = new PluginUploadDialog(Display.getCurrent().getActiveShell(), rumController);
 				pluginUploadDialog.open();
 			}
 		});
-	}
-	
-	public Label getNumberOfPluginsLable() {
-		return numberOfPluginsLable;
 	}	
 }

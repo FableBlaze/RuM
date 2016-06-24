@@ -35,7 +35,7 @@ public class PluginsTableComposite extends Composite {
 		    private static final long serialVersionUID = 6791829930254798544L;
 
 			public void keyReleased(KeyEvent ke) {
-		    	  ((PluginsTableFilter) pluginsTableFilter).setSearchText(pluginsSearchInput.getText());
+				((PluginsTableFilter) pluginsTableFilter).setSearchText(pluginsSearchInput.getText());
 		        pluginsTableViewer.refresh();
 		      }
 
@@ -48,9 +48,4 @@ public class PluginsTableComposite extends Composite {
 		this.pluginsTableViewer.addFilter(pluginsTableFilter);
 		
 	}
-
-	public PluginsTableViewer getPluginsTableViewer() {
-		return pluginsTableViewer;
-	}
-
 }

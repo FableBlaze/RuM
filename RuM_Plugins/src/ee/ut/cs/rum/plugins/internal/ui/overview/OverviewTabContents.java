@@ -11,23 +11,11 @@ import ee.ut.cs.rum.plugins.ui.PluginsManagementUI;
 public class OverviewTabContents extends Composite {
 	private static final long serialVersionUID = 5073868530789359506L;
 	
-	private PluginsOverview pluginsOverview;
-	private PluginsTableComposite pluginsTableComposite;
-
 	public OverviewTabContents(PluginsManagementUI pluginsManagementUI, RumController rumController) {
 		super(pluginsManagementUI, SWT.NONE);
 		this.setLayout(new GridLayout(2, false));
 		
-		this.pluginsOverview = new PluginsOverview(this, rumController);
-		this.pluginsTableComposite = new PluginsTableComposite(this, pluginsManagementUI);
+		new PluginsOverview(this, rumController);
+		new PluginsTableComposite(this, pluginsManagementUI);
 	}
-	
-	public PluginsOverview getPluginsOverview() {
-		return pluginsOverview;
-	}
-	
-	public PluginsTableComposite getPluginsTableComposite() {
-		return pluginsTableComposite;
-	}
-	
 }

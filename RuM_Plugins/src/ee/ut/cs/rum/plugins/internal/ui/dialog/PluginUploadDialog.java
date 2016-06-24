@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
-
 import org.eclipse.rap.fileupload.DiskFileUploadReceiver;
 import org.eclipse.rap.fileupload.FileUploadHandler;
 import org.eclipse.rap.rwt.widgets.FileUpload;
@@ -24,19 +22,15 @@ import org.eclipse.swt.widgets.Shell;
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.database.domain.enums.SystemParameterName;
-import ee.ut.cs.rum.database.util.PluginAccess;
 import ee.ut.cs.rum.database.util.SystemParameterAccess;
 import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
 import ee.ut.cs.rum.plugins.internal.Activator;
-import ee.ut.cs.rum.plugins.internal.ui.overview.OverviewTabContents;
 
 public class PluginUploadDialog extends Dialog {
 	private static final long serialVersionUID = 3382119816602279394L;
 
 	private RumController rumController;
-	
-	private OverviewTabContents overviewTabContents;
 
 	private File temporaryFile;
 	private Plugin temporaryPlugin;
@@ -52,11 +46,10 @@ public class PluginUploadDialog extends Dialog {
 
 	private Button okButton;
 
-	public PluginUploadDialog(Shell activeShell, OverviewTabContents overviewTabContents, RumController rumController) {
+	public PluginUploadDialog(Shell activeShell, RumController rumController) {
 		super(activeShell, SWT.APPLICATION_MODAL | SWT.TITLE | SWT.BORDER);
 		
 		this.rumController=rumController;
-		this.overviewTabContents = overviewTabContents;
 	}
 
 	public String open() {
@@ -160,11 +153,6 @@ public class PluginUploadDialog extends Dialog {
 						temporaryPlugin.setUploadedBy("TODO"); //TODO: Add reference to the user
 						temporaryPlugin.setFileLocation(destinationFile.toPath().toString());
 						rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.PLUGIN, temporaryPlugin);
-						
-						//TODO: Implement proper UI updating (MCV)
-						List<Plugin> plugins = PluginAccess.getPluginsDataFromDb();
-						overviewTabContents.getPluginsTableComposite().getPluginsTableViewer().setInput(plugins);
-						overviewTabContents.getPluginsOverview().getNumberOfPluginsLable().setText(Integer.toString(plugins.size()));
 						
 						shell.close();
 					} else {
