@@ -26,6 +26,7 @@ public class SystemParametersTableViewer extends TableViewer implements RumUpdat
 	private static final long serialVersionUID = 73600176583676925L;
 
 	private Display display;
+	private RumController rumController;
 
 	private List<SystemParameter> systemParameters;
 
@@ -33,6 +34,7 @@ public class SystemParametersTableViewer extends TableViewer implements RumUpdat
 		super(systemAdministrationUI, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 
 		this.display=Display.getCurrent();
+		this.rumController=rumController;
 		rumController.registerView(this, ControllerEntityType.SYSTEM_PARAMETER);
 
 		createColumns(this);
@@ -104,7 +106,7 @@ public class SystemParametersTableViewer extends TableViewer implements RumUpdat
 				return systemParameter.getValue();
 			}
 		});
-		valueColumn.setEditingSupport(new SystemParameterValueEditingSupport(viewer));
+		valueColumn.setEditingSupport(new SystemParameterValueEditingSupport(viewer, rumController));
 	}
 
 	private static TableViewerColumn createTableViewerColumn(String title, int bound, final TableViewer viewer) {

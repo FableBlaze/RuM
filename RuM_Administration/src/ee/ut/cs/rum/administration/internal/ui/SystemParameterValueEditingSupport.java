@@ -5,20 +5,22 @@ import org.eclipse.jface.viewers.EditingSupport;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
 
+import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.SystemParameter;
-import ee.ut.cs.rum.database.domain.enums.SystemParameterName;
-import ee.ut.cs.rum.database.util.SystemParameterAccess;
+import ee.ut.cs.rum.enums.ControllerEntityType;
+import ee.ut.cs.rum.enums.ControllerUpdateType;
 
 public class SystemParameterValueEditingSupport extends EditingSupport {
 	private static final long serialVersionUID = -5172543737241228835L;
 	
-	private final TableViewer viewer;
 	private final CellEditor editor;
+	private RumController rumController;
 
-	public SystemParameterValueEditingSupport(TableViewer viewer) {
+	public SystemParameterValueEditingSupport(TableViewer viewer, RumController rumController) {
 		super(viewer);
-		this.viewer = viewer;
 		this.editor = new TextCellEditor(viewer.getTable());
+		
+		this.rumController=rumController;
 	}
 
 	@Override
@@ -43,12 +45,10 @@ public class SystemParameterValueEditingSupport extends EditingSupport {
 
 	@Override
 	protected void setValue(Object element, Object userInputValue) {
-		SystemParameterName systemParameterName = SystemParameterName.valueOf(((SystemParameter) element).getName());
-		boolean setValueSuccess = SystemParameterAccess.updateParameterValue(systemParameterName, String.valueOf(userInputValue));
-		if (setValueSuccess) {
-			((SystemParameter) element).setValue(String.valueOf(userInputValue));
-			viewer.update(element, null);
-		}
+		
+		SystemParameter systemParameter = (SystemParameter) element;
+		systemParameter.setValue(String.valueOf(userInputValue));
+		rumController.changeData(ControllerUpdateType.MODIFIY, ControllerEntityType.SYSTEM_PARAMETER, systemParameter, "TODO");
 	}
 
 }

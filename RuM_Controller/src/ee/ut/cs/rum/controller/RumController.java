@@ -9,12 +9,15 @@ import ee.ut.cs.rum.controller.internal.Activator;
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.database.domain.Project;
 import ee.ut.cs.rum.database.domain.SubTask;
+import ee.ut.cs.rum.database.domain.SystemParameter;
 import ee.ut.cs.rum.database.domain.Task;
 import ee.ut.cs.rum.database.domain.UserFile;
+import ee.ut.cs.rum.database.domain.enums.SystemParameterName;
 import ee.ut.cs.rum.database.domain.interfaces.RumUpdatableEntity;
 import ee.ut.cs.rum.database.util.PluginAccess;
 import ee.ut.cs.rum.database.util.ProjectAccess;
 import ee.ut.cs.rum.database.util.SubTaskAccess;
+import ee.ut.cs.rum.database.util.SystemParameterAccess;
 import ee.ut.cs.rum.database.util.TaskAccess;
 import ee.ut.cs.rum.database.util.UserFileAccess;
 import ee.ut.cs.rum.enums.ControllerEntityType;
@@ -28,6 +31,7 @@ public class RumController {
 	private List<RumUpdatableView> subTaskListeners;
 	private List<RumUpdatableView> userFileListeners;
 	private List<RumUpdatableView> pluginListeners;
+	private List<RumUpdatableView> systemParameterListeners;
 
 	public RumController() {
 		projectListeners = Collections.synchronizedList(new ArrayList<RumUpdatableView>());
@@ -35,6 +39,7 @@ public class RumController {
 		subTaskListeners = Collections.synchronizedList(new ArrayList<RumUpdatableView>());
 		userFileListeners = Collections.synchronizedList(new ArrayList<RumUpdatableView>());
 		pluginListeners = Collections.synchronizedList(new ArrayList<RumUpdatableView>());
+		systemParameterListeners = Collections.synchronizedList(new ArrayList<RumUpdatableView>());
 	}
 
 	public Object changeData(ControllerUpdateType controllerUpdateType, ControllerEntityType controllerEntityType, Object updatedEntity, String user) {
@@ -70,6 +75,12 @@ public class RumController {
 				if (updatedEntity instanceof Plugin) {
 					Plugin plugin = (Plugin)updatedEntity;
 					updatedEntity = changeDataPlugin(controllerUpdateType, plugin);				
+				}
+				break;
+			case SYSTEM_PARAMETER:
+				if (updatedEntity instanceof SystemParameter) {
+					SystemParameter systemParameter = (SystemParameter)updatedEntity;
+					updatedEntity = changeDataSystemParameter(controllerUpdateType, systemParameter);				
 				}
 				break;
 			default:
@@ -119,7 +130,7 @@ public class RumController {
 		}
 		return finalProject;
 	}
-	
+
 	private Task changeDataTask(ControllerUpdateType controllerUpdateType, Task task) {
 		switch (controllerUpdateType) {
 		case CREATE:
@@ -148,7 +159,7 @@ public class RumController {
 		}
 		return finalTask;
 	}
-	
+
 	private Object changeDataSubTask(ControllerUpdateType controllerUpdateType, SubTask subTask) {
 		switch (controllerUpdateType) {
 		case CREATE:
@@ -177,7 +188,7 @@ public class RumController {
 		}
 		return finalSubTask;
 	}
-	
+
 	private Object changeDataUserFile(ControllerUpdateType controllerUpdateType, UserFile userFile) {
 		switch (controllerUpdateType) {
 		case CREATE:
@@ -205,7 +216,7 @@ public class RumController {
 		}
 		return finalUserFile;
 	}
-	
+
 	private Object changeDataPlugin(ControllerUpdateType controllerUpdateType, Plugin plugin) {
 		switch (controllerUpdateType) {
 		case CREATE:
@@ -234,6 +245,30 @@ public class RumController {
 		return finalPlugin;
 	}
 	
+	private Object changeDataSystemParameter(ControllerUpdateType controllerUpdateType, SystemParameter systemParameter) {
+		//SystemParameter is a special case where only modification is allowed
+		switch (controllerUpdateType) {
+		case MODIFIY:
+			SystemParameterName systemParameterName = SystemParameterName.valueOf(systemParameter.getName());
+			SystemParameterAccess.updateParameterValue(systemParameterName, systemParameter.getValue());
+			break;
+		default:
+			break;
+		}
+		final SystemParameter finalSystemParameter = systemParameter;
+		synchronized (systemParameterListeners) {
+			Thread thread = new Thread(new Runnable() {
+				public void run() {
+					for (RumUpdatableView rumUpdatableView : systemParameterListeners) {
+						rumUpdatableView.controllerUpdateNotify(controllerUpdateType, finalSystemParameter);
+					}
+				}
+			});  
+			thread.start();
+		}
+		return finalSystemParameter;
+	}
+
 	public void registerView(RumUpdatableView rumView, ControllerEntityType controllerEntityType) {
 		switch (controllerEntityType) {
 		case TASK:
@@ -250,6 +285,9 @@ public class RumController {
 			break;
 		case SUBTASK:
 			subTaskListeners.add(rumView);
+			break;
+		case SYSTEM_PARAMETER:
+			systemParameterListeners.add(rumView);
 			break;
 		default:
 			break;
@@ -273,6 +311,9 @@ public class RumController {
 			break;
 		case SUBTASK:
 			subTaskListeners.remove(rumView);
+			break;
+		case SYSTEM_PARAMETER:
+			systemParameterListeners.remove(rumView);
 			break;
 		default:
 			break;
