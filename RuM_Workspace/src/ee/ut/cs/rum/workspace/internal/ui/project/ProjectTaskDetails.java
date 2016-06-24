@@ -18,7 +18,6 @@ import ee.ut.cs.rum.database.domain.Task;
 import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
 import ee.ut.cs.rum.interfaces.RumUpdatableView;
-import ee.ut.cs.rum.workspace.internal.ui.task.details.TaskDetails;
 import ee.ut.cs.rum.workspace.internal.ui.task.details.TaskDetailsComposite;
 
 public class ProjectTaskDetails extends Composite implements RumUpdatableView {
@@ -117,8 +116,8 @@ public class ProjectTaskDetails extends Composite implements RumUpdatableView {
 				
 				//Checking if the tab is already open
 				for (CTabItem c : projectTabFolder.getItems()) {
-					if (c.getControl().getClass() == TaskDetails.class) {
-						if (((TaskDetails)c.getControl()).getTaskId() == taskId) {
+					if (c.getControl().getClass() == TaskDetailsComposite.class) {
+						if (((TaskDetailsComposite)c.getControl()).getTask().getId() == taskId) {
 							cTabItem = c;
 							projectTabFolder.setSelection(c);
 						}
