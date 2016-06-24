@@ -58,17 +58,17 @@ public class TaskGeneralInfo extends Composite {
 		label.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
 		label = new Label(this, SWT.NONE);
-		label.setText("Last change at:");
-		label.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
-		label = new Label(this, SWT.NONE);
-		label.setText("TODO");
-		label.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, false));
-		
-		label = new Label(this, SWT.NONE);
 		label.setText("Created at:");
 		label.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
 		label = new Label(this, SWT.NONE);
 		label.setText(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(task.getCreatedAt()));
+		label.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, false));
+		
+		label = new Label(this, SWT.NONE);
+		label.setText("Last change at:");
+		label.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
+		label = new Label(this, SWT.NONE);
+		label.setText(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(task.getLastModifiedAt()));
 		label.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, false));
 		
 		Label subTaskGraphComposite = new Label(this, SWT.NONE);

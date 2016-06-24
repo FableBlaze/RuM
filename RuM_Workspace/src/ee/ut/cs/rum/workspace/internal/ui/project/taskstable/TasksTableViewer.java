@@ -1,5 +1,6 @@
 package ee.ut.cs.rum.workspace.internal.ui.project.taskstable;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -59,8 +60,8 @@ public class TasksTableViewer extends TableViewer implements RumUpdatableView {
 	}
 	
 	private void createColumns(TasksTableViewer viewer) {
-		String[] titles = { "Name", "Sub-tasks", "Status", "Last updated"};
-		int[] bounds = { 200, 100, 125, 125 };
+		String[] titles = { "Name", "Sub-tasks", "Status", "Last change at"};
+		int[] bounds = { 200, 100, 125, 175 };
 
 		TableViewerColumn nameColumn = createTableViewerColumn(titles[0], bounds[0], viewer);
 		nameColumn.setLabelProvider(new ColumnLabelProvider() {
@@ -94,13 +95,14 @@ public class TasksTableViewer extends TableViewer implements RumUpdatableView {
 			}
 		});
 		
-		TableViewerColumn lastUpdatedColumn = createTableViewerColumn(titles[3], bounds[3], viewer);
-		lastUpdatedColumn.setLabelProvider(new ColumnLabelProvider() {
+		TableViewerColumn lastModifiedAtColumn = createTableViewerColumn(titles[3], bounds[3], viewer);
+		lastModifiedAtColumn.setLabelProvider(new ColumnLabelProvider() {
 			private static final long serialVersionUID = 3624836381657429104L;
 			
 			@Override
 			public String getText(Object element) {
-				return "TODO";
+				Task task = (Task) element;
+				return new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(task.getLastModifiedAt());
 			}
 		});
 	}

@@ -32,8 +32,8 @@ public class ProjectTaskDetails extends Composite implements RumUpdatableView {
 	private Label taskDescription;
 	private Label taskSubTasks;
 	private Label taskStatus;
-	private Label createdAt;
-	private Label lastChangeAt;
+	private Label taskCreatedAt;
+	private Label taskLastChangeAt;
 
 
 	public ProjectTaskDetails(ProjectDetailsContainer projectDetailsContainer, Task task, RumController rumController) {
@@ -86,16 +86,16 @@ public class ProjectTaskDetails extends Composite implements RumUpdatableView {
 		label = new Label(this, SWT.NONE);
 		label.setText("Created at:");
 		label.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
-		createdAt = new Label(this, SWT.NONE);
-		createdAt.setText(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(task.getCreatedAt()));
-		createdAt.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		taskCreatedAt = new Label(this, SWT.NONE);
+		taskCreatedAt.setText(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(task.getCreatedAt()));
+		taskCreatedAt.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
 		label = new Label(this, SWT.NONE);
 		label.setText("Last change at:");
 		label.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
-		lastChangeAt = new Label(this, SWT.NONE);
-		lastChangeAt.setText("TODO");
-		lastChangeAt.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		taskLastChangeAt = new Label(this, SWT.NONE);
+		taskLastChangeAt.setText(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(task.getLastModifiedAt()));
+		taskLastChangeAt.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
 
 		Label subTaskGraph = new Label(this, SWT.NONE);
@@ -146,8 +146,7 @@ public class ProjectTaskDetails extends Composite implements RumUpdatableView {
 							taskName.setText(updatedTask.getName());
 							taskDescription.setText(updatedTask.getDescription());
 							taskStatus.setText(updatedTask.getStatus().toString());
-							//TODO: Project last change
-							lastChangeAt.setText("TODO");
+							taskLastChangeAt.setText(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(task.getLastModifiedAt()));
 						}
 					});
 					break;

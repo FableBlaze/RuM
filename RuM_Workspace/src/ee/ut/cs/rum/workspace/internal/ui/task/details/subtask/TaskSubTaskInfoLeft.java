@@ -26,7 +26,7 @@ public class TaskSubTaskInfoLeft extends Composite implements RumUpdatableView {
 	private Label subTaskName;
 	private Label subTaskDescription;
 	private Label subTaskStatus;
-	private Label subTaskLastChange;
+	private Label subTaskLastModifiedAt;
 	private Label subTaskCreatedAt;
 
 	public TaskSubTaskInfoLeft(TaskSubTaskInfo taskSubTaskInfo, RumController rumController, SubTask subTask) {
@@ -70,18 +70,18 @@ public class TaskSubTaskInfoLeft extends Composite implements RumUpdatableView {
 		subTaskStatus.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, false));
 
 		label = new Label(this, SWT.NONE);
-		label.setText("Last change at:");
-		label.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
-		subTaskLastChange = new Label(this, SWT.NONE);
-		subTaskLastChange.setText("TODO");
-		subTaskLastChange.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, false));
-
-		label = new Label(this, SWT.NONE);
 		label.setText("Created at:");
 		label.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
 		subTaskCreatedAt = new Label(this, SWT.NONE);
 		subTaskCreatedAt.setText(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(subTask.getCreatedAt()));
 		subTaskCreatedAt.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, false));
+		
+		label = new Label(this, SWT.NONE);
+		label.setText("Last change at:");
+		label.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
+		subTaskLastModifiedAt = new Label(this, SWT.NONE);
+		subTaskLastModifiedAt.setText(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(subTask.getLastModifiedAt()));
+		subTaskLastModifiedAt.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, false));
 
 		PluginInfoComposite pluginInfoComposite = new PluginInfoComposite(this);
 		pluginInfoComposite.updateSelectedPluginInfo(subTask.getPlugin());
@@ -102,8 +102,7 @@ public class TaskSubTaskInfoLeft extends Composite implements RumUpdatableView {
 							subTaskName.setText(updatedSubTask.getName());
 							subTaskDescription.setText(updatedSubTask.getDescription());
 							subTaskStatus.setText(updatedSubTask.getStatus().toString());
-							//TODO: SubTask last change
-							subTaskLastChange.setText("TODO");
+							subTaskLastModifiedAt.setText(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(subTask.getLastModifiedAt()));
 						}
 					});
 					break;

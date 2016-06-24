@@ -1,5 +1,6 @@
 package ee.ut.cs.rum.workspace.internal.ui.overview.projectstable;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -57,8 +58,8 @@ public class ProjectsTableViewer extends TableViewer implements RumUpdatableView
 	}
 
 	private static void createColumns(final TableViewer viewer) {
-		String[] titles = { "Name", "New updates", "Last Updated", "Type"};
-		int[] bounds = { 200, 100, 125, 125 };
+		String[] titles = { "Name", "New updates", "Last change at", "Type"};
+		int[] bounds = { 200, 100, 175, 125 };
 
 		TableViewerColumn nameColumn = createTableViewerColumn(titles[0], bounds[0], viewer);
 		nameColumn.setLabelProvider(new ColumnLabelProvider() {
@@ -81,13 +82,14 @@ public class ProjectsTableViewer extends TableViewer implements RumUpdatableView
 			}
 		});
 
-		TableViewerColumn lastUpdatedColumn = createTableViewerColumn(titles[2], bounds[2], viewer);
-		lastUpdatedColumn.setLabelProvider(new ColumnLabelProvider() {
+		TableViewerColumn lastModifiedAtColumn = createTableViewerColumn(titles[2], bounds[2], viewer);
+		lastModifiedAtColumn.setLabelProvider(new ColumnLabelProvider() {
 			private static final long serialVersionUID = -8975942909693559289L;
 
 			@Override
 			public String getText(Object element) {
-				return "TODO";
+				Project project = (Project) element;
+				return new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(project.getLastModifiedAt());
 			}
 		});
 

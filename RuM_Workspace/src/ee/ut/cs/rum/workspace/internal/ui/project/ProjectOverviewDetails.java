@@ -25,7 +25,7 @@ public class ProjectOverviewDetails extends Composite implements RumUpdatableVie
 	private Label projectName;
 	private Label projectDescription;
 	private Label projectCreatedAt;
-	private Label projectLastChangeAt;
+	private Label projectLastModifiedAt;
 
 	public ProjectOverviewDetails(ProjectDetailsContainer projectDetailsContainer, RumController rumController) {
 		super(projectDetailsContainer, SWT.NONE);
@@ -63,9 +63,9 @@ public class ProjectOverviewDetails extends Composite implements RumUpdatableVie
 		nameLabel = new Label(this, SWT.NONE);
 		nameLabel.setText("Last change at:");
 		nameLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
-		projectLastChangeAt = new Label(this, SWT.NONE);
-		projectLastChangeAt.setText(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(project.getLastModifiedAt()));
-		projectLastChangeAt.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		projectLastModifiedAt = new Label(this, SWT.NONE);
+		projectLastModifiedAt.setText(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(project.getLastModifiedAt()));
+		projectLastModifiedAt.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
 		Label notificationsTable = new Label(this, SWT.NONE);
 		notificationsTable.setText("Project notifications (TODO)");
@@ -86,8 +86,7 @@ public class ProjectOverviewDetails extends Composite implements RumUpdatableVie
 						public void run() {
 							projectName.setText(updatedProject.getName());
 							projectDescription.setText(updatedProject.getDescription());
-							//TODO: Project last change
-							projectLastChangeAt.setText("TODO");
+							projectLastModifiedAt.setText(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(project.getLastModifiedAt()));
 						}
 					});
 					break;
