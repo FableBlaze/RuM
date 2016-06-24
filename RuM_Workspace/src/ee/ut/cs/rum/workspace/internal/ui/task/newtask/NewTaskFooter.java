@@ -63,9 +63,11 @@ public class NewTaskFooter extends Composite {
 					task.setName(newTaskGeneralInfo.getNewTaskName());
 					task.setDescription(newTaskGeneralInfo.getNewTaskDescription());
 					task.setStatus(TaskStatus.NEW);
-					task.setCreatedBy("TODO");
 					task.setProject(newTaskComposite.getProjectTabFolder().getProject());
+					task.setCreatedBy("TODO");
 					task.setCreatedAt(new Date());
+					task.setLastModifiedBy("TODO");
+					task.setLastModifiedAt(new Date());
 
 					//TODO: Task should be added in the same transaction with subTasks
 					task = (Task)rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.TASK, task);
@@ -78,7 +80,10 @@ public class NewTaskFooter extends Composite {
 						subTask.setName(newTaskSubTaskInfo.getSubTaskName());
 						subTask.setDescription(newTaskSubTaskInfo.getSubTaskDescription());
 						subTask.setStatus(TaskStatus.NEW);
+						subTask.setCreatedBy("TODO");
 						subTask.setCreatedAt(createdAt);
+						subTask.setLastModifiedBy("TODO");
+						subTask.setLastModifiedAt(createdAt);
 
 						Table table = newTaskSubTaskInfo.getPluginsTableComposite().getPluginsTableViewer().getTable();
 						//TODO: Button should be disabled when a sub-task has no plugin selected
