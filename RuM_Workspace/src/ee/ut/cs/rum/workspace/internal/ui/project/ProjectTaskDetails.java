@@ -33,7 +33,7 @@ public class ProjectTaskDetails extends Composite implements RumUpdatableView {
 	private Label taskSubTasks;
 	private Label taskStatus;
 	private Label taskCreatedAt;
-	private Label taskLastChangeAt;
+	private Label taskLastModifiedAt;
 
 
 	public ProjectTaskDetails(ProjectDetailsContainer projectDetailsContainer, Task task, RumController rumController) {
@@ -93,9 +93,9 @@ public class ProjectTaskDetails extends Composite implements RumUpdatableView {
 		label = new Label(this, SWT.NONE);
 		label.setText("Last change at:");
 		label.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
-		taskLastChangeAt = new Label(this, SWT.NONE);
-		taskLastChangeAt.setText(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(task.getLastModifiedAt()));
-		taskLastChangeAt.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		taskLastModifiedAt = new Label(this, SWT.NONE);
+		taskLastModifiedAt.setText(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(task.getLastModifiedAt()));
+		taskLastModifiedAt.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
 
 		Label subTaskGraph = new Label(this, SWT.NONE);
@@ -146,7 +146,7 @@ public class ProjectTaskDetails extends Composite implements RumUpdatableView {
 							taskName.setText(updatedTask.getName());
 							taskDescription.setText(updatedTask.getDescription());
 							taskStatus.setText(updatedTask.getStatus().toString());
-							taskLastChangeAt.setText(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(task.getLastModifiedAt()));
+							taskLastModifiedAt.setText(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(task.getLastModifiedAt()));
 						}
 					});
 					break;
