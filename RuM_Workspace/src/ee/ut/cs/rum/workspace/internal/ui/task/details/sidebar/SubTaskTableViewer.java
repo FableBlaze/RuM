@@ -127,7 +127,6 @@ public class SubTaskTableViewer extends TableViewer implements RumUpdatableView 
 				break;
 			}
 		}
-
 	}
 
 	private int findSubTaskIndex(SubTask subTask) {

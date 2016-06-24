@@ -24,8 +24,8 @@ public class ProjectOverviewDetails extends Composite implements RumUpdatableVie
 	private Project project;
 	private Label projectName;
 	private Label projectDescription;
-	private Label createdAt;
-	private Label lastChangeAt;
+	private Label projectCreatedAt;
+	private Label projectLastChangeAt;
 
 	public ProjectOverviewDetails(ProjectDetailsContainer projectDetailsContainer, RumController rumController) {
 		super(projectDetailsContainer, SWT.NONE);
@@ -56,16 +56,16 @@ public class ProjectOverviewDetails extends Composite implements RumUpdatableVie
 		nameLabel = new Label(this, SWT.NONE);
 		nameLabel.setText("Created at:");
 		nameLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
-		createdAt = new Label(this, SWT.NONE);
-		createdAt.setText(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(project.getCreatedAt()));
-		createdAt.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		projectCreatedAt = new Label(this, SWT.NONE);
+		projectCreatedAt.setText(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(project.getCreatedAt()));
+		projectCreatedAt.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
 		nameLabel = new Label(this, SWT.NONE);
 		nameLabel.setText("Last change at:");
 		nameLabel.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
-		lastChangeAt = new Label(this, SWT.NONE);
-		lastChangeAt.setText(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(project.getLastModifiedAt()));
-		lastChangeAt.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		projectLastChangeAt = new Label(this, SWT.NONE);
+		projectLastChangeAt.setText(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(project.getLastModifiedAt()));
+		projectLastChangeAt.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
 		Label notificationsTable = new Label(this, SWT.NONE);
 		notificationsTable.setText("Project notifications (TODO)");
@@ -87,7 +87,7 @@ public class ProjectOverviewDetails extends Composite implements RumUpdatableVie
 							projectName.setText(updatedProject.getName());
 							projectDescription.setText(updatedProject.getDescription());
 							//TODO: Project last change
-							lastChangeAt.setText("TODO");
+							projectLastChangeAt.setText("TODO");
 						}
 					});
 					break;
