@@ -27,9 +27,6 @@ public class SubTask {
 	private String description;
 	@Column(name = "status")
 	private TaskStatus status;
-	@Column(name = "created_at")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date createdAt;
 	@JoinColumn(name = "plugin_fk")
 	private Plugin plugin;
 	@Column(name = "configuration_values", columnDefinition = "TEXT")
@@ -38,6 +35,16 @@ public class SubTask {
 	private Task task;
 	@Column(name = "output_path")
 	private String outputPath;
+	@Column(name = "created_by")
+	private String createdBy;
+	@Column(name = "created_at")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date createdAt;
+	@Column(name = "last_modified_by")
+	private String lastModifiedBy;
+	@Column(name = "last_modified_at") //TODO: Implement modifying functionality 
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date lastModifiedAt;
 	
 	public Long getId() {
 		return id;
@@ -59,12 +66,6 @@ public class SubTask {
 	}
 	public void setStatus(TaskStatus status) {
 		this.status = status;
-	}
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
 	}
 	public Plugin getPlugin() {
 		return plugin;
@@ -90,10 +91,36 @@ public class SubTask {
 	public void setOutputPath(String outputPath) {
 		this.outputPath = outputPath;
 	}
+	public String getCreatedBy() {
+		return createdBy;
+	}
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+	public String getLastModifiedBy() {
+		return lastModifiedBy;
+	}
+	public void setLastModifiedBy(String lastModifiedBy) {
+		this.lastModifiedBy = lastModifiedBy;
+	}
+	public Date getLastModifiedAt() {
+		return lastModifiedAt;
+	}
+	public void setLastModifiedAt(Date lastModifiedAt) {
+		this.lastModifiedAt = lastModifiedAt;
+	}
+	
 	@Override
 	public String toString() {
 		return "SubTask [id=" + id + ", name=" + name + ", description=" + description + ", status=" + status
-				+ ", createdAt=" + createdAt + ", plugin=" + plugin + ", configurationValues=" + configurationValues
-				+ ", task=" + task + ", outputPath=" + outputPath + "]";
+				+ ", plugin=" + plugin + ", configurationValues=" + configurationValues + ", task=" + task
+				+ ", outputPath=" + outputPath + ", createdBy=" + createdBy + ", createdAt=" + createdAt
+				+ ", lastModifiedBy=" + lastModifiedBy + ", lastModifiedAt=" + lastModifiedAt + "]";
 	}
 }

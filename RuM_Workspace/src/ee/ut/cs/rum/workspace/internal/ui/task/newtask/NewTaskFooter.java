@@ -64,7 +64,7 @@ public class NewTaskFooter extends Composite {
 					task.setDescription(newTaskGeneralInfo.getNewTaskDescription());
 					task.setStatus(TaskStatus.NEW);
 					task.setCreatedBy("TODO");
-					task.setProjectId(newTaskComposite.getProjectTabFolder().getProject());
+					task.setProject(newTaskComposite.getProjectTabFolder().getProject());
 					task.setCreatedAt(new Date());
 
 					//TODO: Task should be added in the same transaction with subTasks
