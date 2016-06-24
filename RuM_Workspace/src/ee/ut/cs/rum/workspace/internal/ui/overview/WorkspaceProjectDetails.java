@@ -99,7 +99,7 @@ public class WorkspaceProjectDetails extends Composite implements RumUpdatableVi
 						public void run() {
 							projectName.setText(updatedProject.getName());
 							projectDescription.setText(updatedProject.getDescription());
-							projectLastModifiedAt.setText(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(project.getLastModifiedAt()));
+							projectLastModifiedAt.setText(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(updatedProject.getLastModifiedAt()));
 						}
 					});
 					break;

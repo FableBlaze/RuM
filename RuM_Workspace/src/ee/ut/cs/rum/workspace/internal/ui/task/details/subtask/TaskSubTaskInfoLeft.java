@@ -102,7 +102,7 @@ public class TaskSubTaskInfoLeft extends Composite implements RumUpdatableView {
 							subTaskName.setText(updatedSubTask.getName());
 							subTaskDescription.setText(updatedSubTask.getDescription());
 							subTaskStatus.setText(updatedSubTask.getStatus().toString());
-							subTaskLastModifiedAt.setText(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(subTask.getLastModifiedAt()));
+							subTaskLastModifiedAt.setText(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(updatedSubTask.getLastModifiedAt()));
 						}
 					});
 					break;
