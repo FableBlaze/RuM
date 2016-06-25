@@ -107,7 +107,7 @@ public class TasksTableViewer extends TableViewer implements RumUpdatableView {
 		});
 	}
 
-	private static TableViewerColumn createTableViewerColumn(String title, int bound, final TableViewer viewer) {
+	private TableViewerColumn createTableViewerColumn(String title, int bound, final TableViewer viewer) {
 		final TableViewerColumn viewerColumn = new TableViewerColumn(viewer, SWT.NONE);
 		final TableColumn column = viewerColumn.getColumn();
 		column.setText(title);

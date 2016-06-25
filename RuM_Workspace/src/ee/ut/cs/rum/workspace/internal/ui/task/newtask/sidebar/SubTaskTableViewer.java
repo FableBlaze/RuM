@@ -24,7 +24,7 @@ public class SubTaskTableViewer extends TableViewer {
 		table.setLinesVisible(true);
 	}
 	
-	private static void createColumns(final TableViewer viewer) {
+	private void createColumns(final TableViewer viewer) {
 		String[] titles = {"Name"};
 		int[] bounds = {200};
 
@@ -40,7 +40,7 @@ public class SubTaskTableViewer extends TableViewer {
 		});
 	}
 	
-	private static TableViewerColumn createTableViewerColumn(String title, int bound, final TableViewer viewer) {
+	private TableViewerColumn createTableViewerColumn(String title, int bound, final TableViewer viewer) {
 		final TableViewerColumn viewerColumn = new TableViewerColumn(viewer, SWT.NONE);
 		final TableColumn column = viewerColumn.getColumn();
 		column.setText(title);

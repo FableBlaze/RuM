@@ -109,7 +109,7 @@ public class SystemParametersTableViewer extends TableViewer implements RumUpdat
 		valueColumn.setEditingSupport(new SystemParameterValueEditingSupport(viewer, rumController));
 	}
 
-	private static TableViewerColumn createTableViewerColumn(String title, int bound, final TableViewer viewer) {
+	private TableViewerColumn createTableViewerColumn(String title, int bound, final TableViewer viewer) {
 		final TableViewerColumn viewerColumn = new TableViewerColumn(viewer, SWT.NONE);
 		final TableColumn column = viewerColumn.getColumn();
 		column.setText(title);
