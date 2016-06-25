@@ -96,8 +96,10 @@ public class NewTaskFooter extends Composite {
 						
 						subTask = (SubTask)rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.SUBTASK, subTask, "TODO");
 						
-						RumScheduler.scheduleTask(subTask.getId());
 					}
+					
+					RumScheduler.scheduleTask(task.getId());
+
 					Activator.getLogger().info(task.toString());
 				}
 			}
