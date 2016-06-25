@@ -61,11 +61,15 @@ public final class SystemParameterAccess {
 		return systemParameter;
 	}
 	
-	public static boolean updateParameterValue(SystemParameterName systemParameterName, String newValue) {
+	public static boolean updateParameterValue(SystemParameter updatedSystemParameter) {
+		//TODO: Review updating process
 		boolean setValueSuccess = false;
+		SystemParameterName systemParameterName = SystemParameterName.valueOf(updatedSystemParameter.getName());
 		SystemParameter systemParameter = SystemParameterAccess.getSystemParameterDataFromDb(systemParameterName);
 		if (systemParameter!=null) {
-			systemParameter.setValue(newValue);
+			systemParameter.setValue(updatedSystemParameter.getValue());
+			systemParameter.setLastModifiedBy(updatedSystemParameter.getLastModifiedBy());
+			systemParameter.setLastModifiedAt(updatedSystemParameter.getLastModifiedAt());
 			EntityManagerFactory emf = Activator.getEmf();
 			EntityManager em = emf.createEntityManager();
 			em.getTransaction().begin();

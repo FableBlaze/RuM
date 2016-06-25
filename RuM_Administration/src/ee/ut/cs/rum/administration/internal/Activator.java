@@ -1,5 +1,7 @@
 package ee.ut.cs.rum.administration.internal;
 
+import java.util.Date;
+
 import javax.persistence.EntityManagerFactory;
 
 import org.osgi.framework.BundleActivator;
@@ -44,19 +46,36 @@ public class Activator implements BundleActivator {
 	}
 	
 	private static void initializeSystemParameters() {
+		Date date;
+		
 		SystemParameter systemParameter = new SystemParameter();
 		systemParameter.setName(SystemParameterName.PLUGIN_PATH.toString());
 		systemParameter.setDescription("Location of plugin jars");
+		date = new Date();
+		systemParameter.setCreatedBy("SYS (TODO)");
+		systemParameter.setCreatedAt(date);
+		systemParameter.setLastModifiedBy("SYS (TODO)");
+		systemParameter.setLastModifiedAt(date);
 		SystemParameterAccess.addSystemParameterDataToDb(systemParameter);
 		
 		systemParameter = new SystemParameter();
 		systemParameter.setName(SystemParameterName.USER_FILE_PATH.toString());
 		systemParameter.setDescription("Location of user uploaded files");
+		date = new Date();
+		systemParameter.setCreatedBy("SYS (TODO)");
+		systemParameter.setCreatedAt(date);
+		systemParameter.setLastModifiedBy("SYS (TODO)");
+		systemParameter.setLastModifiedAt(date);
 		SystemParameterAccess.addSystemParameterDataToDb(systemParameter);
 		
 		systemParameter = new SystemParameter();
 		systemParameter.setName(SystemParameterName.TASK_RESULTS_ROOT.toString());
 		systemParameter.setDescription("Location of task output folders");
+		date = new Date();
+		systemParameter.setCreatedBy("SYS (TODO)");
+		systemParameter.setCreatedAt(date);
+		systemParameter.setLastModifiedBy("SYS (TODO)");
+		systemParameter.setLastModifiedAt(date);
 		SystemParameterAccess.addSystemParameterDataToDb(systemParameter);
 	}
 

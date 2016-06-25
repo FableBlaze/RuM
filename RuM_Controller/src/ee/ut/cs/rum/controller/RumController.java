@@ -12,7 +12,6 @@ import ee.ut.cs.rum.database.domain.SubTask;
 import ee.ut.cs.rum.database.domain.SystemParameter;
 import ee.ut.cs.rum.database.domain.Task;
 import ee.ut.cs.rum.database.domain.UserFile;
-import ee.ut.cs.rum.database.domain.enums.SystemParameterName;
 import ee.ut.cs.rum.database.domain.interfaces.RumUpdatableEntity;
 import ee.ut.cs.rum.database.util.PluginAccess;
 import ee.ut.cs.rum.database.util.ProjectAccess;
@@ -249,8 +248,7 @@ public class RumController {
 		//SystemParameter is a special case where only modification is allowed
 		switch (controllerUpdateType) {
 		case MODIFIY:
-			SystemParameterName systemParameterName = SystemParameterName.valueOf(systemParameter.getName());
-			SystemParameterAccess.updateParameterValue(systemParameterName, systemParameter.getValue());
+			SystemParameterAccess.updateParameterValue(systemParameter);
 			break;
 		default:
 			break;
