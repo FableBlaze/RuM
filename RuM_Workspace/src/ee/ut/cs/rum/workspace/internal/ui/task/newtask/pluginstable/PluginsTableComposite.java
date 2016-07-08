@@ -47,7 +47,7 @@ public class PluginsTableComposite extends Composite {
 		pluginsTableViewer.getTable().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		((GridData) this.pluginsTableViewer.getTable().getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
 		
-		pluginsTableViewer.addSelectionChangedListener(new PluginSelectionChangedListener(newTaskSubTaskInfo));
+		pluginsTableViewer.addSelectionChangedListener(new PluginSelectionChangedListener(newTaskSubTaskInfo, rumController));
 		
 		this.pluginsTableFilter = new PluginsTableFilter();
 		this.pluginsTableViewer.addFilter(pluginsTableFilter);

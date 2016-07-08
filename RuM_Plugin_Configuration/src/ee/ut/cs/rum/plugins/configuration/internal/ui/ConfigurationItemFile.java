@@ -23,17 +23,24 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 
+import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Project;
 import ee.ut.cs.rum.database.domain.UserFile;
 import ee.ut.cs.rum.database.domain.UserFileType;
 import ee.ut.cs.rum.database.domain.enums.SystemParameterName;
 import ee.ut.cs.rum.database.util.SystemParameterAccess;
 import ee.ut.cs.rum.database.util.UserFileAccess;
+import ee.ut.cs.rum.enums.ControllerEntityType;
+import ee.ut.cs.rum.enums.ControllerUpdateType;
+import ee.ut.cs.rum.interfaces.RumUpdatableView;
 import ee.ut.cs.rum.plugins.configuration.internal.Activator;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterFile;
 
-public class ConfigurationItemFile extends Composite implements ConfigurationItemInterface {
+public class ConfigurationItemFile extends Composite implements ConfigurationItemInterface, RumUpdatableView {
 	private static final long serialVersionUID = 3599873879215927039L;
+
+	private Display display;
+	private RumController rumController;
 
 	//Temporary file is always last on fileSelectorCombo
 	private File temporaryFile;
@@ -43,9 +50,15 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 	private File user_file_path;
 	PluginParameterFile parameterFile;
 
-	public ConfigurationItemFile(Composite parent, PluginParameterFile parameterFile, Project project) {
+	public ConfigurationItemFile(Composite parent, PluginParameterFile parameterFile, Project project, RumController rumController) {
 		super(parent, SWT.NONE);
-		
+
+		this.display=Display.getCurrent();
+		this.rumController=rumController;
+		if (this.getParent().getEnabled()) {
+			rumController.registerView(this, ControllerEntityType.USER_FILE);
+		}
+
 		this.project=project;
 		this.parameterFile = parameterFile;
 		String user_file_path_asString = SystemParameterAccess.getSystemParameterValue(SystemParameterName.USER_FILE_PATH);
@@ -60,7 +73,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		this.setToolTipText(parameterFile.getDescription());
-		
+
 		createContents();
 	}
 
@@ -88,12 +101,12 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 				@Override
 				public void uploadFailed(FileUploadEvent arg0) {
 				}
-				
+
 				@Override
 				public void uploadFinished(FileUploadEvent arg0) {
 					temporaryFile = receiver.getTargetFiles()[receiver.getTargetFiles().length-1];
 					Activator.getLogger().info("Uploaded file: " + temporaryFile.getAbsolutePath());
-					
+
 					Display.getDefault().syncExec(new Runnable() {
 						public void run() {
 							fileSelectorCombo.add(temporaryFile.getName());
@@ -101,15 +114,15 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 						}
 					});
 				}
-				
+
 			});
-			
+
 			FileUpload fileUpload = new FileUpload(this, SWT.NONE);
 			fileUpload.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
 			fileUpload.setText("Upload");
 			fileUpload.addSelectionListener(new SelectionAdapter() {
 				private static final long serialVersionUID = -7623994796399336054L;
-				
+
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					fileSelectorCombo.deselectAll();
@@ -147,7 +160,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 		if (fileSelectorCombo==null) {
 			return null;
 		}
-		
+
 		int selectionIndex = fileSelectorCombo.getSelectionIndex();
 		if (selectionIndex == -1) {
 			return null;
@@ -164,7 +177,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 			} catch (IOException e) {
 				Activator.getLogger().info("Failed to copy uploaded file to: " + destinationFile.toPath());
 			}
-			
+
 			if (copySucceeded) {
 				//Update trough controller
 				UserFile userFile = new UserFile();
@@ -175,7 +188,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 				userFile.setCreatedBy("TODO");
 				userFile.setLastModifiedAt(new Date());
 				userFile.setLastModifiedBy("TODO");
-				
+
 				List<UserFileType> userFileTypes = new ArrayList<UserFileType>();
 				String[] inputTypes = parameterFile.getInputTypes();
 				for (String inputType : inputTypes) {
@@ -184,13 +197,82 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 					userFileTypes.add(userFileType);
 				}
 				userFile.setUserFileTypes(userFileTypes);
-				
+
 				userFile = UserFileAccess.addUserFileDataToDb(userFile);
-				
+
 				return userFile.getFileLocation();
 			} else {
 				return null;
 			}
 		}
+	}
+
+	@Override
+	public void controllerUpdateNotify(ControllerUpdateType updateType, Object updatedEntity) {
+		if (this.project != null && updatedEntity instanceof UserFile) {
+			UserFile userFile = (UserFile) updatedEntity;
+			if (userFile.getProject().getId()== this.project.getId() && checkFileTypes(userFile)) {
+				int userFileIndex;
+				switch (updateType) {
+				case CREATE:
+					this.userFiles.add(userFile);
+					display.asyncExec(new Runnable() {
+						public void run() {
+							ConfigurationItemFile.this.fileSelectorCombo.add(userFile.getOriginalFilename() + "  (" + new SimpleDateFormat("dd-MM-yyyy HH:mm").format(userFile.getCreatedAt()) + ")", userFiles.size()-1);
+						}
+					});
+					break;
+				case MODIFIY:
+					userFileIndex = findUserFileIndex(userFile);
+					if (userFileIndex !=-1) {
+						display.asyncExec(new Runnable() {
+							public void run() {
+								ConfigurationItemFile.this.fileSelectorCombo.setItem(userFileIndex, userFile.getOriginalFilename() + "  (" + new SimpleDateFormat("dd-MM-yyyy HH:mm").format(userFile.getCreatedAt()) + ")");
+							}
+						});
+					}
+					break;
+				case DELETE:
+					userFileIndex = findUserFileIndex(userFile);
+					if (userFileIndex !=-1) {
+						this.userFiles.remove(userFile);
+						display.asyncExec(new Runnable() {
+							public void run() {
+								ConfigurationItemFile.this.fileSelectorCombo.remove(userFileIndex);
+							}
+						});
+					}
+					break;
+				default:
+					break;
+				}
+			}
+		}	
+	}
+	
+	private boolean checkFileTypes(UserFile userFile) {
+		for (UserFileType userFileType : userFile.getUserFileTypes()) {
+			for (String inputType : parameterFile.getInputTypes()) {
+				if (userFileType.getTypeName().equals(inputType)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	private int findUserFileIndex(UserFile userFile) {
+		for (int i = 1; i < this.userFiles.size(); i++) {
+			if (this.userFiles.get(i).getId()==userFile.getId()) {
+				return i;
+			}
+		}
+		return -1;
+	}
+	
+	@Override
+	public void dispose() {
+		rumController.unregisterView(this, ControllerEntityType.USER_FILE);
+		super.dispose();
 	}
 }

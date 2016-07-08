@@ -7,17 +7,20 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
+import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.plugins.internal.ui.details.PluginDetails;
 import ee.ut.cs.rum.plugins.ui.PluginsManagementUI;
 
 public class PluginDetailsButton extends Button {
 	private static final long serialVersionUID = -7636382139932347297L;
-
+	
+	private RumController rumController;
+	
 	private Plugin plugin;
 	private PluginsManagementUI pluginsManagementUI;
 
-	public PluginDetailsButton(Composite parent, Plugin plugin, PluginsManagementUI pluginsManagementUI) {
+	public PluginDetailsButton(Composite parent, Plugin plugin, PluginsManagementUI pluginsManagementUI, RumController rumController) {
 		super(parent, SWT.NONE);
 		this.plugin = plugin;
 		this.pluginsManagementUI = pluginsManagementUI;
@@ -49,7 +52,7 @@ public class PluginDetailsButton extends Button {
 				if (cTabItem == null) {
 					cTabItem = new CTabItem (pluginsManagementUI, SWT.CLOSE);
 					cTabItem.setText ("Plugin " + plugin.getId().toString());
-					cTabItem.setControl(new PluginDetails(pluginsManagementUI, plugin));
+					cTabItem.setControl(new PluginDetails(pluginsManagementUI, plugin, rumController));
 					pluginsManagementUI.setSelection(cTabItem);	
 				}
 			}

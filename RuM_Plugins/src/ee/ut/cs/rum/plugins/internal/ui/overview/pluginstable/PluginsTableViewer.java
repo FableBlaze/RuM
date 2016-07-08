@@ -30,6 +30,7 @@ import ee.ut.cs.rum.plugins.ui.PluginsManagementUI;
 public class PluginsTableViewer extends TableViewer implements RumUpdatableView {
 	private static final long serialVersionUID = -2085870762932626509L;
 
+	private RumController rumController;
 	private Display display;
 	
 	private List<Plugin> plugins;
@@ -37,6 +38,7 @@ public class PluginsTableViewer extends TableViewer implements RumUpdatableView 
 	public PluginsTableViewer(PluginsTableComposite pluginsTableComposite, PluginsManagementUI pluginsManagementUI, RumController rumController) {
 		super(pluginsTableComposite, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 
+		this.rumController=rumController;
 		this.display=Display.getCurrent();
 		rumController.registerView(this, ControllerEntityType.PLUGIN);
 
@@ -152,7 +154,7 @@ public class PluginsTableViewer extends TableViewer implements RumUpdatableView 
 			public void update(ViewerCell cell) {
 				TableItem item = (TableItem) cell.getItem();
 				Plugin plugin = (Plugin) cell.getElement();
-				PluginDetailsButton pluginDetailsButton = new PluginDetailsButton((Composite) cell.getViewerRow().getControl(), plugin, pluginsManagementUI);
+				PluginDetailsButton pluginDetailsButton = new PluginDetailsButton((Composite) cell.getViewerRow().getControl(), plugin, pluginsManagementUI, rumController);
 
 				item.addDisposeListener(new DisposeListener() {
 					private static final long serialVersionUID = -927877657358384078L;

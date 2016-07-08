@@ -10,6 +10,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
+import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.plugins.development.description.PluginInfo;
 import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationComposite;
@@ -19,10 +20,12 @@ import ee.ut.cs.rum.plugins.ui.PluginsManagementUI;
 public class PluginDetails extends ScrolledComposite {
 	private static final long serialVersionUID = 458942786595146853L;
 	
+	private RumController rumController;
+	
 	private Plugin plugin;
 	private Composite content;
 	
-	public PluginDetails(PluginsManagementUI pluginsManagementUI, Plugin plugin) {
+	public PluginDetails(PluginsManagementUI pluginsManagementUI, Plugin plugin, RumController rumController) {
 		super(pluginsManagementUI, SWT.CLOSE | SWT.H_SCROLL | SWT.V_SCROLL);
 		
 		this.plugin = plugin;
@@ -102,7 +105,7 @@ public class PluginDetails extends ScrolledComposite {
 		label.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));
 		
 		PluginInfo pluginInfo = PluginUtils.deserializePluginInfo(plugin);
-		new PluginConfigurationComposite(content, pluginInfo, null);
+		new PluginConfigurationComposite(content, pluginInfo, null, rumController);
 
 		label = new Label (content, SWT.NONE);
 		label.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));

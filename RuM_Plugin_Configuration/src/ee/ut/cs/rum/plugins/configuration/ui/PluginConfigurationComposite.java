@@ -9,6 +9,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
+import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Project;
 import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemDouble;
 import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemFile;
@@ -27,14 +28,18 @@ import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterStr
 
 public class PluginConfigurationComposite extends Composite {
 	private static final long serialVersionUID = -5475837154117723386L;
+	
+	private RumController rumController;
 
 	private Map<String, ConfigurationItemInterface> configurationItems;
 	private PluginInfo pluginInfo;
 	private Project project;
 
-	public PluginConfigurationComposite(Composite parent, PluginInfo pluginInfo, Project project) {
+	public PluginConfigurationComposite(Composite parent, PluginInfo pluginInfo, Project project, RumController rumController) {
 		super(parent, SWT.NONE);
 
+		this.rumController=rumController;
+		
 		this.pluginInfo=pluginInfo;
 		this.project=project;
 
@@ -91,7 +96,7 @@ public class PluginConfigurationComposite extends Composite {
 				break; 
 			case FILE:
 				PluginParameterFile parameterFile = (PluginParameterFile) pluginParameter;
-				configurationItems.put(parameterFile.getInternalName(), new ConfigurationItemFile(this, parameterFile, project));
+				configurationItems.put(parameterFile.getInternalName(), new ConfigurationItemFile(this, parameterFile, project, rumController));
 				break; 
 			default:
 				break;
