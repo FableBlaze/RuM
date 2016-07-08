@@ -45,7 +45,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 
 	public ConfigurationItemFile(Composite parent, PluginParameterFile parameterFile, Project project) {
 		super(parent, SWT.NONE);
-
+		
 		this.project=project;
 		this.parameterFile = parameterFile;
 		String user_file_path_asString = SystemParameterAccess.getSystemParameterValue(SystemParameterName.USER_FILE_PATH);
@@ -192,10 +192,5 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 				return null;
 			}
 		}
-	}
-
-	@Override
-	public void setEnabled(boolean enabled) {
-		super.setEnabled(enabled);
 	}
 }

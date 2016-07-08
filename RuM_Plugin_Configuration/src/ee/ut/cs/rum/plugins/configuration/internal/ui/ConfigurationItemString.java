@@ -27,10 +27,4 @@ public class ConfigurationItemString extends Text implements ConfigurationItemIn
 	public String getValue() {
 		return this.getText();
 	}
-
-	@Override
-	public void setEnabled(boolean enabled) {
-		super.setEnabled(enabled);
-	}
-
 }

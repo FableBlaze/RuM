@@ -49,10 +49,4 @@ public class ConfigurationItemSelection extends Combo implements ConfigurationIt
 		}
 		return null;
 	}
-
-	@Override
-	public void setEnabled(boolean enabled) {
-		super.setEnabled(enabled);
-	}
-
 }
