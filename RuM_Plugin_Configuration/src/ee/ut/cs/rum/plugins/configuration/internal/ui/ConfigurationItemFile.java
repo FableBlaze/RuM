@@ -179,15 +179,10 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 			}
 
 			if (copySucceeded) {
-				//Update trough controller
 				UserFile userFile = new UserFile();
 				userFile.setOriginalFilename(temporaryFile.getName());
 				userFile.setProject(project);
 				userFile.setFileLocation(destinationFile.toPath().toString());
-				userFile.setCreatedAt(new Date());
-				userFile.setCreatedBy("TODO");
-				userFile.setLastModifiedAt(new Date());
-				userFile.setLastModifiedBy("TODO");
 
 				List<UserFileType> userFileTypes = new ArrayList<UserFileType>();
 				String[] inputTypes = parameterFile.getInputTypes();
@@ -197,7 +192,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 					userFileTypes.add(userFileType);
 				}
 				userFile.setUserFileTypes(userFileTypes);
-
+				this.rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.USER_FILE, userFile, "TODO");
 				userFile = UserFileAccess.addUserFileDataToDb(userFile);
 
 				return userFile.getFileLocation();
