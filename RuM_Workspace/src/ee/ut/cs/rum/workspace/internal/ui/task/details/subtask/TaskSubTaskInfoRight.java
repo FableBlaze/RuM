@@ -33,7 +33,6 @@ public class TaskSubTaskInfoRight extends Composite {
 		
 		PluginInfo pluginInfo = PluginUtils.deserializePluginInfo(subTask.getPlugin());
 		PluginConfigurationComposite pluginConfigurationComposite = new PluginConfigurationComposite(scrolledPluginConfigurationComposite, pluginInfo, null);
-		pluginConfigurationComposite.setEnabled(false);
 		Gson gson = new Gson();
 		Map<String,String> configurationValues = new HashMap<String,String>();
 		configurationValues = gson.fromJson(subTask.getConfigurationValues(), configurationValues.getClass());

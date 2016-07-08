@@ -27,19 +27,23 @@ import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterStr
 
 public class PluginConfigurationComposite extends Composite {
 	private static final long serialVersionUID = -5475837154117723386L;
-	
+
 	private Map<String, ConfigurationItemInterface> configurationItems;
 	private PluginInfo pluginInfo;
 	private Project project;
-	
+
 	public PluginConfigurationComposite(Composite parent, PluginInfo pluginInfo, Project project) {
 		super(parent, SWT.NONE);
-		
+
 		this.pluginInfo=pluginInfo;
 		this.project=project;
-		
+
 		this.setLayout(new GridLayout(2, false));
-		
+
+		if (project==null) {
+			this.setEnabled(false);
+		}
+
 		createContents();
 	}
 
@@ -50,24 +54,24 @@ public class PluginConfigurationComposite extends Composite {
 		label = new Label (this, SWT.NONE);
 		label.setText("Plugin description:");
 		label.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
-		
+
 		label = new Label (this, SWT.NONE);
 		label.setText(pluginInfo.getDescription());
 		label.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		
+
 		label = new Label (this, SWT.NONE);
 		label.setText("Plugin configuration:");
 		label.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
-		
+
 		label = new Label (this, SWT.NONE);
 		label.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		
+
 		for (PluginParameter pluginParameter : pluginInfo.getParameters()) {
-			
+
 			label = new Label (this, SWT.NONE);
 			label.setText(pluginParameter.getDisplayName());
 			label.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
-			
+
 			switch (pluginParameter.getParameterType()) {
 			case STRING:
 				PluginParameterString parameterString = (PluginParameterString) pluginParameter;
@@ -93,18 +97,18 @@ public class PluginConfigurationComposite extends Composite {
 				break;
 			}
 		}
-		
+
 		label = new Label (this, SWT.NONE);
 		label.setText("Plugin outputs:");
 		label.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
-		
+
 		label = new Label (this, SWT.NONE);
 		label.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		
+
 		for (PluginOutput pluginOutput : pluginInfo.getOutputs()) {
 			label = new Label (this, SWT.NONE);
 			label.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
-			
+
 			String fileTypeString = "";
 			for (String fileType : pluginOutput.getFileTypes()) {
 				fileTypeString+=fileType+", ";
@@ -112,13 +116,13 @@ public class PluginConfigurationComposite extends Composite {
 			if (!fileTypeString.isEmpty()) {
 				fileTypeString=fileTypeString.substring(0, fileTypeString.length()-2);
 			}
-			
+
 			label = new Label (this, SWT.NONE);
 			label.setText(pluginOutput.getFileName() + " (" + fileTypeString + ")");
 			label.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		}
 	}
-	
+
 	public Map<String, String> getConfigurationValues() {
 		Map<String, String> configurationValues = new HashMap<String, String>();
 		for (String key : configurationItems.keySet()) {
@@ -131,7 +135,7 @@ public class PluginConfigurationComposite extends Composite {
 		}
 		return configurationValues;
 	}
-	
+
 	public void setConfigurationValues(Map<String, String> configurationValues) {
 		for (String key : configurationValues.keySet()) {
 			if (!configurationItems.get(key).equals("")) {
@@ -139,12 +143,4 @@ public class PluginConfigurationComposite extends Composite {
 			}
 		}
 	}
-	
-	@Override
-	public void setEnabled(boolean enabled) {
-		for (ConfigurationItemInterface configurationItem : configurationItems.values()) {
-			configurationItem.setEnabled(enabled);
-		}
-	}
-	
 }
