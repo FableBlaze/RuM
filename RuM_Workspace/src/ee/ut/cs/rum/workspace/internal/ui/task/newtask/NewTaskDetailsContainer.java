@@ -65,8 +65,4 @@ public class NewTaskDetailsContainer extends Composite {
 	public List<NewTaskSubTaskInfo> getNewTaskSubTaskInfoList() {
 		return newTaskSubTaskInfoList;
 	}
-	
-	public void removeFromNewTaskSubTaskInfoList(int index) {
-		newTaskSubTaskInfoList.remove(index);
-	}
 }
