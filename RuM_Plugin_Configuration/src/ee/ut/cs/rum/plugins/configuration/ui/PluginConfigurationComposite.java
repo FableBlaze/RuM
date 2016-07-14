@@ -1,6 +1,7 @@
 package ee.ut.cs.rum.plugins.configuration.ui;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.swt.SWT;
@@ -11,6 +12,7 @@ import org.eclipse.swt.widgets.Label;
 
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Project;
+import ee.ut.cs.rum.database.domain.UserFile;
 import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemDouble;
 import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemFile;
 import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemInteger;
@@ -34,14 +36,16 @@ public class PluginConfigurationComposite extends Composite {
 	private Map<String, ConfigurationItemInterface> configurationItems;
 	private PluginInfo pluginInfo;
 	private Project project;
-
-	public PluginConfigurationComposite(Composite parent, PluginInfo pluginInfo, Project project, RumController rumController) {
+	private List<UserFile> userFiles;
+	
+	public PluginConfigurationComposite(Composite parent, PluginInfo pluginInfo, Project project, RumController rumController, List<UserFile> userFiles) {
 		super(parent, SWT.NONE);
 
 		this.rumController=rumController;
 		
 		this.pluginInfo=pluginInfo;
 		this.project=project;
+		this.userFiles=userFiles;
 
 		this.setLayout(new GridLayout(2, false));
 
@@ -96,7 +100,7 @@ public class PluginConfigurationComposite extends Composite {
 				break; 
 			case FILE:
 				PluginParameterFile parameterFile = (PluginParameterFile) pluginParameter;
-				configurationItems.put(parameterFile.getInternalName(), new ConfigurationItemFile(this, parameterFile, project, rumController));
+				configurationItems.put(parameterFile.getInternalName(), new ConfigurationItemFile(this, parameterFile, rumController));
 				break; 
 			default:
 				break;
@@ -147,5 +151,9 @@ public class PluginConfigurationComposite extends Composite {
 				configurationItems.get(key).setValue(configurationValues.get(key));	
 			}
 		}
+	}
+	
+	public List<UserFile> getUserFiles() {
+		return userFiles;
 	}
 }

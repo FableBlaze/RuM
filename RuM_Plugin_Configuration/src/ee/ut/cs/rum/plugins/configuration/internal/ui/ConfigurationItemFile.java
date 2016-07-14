@@ -24,7 +24,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 
 import ee.ut.cs.rum.controller.RumController;
-import ee.ut.cs.rum.database.domain.Project;
 import ee.ut.cs.rum.database.domain.UserFile;
 import ee.ut.cs.rum.database.domain.UserFileType;
 import ee.ut.cs.rum.database.domain.enums.SystemParameterName;
@@ -34,6 +33,7 @@ import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
 import ee.ut.cs.rum.interfaces.RumUpdatableView;
 import ee.ut.cs.rum.plugins.configuration.internal.Activator;
+import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationComposite;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterFile;
 
 public class ConfigurationItemFile extends Composite implements ConfigurationItemInterface, RumUpdatableView {
@@ -46,12 +46,12 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 	private File temporaryFile;
 	private List<UserFile> userFiles;
 	private Combo fileSelectorCombo;
-	private Project project;
 	private File user_file_path;
-	PluginParameterFile parameterFile;
+	private PluginParameterFile parameterFile;
+	private PluginConfigurationComposite pluginConfigurationComposite;
 
-	public ConfigurationItemFile(Composite parent, PluginParameterFile parameterFile, Project project, RumController rumController) {
-		super(parent, SWT.NONE);
+	public ConfigurationItemFile(PluginConfigurationComposite pluginConfigurationComposite, PluginParameterFile parameterFile, RumController rumController) {
+		super(pluginConfigurationComposite, SWT.NONE);
 
 		this.display=Display.getCurrent();
 		this.rumController=rumController;
@@ -59,7 +59,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 			rumController.registerView(this, ControllerEntityType.USER_FILE);
 		}
 
-		this.project=project;
+		this.pluginConfigurationComposite = pluginConfigurationComposite;
 		this.parameterFile = parameterFile;
 		String user_file_path_asString = SystemParameterAccess.getSystemParameterValue(SystemParameterName.USER_FILE_PATH);
 		if (user_file_path_asString!=null) {
@@ -81,14 +81,16 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 		fileSelectorCombo = new Combo(this, SWT.READ_ONLY);
 		fileSelectorCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
-		if (project!=null) {
-			this.userFiles = UserFileAccess.getProjectUserFilesDataFromDb(project.getId(), parameterFile.getInputTypes());
+		this.userFiles = pluginConfigurationComposite.getUserFiles();
+		if (userFiles!=null) {
 			for (UserFile userFile : userFiles) {
-				fileSelectorCombo.add(userFile.getOriginalFilename() + "  (" + new SimpleDateFormat("dd-MM-yyyy HH:mm").format(userFile.getCreatedAt()) + ")");
+				if (checkFileTypes(userFile)) {					
+					fileSelectorCombo.add(userFile.getOriginalFilename() + "  (" + new SimpleDateFormat("dd-MM-yyyy HH:mm").format(userFile.getCreatedAt()) + ")");
+				}
 			}
 		}
 
-		if (user_file_path==null && project!=null) {
+		if (user_file_path==null && userFiles!=null) {
 			Label label = new Label(this, SWT.NONE);
 			label.setText("File upload disabled!");
 		} else {
@@ -181,7 +183,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 			if (copySucceeded) {
 				UserFile userFile = new UserFile();
 				userFile.setOriginalFilename(temporaryFile.getName());
-				userFile.setProject(project);
+				//userFile.setProject(project);
 				userFile.setFileLocation(destinationFile.toPath().toString());
 
 				List<UserFileType> userFileTypes = new ArrayList<UserFileType>();
@@ -204,9 +206,10 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 
 	@Override
 	public void controllerUpdateNotify(ControllerUpdateType updateType, Object updatedEntity) {
-		if (this.project != null && updatedEntity instanceof UserFile) {
+		if (this.userFiles != null && updatedEntity instanceof UserFile) {
 			UserFile userFile = (UserFile) updatedEntity;
-			if (userFile.getProject().getId()== this.project.getId() && checkFileTypes(userFile)) {
+			//if (userFile.getProject().getId()== this.project.getId() && checkFileTypes(userFile)) {
+			if (checkFileTypes(userFile)) {
 				int userFileIndex;
 				switch (updateType) {
 				case CREATE:

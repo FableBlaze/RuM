@@ -1,5 +1,7 @@
 package ee.ut.cs.rum.workspace.internal.ui.task.newtask.pluginstable;
 
+import java.util.List;
+
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -10,6 +12,7 @@ import org.eclipse.swt.widgets.Composite;
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.database.domain.Project;
+import ee.ut.cs.rum.database.domain.UserFile;
 import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationComposite;
 import ee.ut.cs.rum.plugins.configuration.util.PluginUtils;
 import ee.ut.cs.rum.plugins.development.description.PluginInfo;
@@ -49,7 +52,8 @@ public class PluginSelectionChangedListener implements ISelectionChangedListener
 
 			Project project = newTaskSubTaskInfo.getNewTaskDetailsContainer().getNewTaskComposite().getProjectTabFolder().getProject();
 
-			PluginConfigurationComposite pluginConfigurationComposite = new PluginConfigurationComposite(scrolledPluginConfigurationComposite, pluginInfo, project, rumController);
+			List<UserFile> userFiles = newTaskSubTaskInfo.getNewTaskDetailsContainer().getUserFiles();
+			PluginConfigurationComposite pluginConfigurationComposite = new PluginConfigurationComposite(scrolledPluginConfigurationComposite, pluginInfo, project, rumController, userFiles);
 			scrolledPluginConfigurationComposite.setContent(pluginConfigurationComposite);
 			pluginConfigurationComposite.setSize(scrolledPluginConfigurationComposite.getSize());
 		} else {
