@@ -6,8 +6,8 @@ import java.util.List;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Combo;
-import org.eclipse.swt.widgets.Composite;
 
+import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationComposite;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterSelection;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterSelectionItem;
 
@@ -16,8 +16,8 @@ public class ConfigurationItemSelection extends Combo implements ConfigurationIt
 
 	private List<PluginParameterSelectionItem> selectionItems;
 
-	public ConfigurationItemSelection(Composite parent, PluginParameterSelection parameterSelection) {
-		super(parent, SWT.READ_ONLY);
+	public ConfigurationItemSelection(PluginConfigurationComposite pluginConfigurationComposite, PluginParameterSelection parameterSelection) {
+		super(pluginConfigurationComposite, SWT.READ_ONLY);
 		
 		selectionItems = new ArrayList<PluginParameterSelectionItem>();
 

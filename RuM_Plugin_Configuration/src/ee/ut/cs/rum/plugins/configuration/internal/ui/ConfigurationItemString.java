@@ -2,16 +2,16 @@ package ee.ut.cs.rum.plugins.configuration.internal.ui;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 
+import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationComposite;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterString;
 
 public class ConfigurationItemString extends Text implements ConfigurationItemInterface {
 	private static final long serialVersionUID = 7030044951525201312L;
 
-	public ConfigurationItemString(Composite parent, PluginParameterString parameterString) {
-		super(parent, SWT.BORDER);
+	public ConfigurationItemString(PluginConfigurationComposite pluginConfigurationComposite, PluginParameterString parameterString) {
+		super(pluginConfigurationComposite, SWT.BORDER);
 		
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		this.setText(parameterString.getDefaultValue());
