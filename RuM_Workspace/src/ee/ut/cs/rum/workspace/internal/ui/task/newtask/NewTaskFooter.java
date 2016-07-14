@@ -2,6 +2,7 @@ package ee.ut.cs.rum.workspace.internal.ui.task.newtask;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -65,13 +66,12 @@ public class NewTaskFooter extends Composite {
 					task.setStatus(TaskStatus.NEW);
 					task.setProject(newTaskComposite.getProjectTabFolder().getProject());
 
-					//TODO: Task should be added in the same transaction with subTasks
-					task = (Task)rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.TASK, task, "TODO");
+					List<SubTask> subTasks = new ArrayList<SubTask>();
 
 					List<NewTaskSubTaskInfo> newTaskSubTaskInfoList = newTaskComposite.getNewTaskDetailsContainer().getNewTaskSubTaskInfoList();
 					for (NewTaskSubTaskInfo newTaskSubTaskInfo : newTaskSubTaskInfoList) {
 						Date createdAt = new Date();
-						
+
 						SubTask subTask = new SubTask();
 						subTask.setName(newTaskSubTaskInfo.getSubTaskName());
 						subTask.setDescription(newTaskSubTaskInfo.getSubTaskDescription());
@@ -88,16 +88,20 @@ public class NewTaskFooter extends Composite {
 						String configurationValuesString = gson.toJson(configurationValues);
 						subTask.setConfigurationValues(configurationValuesString);
 
-						subTask.setTask(task);
-						
-						//TODO: Path does not currently correspond to createdAt date
 						File taskResultsPath = new File(task_results_root, new SimpleDateFormat("ddMMyyyy_HHmmssSSS").format(createdAt));
 						subTask.setOutputPath(taskResultsPath.getPath());
-						
-						subTask = (SubTask)rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.SUBTASK, subTask, "TODO");
-						
+
+						subTask.setCreatedBy("TODO");
+						subTask.setCreatedAt(createdAt);
+						subTask.setLastModifiedBy("TODO");
+						subTask.setLastModifiedAt(createdAt);
+
+						subTasks.add(subTask);
 					}
-					
+
+					task.setSubTasks(subTasks);
+					task = (Task)rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.TASK, task, "TODO");
+
 					RumScheduler.scheduleTask(task.getId());
 
 					Activator.getLogger().info(task.toString());

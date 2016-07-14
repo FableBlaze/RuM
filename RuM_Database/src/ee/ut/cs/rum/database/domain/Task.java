@@ -1,13 +1,16 @@
 package ee.ut.cs.rum.database.domain;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -28,6 +31,8 @@ public class Task implements RumUpdatableEntity {
 	private String description;
 	@Column(name = "status")
 	private TaskStatus status;
+	@OneToMany(mappedBy="task", cascade=CascadeType.PERSIST)
+	private List<SubTask> subTasks;
 	@JoinColumn(name = "project_fk")
 	private Project project;
 	@Column(name = "created_by")
@@ -61,6 +66,15 @@ public class Task implements RumUpdatableEntity {
 	}
 	public void setStatus(TaskStatus status) {
 		this.status = status;
+	}
+	public List<SubTask> getSubTasks() {
+		return subTasks;
+	}
+	public void setSubTasks(List<SubTask> subTasks) {
+		for (SubTask subTask : subTasks) {
+			subTask.setTask(this);
+		}
+		this.subTasks = subTasks;
 	}
 	public Project getProject() {
 		return project;

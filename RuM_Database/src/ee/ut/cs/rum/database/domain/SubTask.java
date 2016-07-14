@@ -5,12 +5,14 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -40,6 +42,7 @@ public class SubTask implements RumUpdatableEntity {
 	@ManyToMany
 	@JoinTable(name = "sub_task_sub_task", joinColumns = @JoinColumn(name = "sub_task_id"), inverseJoinColumns = @JoinColumn(name = "required_for_sub_task"))
 	private List<SubTask> requiredFor;
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "task_fk")
 	private Task task;
 	@Column(name = "output_path")
