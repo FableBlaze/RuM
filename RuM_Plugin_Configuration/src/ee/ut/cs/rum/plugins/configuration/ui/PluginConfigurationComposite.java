@@ -11,7 +11,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
 import ee.ut.cs.rum.controller.RumController;
-import ee.ut.cs.rum.database.domain.Project;
 import ee.ut.cs.rum.database.domain.UserFile;
 import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemDouble;
 import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemFile;
@@ -35,21 +34,19 @@ public class PluginConfigurationComposite extends Composite {
 
 	private Map<String, ConfigurationItemInterface> configurationItems;
 	private PluginInfo pluginInfo;
-	private Project project;
 	private List<UserFile> userFiles;
 	
-	public PluginConfigurationComposite(Composite parent, PluginInfo pluginInfo, Project project, RumController rumController, List<UserFile> userFiles) {
+	public PluginConfigurationComposite(Composite parent, PluginInfo pluginInfo, RumController rumController, List<UserFile> userFiles) {
 		super(parent, SWT.NONE);
 
 		this.rumController=rumController;
 		
 		this.pluginInfo=pluginInfo;
-		this.project=project;
 		this.userFiles=userFiles;
 
 		this.setLayout(new GridLayout(2, false));
 
-		if (project==null) {
+		if (userFiles==null) {
 			this.setEnabled(false);
 		}
 

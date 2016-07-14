@@ -11,7 +11,6 @@ import org.eclipse.swt.widgets.Composite;
 
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Plugin;
-import ee.ut.cs.rum.database.domain.Project;
 import ee.ut.cs.rum.database.domain.UserFile;
 import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationComposite;
 import ee.ut.cs.rum.plugins.configuration.util.PluginUtils;
@@ -50,10 +49,8 @@ public class PluginSelectionChangedListener implements ISelectionChangedListener
 		if (plugin !=null) {
 			PluginInfo pluginInfo = PluginUtils.deserializePluginInfo(plugin);
 
-			Project project = newTaskSubTaskInfo.getNewTaskDetailsContainer().getNewTaskComposite().getProjectTabFolder().getProject();
-
 			List<UserFile> userFiles = newTaskSubTaskInfo.getNewTaskDetailsContainer().getUserFiles();
-			PluginConfigurationComposite pluginConfigurationComposite = new PluginConfigurationComposite(scrolledPluginConfigurationComposite, pluginInfo, project, rumController, userFiles);
+			PluginConfigurationComposite pluginConfigurationComposite = new PluginConfigurationComposite(scrolledPluginConfigurationComposite, pluginInfo, rumController, userFiles);
 			scrolledPluginConfigurationComposite.setContent(pluginConfigurationComposite);
 			pluginConfigurationComposite.setSize(scrolledPluginConfigurationComposite.getSize());
 		} else {
