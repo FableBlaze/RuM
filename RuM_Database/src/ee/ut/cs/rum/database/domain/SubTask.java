@@ -1,6 +1,7 @@
 package ee.ut.cs.rum.database.domain;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -32,6 +35,11 @@ public class SubTask implements RumUpdatableEntity {
 	private Plugin plugin;
 	@Column(name = "configuration_values", columnDefinition = "TEXT")
 	private String configurationValues;
+	@Column(name = "depends_on", columnDefinition = "TEXT")
+	private String dependsOn;
+	@ManyToMany
+	@JoinTable(name = "sub_task_sub_task", joinColumns = @JoinColumn(name = "sub_task_id"), inverseJoinColumns = @JoinColumn(name = "required_for_sub_task"))
+	private List<SubTask> requiredFor;
 	@JoinColumn(name = "task_fk")
 	private Task task;
 	@Column(name = "output_path")
@@ -46,7 +54,7 @@ public class SubTask implements RumUpdatableEntity {
 	@Column(name = "last_modified_at") //TODO: Implement modifying functionality 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastModifiedAt;
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -79,6 +87,18 @@ public class SubTask implements RumUpdatableEntity {
 	}
 	public void setConfigurationValues(String configurationValues) {
 		this.configurationValues = configurationValues;
+	}
+	public String getDependsOn() {
+		return dependsOn;
+	}
+	public void setDependsOn(String dependsOn) {
+		this.dependsOn = dependsOn;
+	}
+	public List<SubTask> getRequiredFor() {
+		return requiredFor;
+	}
+	public void setRequiredFor(List<SubTask> requiredFor) {
+		this.requiredFor = requiredFor;
 	}
 	public Task getTask() {
 		return task;
@@ -116,7 +136,7 @@ public class SubTask implements RumUpdatableEntity {
 	public void setLastModifiedAt(Date lastModifiedAt) {
 		this.lastModifiedAt = lastModifiedAt;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "SubTask [id=" + id + ", name=" + name + ", description=" + description + ", status=" + status
