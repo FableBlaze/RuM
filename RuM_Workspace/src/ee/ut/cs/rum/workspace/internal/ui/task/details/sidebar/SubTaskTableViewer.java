@@ -17,7 +17,6 @@ import org.eclipse.swt.widgets.TableColumn;
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.SubTask;
 import ee.ut.cs.rum.database.domain.Task;
-import ee.ut.cs.rum.database.util.SubTaskAccess;
 import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
 import ee.ut.cs.rum.interfaces.RumUpdatableView;
@@ -53,8 +52,8 @@ public class SubTaskTableViewer extends TableViewer implements RumUpdatableView 
 		});
 
 		Task task = detailsSideBar.getTaskDetailsComposite().getTask();
+		subTasks = task.getSubTasks();
 		this.setContentProvider(new ArrayContentProvider());
-		subTasks = SubTaskAccess.getTaskSubtasksDataFromDb(task.getId());
 		this.setInput(subTasks);
 	}
 
