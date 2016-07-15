@@ -77,6 +77,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 		fileSelectorCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
 		this.userFiles = pluginConfigurationComposite.getUserFiles();
+		this.userFilesInSelector = new ArrayList<UserFile>();
 		if (userFiles!=null) {
 			for (UserFile userFile : userFiles) {
 				if (checkFileTypes(userFile)) {					
@@ -114,7 +115,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 				}
 
 			});
-
+			
 			FileUpload fileUpload = new FileUpload(this, SWT.NONE);
 			fileUpload.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
 			fileUpload.setText("Upload");
