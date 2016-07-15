@@ -31,20 +31,19 @@ import ee.ut.cs.rum.database.util.SystemParameterAccess;
 import ee.ut.cs.rum.database.util.UserFileAccess;
 import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
-import ee.ut.cs.rum.interfaces.RumUpdatableView;
 import ee.ut.cs.rum.plugins.configuration.internal.Activator;
 import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationComposite;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterFile;
 
-public class ConfigurationItemFile extends Composite implements ConfigurationItemInterface, RumUpdatableView {
+public class ConfigurationItemFile extends Composite implements ConfigurationItemInterface {
 	private static final long serialVersionUID = 3599873879215927039L;
 
-	private Display display;
 	private RumController rumController;
-
+	
 	//Temporary file is always last on fileSelectorCombo
 	private File temporaryFile;
 	private List<UserFile> userFiles;
+	private List<UserFile> userFilesInSelector;
 	private Combo fileSelectorCombo;
 	private File user_file_path;
 	private PluginParameterFile parameterFile;
@@ -53,11 +52,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 	public ConfigurationItemFile(PluginConfigurationComposite pluginConfigurationComposite, PluginParameterFile parameterFile, RumController rumController) {
 		super(pluginConfigurationComposite, SWT.NONE);
 
-		this.display=Display.getCurrent();
 		this.rumController=rumController;
-		if (this.getParent().getEnabled()) {
-			rumController.registerView(this, ControllerEntityType.USER_FILE);
-		}
 
 		this.pluginConfigurationComposite = pluginConfigurationComposite;
 		this.parameterFile = parameterFile;
@@ -86,6 +81,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 			for (UserFile userFile : userFiles) {
 				if (checkFileTypes(userFile)) {					
 					fileSelectorCombo.add(userFile.getOriginalFilename() + "  (" + new SimpleDateFormat("dd-MM-yyyy HH:mm").format(userFile.getCreatedAt()) + ")");
+					userFilesInSelector.add(userFile);
 				}
 			}
 		}
@@ -166,8 +162,8 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 		int selectionIndex = fileSelectorCombo.getSelectionIndex();
 		if (selectionIndex == -1) {
 			return null;
-		} else if (selectionIndex < userFiles.size()) {
-			return userFiles.get(selectionIndex).getFileLocation();
+		} else if (selectionIndex < userFilesInSelector.size()) {
+			return userFilesInSelector.get(selectionIndex).getFileLocation();
 		} else {
 			//If it is a new user uploaded file
 			boolean copySucceeded = false;
@@ -204,50 +200,6 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 		}
 	}
 
-	@Override
-	public void controllerUpdateNotify(ControllerUpdateType updateType, Object updatedEntity) {
-		if (this.userFiles != null && updatedEntity instanceof UserFile) {
-			UserFile userFile = (UserFile) updatedEntity;
-			//if (userFile.getProject().getId()== this.project.getId() && checkFileTypes(userFile)) {
-			if (checkFileTypes(userFile)) {
-				int userFileIndex;
-				switch (updateType) {
-				case CREATE:
-					this.userFiles.add(userFile);
-					display.asyncExec(new Runnable() {
-						public void run() {
-							ConfigurationItemFile.this.fileSelectorCombo.add(userFile.getOriginalFilename() + "  (" + new SimpleDateFormat("dd-MM-yyyy HH:mm").format(userFile.getCreatedAt()) + ")", userFiles.size()-1);
-						}
-					});
-					break;
-				case MODIFIY:
-					userFileIndex = findUserFileIndex(userFile);
-					if (userFileIndex !=-1) {
-						display.asyncExec(new Runnable() {
-							public void run() {
-								ConfigurationItemFile.this.fileSelectorCombo.setItem(userFileIndex, userFile.getOriginalFilename() + "  (" + new SimpleDateFormat("dd-MM-yyyy HH:mm").format(userFile.getCreatedAt()) + ")");
-							}
-						});
-					}
-					break;
-				case DELETE:
-					userFileIndex = findUserFileIndex(userFile);
-					if (userFileIndex !=-1) {
-						this.userFiles.remove(userFile);
-						display.asyncExec(new Runnable() {
-							public void run() {
-								ConfigurationItemFile.this.fileSelectorCombo.remove(userFileIndex);
-							}
-						});
-					}
-					break;
-				default:
-					break;
-				}
-			}
-		}	
-	}
-	
 	private boolean checkFileTypes(UserFile userFile) {
 		for (UserFileType userFileType : userFile.getUserFileTypes()) {
 			for (String inputType : parameterFile.getInputTypes()) {
@@ -259,18 +211,33 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 		return false;
 	}
 
-	private int findUserFileIndex(UserFile userFile) {
-		for (int i = 1; i < this.userFiles.size(); i++) {
-			if (this.userFiles.get(i).getId()==userFile.getId()) {
-				return i;
+	public void addUserFile(UserFile userFile) {
+		if (checkFileTypes(userFile)) {
+			userFilesInSelector.add(userFile);
+			fileSelectorCombo.add(userFile.getOriginalFilename() + "  (" + new SimpleDateFormat("dd-MM-yyyy HH:mm").format(userFile.getCreatedAt()) + ")");
+		}
+	}
+
+	public void modifyUserFile(UserFile userFile) {
+		if (checkFileTypes(userFile)) {
+			int i = userFilesInSelector.indexOf(userFile);
+			userFilesInSelector.set(i, userFile);
+			fileSelectorCombo.remove(i);
+			fileSelectorCombo.add(userFile.getOriginalFilename() + "  (" + new SimpleDateFormat("dd-MM-yyyy HH:mm").format(userFile.getCreatedAt()) + ")", i);
+		}
+	}
+
+	public void removeUserFile(UserFile userFile) {
+		if (checkFileTypes(userFile)) {
+			int i = userFilesInSelector.indexOf(userFile);
+			if (fileSelectorCombo.getSelectionIndex()==-1) {
+				userFilesInSelector.remove(i);
+				fileSelectorCombo.remove(i);
+			} else {
+				userFilesInSelector.remove(i);
+				fileSelectorCombo.remove(i);
+				fileSelectorCombo.select(i);
 			}
 		}
-		return -1;
-	}
-	
-	@Override
-	public void dispose() {
-		rumController.unregisterView(this, ControllerEntityType.USER_FILE);
-		super.dispose();
 	}
 }
