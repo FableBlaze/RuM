@@ -1,10 +1,12 @@
 package ee.ut.cs.rum.workspace.internal.ui.task.newtask.pluginstable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.rap.fileupload.FileUploadHandler;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.widgets.Composite;
@@ -16,6 +18,7 @@ import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationComposite;
 import ee.ut.cs.rum.plugins.configuration.util.PluginUtils;
 import ee.ut.cs.rum.plugins.development.description.PluginInfo;
 import ee.ut.cs.rum.workspace.internal.ui.task.newtask.NewTaskSubTaskInfo;
+import ee.ut.cs.rum.workspace.internal.ui.task.newtask.TmpFileUploadHandler;
 
 public class PluginSelectionChangedListener implements ISelectionChangedListener {
 
@@ -50,7 +53,14 @@ public class PluginSelectionChangedListener implements ISelectionChangedListener
 			PluginInfo pluginInfo = PluginUtils.deserializePluginInfo(plugin);
 
 			List<UserFile> userFiles = newTaskSubTaskInfo.getNewTaskDetailsContainer().getUserFiles();
-			PluginConfigurationComposite pluginConfigurationComposite = new PluginConfigurationComposite(scrolledPluginConfigurationComposite, pluginInfo, rumController, userFiles);
+			List<UserFile> tmpUserFiles = newTaskSubTaskInfo.getNewTaskDetailsContainer().getTmpUserFiles();
+			List<FileUploadHandler> fileUploadHandlers = new ArrayList<FileUploadHandler>();
+			
+			PluginConfigurationComposite pluginConfigurationComposite = new PluginConfigurationComposite(scrolledPluginConfigurationComposite, pluginInfo, rumController, userFiles, tmpUserFiles);
+			for (int i = 0; i < pluginConfigurationComposite.getConfigurationItemFiles().size(); i++) {
+				fileUploadHandlers.add(new TmpFileUploadHandler(newTaskSubTaskInfo.getNewTaskDetailsContainer()));
+			}
+			pluginConfigurationComposite.setFileUploadHandlers(fileUploadHandlers);
 			scrolledPluginConfigurationComposite.setContent(pluginConfigurationComposite);
 			pluginConfigurationComposite.setSize(scrolledPluginConfigurationComposite.getSize());
 		} else {

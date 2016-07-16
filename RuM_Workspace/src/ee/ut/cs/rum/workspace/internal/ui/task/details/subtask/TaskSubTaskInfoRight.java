@@ -32,7 +32,7 @@ public class TaskSubTaskInfoRight extends Composite {
 		scrolledPluginConfigurationComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
 		PluginInfo pluginInfo = PluginUtils.deserializePluginInfo(subTask.getPlugin());
-		PluginConfigurationComposite pluginConfigurationComposite = new PluginConfigurationComposite(scrolledPluginConfigurationComposite, pluginInfo, rumController, null);
+		PluginConfigurationComposite pluginConfigurationComposite = new PluginConfigurationComposite(scrolledPluginConfigurationComposite, pluginInfo, rumController, null, null);
 		Gson gson = new Gson();
 		Map<String,String> configurationValues = new HashMap<String,String>();
 		configurationValues = gson.fromJson(subTask.getConfigurationValues(), configurationValues.getClass());

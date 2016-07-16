@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.rap.fileupload.FileUploadHandler;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -37,14 +38,16 @@ public class PluginConfigurationComposite extends Composite {
 	private List<ConfigurationItemFile> configurationItemFiles;
 	private PluginInfo pluginInfo;
 	private List<UserFile> userFiles;
+	private List<UserFile> tmpUserFiles;
 
-	public PluginConfigurationComposite(Composite parent, PluginInfo pluginInfo, RumController rumController, List<UserFile> userFiles) {
+	public PluginConfigurationComposite(Composite parent, PluginInfo pluginInfo, RumController rumController, List<UserFile> userFiles, List<UserFile> tmpUserFiles) {
 		super(parent, SWT.NONE);
 
 		this.rumController=rumController;
 
 		this.pluginInfo=pluginInfo;
 		this.userFiles=userFiles;
+		this.tmpUserFiles=tmpUserFiles;
 
 		this.setLayout(new GridLayout(2, false));
 
@@ -157,6 +160,27 @@ public class PluginConfigurationComposite extends Composite {
 
 	public List<UserFile> getUserFiles() {
 		return userFiles;
+	}
+	
+	public List<UserFile> getTmpUserFiles() {
+		return tmpUserFiles;
+	}
+	
+	public List<ConfigurationItemFile> getConfigurationItemFiles() {
+		return configurationItemFiles;
+	}
+
+	public void setFileUploadHandlers(List<FileUploadHandler> fileUploadHandlers) {
+		for (int i = 0; i < configurationItemFiles.size(); i++) {
+			configurationItemFiles.get(i).setUploadHandler(fileUploadHandlers.get(i));
+		}
+		
+	}
+
+	public void newTmpUserFileNotify(String absolutePath) {
+		for (ConfigurationItemFile configurationItemFile : configurationItemFiles) {
+			configurationItemFile.newTmpUserFileNotify(absolutePath);
+		}
 	}
 
 	public void addUserFile(UserFile userFile) {

@@ -105,7 +105,7 @@ public class PluginDetails extends ScrolledComposite {
 		label.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));
 		
 		PluginInfo pluginInfo = PluginUtils.deserializePluginInfo(plugin);
-		new PluginConfigurationComposite(content, pluginInfo, rumController, null);
+		new PluginConfigurationComposite(content, pluginInfo, rumController, null, null);
 
 		label = new Label (content, SWT.NONE);
 		label.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));

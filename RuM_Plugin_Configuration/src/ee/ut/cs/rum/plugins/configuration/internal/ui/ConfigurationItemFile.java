@@ -41,10 +41,14 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 	private RumController rumController;
 	
 	//Temporary file is always last on fileSelectorCombo
-	private File temporaryFile;
+	private File temporaryFile; //TODO: remove
 	private List<UserFile> userFiles;
 	private List<UserFile> userFilesInSelector;
+	private List<UserFile> tmpUserFiles;
+	private List<UserFile> tmpUserFilesInSelector;
+	
 	private Combo fileSelectorCombo;
+	private FileUploadHandler uploadHandler;
 	private File user_file_path;
 	private PluginParameterFile parameterFile;
 	private PluginConfigurationComposite pluginConfigurationComposite;
@@ -86,36 +90,22 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 				}
 			}
 		}
+		
+		this.tmpUserFiles = pluginConfigurationComposite.getTmpUserFiles();
+		this.tmpUserFilesInSelector = new ArrayList<UserFile>();
+		if (tmpUserFiles!=null) {
+			for (UserFile tmpUserFile : tmpUserFiles) {
+				if (checkFileTypes(tmpUserFile)) {					
+					fileSelectorCombo.add(tmpUserFile.getOriginalFilename());
+					tmpUserFilesInSelector.add(tmpUserFile);
+				}
+			}
+		}
 
 		if (user_file_path==null && userFiles!=null) {
 			Label label = new Label(this, SWT.NONE);
 			label.setText("File upload disabled!");
-		} else {
-			DiskFileUploadReceiver receiver = new DiskFileUploadReceiver();
-			FileUploadHandler uploadHandler = new FileUploadHandler(receiver);
-			uploadHandler.addUploadListener(new FileUploadListener() {
-				@Override
-				public void uploadProgress(FileUploadEvent arg0) {
-				}
-				@Override
-				public void uploadFailed(FileUploadEvent arg0) {
-				}
-
-				@Override
-				public void uploadFinished(FileUploadEvent arg0) {
-					temporaryFile = receiver.getTargetFiles()[receiver.getTargetFiles().length-1];
-					Activator.getLogger().info("Uploaded file: " + temporaryFile.getAbsolutePath());
-
-					Display.getDefault().syncExec(new Runnable() {
-						public void run() {
-							fileSelectorCombo.add(temporaryFile.getName());
-							fileSelectorCombo.select(fileSelectorCombo.getItemCount()-1);
-						}
-					});
-				}
-
-			});
-			
+		} else {			
 			FileUpload fileUpload = new FileUpload(this, SWT.NONE);
 			fileUpload.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
 			fileUpload.setText("Upload");
@@ -125,16 +115,53 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					fileSelectorCombo.deselectAll();
-					if (temporaryFile != null) {
-						temporaryFile=null;
-						fileSelectorCombo.remove(fileSelectorCombo.getItemCount()-1);
-					}
 					fileUpload.submit(uploadHandler.getUploadUrl());
 				}
 			});
 		}
 	}
+	
+	public void setUploadHandler(FileUploadHandler uploadHandler) {
+		uploadHandler.addUploadListener(new FileUploadListener() {
+			@Override
+			public void uploadProgress(FileUploadEvent arg0) {
+			}
+			@Override
+			public void uploadFailed(FileUploadEvent arg0) {
+			}
 
+			@Override
+			public void uploadFinished(FileUploadEvent arg0) {
+				DiskFileUploadReceiver receiver = (DiskFileUploadReceiver) uploadHandler.getReceiver();
+				temporaryFile = receiver.getTargetFiles()[receiver.getTargetFiles().length-1];
+				Activator.getLogger().info("Uploaded file: " + temporaryFile.getAbsolutePath());
+				
+				UserFile tmpUserFile = new UserFile();
+				tmpUserFile.setOriginalFilename(temporaryFile.getName());
+				tmpUserFile.setFileLocation(temporaryFile.getAbsolutePath());
+				List<UserFileType> userFileTypes = new ArrayList<UserFileType>();
+				String[] inputTypes = parameterFile.getInputTypes();
+				for (String inputType : inputTypes) {
+					UserFileType userFileType = new UserFileType();
+					userFileType.setTypeName(inputType);
+					userFileTypes.add(userFileType);
+				}
+				tmpUserFile.setUserFileTypes(userFileTypes);
+				
+				tmpUserFiles.add(tmpUserFile);
+				tmpUserFilesInSelector.add(tmpUserFile);
+
+				Display.getDefault().syncExec(new Runnable() {
+					public void run() {
+						fileSelectorCombo.add(tmpUserFile.getOriginalFilename());
+						fileSelectorCombo.select(fileSelectorCombo.getItemCount()-1);
+					}
+				});
+			}
+		});
+		this.uploadHandler = uploadHandler;
+	}
+	
 	@Override
 	public void setValue(String value) {
 		if (value!=null && !value.equals("")) {
@@ -192,7 +219,6 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 				}
 				userFile.setUserFileTypes(userFileTypes);
 				this.rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.USER_FILE, userFile, "TODO");
-				userFile = UserFileAccess.addUserFileDataToDb(userFile);
 
 				return userFile.getFileLocation();
 			} else {
@@ -212,6 +238,17 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 		return false;
 	}
 
+	public void newTmpUserFileNotify(String absolutePath) {
+		for (UserFile tmpUserFile : tmpUserFiles) {
+			if (tmpUserFile.getFileLocation()==absolutePath) {
+				if (checkFileTypes(tmpUserFile) && !tmpUserFilesInSelector.contains(tmpUserFile)) {
+					tmpUserFilesInSelector.add(tmpUserFile);
+					fileSelectorCombo.add(tmpUserFile.getOriginalFilename());
+				}
+			}
+		}
+	}
+	
 	public void addUserFile(UserFile userFile) {
 		if (checkFileTypes(userFile)) {
 			userFilesInSelector.add(userFile);

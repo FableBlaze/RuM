@@ -28,6 +28,7 @@ public class NewTaskDetailsContainer extends Composite implements RumUpdatableVi
 	private NewTaskGeneralInfo newTaskGeneralInfo;
 
 	private List<UserFile> userFiles;
+	private List<UserFile> tmpUserFiles;
 	private List<NewTaskSubTaskInfo> newTaskSubTaskInfoList;
 
 	public NewTaskDetailsContainer(NewTaskComposite newTaskComposite, RumController rumController) {
@@ -39,6 +40,7 @@ public class NewTaskDetailsContainer extends Composite implements RumUpdatableVi
 
 		this.newTaskComposite=newTaskComposite;
 		this.userFiles = UserFileAccess.getProjectUserFilesDataFromDb(newTaskComposite.getProjectTabFolder().getProject().getId());
+		this.tmpUserFiles = new ArrayList<UserFile>();
 
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		this.setLayout(new StackLayout());
@@ -83,6 +85,21 @@ public class NewTaskDetailsContainer extends Composite implements RumUpdatableVi
 
 	public List<UserFile> getUserFiles() {
 		return userFiles;
+	}
+	
+	public List<UserFile> getTmpUserFiles() {
+		return tmpUserFiles;
+	}
+	
+	public void newTmpUserFileNotify(String absolutePath) {
+		display.asyncExec(new Runnable() {
+			public void run() {							
+				for (NewTaskSubTaskInfo newTaskSubTaskInfo : newTaskSubTaskInfoList) {
+					PluginConfigurationComposite pluginConfigurationComposite = (PluginConfigurationComposite)newTaskSubTaskInfo.getScrolledPluginConfigurationComposite().getContent();
+					pluginConfigurationComposite.newTmpUserFileNotify(absolutePath);
+				}
+			}
+		});		
 	}
 
 	@Override
