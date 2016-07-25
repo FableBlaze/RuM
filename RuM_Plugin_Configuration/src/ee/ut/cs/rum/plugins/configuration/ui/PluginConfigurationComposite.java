@@ -35,7 +35,7 @@ public class PluginConfigurationComposite extends Composite {
 	private RumController rumController;
 
 	private Map<String, ConfigurationItemInterface> configurationItems;
-	private List<ConfigurationItemFile> configurationItemFiles;
+	private Map<String, ConfigurationItemFile> configurationItemFiles;
 	private PluginInfo pluginInfo;
 	private List<UserFile> userFiles;
 	private List<UserFile> tmpUserFiles;
@@ -61,7 +61,7 @@ public class PluginConfigurationComposite extends Composite {
 	private void createContents() {
 		Label label;
 		configurationItems = new HashMap<String, ConfigurationItemInterface>();
-		configurationItemFiles = new ArrayList<ConfigurationItemFile>();
+		configurationItemFiles = new HashMap<String, ConfigurationItemFile>();
 
 		label = new Label (this, SWT.NONE);
 		label.setText("Plugin description:");
@@ -104,8 +104,7 @@ public class PluginConfigurationComposite extends Composite {
 			case FILE:
 				PluginParameterFile parameterFile = (PluginParameterFile) pluginParameter;
 				ConfigurationItemFile configurationItemFile = new ConfigurationItemFile(this, parameterFile, rumController);
-				configurationItems.put(parameterFile.getInternalName(), configurationItemFile);
-				configurationItemFiles.add(configurationItemFile);
+				configurationItemFiles.put(parameterFile.getInternalName(), configurationItemFile);
 				break; 
 			default:
 				break;
@@ -152,8 +151,13 @@ public class PluginConfigurationComposite extends Composite {
 
 	public void setConfigurationValues(Map<String, String> configurationValues) {
 		for (String key : configurationValues.keySet()) {
-			if (!configurationItems.get(key).equals("")) {
+			if (configurationItems.get(key)!=null) {
 				configurationItems.get(key).setValue(configurationValues.get(key));	
+			}
+		}
+		for (String key : configurationValues.keySet()) {
+			if (configurationItemFiles.get(key)!=null) {
+				configurationItemFiles.get(key).setValue(configurationValues.get(key));	
 			}
 		}
 	}
@@ -167,7 +171,7 @@ public class PluginConfigurationComposite extends Composite {
 	}
 	
 	public List<ConfigurationItemFile> getConfigurationItemFiles() {
-		return configurationItemFiles;
+		return new ArrayList<ConfigurationItemFile>(configurationItemFiles.values());
 	}
 
 	public void setFileUploadHandlers(List<FileUploadHandler> fileUploadHandlers) {
@@ -178,25 +182,25 @@ public class PluginConfigurationComposite extends Composite {
 	}
 
 	public void newTmpUserFileNotify(String absolutePath) {
-		for (ConfigurationItemFile configurationItemFile : configurationItemFiles) {
+		for (ConfigurationItemFile configurationItemFile : configurationItemFiles.values()) {
 			configurationItemFile.newTmpUserFileNotify(absolutePath);
 		}
 	}
 
 	public void addUserFile(UserFile userFile) {
-		for (ConfigurationItemFile configurationItemFile : configurationItemFiles) {
+		for (ConfigurationItemFile configurationItemFile : configurationItemFiles.values()) {
 			configurationItemFile.addUserFile(userFile);
 		}
 	}
 
 	public void modifyUserFile(UserFile userFile) {
-		for (ConfigurationItemFile configurationItemFile : configurationItemFiles) {
+		for (ConfigurationItemFile configurationItemFile : configurationItemFiles.values()) {
 			configurationItemFile.modifyUserFile(userFile);
 		}
 	}
 
 	public void removeUserFile(UserFile userFile) {
-		for (ConfigurationItemFile configurationItemFile : configurationItemFiles) {
+		for (ConfigurationItemFile configurationItemFile : configurationItemFiles.values()) {
 			configurationItemFile.removeUserFile(userFile);
 		}
 	}

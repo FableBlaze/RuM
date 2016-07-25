@@ -163,17 +163,17 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 	}
 	
 	@Override
-	public void setValue(String value) {
-		if (value!=null && !value.equals("")) {
+	public void setValue(String fileLocation) {
+		if (fileLocation!=null && !fileLocation.equals("")) {
 			if (userFiles==null) {
-				UserFile userFile = UserFileAccess.getUserFileDataFromDb(value);
+				UserFile userFile = UserFileAccess.getUserFileDataFromDb(fileLocation);
 				if (userFile!=null) {
 					fileSelectorCombo.add(userFile.getOriginalFilename() + "  (" + new SimpleDateFormat("dd-MM-yyyy HH:mm").format(userFile.getCreatedAt()) + ")");
 					fileSelectorCombo.select(0);	
 				}
 			} else {
 				for (int i = 0; i < userFiles.size(); i++) {
-					if (userFiles.get(i).getFileLocation().equals(value)) {
+					if (userFiles.get(i).getFileLocation().equals(fileLocation)) {
 						fileSelectorCombo.select(i);
 					}
 				}
