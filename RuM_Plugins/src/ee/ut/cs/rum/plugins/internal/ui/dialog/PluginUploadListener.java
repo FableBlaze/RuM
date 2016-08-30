@@ -54,7 +54,7 @@ public class PluginUploadListener implements FileUploadListener {
 				Activator.getLogger().error("Uploaded file is not a valid plugin");
 			}
 		} catch (BundleException e1) {
-			Activator.getLogger().error("Temporary plugin loading failed");
+			Activator.getLogger().error("Temporary plugin loading failed: " + e1.toString());
 		}
 
 		//TODO: Check for duplicates

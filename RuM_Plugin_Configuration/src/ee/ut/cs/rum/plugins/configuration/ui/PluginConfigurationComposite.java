@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.rap.fileupload.FileUploadHandler;
 import org.eclipse.swt.SWT;
@@ -175,8 +176,11 @@ public class PluginConfigurationComposite extends Composite {
 	}
 
 	public void setFileUploadHandlers(List<FileUploadHandler> fileUploadHandlers) {
-		for (int i = 0; i < configurationItemFiles.size(); i++) {
-			configurationItemFiles.get(i).setUploadHandler(fileUploadHandlers.get(i));
+		Object[] keySet = configurationItemFiles.keySet().toArray();
+		for (int i = 0; i < keySet.length; i++) {
+			ConfigurationItemFile configurationItemFile = configurationItemFiles.get(keySet[i]);
+			FileUploadHandler fileUploadHandler = fileUploadHandlers.get(i);
+			configurationItemFile.setUploadHandler(fileUploadHandler);
 		}
 		
 	}
