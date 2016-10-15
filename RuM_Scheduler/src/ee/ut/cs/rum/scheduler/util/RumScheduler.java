@@ -39,6 +39,9 @@ public final class RumScheduler {
 			} catch (SchedulerException e) {
 				Activator.getLogger().info("Failed scheduling task: " + subTaskId.toString() + " (" +rumJobName + ")");
 				e.printStackTrace();
+			} catch (Exception e) {
+				Activator.getLogger().info("General task scheduling error: " + subTaskId.toString() + " (" +rumJobName + ")");
+				e.printStackTrace();
 			}
 		}
 
