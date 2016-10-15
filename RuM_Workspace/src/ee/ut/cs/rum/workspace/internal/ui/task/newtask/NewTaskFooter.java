@@ -1,7 +1,5 @@
 package ee.ut.cs.rum.workspace.internal.ui.task.newtask;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -57,7 +55,6 @@ public class NewTaskFooter extends Composite {
 
 				String task_results_root_asString = SystemParameterAccess.getSystemParameterValue(SystemParameterName.TASK_RESULTS_ROOT);
 				if (task_results_root_asString!=null) {
-					File task_results_root = new File(task_results_root_asString);
 
 					Task task = new Task();
 					NewTaskGeneralInfo newTaskGeneralInfo = newTaskComposite.getNewTaskDetailsContainer().getNewTaskGeneralInfo();
@@ -87,9 +84,6 @@ public class NewTaskFooter extends Composite {
 						Gson gson = new Gson();
 						String configurationValuesString = gson.toJson(configurationValues);
 						subTask.setConfigurationValues(configurationValuesString);
-
-						File taskResultsPath = new File(task_results_root, new SimpleDateFormat("ddMMyyyy_HHmmssSSS").format(createdAt));
-						subTask.setOutputPath(taskResultsPath.getPath());
 
 						subTask.setCreatedBy("TODO");
 						subTask.setCreatedAt(createdAt);

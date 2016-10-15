@@ -1,6 +1,7 @@
 package ee.ut.cs.rum.scheduler.internal.task;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,7 +18,9 @@ import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.database.domain.SubTask;
 import ee.ut.cs.rum.database.domain.UserFile;
 import ee.ut.cs.rum.database.domain.UserFileType;
+import ee.ut.cs.rum.database.domain.enums.SystemParameterName;
 import ee.ut.cs.rum.database.domain.enums.TaskStatus;
+import ee.ut.cs.rum.database.util.SystemParameterAccess;
 import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
 import ee.ut.cs.rum.plugins.configuration.util.PluginUtils;
@@ -49,11 +52,16 @@ public class RumJob implements Job {
 			if (rumJobPluginBundle==null) {
 				rumJobPluginBundle = installSelectedPluginBundle(plugin);
 			}
+			
+			String task_results_root_asString = SystemParameterAccess.getSystemParameterValue(SystemParameterName.TASK_RESULTS_ROOT);
+			File task_results_root = new File(task_results_root_asString);
+			File outputDirectory = new File(task_results_root, subTask.getId() + "_" + new SimpleDateFormat("ddMMyyyy_HHmmssSSS").format(subTask.getCreatedAt()));
+			subTask.setOutputPath(outputDirectory.getPath());
+			Activator.getRumController().changeData(ControllerUpdateType.MODIFIY, ControllerEntityType.SUBTASK, subTask, "SYS (TODO)");
 
 			RumPluginFactory rumJobPluginFactory = findRumPluginFactoryService(rumJobPluginBundle);
 			RumPluginWorker rumJobPluginWorker = rumJobPluginFactory.createRumPluginWorker();
 			
-			File outputDirectory = new File(subTask.getOutputPath());
 			if (outputDirectory.mkdir()) {
 				SubTasksData.updateSubTaskStatusInDb(taskId, TaskStatus.RUNNING);
 				Activator.getLogger().info("RumJob started: " + jobKey + " executing at " + new Date());
