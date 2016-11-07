@@ -18,7 +18,7 @@ public class RumEmfServiceImpl implements RumEmfService {
 	public RumEmfServiceImpl() throws InvalidSyntaxException {
 		BundleContext context = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
 		HashMap<String, String> props = new HashMap<String, String>(); 
-		props.put("javax.persistence.jdbc.url", "jdbc:postgresql://127.0.0.1:5432/RuM"); 
+		props.put("javax.persistence.jdbc.url", "jdbc:postgresql://127.0.0.1:5432/RuM_dev"); 
 		props.put("javax.persistence.jdbc.user", "postgres"); 
 		props.put("javax.persistence.jdbc.password", "postgres");
 		props.put("javax.persistence.jdbc.driver", "org.postgresql.Driver");
