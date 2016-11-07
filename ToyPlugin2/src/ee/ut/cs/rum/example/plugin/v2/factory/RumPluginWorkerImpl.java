@@ -17,15 +17,16 @@ public class RumPluginWorkerImpl implements RumPluginWorker {
 		
 		try {
 			PrintWriter writer = new PrintWriter(new File(outputParent, "textAndCSV.out"));
-			writer.println("RuM_ToyPlugin2 The first line");
-			writer.println("RuM_ToyPlugin2 The second line");
+			writer.println("RuM_ToyPlugin2 configuration:");
 			writer.println(configuration);
 			writer.close();
 			
+			//Placeholder file for testing the outputs
 			writer = new PrintWriter(new File(outputParent, "gif.out"));
 			writer.println("Placeholder");
 			writer.close();
 			
+			//Placeholder file for testing the outputs
 			writer = new PrintWriter(new File(outputParent, "random.file"));
 			writer.println("Placeholder");
 			writer.close();
@@ -35,7 +36,7 @@ public class RumPluginWorkerImpl implements RumPluginWorker {
 		
 		Activator.getLogger().info("RuM_ToyPlugin2 going to sleep");
 		try {
-			Thread.sleep(30L * 1000L);
+			Thread.sleep(10000L);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

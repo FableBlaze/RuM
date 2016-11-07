@@ -9,7 +9,9 @@ public class RumPluginFactoryImpl implements RumPluginFactory {
 
 	@Override
 	public String getPluginInfoJSON() {
-		return PluginConfiguration.generatePluginInfoJSON();
+		String pluginInfoJSON = PluginConfiguration.generatePluginInfoJSON();
+		Activator.getLogger().info(pluginInfoJSON);
+		return pluginInfoJSON;
 	}
 
 	@Override

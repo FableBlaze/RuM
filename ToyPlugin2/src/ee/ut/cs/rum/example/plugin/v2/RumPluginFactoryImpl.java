@@ -13,7 +13,7 @@ public class RumPluginFactoryImpl implements RumPluginFactory {
 
 	@Override
 	public String getPluginInfoJSON() {
-		String result = null;
+		String pluginInfoJSON = "";
 		URL pluginInfoEntry = Activator.getContext().getBundle().getEntry("pluginInfo.json");
 	    if (pluginInfoEntry != null) {
 	    	InputStream input = null;
@@ -22,7 +22,7 @@ public class RumPluginFactoryImpl implements RumPluginFactory {
 				input = pluginInfoEntry.openStream();
 				scanner = new Scanner(input);
 				scanner.useDelimiter("\\A");
-				result = scanner.hasNext() ? scanner.next() : "";
+				pluginInfoJSON = scanner.hasNext() ? scanner.next() : "";
 			} catch (IOException e) {
 				e.printStackTrace();
 			} finally {
@@ -35,7 +35,8 @@ public class RumPluginFactoryImpl implements RumPluginFactory {
 			}
 			
 	    }
-		return result;
+	    Activator.getLogger().info(pluginInfoJSON);
+		return pluginInfoJSON;
 	}
 
 	@Override
