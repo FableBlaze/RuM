@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
 import org.eclipse.rap.fileupload.FileUploadHandler;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -147,6 +145,16 @@ public class PluginConfigurationComposite extends Composite {
 				configurationValues.put(key, "");
 			}
 		}
+		
+		for (String key : configurationItemFiles.keySet()) {
+			String configurationItemValue = configurationItemFiles.get(key).getValue();
+			if (configurationItemValue!=null) {
+				configurationValues.put(key, configurationItemValue);
+			} else {
+				configurationValues.put(key, "");
+			}
+		}
+		
 		return configurationValues;
 	}
 

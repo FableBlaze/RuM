@@ -106,7 +106,7 @@ public class NewTaskDetailsContainer extends Composite implements RumUpdatableVi
 	public void controllerUpdateNotify(ControllerUpdateType updateType, Object updatedEntity) {
 		if (this.userFiles != null && updatedEntity instanceof UserFile) {
 			UserFile userFile = (UserFile) updatedEntity;
-			if (userFile.getProject().getId()==newTaskComposite.getProjectTabFolder().getProject().getId() && !userFile.getUserFileTypes().isEmpty()) {
+			if (userFile.getProject()!=null && userFile.getProject().getId()==newTaskComposite.getProjectTabFolder().getProject().getId() && !userFile.getUserFileTypes().isEmpty()) {
 				switch (updateType) {
 				case CREATE:
 					userFiles.add(userFile);
