@@ -3,6 +3,7 @@ package ee.ut.cs.rum.plugins.configuration.internal.ui;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,14 +40,14 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 	private static final long serialVersionUID = 3599873879215927039L;
 
 	private RumController rumController;
-	
+
 	//Temporary file is always last on fileSelectorCombo
 	private File temporaryFile; //TODO: remove
 	private List<UserFile> userFiles;
 	private List<UserFile> userFilesInSelector;
 	private List<UserFile> tmpUserFiles;
 	private List<UserFile> tmpUserFilesInSelector;
-	
+
 	private Combo fileSelectorCombo;
 	private FileUploadHandler uploadHandler;
 	private File user_file_path;
@@ -90,7 +91,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 				}
 			}
 		}
-		
+
 		this.tmpUserFiles = pluginConfigurationComposite.getTmpUserFiles();
 		this.tmpUserFilesInSelector = new ArrayList<UserFile>();
 		if (tmpUserFiles!=null) {
@@ -120,7 +121,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 			});
 		}
 	}
-	
+
 	public void setUploadHandler(FileUploadHandler uploadHandler) {
 		uploadHandler.addUploadListener(new FileUploadListener() {
 			@Override
@@ -135,7 +136,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 				DiskFileUploadReceiver receiver = (DiskFileUploadReceiver) uploadHandler.getReceiver();
 				temporaryFile = receiver.getTargetFiles()[receiver.getTargetFiles().length-1];
 				Activator.getLogger().info("Uploaded file: " + temporaryFile.getAbsolutePath());
-				
+
 				UserFile tmpUserFile = new UserFile();
 				tmpUserFile.setOriginalFilename(temporaryFile.getName());
 				tmpUserFile.setFileLocation(temporaryFile.getAbsolutePath());
@@ -147,7 +148,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 					userFileTypes.add(userFileType);
 				}
 				tmpUserFile.setUserFileTypes(userFileTypes);
-				
+
 				tmpUserFiles.add(tmpUserFile);
 				tmpUserFilesInSelector.add(tmpUserFile);
 
@@ -161,7 +162,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 		});
 		this.uploadHandler = uploadHandler;
 	}
-	
+
 	@Override
 	public void setValue(String fileLocation) {
 		if (fileLocation!=null && !fileLocation.equals("")) {
@@ -193,11 +194,12 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 		} else if (selectionIndex < userFilesInSelector.size()) {
 			return userFilesInSelector.get(selectionIndex).getFileLocation();
 		} else {
+			UserFile uf = tmpUserFilesInSelector.get(selectionIndex-userFilesInSelector.size());
 			//If it is a new user uploaded file
 			boolean copySucceeded = false;
 			File destinationFile = new File(user_file_path, new SimpleDateFormat("ddMMyyyy_HHmmssSSS").format(new Date()));
 			try {
-				Files.copy( temporaryFile.toPath(), destinationFile.toPath());
+				Files.copy( Paths.get(uf.getFileLocation()), destinationFile.toPath());
 				copySucceeded = true;
 				Activator.getLogger().info("Copied uploaded file to: " + destinationFile.toPath());
 			} catch (IOException e) {
@@ -206,7 +208,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 
 			if (copySucceeded) {
 				UserFile userFile = new UserFile();
-				userFile.setOriginalFilename(temporaryFile.getName());
+				userFile.setOriginalFilename(uf.getOriginalFilename());
 				//userFile.setProject(project);
 				userFile.setFileLocation(destinationFile.toPath().toString());
 
@@ -224,6 +226,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 			} else {
 				return null;
 			}
+
 		}
 	}
 
@@ -248,7 +251,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 			}
 		}
 	}
-	
+
 	public void addUserFile(UserFile userFile) {
 		if (checkFileTypes(userFile)) {
 			userFilesInSelector.add(userFile);
