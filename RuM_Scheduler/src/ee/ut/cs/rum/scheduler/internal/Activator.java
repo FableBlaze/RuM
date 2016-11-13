@@ -36,7 +36,8 @@ public class Activator implements BundleActivator {
 		emf = rumEmfService.getEmf("RuM");
 		if (emf == null) {throw new Exception("Database service not found");}
 
-		SchedulerFactory schedulerFactory = new StdSchedulerFactory("quartz.properties");
+		StdSchedulerFactory schedulerFactory = new StdSchedulerFactory();
+		schedulerFactory.initialize(this.getClass().getClassLoader().getResourceAsStream("quartz.properties"));
 		scheduler = schedulerFactory.getScheduler();
 		scheduler.start();
 

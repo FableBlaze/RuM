@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plan name="RuM.plan" version="1.0.0" scoped="true" atomic="true"
+        xmlns="http://www.springsource.org/schema/dm-server/plan"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+            http://www.springsource.org/schema/dm-server/plan 
+            http://www.springsource.org/schema/dm-server/plan/springsource-dm-server-plan.xsd">
+
+    <artifact type="bundle" name="org.eclipse.gemini.jpa" version="[1.1.0.RELEASE,1.1.0.RELEASE]"/>
+	<artifact type="bundle" name="RuM_Database" version="0.0.2"/>
+	
+	<artifact type="bundle" name="RuM_Controller" version="0.0.1"/>
+	<artifact type="bundle" name="RuM_Plugin_Development" version="0.0.5"/>
+	
+	<artifact type="bundle" name="RuM_SystemAdministration" version="0.0.1"/>
+	<artifact type="bundle" name="RuM_Plugin_Configuration" version="0.0.1"/>
+	
+	<artifact type="bundle" name="RuM_Scheduler" version="0.0.3"/>
+	<artifact type="bundle" name="RuM_Plugins" version="0.0.1"/>
+	
+	<artifact type="bundle" name="RuM_Workspace" version="0.0.1"/>
+	
+	<artifact type="bundle" name="RuM" version="0.0.1"/>
+
+</plan>
