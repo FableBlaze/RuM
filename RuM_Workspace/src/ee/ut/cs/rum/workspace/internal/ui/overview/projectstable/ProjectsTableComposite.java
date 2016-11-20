@@ -61,6 +61,7 @@ public class ProjectsTableComposite extends Composite {
 		((GridData) this.projectsTableViewer.getTable().getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
 		
 		projectsTableViewer.addSelectionChangedListener(new ProjectSelectionChangedListener(workspaceOverview));
+		projectsTableViewer.addDoubleClickListener(new ProjectRowDoubleClickListener(workspaceOverview));
 		
 		this.projectsTableFilter = new ProjectsTableFilter();
 		this.projectsTableViewer.addFilter(projectsTableFilter);
