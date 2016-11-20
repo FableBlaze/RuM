@@ -44,6 +44,7 @@ public class NewTaskFooter extends Composite {
 		this.setLayout(new GridLayout(3, false));
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
+		//TODO: Button should be disabled when all required data is not entered
 		Button startTaskButton = new Button(this, SWT.PUSH);
 		startTaskButton.setText("Start task");
 		startTaskButton.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
@@ -65,6 +66,8 @@ public class NewTaskFooter extends Composite {
 
 					List<SubTask> subTasks = new ArrayList<SubTask>();
 
+					boolean taskInfoOk =true;
+					
 					List<NewTaskSubTaskInfo> newTaskSubTaskInfoList = newTaskComposite.getNewTaskDetailsContainer().getNewTaskSubTaskInfoList();
 					for (NewTaskSubTaskInfo newTaskSubTaskInfo : newTaskSubTaskInfoList) {
 						Date createdAt = new Date();
@@ -75,15 +78,19 @@ public class NewTaskFooter extends Composite {
 						subTask.setStatus(TaskStatus.NEW);
 
 						Table table = newTaskSubTaskInfo.getPluginsTableComposite().getPluginsTableViewer().getTable();
-						//TODO: Button should be disabled when a sub-task has no plugin selected
-						Plugin plugin = (Plugin)table.getItem(table.getSelectionIndex()).getData();
-						subTask.setPlugin(plugin);
-
-						PluginConfigurationComposite pluginConfigurationComposite = (PluginConfigurationComposite)newTaskSubTaskInfo.getScrolledPluginConfigurationComposite().getContent();
-						Map<String, String> configurationValues = pluginConfigurationComposite.getConfigurationValues();
-						Gson gson = new Gson();
-						String configurationValuesString = gson.toJson(configurationValues);
-						subTask.setConfigurationValues(configurationValuesString);
+						try {
+							//TODO: More intelligent error handling
+							Plugin plugin = (Plugin)table.getItem(table.getSelectionIndex()).getData();							
+							subTask.setPlugin(plugin);
+							PluginConfigurationComposite pluginConfigurationComposite = (PluginConfigurationComposite)newTaskSubTaskInfo.getScrolledPluginConfigurationComposite().getContent();
+							Map<String, String> configurationValues = pluginConfigurationComposite.getConfigurationValues();
+							Gson gson = new Gson();
+							String configurationValuesString = gson.toJson(configurationValues);
+							subTask.setConfigurationValues(configurationValuesString);
+						} catch (Exception e) {
+							taskInfoOk=false;
+							Activator.getLogger().info(e.toString());
+						}						
 
 						subTask.setCreatedBy("TODO");
 						subTask.setCreatedAt(createdAt);
@@ -92,13 +99,17 @@ public class NewTaskFooter extends Composite {
 
 						subTasks.add(subTask);
 					}
-
-					task.setSubTasks(subTasks);
-					task = (Task)rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.TASK, task, "TODO");
-
-					RumScheduler.scheduleTask(task.getId());
-
-					Activator.getLogger().info(task.toString());
+					
+					if (taskInfoOk && !subTasks.isEmpty()) {
+						task.setSubTasks(subTasks);
+						task = (Task)rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.TASK, task, "TODO");
+						
+						RumScheduler.scheduleTask(task.getId());
+						Activator.getLogger().info("Queued task: " + task.toString());						
+					} else {
+						Activator.getLogger().info("Error queing task: " + task.toString());
+					}
+					
 				}
 			}
 		});
