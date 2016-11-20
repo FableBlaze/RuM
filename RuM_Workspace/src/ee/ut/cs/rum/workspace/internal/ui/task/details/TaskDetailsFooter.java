@@ -20,6 +20,8 @@ public class TaskDetailsFooter extends Composite {
 		Button useForNewTaskButton = new Button(this, SWT.PUSH);
 		useForNewTaskButton.setText("Use for new task");
 		useForNewTaskButton.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false));
+		//TODO: Enable when functionality done
+		useForNewTaskButton.setEnabled(false);
 		useForNewTaskButton.addListener(SWT.Selection, new Listener() {
 			private static final long serialVersionUID = -2883376239843215957L;
 
