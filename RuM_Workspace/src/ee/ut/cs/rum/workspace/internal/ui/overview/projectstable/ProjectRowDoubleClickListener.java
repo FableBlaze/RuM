@@ -22,9 +22,9 @@ public class ProjectRowDoubleClickListener implements IDoubleClickListener {
 		if (event!=null) {
 			IStructuredSelection selection = (IStructuredSelection)event.getSelection();
 			selectedProject = (Project) selection.getFirstElement();			
+			workspaceOverview.getWorkspaceUI().getWorkspaceHeader().getProjectSelectorCombo().selectProject(selectedProject);
 		}
 		
-		workspaceOverview.getWorkspaceUI().getWorkspaceHeader().getProjectSelectorCombo().selectProject(selectedProject);
 	}
 
 }
