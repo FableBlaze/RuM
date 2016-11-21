@@ -14,6 +14,7 @@ import org.eclipse.swt.widgets.Text;
 
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.workspace.internal.ui.project.ProjectOverview;
+import ee.ut.cs.rum.workspace.internal.ui.project.ProjectTabFolder;
 
 public class TasksTableComposite extends Composite {
 	private static final long serialVersionUID = -2229297948236990364L;
@@ -64,6 +65,9 @@ public class TasksTableComposite extends Composite {
 		((GridData) this.tasksTableViewer.getTable().getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
 		
 		tasksTableViewer.addSelectionChangedListener(new TaskSelectionChangedListener(projectOverview));
+		
+		ProjectTabFolder projectTabFolder = projectOverview.getProjectTabFolder();
+		tasksTableViewer.addDoubleClickListener(new TaskRowDoubleClickListener(projectTabFolder, rumController));
 		
 		this.tasksTableFilter = new TasksTableFilter();
 		this.tasksTableViewer.addFilter(tasksTableFilter);
