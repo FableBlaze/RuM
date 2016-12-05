@@ -48,5 +48,7 @@ public class PluginsTableComposite extends Composite {
 		this.pluginsTableFilter = new PluginsTableFilter();
 		this.pluginsTableViewer.addFilter(pluginsTableFilter);
 		
+		this.pluginsTableViewer.addDoubleClickListener(new PluginRowDoubleClickListener(pluginsManagementUI, rumController));
+		
 	}
 }
