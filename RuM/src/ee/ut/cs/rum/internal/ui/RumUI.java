@@ -11,6 +11,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import ee.ut.cs.rum.administration.ui.SystemAdministrationUI;
 import ee.ut.cs.rum.controller.RumController;
+import ee.ut.cs.rum.files.ui.FilesManagementUI;
 import ee.ut.cs.rum.internal.Activator;
 import ee.ut.cs.rum.plugins.ui.PluginsManagementUI;
 import ee.ut.cs.rum.workspace.ui.WorkspaceUI;
@@ -41,7 +42,7 @@ public class RumUI extends AbstractEntryPoint {
 		sectionContainer.setLayout(new StackLayout());
 		
 		workspaceSection = new WorkspaceUI(sectionContainer, rumController);
-		filesSection = new Composite(sectionContainer, SWT.NONE);
+		filesSection = new FilesManagementUI(sectionContainer, rumController);
 		pluginsManagementSection = new PluginsManagementUI(sectionContainer, rumController);
 		systemAdministrationSection = new SystemAdministrationUI(sectionContainer, rumController);
 		accountDetailsSection = new Composite(sectionContainer, SWT.NONE);

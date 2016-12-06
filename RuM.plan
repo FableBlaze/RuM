@@ -17,6 +17,7 @@
 	
 	<artifact type="bundle" name="RuM_Scheduler" version="0.0.3"/>
 	<artifact type="bundle" name="RuM_Plugins" version="0.0.1"/>
+	<artifact type="bundle" name="RuM_Files" version="0.0.1"/>
 	
 	<artifact type="bundle" name="RuM_Workspace" version="0.0.1"/>
 	
