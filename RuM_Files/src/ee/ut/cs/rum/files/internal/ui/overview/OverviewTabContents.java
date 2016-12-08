@@ -6,6 +6,8 @@ import org.eclipse.swt.widgets.Composite;
 
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.files.ui.FilesManagementUI;
+import ee.ut.cs.rum.files.internal.ui.overview.FilesOverview;
+import ee.ut.cs.rum.files.internal.ui.overview.filestable.FilesTableComposite;
 
 public class OverviewTabContents extends Composite {
 	private static final long serialVersionUID = 2017121761255826204L;
@@ -13,5 +15,8 @@ public class OverviewTabContents extends Composite {
 	public OverviewTabContents(FilesManagementUI filesManagementUI, RumController rumController) {
 		super(filesManagementUI, SWT.NONE);
 		this.setLayout(new GridLayout(2, false));
+		
+		new FilesOverview(this, rumController);
+		new FilesTableComposite(this, filesManagementUI, rumController);
 	}
 }
