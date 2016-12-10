@@ -67,7 +67,7 @@ public class PluginsTableViewer extends TableViewer implements RumUpdatableView 
 
 	private void createColumns(final TableViewer viewer, PluginsManagementUI pluginsManagementUI) {
 		String[] titles = { "Id", "Name", "Description", "Version", "Vendor", "Uploaded by", "Uploaded at", "Details"};
-		int[] bounds = { 50, 200, 400, 75, 200, 125, 125, 75 };
+		int[] bounds = { 50, 200, 400, 75, 200, 125, 125, 80 };
 
 		TableViewerColumn idColumn = createTableViewerColumn(titles[0], bounds[0], viewer);
 		idColumn.setLabelProvider(new ColumnLabelProvider() {
