@@ -3,11 +3,12 @@ package ee.ut.cs.rum.files.internal.ui.overview.filestable;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabItem;
 
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.UserFile;
-import ee.ut.cs.rum.files.internal.Activator;
+import ee.ut.cs.rum.files.internal.ui.details.UserFileDetails;
 import ee.ut.cs.rum.files.ui.FilesManagementUI;
 
 public class FileRowDoubleClickListener implements IDoubleClickListener {
@@ -28,7 +29,24 @@ public class FileRowDoubleClickListener implements IDoubleClickListener {
 			//TODO: Open tab
 			IStructuredSelection selection = (IStructuredSelection)event.getSelection();
 			selectedUserFile = (UserFile)selection.getFirstElement();
-			Activator.getLogger().info("File doubleclick: "+selectedUserFile.getOriginalFilename());
+			
+			//Checking if the tab is already open
+			for (CTabItem c : filesManagementUI.getItems()) {
+				if (c.getControl().getClass() == UserFileDetails.class) {
+					if (((UserFileDetails)c.getControl()).getUserFile() == selectedUserFile) {
+						cTabItem = c;
+						filesManagementUI.setSelection(c);
+					}
+				}
+			}
+			
+			if (cTabItem == null) {
+				cTabItem = new CTabItem (filesManagementUI, SWT.CLOSE);
+				cTabItem.setText ("File " + selectedUserFile.getId().toString());
+				cTabItem.setControl(new UserFileDetails(filesManagementUI, selectedUserFile, rumController));
+				filesManagementUI.setSelection(cTabItem);	
+			}
+			
 		}
 	}
 }

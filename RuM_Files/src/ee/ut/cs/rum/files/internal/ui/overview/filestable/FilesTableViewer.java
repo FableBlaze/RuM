@@ -31,6 +31,7 @@ import ee.ut.cs.rum.interfaces.RumUpdatableView;
 public class FilesTableViewer extends TableViewer implements RumUpdatableView {
 	private static final long serialVersionUID = 3799035998776154121L;
 
+	private RumController rumController;
 	private Display display;
 
 	private List<UserFile> userFiles;
@@ -38,6 +39,7 @@ public class FilesTableViewer extends TableViewer implements RumUpdatableView {
 	public FilesTableViewer(FilesTableComposite filesTableComposite, FilesManagementUI filesManagementUI, RumController rumController) {
 		super(filesTableComposite, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 
+		this.rumController=rumController;
 		this.display=Display.getCurrent();
 		rumController.registerView(this, ControllerEntityType.USER_FILE);
 
@@ -151,9 +153,9 @@ public class FilesTableViewer extends TableViewer implements RumUpdatableView {
 			@Override
 			public void update(ViewerCell cell) {
 				TableItem item = (TableItem) cell.getItem();
-				//TODO: Details button
-				Button pluginDetailsButton = new Button((Composite) cell.getViewerRow().getControl(), SWT.NONE);
-				pluginDetailsButton.setText("TODO");
+				UserFile userFile = (UserFile) cell.getElement();
+				
+				FileDetailsButton fileDetailsButton = new FileDetailsButton((Composite) cell.getViewerRow().getControl(), userFile, filesManagementUI, rumController);
 
 				item.addDisposeListener(new DisposeListener() {
 					private static final long serialVersionUID = -927877657358384078L;
@@ -161,15 +163,15 @@ public class FilesTableViewer extends TableViewer implements RumUpdatableView {
 					@Override
 					public void widgetDisposed(DisposeEvent arg0) {
 						//TODO: Check why dispose() keeps the button in the UI
-						pluginDetailsButton.setVisible(false);
-						pluginDetailsButton.dispose();
+						fileDetailsButton.setVisible(false);
+						fileDetailsButton.dispose();
 					}
 				});
 
 				TableEditor editor = new TableEditor(item.getParent());
 				editor.grabHorizontal  = true;
 				editor.grabVertical = true;
-				editor.setEditor(pluginDetailsButton , item, cell.getColumnIndex());
+				editor.setEditor(fileDetailsButton , item, cell.getColumnIndex());
 				editor.layout();
 			}
 		});
@@ -182,8 +184,8 @@ public class FilesTableViewer extends TableViewer implements RumUpdatableView {
 			public void update(ViewerCell cell) {
 				TableItem item = (TableItem) cell.getItem();
 				//TODO: Details button
-				Button pluginDownloadButton = new Button((Composite) cell.getViewerRow().getControl(), SWT.NONE);
-				pluginDownloadButton.setText("TODO");
+				Button fileDownloadButton = new Button((Composite) cell.getViewerRow().getControl(), SWT.NONE);
+				fileDownloadButton.setText("TODO");
 
 				item.addDisposeListener(new DisposeListener() {
 					private static final long serialVersionUID = -927877657358384078L;
@@ -191,15 +193,15 @@ public class FilesTableViewer extends TableViewer implements RumUpdatableView {
 					@Override
 					public void widgetDisposed(DisposeEvent arg0) {
 						//TODO: Check why dispose() keeps the button in the UI
-						pluginDownloadButton.setVisible(false);
-						pluginDownloadButton.dispose();
+						fileDownloadButton.setVisible(false);
+						fileDownloadButton.dispose();
 					}
 				});
 
 				TableEditor editor = new TableEditor(item.getParent());
 				editor.grabHorizontal  = true;
 				editor.grabVertical = true;
-				editor.setEditor(pluginDownloadButton , item, cell.getColumnIndex());
+				editor.setEditor(fileDownloadButton , item, cell.getColumnIndex());
 				editor.layout();
 			}
 		});
