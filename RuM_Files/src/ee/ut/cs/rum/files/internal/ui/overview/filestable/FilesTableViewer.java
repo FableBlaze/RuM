@@ -13,7 +13,6 @@ import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Table;
@@ -183,9 +182,9 @@ public class FilesTableViewer extends TableViewer implements RumUpdatableView {
 			@Override
 			public void update(ViewerCell cell) {
 				TableItem item = (TableItem) cell.getItem();
-				//TODO: Details button
-				Button fileDownloadButton = new Button((Composite) cell.getViewerRow().getControl(), SWT.NONE);
-				fileDownloadButton.setText("TODO");
+				UserFile userFile = (UserFile) cell.getElement();
+				
+				FileDownloadButton fileDownloadButton = new FileDownloadButton((Composite) cell.getViewerRow().getControl(), userFile);
 
 				item.addDisposeListener(new DisposeListener() {
 					private static final long serialVersionUID = -927877657358384078L;
