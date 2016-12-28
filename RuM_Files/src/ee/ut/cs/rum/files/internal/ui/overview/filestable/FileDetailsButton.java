@@ -52,7 +52,7 @@ public class FileDetailsButton extends Button {
 				
 				if (cTabItem == null) {
 					cTabItem = new CTabItem (filesManagementUI, SWT.CLOSE);
-					cTabItem.setText ("File " + userFile.getId().toString());
+					cTabItem.setText (userFile.getOriginalFilename() + " - " + userFile.getId().toString());
 					cTabItem.setControl(new UserFileDetails(filesManagementUI, userFile, rumController));
 					filesManagementUI.setSelection(cTabItem);	
 				}

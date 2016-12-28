@@ -42,7 +42,7 @@ public class FileRowDoubleClickListener implements IDoubleClickListener {
 			
 			if (cTabItem == null) {
 				cTabItem = new CTabItem (filesManagementUI, SWT.CLOSE);
-				cTabItem.setText ("File " + selectedUserFile.getId().toString());
+				cTabItem.setText (selectedUserFile.getOriginalFilename() + " - " + selectedUserFile.getId().toString());
 				cTabItem.setControl(new UserFileDetails(filesManagementUI, selectedUserFile, rumController));
 				filesManagementUI.setSelection(cTabItem);	
 			}
