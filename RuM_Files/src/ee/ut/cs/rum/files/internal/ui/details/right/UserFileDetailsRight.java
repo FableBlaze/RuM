@@ -4,7 +4,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 
 import ee.ut.cs.rum.files.internal.ui.details.UserFileDetails;
 
@@ -17,8 +16,8 @@ public class UserFileDetailsRight extends Composite {
 		this.setLayout(new GridLayout());
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		
-		Label l = new Label(this, SWT.NONE);
-		l.setText("Right side (TODO)");
+		new UserFileContents(this);
+		new UserFileProjects(this);
 	}
 
 }
