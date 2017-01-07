@@ -28,7 +28,7 @@ public class UserFileDetails extends Composite{
 		new UserFileDetailsLeft(this);
 		new UserFileDetailsRight(this);
 		
-		UserFileFooter userFileFooter = new UserFileFooter(this);
+		UserFileFooter userFileFooter = new UserFileFooter(this, userFile);
 		((GridData) userFileFooter.getLayoutData()).horizontalSpan = ((GridLayout) this.getLayout()).numColumns;
 	}
 
