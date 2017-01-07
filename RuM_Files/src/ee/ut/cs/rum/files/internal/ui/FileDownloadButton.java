@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.files.internal.ui.overview.filestable;
+package ee.ut.cs.rum.files.internal.ui;
 
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.rap.rwt.client.service.UrlLauncher;
