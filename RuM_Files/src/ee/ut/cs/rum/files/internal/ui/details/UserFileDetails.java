@@ -14,8 +14,6 @@ import ee.ut.cs.rum.files.ui.FilesManagementUI;
 public class UserFileDetails extends Composite{
 	private static final long serialVersionUID = 2568497081797282411L;
 	
-	private RumController rumController;
-	
 	private UserFile userFile;
 
 	public UserFileDetails(FilesManagementUI filesManagementUI, UserFile userFile, RumController rumController2) {
