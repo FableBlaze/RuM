@@ -59,13 +59,8 @@ public class ProjectTaskDetails extends Composite implements RumUpdatableView {
 		taskName.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
 		FilesTableViewer filesTableViewer = new FilesTableViewer(this, rumController);
-		filesTableViewer.getTable().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		filesTableViewer.getTable().setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
 		((GridData) filesTableViewer.getTable().getLayoutData()).verticalSpan = 6;
-		
-//		Label taskOutputsTable = new Label(this, SWT.NONE);
-//		taskOutputsTable.setText("Task output files (TODO)");
-//		taskOutputsTable.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true));
-//		((GridData) taskOutputsTable.getLayoutData()).verticalSpan = 6;
 
 		label = new Label(this, SWT.NONE);
 		label.setText("Task description:");
