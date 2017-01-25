@@ -58,6 +58,17 @@ public final class UserFileAccess {
 		return userProjectFiles;
 	}
 	
+	public static List<UserFile> getTaskUserFilesDataFromDb(Long taskId) {
+		EntityManagerFactory emf = Activator.getEmf();
+		EntityManager em = emf.createEntityManager();
+		
+		String queryString = "Select uf from UserFile uf where uf.task.id = " + taskId + " order by uf.id";
+		TypedQuery<UserFile> query = em.createQuery(queryString, UserFile.class);
+		List<UserFile> userFiles = query.getResultList();
+		
+		return userFiles;
+	}
+	
 	public static UserFile getUserFileDataFromDb(String fileLocation) {
 		EntityManagerFactory emf = Activator.getEmf();
 		EntityManager em = emf.createEntityManager();

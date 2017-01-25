@@ -18,6 +18,7 @@ import ee.ut.cs.rum.database.domain.Task;
 import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
 import ee.ut.cs.rum.interfaces.RumUpdatableView;
+import ee.ut.cs.rum.workspace.internal.shared.filestable.FilesTableViewer;
 import ee.ut.cs.rum.workspace.internal.ui.task.details.TaskDetailsComposite;
 
 public class ProjectTaskDetails extends Composite implements RumUpdatableView {
@@ -57,10 +58,14 @@ public class ProjectTaskDetails extends Composite implements RumUpdatableView {
 		taskName.setText(task.getName());
 		taskName.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
-		Label taskOutputsTable = new Label(this, SWT.NONE);
-		taskOutputsTable.setText("Task output files (TODO)");
-		taskOutputsTable.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true));
-		((GridData) taskOutputsTable.getLayoutData()).verticalSpan = 6;
+		FilesTableViewer filesTableViewer = new FilesTableViewer(this, rumController);
+		filesTableViewer.getTable().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		((GridData) filesTableViewer.getTable().getLayoutData()).verticalSpan = 6;
+		
+//		Label taskOutputsTable = new Label(this, SWT.NONE);
+//		taskOutputsTable.setText("Task output files (TODO)");
+//		taskOutputsTable.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true));
+//		((GridData) taskOutputsTable.getLayoutData()).verticalSpan = 6;
 
 		label = new Label(this, SWT.NONE);
 		label.setText("Task description:");
@@ -164,6 +169,10 @@ public class ProjectTaskDetails extends Composite implements RumUpdatableView {
 			}
 		}
 
+	}
+	
+	public Task getTask() {
+		return task;
 	}
 
 	@Override
