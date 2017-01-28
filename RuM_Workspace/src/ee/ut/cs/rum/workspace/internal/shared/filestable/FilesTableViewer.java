@@ -146,7 +146,55 @@ public class FilesTableViewer extends TableViewer implements RumUpdatableView {
 
 	@Override
 	public void controllerUpdateNotify(ControllerUpdateType updateType, Object updatedEntity) {
-		// TODO Auto-generated method stub
+		if (updatedEntity instanceof UserFile && ((UserFile)updatedEntity).getTask().getId()==projectTaskDetails.getTask().getId()) {
+			UserFile userFile = (UserFile) updatedEntity;
+			int updatedEntityIndex;
+			switch (updateType) {
+			//Both list and viewer must be updated as updates in one are not reflected automatically to other
+			case CREATE:
+				userFiles.add(userFile);
+				display.asyncExec(new Runnable() {
+					public void run() {
+						FilesTableViewer.this.add(userFile);
+					}
+				});
+				break;
+			case MODIFIY:
+				updatedEntityIndex = findUserFileIndex(userFile);
+				if (updatedEntityIndex != -1) {
+					userFiles.set(updatedEntityIndex, userFile);
+					display.asyncExec(new Runnable() {
+						public void run() {
+							FilesTableViewer.this.replace(userFile, updatedEntityIndex);
+						}
+					});
+				}
+				break;
+			case DELETE:
+				updatedEntityIndex = findUserFileIndex(userFile);
+				if (updatedEntityIndex != -1) {
+					synchronized(this){
+						display.asyncExec(new Runnable() {
+							public void run() {
+								FilesTableViewer.this.remove(userFiles.get(updatedEntityIndex));
+								userFiles.remove(updatedEntityIndex);
+							}
+						});
+					}
+				}
+				break;
+			default:
+				break;
+			}
+		}
 	}
-
+	
+	private int findUserFileIndex(UserFile userFile) {
+		for (int i = 0; i < this.userFiles.size(); i++) {
+			if (this.userFiles.get(i).getId()==userFile.getId()) {
+				return i;
+			}
+		}
+		return -1;
+	}
 }
