@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.workspace.internal.shared.filestable;
+package ee.ut.cs.rum.workspace.internal.ui.project.details;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -25,7 +25,6 @@ import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
 import ee.ut.cs.rum.interfaces.RumUpdatableView;
 import ee.ut.cs.rum.workspace.internal.download.FileDownloadButton;
-import ee.ut.cs.rum.workspace.internal.ui.project.ProjectTaskDetails;
 
 public class FilesTableViewer extends TableViewer implements RumUpdatableView {
 	private static final long serialVersionUID = 1485288926212834460L;

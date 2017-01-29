@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.workspace.internal.ui.project;
+package ee.ut.cs.rum.workspace.internal.ui.project.details;
 
 import java.text.SimpleDateFormat;
 
@@ -18,7 +18,8 @@ import ee.ut.cs.rum.database.domain.Task;
 import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
 import ee.ut.cs.rum.interfaces.RumUpdatableView;
-import ee.ut.cs.rum.workspace.internal.shared.filestable.FilesTableViewer;
+import ee.ut.cs.rum.workspace.internal.ui.project.ProjectDetailsContainer;
+import ee.ut.cs.rum.workspace.internal.ui.project.ProjectTabFolder;
 import ee.ut.cs.rum.workspace.internal.ui.task.details.TaskDetailsComposite;
 
 public class ProjectTaskDetails extends Composite implements RumUpdatableView {

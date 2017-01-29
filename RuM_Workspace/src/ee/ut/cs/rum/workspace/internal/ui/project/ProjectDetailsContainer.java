@@ -10,6 +10,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Task;
+import ee.ut.cs.rum.workspace.internal.ui.project.details.ProjectTaskDetails;
 
 public class ProjectDetailsContainer extends Composite {
 	private static final long serialVersionUID = 778865123519656925L;
