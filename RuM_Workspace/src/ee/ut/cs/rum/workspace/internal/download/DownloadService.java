@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.workspace.internal;
+package ee.ut.cs.rum.workspace.internal.download;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,6 +15,7 @@ import org.eclipse.rap.rwt.RWT;
 import org.eclipse.rap.rwt.service.ServiceHandler;
 
 import ee.ut.cs.rum.database.domain.UserFile;
+import ee.ut.cs.rum.workspace.internal.Activator;
 
 public class DownloadService implements ServiceHandler {
 	

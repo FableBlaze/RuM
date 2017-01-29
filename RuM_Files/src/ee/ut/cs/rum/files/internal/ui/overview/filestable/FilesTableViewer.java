@@ -24,7 +24,7 @@ import ee.ut.cs.rum.database.domain.UserFile;
 import ee.ut.cs.rum.database.util.UserFileAccess;
 import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
-import ee.ut.cs.rum.files.internal.ui.FileDownloadButton;
+import ee.ut.cs.rum.files.internal.download.FileDownloadButton;
 import ee.ut.cs.rum.files.ui.FilesManagementUI;
 import ee.ut.cs.rum.interfaces.RumUpdatableView;
 

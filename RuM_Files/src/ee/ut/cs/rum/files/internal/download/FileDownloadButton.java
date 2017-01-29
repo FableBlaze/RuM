@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.workspace.internal.ui;
+package ee.ut.cs.rum.files.internal.download;
 
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.rap.rwt.client.service.UrlLauncher;
@@ -9,8 +9,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
 import ee.ut.cs.rum.database.domain.UserFile;
-import ee.ut.cs.rum.workspace.internal.Activator;
-import ee.ut.cs.rum.workspace.internal.DownloadService;
+import ee.ut.cs.rum.files.internal.Activator;
 
 public class FileDownloadButton extends Button {
 	private static final long serialVersionUID = 7432848176091752433L;

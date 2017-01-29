@@ -7,7 +7,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
 import ee.ut.cs.rum.database.domain.UserFile;
-import ee.ut.cs.rum.files.internal.ui.FileDownloadButton;
+import ee.ut.cs.rum.files.internal.download.FileDownloadButton;
 
 public class UserFileFooter extends Composite {
 	private static final long serialVersionUID = 5327248514196828368L;

@@ -24,7 +24,7 @@ import ee.ut.cs.rum.database.util.UserFileAccess;
 import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
 import ee.ut.cs.rum.interfaces.RumUpdatableView;
-import ee.ut.cs.rum.workspace.internal.ui.FileDownloadButton;
+import ee.ut.cs.rum.workspace.internal.download.FileDownloadButton;
 import ee.ut.cs.rum.workspace.internal.ui.project.ProjectTaskDetails;
 
 public class FilesTableViewer extends TableViewer implements RumUpdatableView {
