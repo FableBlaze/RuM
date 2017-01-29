@@ -12,7 +12,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Table;
@@ -25,6 +24,7 @@ import ee.ut.cs.rum.database.util.UserFileAccess;
 import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
 import ee.ut.cs.rum.interfaces.RumUpdatableView;
+import ee.ut.cs.rum.workspace.internal.ui.FileDownloadButton;
 import ee.ut.cs.rum.workspace.internal.ui.project.ProjectTaskDetails;
 
 public class FilesTableViewer extends TableViewer implements RumUpdatableView {
@@ -110,9 +110,7 @@ public class FilesTableViewer extends TableViewer implements RumUpdatableView {
 				TableItem item = (TableItem) cell.getItem();
 				UserFile userFile = (UserFile) cell.getElement();
 				
-				//FileDownloadButton fileDownloadButton = new FileDownloadButton((Composite) cell.getViewerRow().getControl(), userFile);
-				Button fileDownloadButton = new Button((Composite) cell.getViewerRow().getControl(), SWT.NONE);
-				fileDownloadButton.setText("TODO");
+				FileDownloadButton fileDownloadButton = new FileDownloadButton((Composite) cell.getViewerRow().getControl(), userFile);
 				
 				item.addDisposeListener(new DisposeListener() {
 					private static final long serialVersionUID = -927877657358384078L;

@@ -21,6 +21,8 @@ Import-Package: ee.ut.cs.rum.controller,
  ee.ut.cs.rum.plugins.development.interfaces.factory,
  ee.ut.cs.rum.scheduler.util,
  javax.persistence;version="[2.0.4,2.0.4]",
+ javax.servlet;version="[2.6.0,2.6.0]",
+ javax.servlet.http;version="[2.6.0,2.6.0]",
  org.osgi.framework;version="[1.7.0,1.7.0]",
  org.osgi.util.tracker;version="[1.5.1,1.5.1]",
  org.slf4j;version="[1.7.2,1.7.2]"
