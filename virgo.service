@@ -1,0 +1,21 @@
+[Unit]
+Description=Eclipse Virgo OSGi runtime container
+After=network.target
+
+[Service]
+Type=simple
+
+Environment=JAVA_HOME=/usr/lib/jvm/java-8-oracle
+WorkingDirectory=/opt/virgo-tomcat-server-3.6.4.RELEASE
+
+ExecStart=/opt/virgo-tomcat-server-3.6.4.RELEASE/bin/startup.sh
+ExecStop=/opt/virgo-tomcat-server-3.6.4.RELEASE/bin/shutdown.sh
+
+User=virgo
+Group=virgo
+
+RestartSec=10
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
