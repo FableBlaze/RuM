@@ -15,10 +15,10 @@ Import-Package: ee.ut.cs.rum.controller,
  ee.ut.cs.rum.plugins.development.description,
  ee.ut.cs.rum.plugins.development.interfaces,
  ee.ut.cs.rum.plugins.development.interfaces.factory,
- javax.persistence;version="[2.0.4,2.0.4]",
+ javax.persistence;version="[2.1.0,2.1.0]",
  org.osgi.framework;version="[1.7.0,1.7.0]",
  org.osgi.util.tracker;version="[1.5.1,1.5.1]",
- org.slf4j;version="[1.7.2,1.7.2]"
+ org.slf4j;version="[1.7.22,1.7.22]"
 Bundle-Activator: ee.ut.cs.rum.scheduler.internal.Activator
 Export-Package: ee.ut.cs.rum.scheduler.util
 Import-Bundle: org.quartz-scheduler.quartz;version="[2.2.2,2.2.2]"
