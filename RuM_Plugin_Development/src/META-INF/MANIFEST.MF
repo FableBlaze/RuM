@@ -5,8 +5,8 @@ Bundle-Version: 0.0.5
 Bundle-Name: RuM_Plugin_Development
 Bundle-ManifestVersion: 2
 Bundle-Vendor: University of Tartu
-Import-Bundle: org.eclipse.rap.rwt;version="[3.0.1.20150908-1130,3.0.1.20150908-1130]",
- com.google.gson;version="[2.6.2,2.6.2]"
+Import-Bundle: com.google.gson;version="[2.6.2,2.6.2]",
+ org.eclipse.rap.rwt;version="[3.1.2.20161130-0738,3.1.2.20161130-0738]"
 Export-Package: ee.ut.cs.rum.plugins.development.description,
  ee.ut.cs.rum.plugins.development.description.deserializer,
  ee.ut.cs.rum.plugins.development.description.parameter,
