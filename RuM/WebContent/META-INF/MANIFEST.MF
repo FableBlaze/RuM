@@ -15,6 +15,8 @@ Import-Package: ee.ut.cs.rum.administration.ui,
  ee.ut.cs.rum.scheduler.util,
  ee.ut.cs.rum.workspace.ui,
  javax.persistence;version="[2.1.0,2.1.0]",
+ javax.servlet;version="[3.1.0.20170128,3.1.0.20170128]",
+ javax.servlet.http;version="[3.1.0.20170128,3.1.0.20170128]",
  org.osgi.framework;version="[1.7.0,1.7.0]",
  org.osgi.util.tracker;version="[1.5.1,1.5.1]",
  org.slf4j;version="[1.7.22,1.7.22]"
