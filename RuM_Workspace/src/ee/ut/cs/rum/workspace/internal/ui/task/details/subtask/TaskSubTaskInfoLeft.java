@@ -85,8 +85,12 @@ public class TaskSubTaskInfoLeft extends Composite implements RumUpdatableView {
 
 		PluginInfoComposite pluginInfoComposite = new PluginInfoComposite(this);
 		pluginInfoComposite.updateSelectedPluginInfo(subTask.getPlugin());
-		pluginInfoComposite.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, true));
+		pluginInfoComposite.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, false));
 		((GridData) pluginInfoComposite.getLayoutData()).horizontalSpan = ((GridLayout)this.getLayout()).numColumns;
+		
+		FilesTableViewer filesTableViewer = new FilesTableViewer(this, rumController);
+		filesTableViewer.getTable().setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
+		((GridData) filesTableViewer.getTable().getLayoutData()).horizontalSpan = ((GridLayout)this.getLayout()).numColumns;
 	}
 
 	@Override
@@ -125,6 +129,10 @@ public class TaskSubTaskInfoLeft extends Composite implements RumUpdatableView {
 	public void dispose() {
 		rumController.unregisterView(this, ControllerEntityType.SUBTASK);
 		super.dispose();
+	}
+	
+	public SubTask getSubTask() {
+		return subTask;
 	}
 
 }

@@ -8,7 +8,6 @@ import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 
 import com.google.gson.Gson;
 
@@ -40,10 +39,6 @@ public class TaskSubTaskInfoRight extends Composite {
 		
 		scrolledPluginConfigurationComposite.setContent(pluginConfigurationComposite);
 		pluginConfigurationComposite.setSize(pluginConfigurationComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
-		
-		Label taskOutputFiles = new Label(this, SWT.NONE);
-		taskOutputFiles.setText("Task output files (TODO)");
-		taskOutputFiles.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true));
 	}
 
 }
