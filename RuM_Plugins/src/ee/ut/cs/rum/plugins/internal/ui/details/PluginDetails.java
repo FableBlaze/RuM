@@ -5,123 +5,159 @@ import java.text.SimpleDateFormat;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.ExpandBar;
+import org.eclipse.swt.widgets.ExpandItem;
 import org.eclipse.swt.widgets.Label;
 
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Plugin;
-import ee.ut.cs.rum.plugins.development.description.PluginInfo;
 import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationComposite;
 import ee.ut.cs.rum.plugins.configuration.util.PluginUtils;
+import ee.ut.cs.rum.plugins.development.description.PluginInfo;
 import ee.ut.cs.rum.plugins.ui.PluginsManagementUI;
 
-public class PluginDetails extends ScrolledComposite {
-	private static final long serialVersionUID = 458942786595146853L;
-	
+public class PluginDetails extends ExpandBar {
+	private static final long serialVersionUID = -4774110099028052424L;
+
 	private RumController rumController;
-	
+
 	private Plugin plugin;
-	private Composite content;
-	
+
 	public PluginDetails(PluginsManagementUI pluginsManagementUI, Plugin plugin, RumController rumController) {
-		super(pluginsManagementUI, SWT.CLOSE | SWT.H_SCROLL | SWT.V_SCROLL);
-		
+		super(pluginsManagementUI, SWT.V_SCROLL);
+
 		this.plugin = plugin;
+
+		ExpandItem detailsExpandItem = new ExpandItem (this, SWT.NONE, 0);
+		detailsExpandItem.setText("Plugin details");
+		Composite detailsComposite = createDetailsComposite();
+		detailsExpandItem.setHeight(detailsComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
+		detailsExpandItem.setControl(detailsComposite);
+
+		ExpandItem configurationUiExpandItem = new ExpandItem (this, SWT.NONE, 1);
+		configurationUiExpandItem.setText("Plugin configuration UI");
+		Composite configurationUiComposite = createConfigurationUiComposite();
+		configurationUiExpandItem.setHeight(configurationUiComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
+		configurationUiExpandItem.setControl(configurationUiComposite);
 		
-		this.content = new Composite(this, SWT.NONE);
-		content.setLayout(new GridLayout(2, false));
-		this.setContent(content);
-		
-		createContents();
-		
-		content.setSize(content.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+		ExpandItem importedPackagesExpandItem = new ExpandItem (this, SWT.NONE, 2);
+		importedPackagesExpandItem.setText("Imported packages");
+		Composite importedPackagesComposite = createImportedPackagesComposite();
+		importedPackagesExpandItem.setHeight(importedPackagesComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
+		importedPackagesExpandItem.setControl(importedPackagesComposite);
+
+		detailsExpandItem.setExpanded(true);
 	}
-	
-	private void createContents() {
-		Label label = new Label (content, SWT.NONE);
-		label.setText("Plugin details");
-		label.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		((GridData) label.getLayoutData()).horizontalSpan = ((GridLayout) content.getLayout()).numColumns;
+
+	private ScrolledComposite createDetailsComposite() {
+		ScrolledComposite detailsComposite = new ScrolledComposite(this, SWT.H_SCROLL);
 		
-		label = new Label (content, SWT.NONE);
+		Composite detailsContent = new Composite (detailsComposite, SWT.NONE);
+		GridLayout layout = new GridLayout (2, false);
+		layout.marginLeft = layout.marginTop = layout.marginRight = layout.marginBottom = 10;
+		detailsContent.setLayout(layout);
+
+		Label label = new Label (detailsContent, SWT.NONE);
 		label.setText("Id:");
-		label = new Label (content, SWT.NONE);
+		label = new Label (detailsContent, SWT.NONE);
 		label.setText(plugin.getId().toString());
 
-		label = new Label (content, SWT.NONE);
+		label = new Label (detailsContent, SWT.NONE);
 		label.setText("Symbolic name:");
-		label = new Label (content, SWT.NONE);
+		label = new Label (detailsContent, SWT.NONE);
 		label.setText(plugin.getBundleSymbolicName());
 
-		label = new Label (content, SWT.NONE);
+		label = new Label (detailsContent, SWT.NONE);
 		label.setText("Version:");
-		label = new Label (content, SWT.NONE);
+		label = new Label (detailsContent, SWT.NONE);
 		label.setText(plugin.getBundleVersion());
 
-		label = new Label (content, SWT.NONE);
+		label = new Label (detailsContent, SWT.NONE);
 		label.setText("Name:");
-		label = new Label (content, SWT.NONE);
+		label = new Label (detailsContent, SWT.NONE);
 		label.setText(plugin.getBundleName());
-		
-		label = new Label (content, SWT.NONE);
+
+		label = new Label (detailsContent, SWT.NONE);
 		label.setText("Vendor:");
-		label = new Label (content, SWT.NONE);
+		label = new Label (detailsContent, SWT.NONE);
 		label.setText(plugin.getBundleVendor());
-		
-		label = new Label (content, SWT.NONE);
+
+		label = new Label (detailsContent, SWT.NONE);
 		label.setText("Description:");
-		label = new Label (content, SWT.NONE);
+		label = new Label (detailsContent, SWT.NONE);
 		label.setText(plugin.getBundleDescription());
 
-		label = new Label (content, SWT.NONE);
+		label = new Label (detailsContent, SWT.NONE);
 		label.setText("Activator:");
-		label = new Label (content, SWT.NONE);
+		label = new Label (detailsContent, SWT.NONE);
 		label.setText(plugin.getBundleActivator());
-		
-		label = new Label (content, SWT.NONE);
+
+		label = new Label (detailsContent, SWT.NONE);
 		label.setText("Original filename:");
-		label = new Label (content, SWT.NONE);
+		label = new Label (detailsContent, SWT.NONE);
 		label.setText(plugin.getOriginalFilename());
-		
-		label = new Label (content, SWT.NONE);
+
+		label = new Label (detailsContent, SWT.NONE);
 		label.setText("Uploaded at:");
-		label = new Label (content, SWT.NONE);
+		label = new Label (detailsContent, SWT.NONE);
 		label.setText(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(plugin.getCreatedAt()));
-		
-		label = new Label (content, SWT.NONE);
+
+		label = new Label (detailsContent, SWT.NONE);
 		label.setText("Uploaded by:");
-		label = new Label (content, SWT.NONE);
+		label = new Label (detailsContent, SWT.NONE);
 		label.setText(plugin.getCreatedBy());
 
-		label = new Label (content, SWT.NONE);
+		label = new Label (detailsContent, SWT.NONE);
 		label.setText("File path:");
-		label = new Label (content, SWT.NONE);
+		label = new Label (detailsContent, SWT.NONE);
 		label.setText(plugin.getFileLocation());
+
+		detailsComposite.setContent(detailsContent);
+		detailsContent.setSize(detailsContent.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+
+		return detailsComposite;
+	}
+
+	private ScrolledComposite createConfigurationUiComposite() {
+		ScrolledComposite configurationUiComposite = new ScrolledComposite(this, SWT.H_SCROLL);
 		
-		label = new Label (content, SWT.NONE);
-		label.setText("Configuration UI:");
-		label.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));
+		Composite configurationUiContent = new Composite (configurationUiComposite, SWT.NONE);
+		GridLayout layout = new GridLayout (2, false);
+		layout.marginLeft = layout.marginTop = layout.marginRight = layout.marginBottom = 10;
+		configurationUiContent.setLayout(layout);
 		
 		PluginInfo pluginInfo = PluginUtils.deserializePluginInfo(plugin);
-		new PluginConfigurationComposite(content, pluginInfo, rumController, null, null);
+		new PluginConfigurationComposite(configurationUiContent, pluginInfo, rumController, null, null);
 
-		label = new Label (content, SWT.NONE);
-		label.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));
-		label.setText("Imported packages:");
+		configurationUiComposite.setContent(configurationUiContent);
+		configurationUiContent.setSize(configurationUiContent.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+		
+		return configurationUiComposite;
+	}
+
+	private Composite createImportedPackagesComposite() {
+		ScrolledComposite importedPackagesComposite = new ScrolledComposite(this, SWT.H_SCROLL);
 		
 		//TODO: Should parse import packages list better
-		Composite importedPackagesContainer = new Composite(content, SWT.NONE);
-		importedPackagesContainer.setLayout(new FillLayout(SWT.VERTICAL));
+		Composite importedPackagesContent = new Composite(importedPackagesComposite, SWT.NONE);
+		FillLayout layout = new FillLayout(SWT.VERTICAL);
+		layout.marginHeight = layout.marginWidth = 10;
+		importedPackagesContent.setLayout(layout);
+		
 		for (String importedPackage : plugin.getBundleImportPackage().split("\",")) {
-			label = new Label (importedPackagesContainer, SWT.NONE);
+			Label label = new Label (importedPackagesContent, SWT.NONE);
 			label.setText(importedPackage);
 		}
-	}
-	
-	public Plugin getPlugin() {
-		return plugin;
+
+		importedPackagesComposite.setContent(importedPackagesContent);
+		importedPackagesContent.setSize(importedPackagesContent.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+		
+		return importedPackagesComposite;
 	}
 
-}
+		public Plugin getPlugin() {
+			return plugin;
+		}
+	}
