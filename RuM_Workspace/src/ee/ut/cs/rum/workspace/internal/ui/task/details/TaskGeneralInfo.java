@@ -50,10 +50,9 @@ public class TaskGeneralInfo extends Composite implements RumUpdatableView {
 		taskName.setText(task.getName());
 		taskName.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, false));
 				
-		Label taskOutputsTable = new Label(this, SWT.NONE);
-		taskOutputsTable.setText("Task output files (TODO)");
-		taskOutputsTable.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true));
-		((GridData) taskOutputsTable.getLayoutData()).verticalSpan = 6;
+		FilesTableViewer filesTableViewer = new FilesTableViewer(this, rumController);
+		filesTableViewer.getTable().setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
+		((GridData) filesTableViewer.getTable().getLayoutData()).verticalSpan = 6;
 		
 		label = new Label(this, SWT.NONE);
 		label.setText("Task description:");
@@ -131,5 +130,9 @@ public class TaskGeneralInfo extends Composite implements RumUpdatableView {
 	public void dispose() {
 		rumController.unregisterView(this, ControllerEntityType.TASK);
 		super.dispose();
+	}
+
+	public Task getTask() {
+		return task;
 	}
 }
