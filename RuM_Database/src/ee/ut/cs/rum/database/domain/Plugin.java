@@ -47,6 +47,9 @@ public class Plugin implements RumUpdatableEntity {
 	@Column(name = "file_location")
 	private String fileLocation;
 	
+	@Column(name = "enabled")
+	private Boolean enabled;
+	
 	@Column(name = "created_by")
 	private String createdBy;
 	@Column(name = "created_at")
@@ -134,6 +137,12 @@ public class Plugin implements RumUpdatableEntity {
 	public void setFileLocation(String fileLocation) {
 		this.fileLocation = fileLocation;
 	}
+	public Boolean getEnabled() {
+		return enabled;
+	}
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
 	public String getCreatedBy() {
 		return createdBy;
 	}
@@ -166,8 +175,8 @@ public class Plugin implements RumUpdatableEntity {
 				+ bundleDescription + ", bundleActivator=" + bundleActivator + ", bundleImportPackage="
 				+ bundleImportPackage + ", pluginName=" + pluginName + ", pluginDescription=" + pluginDescription
 				+ ", plugininfo=" + pluginInfo + ", originalFilename=" + originalFilename + ", fileLocation="
-				+ fileLocation + ", createdBy=" + createdBy + ", createdAt=" + createdAt + ", lastModifiedBy="
-				+ lastModifiedBy + ", lastModifiedAt=" + lastModifiedAt + "]";
+				+ fileLocation + ", enabled" + enabled + ", createdBy=" + createdBy + ", createdAt=" + createdAt
+				+ ", lastModifiedBy=" + lastModifiedBy + ", lastModifiedAt=" + lastModifiedAt + "]";
 	}
 	
 }

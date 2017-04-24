@@ -79,6 +79,7 @@ public class PluginUploadListener implements FileUploadListener {
 			temporaryPlugin.setPluginInfo(gson.toJson(pluginInfo));
 			
 			temporaryPlugin.setOriginalFilename(temporaryFile.getName());
+			temporaryPlugin.setEnabled(true);
 			pluginUploadDialog.setTemporaryPlugin(temporaryPlugin);
 			
 		} else {

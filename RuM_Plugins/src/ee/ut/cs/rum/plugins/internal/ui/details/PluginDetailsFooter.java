@@ -5,12 +5,13 @@ import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
+import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.plugins.internal.download.PluginDownloadButton;
 
 public class PluginDetailsFooter extends Composite {
 	private static final long serialVersionUID = -8253905754328727271L;
 
-	public PluginDetailsFooter(PluginDetails pluginDetails) {
+	public PluginDetailsFooter(PluginDetails pluginDetails, Plugin plugin) {
 		super(pluginDetails, SWT.NONE);
 		
 		RowLayout rowLayout = new RowLayout();

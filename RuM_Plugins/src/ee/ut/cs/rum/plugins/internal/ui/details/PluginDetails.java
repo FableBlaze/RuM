@@ -25,7 +25,7 @@ public class PluginDetails extends Composite {
 		PluginDetailsContents pluginDetailsContents = new PluginDetailsContents(this, plugin, rumController);
 		pluginDetailsContents.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		
-		PluginDetailsFooter pluginDetailsFooter = new PluginDetailsFooter(this);
+		PluginDetailsFooter pluginDetailsFooter = new PluginDetailsFooter(this, plugin);
 		pluginDetailsFooter.setLayoutData(new GridData(SWT.FILL, SWT.BOTTOM, true, false));
 		
 	}
