@@ -22,8 +22,10 @@ public class PluginDetailsButton extends Button {
 
 	public PluginDetailsButton(Composite parent, Plugin plugin, PluginsManagementUI pluginsManagementUI, RumController rumController) {
 		super(parent, SWT.NONE);
+		
 		this.plugin = plugin;
 		this.pluginsManagementUI = pluginsManagementUI;
+		this.rumController=rumController;
 
 		this.setText("Details");
 

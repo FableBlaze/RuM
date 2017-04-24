@@ -7,26 +7,36 @@ import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.ExpandBar;
 import org.eclipse.swt.widgets.ExpandItem;
 import org.eclipse.swt.widgets.Label;
 
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Plugin;
+import ee.ut.cs.rum.enums.ControllerEntityType;
+import ee.ut.cs.rum.enums.ControllerUpdateType;
+import ee.ut.cs.rum.interfaces.RumUpdatableView;
 import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationComposite;
 import ee.ut.cs.rum.plugins.configuration.util.PluginUtils;
 import ee.ut.cs.rum.plugins.development.description.PluginInfo;
 
-public class PluginDetailsContents extends ExpandBar {
+public class PluginDetailsContents extends ExpandBar implements RumUpdatableView {
 	private static final long serialVersionUID = -4774110099028052424L;
 
+	private Display display;
 	private RumController rumController;
-
 	private Plugin plugin;
+	
+	private Label enabledLabel;
 
 	public PluginDetailsContents(PluginDetails pluginDetails, Plugin plugin, RumController rumController) {
 		super(pluginDetails, SWT.V_SCROLL);
 
+		this.display=Display.getCurrent();
+		this.rumController=rumController;
+		rumController.registerView(this, ControllerEntityType.PLUGIN);
+		
 		this.plugin = plugin;
 
 		ExpandItem detailsExpandItem = new ExpandItem (this, SWT.NONE, 0);
@@ -113,6 +123,11 @@ public class PluginDetailsContents extends ExpandBar {
 		label = new Label (detailsContent, SWT.NONE);
 		label.setText(plugin.getFileLocation());
 
+		label = new Label (detailsContent, SWT.NONE);
+		label.setText("Enabled:");
+		enabledLabel = new Label (detailsContent, SWT.NONE);
+		enabledLabel.setText(plugin.getEnabled().toString());
+
 		detailsComposite.setContent(detailsContent);
 		detailsContent.setSize(detailsContent.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
@@ -154,6 +169,24 @@ public class PluginDetailsContents extends ExpandBar {
 		importedPackagesContent.setSize(importedPackagesContent.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
 		return importedPackagesComposite;
+	}
+	
+	@Override
+	public void controllerUpdateNotify(ControllerUpdateType updateType, Object updatedEntity) {
+		if (updatedEntity instanceof Plugin && ((Plugin) updatedEntity).getId()==plugin.getId() && updateType == ControllerUpdateType.MODIFIY) {
+			display.asyncExec(new Runnable() {
+				public void run() {
+					enabledLabel.setText(((Plugin) updatedEntity).getEnabled().toString());
+					enabledLabel.pack();
+				}
+			});
+		}
+	}
+	
+	@Override
+	public void dispose() {
+		rumController.unregisterView(this, ControllerEntityType.PLUGIN);
+		super.dispose();
 	}
 
 }

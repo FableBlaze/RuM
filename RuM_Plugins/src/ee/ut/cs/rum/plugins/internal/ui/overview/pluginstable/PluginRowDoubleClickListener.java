@@ -18,6 +18,7 @@ public class PluginRowDoubleClickListener implements IDoubleClickListener {
 
 	public PluginRowDoubleClickListener(PluginsManagementUI pluginsManagementUI, RumController rumController) {
 		this.pluginsManagementUI = pluginsManagementUI;
+		this.rumController=rumController;
 	}
 
 	@Override
