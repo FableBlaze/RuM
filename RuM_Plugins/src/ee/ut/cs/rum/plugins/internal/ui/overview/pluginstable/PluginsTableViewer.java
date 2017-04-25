@@ -66,8 +66,8 @@ public class PluginsTableViewer extends TableViewer implements RumUpdatableView 
 
 
 	private void createColumns(final TableViewer viewer, PluginsManagementUI pluginsManagementUI) {
-		String[] titles = { "Id", "Name", "Description", "Version", "Vendor", "Uploaded by", "Uploaded at", "Details"};
-		int[] bounds = { 50, 200, 400, 75, 200, 125, 125, 80 };
+		String[] titles = { "Id", "Name", "Description", "Version", "Vendor", "Uploaded by", "Uploaded at", "Enabled", "Details"};
+		int[] bounds = { 50, 200, 400, 75, 200, 125, 125, 100, 80 };
 
 		TableViewerColumn idColumn = createTableViewerColumn(titles[0], bounds[0], viewer);
 		idColumn.setLabelProvider(new ColumnLabelProvider() {
@@ -145,8 +145,19 @@ public class PluginsTableViewer extends TableViewer implements RumUpdatableView 
 				return new SimpleDateFormat("dd-MM-yyyy").format(plugin.getCreatedAt());
 			}
 		});
+		
+		TableViewerColumn enabledColumn = createTableViewerColumn(titles[7], bounds[7], viewer);
+		enabledColumn.setLabelProvider(new ColumnLabelProvider() {
+			private static final long serialVersionUID = -6962864367578702460L;
 
-		TableViewerColumn detailsButtonColumn = createTableViewerColumn(titles[7], bounds[7], viewer);
+			@Override
+			public String getText(Object element) {
+				Plugin plugin = (Plugin) element;
+				return plugin.getEnabled().toString();
+			}
+		});
+
+		TableViewerColumn detailsButtonColumn = createTableViewerColumn(titles[8], bounds[8], viewer);
 		detailsButtonColumn.setLabelProvider(new ColumnLabelProvider() {
 			private static final long serialVersionUID = 4559441071410857663L;
 
