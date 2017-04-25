@@ -25,6 +25,8 @@ public class PluginsOverview extends Composite implements RumUpdatableView {
 	private RumController rumController;
 	
 	private Label totalPlugins;
+	private Label enabledPlugins;
+	private Label disabledPlugins;
 
 	public PluginsOverview(OverviewTabContents overviewTabContents, RumController rumController) {
 		super(overviewTabContents, SWT.NONE);
@@ -44,10 +46,24 @@ public class PluginsOverview extends Composite implements RumUpdatableView {
 	private void createContents() {
 		Label label = new Label(this, SWT.NONE);
 		label.setText("Total plugins:");
-		label.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, true));
+		label.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false));
 		totalPlugins = new Label(this, SWT.NONE);
-		totalPlugins.setText(Integer.toString(PluginAccess.getPluginsDataFromDb().size()));
-		totalPlugins.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, true, true));
+		totalPlugins.setText(Integer.toString(PluginAccess.getAllPluginsDataFromDb().size()));
+		totalPlugins.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, true, false));
+		
+		label = new Label(this, SWT.NONE);
+		label.setText("Enabled plugins:");
+		label.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false));
+		enabledPlugins = new Label(this, SWT.NONE);
+		enabledPlugins.setText(Integer.toString(PluginAccess.getPluginsDataFromDb(true).size()));
+		enabledPlugins.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, true, false));
+		
+		label = new Label(this, SWT.NONE);
+		label.setText("Disabled plugins:");
+		label.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, true));
+		disabledPlugins = new Label(this, SWT.NONE);
+		disabledPlugins.setText(Integer.toString(PluginAccess.getPluginsDataFromDb(false).size()));
+		disabledPlugins.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, true, true));
 		
 		Button addPluginDialogueButton = new Button(this, SWT.PUSH);
 		addPluginDialogueButton.setText("Add plugin");
@@ -70,18 +86,38 @@ public class PluginsOverview extends Composite implements RumUpdatableView {
 		if (updatedEntity instanceof Plugin) {
 			display.asyncExec(new Runnable() {
 				public void run() {
+					Plugin updatedPlugin = (Plugin)updatedEntity;
 					int totalPluginsCount = Integer.parseInt(totalPlugins.getText());
+					int enabledPluginsCount = Integer.parseInt(enabledPlugins.getText());
+					int disabledPluginsCount = Integer.parseInt(disabledPlugins.getText());
 					switch (updateType) {
 					case CREATE:
 						totalPluginsCount+=1;
+						enabledPluginsCount+=1;
 						break;
 					case DELETE:
 						totalPluginsCount-=1;
+						if (updatedPlugin.getEnabled()==true) {
+							enabledPluginsCount-=1;
+						} else {
+							disabledPluginsCount-=1;
+						}
+						break;
+					case MODIFIY:
+						if (updatedPlugin.getEnabled()==true) {
+							enabledPluginsCount+=1;
+							disabledPluginsCount-=1;
+						} else {
+							enabledPluginsCount-=1;
+							disabledPluginsCount+=1;
+						}
 						break;
 					default:
 						break;
 					}
-					totalPlugins.setText(Integer.toString(totalPluginsCount));							
+					totalPlugins.setText(Integer.toString(totalPluginsCount));
+					enabledPlugins.setText(Integer.toString(enabledPluginsCount));
+					disabledPlugins.setText(Integer.toString(disabledPluginsCount));
 				}
 			});
 		}

@@ -50,7 +50,7 @@ public class PluginsTableViewer extends TableViewer implements RumUpdatableView 
 		});
 
 		this.setContentProvider(new ArrayContentProvider());
-		plugins = PluginAccess.getPluginsDataFromDb();
+		plugins = PluginAccess.getAllPluginsDataFromDb();
 		this.setInput(plugins);
 	}
 

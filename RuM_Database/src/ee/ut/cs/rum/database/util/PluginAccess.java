@@ -14,11 +14,22 @@ public final class PluginAccess {
 	private PluginAccess() {
 	}
 	
-	public static List<Plugin> getPluginsDataFromDb() {
+	public static List<Plugin> getAllPluginsDataFromDb() {
 		EntityManagerFactory emf = Activator.getEmf();
 		EntityManager em = emf.createEntityManager();
 		
 		String queryString = "Select p from Plugin p order by p.id";
+		TypedQuery<Plugin> query = em.createQuery(queryString, Plugin.class);
+		List<Plugin> plugins = query.getResultList();
+		
+		return plugins;
+	}
+	
+	public static List<Plugin> getPluginsDataFromDb(boolean enabled) {
+		EntityManagerFactory emf = Activator.getEmf();
+		EntityManager em = emf.createEntityManager();
+		
+		String queryString = "Select p from Plugin p where p.enabled = " + enabled +" order by p.id";
 		TypedQuery<Plugin> query = em.createQuery(queryString, Plugin.class);
 		List<Plugin> plugins = query.getResultList();
 		
