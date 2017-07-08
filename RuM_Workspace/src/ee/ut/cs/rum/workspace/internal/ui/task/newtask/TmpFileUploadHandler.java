@@ -25,7 +25,7 @@ public class TmpFileUploadHandler extends FileUploadHandler {
 			@Override
 			public void uploadFinished(FileUploadEvent arg0) {
 				File temporaryFile = receiver.getTargetFiles()[receiver.getTargetFiles().length-1];
-				newTaskDetailsContainer.newTmpUserFileNotify(temporaryFile.getAbsolutePath());
+				newTaskDetailsContainer.notifyTaskOfTmpFileUpload(temporaryFile.getAbsolutePath());
 			}
 
 		});

@@ -91,12 +91,12 @@ public class NewTaskDetailsContainer extends Composite implements RumUpdatableVi
 		return tmpUserFiles;
 	}
 	
-	public void newTmpUserFileNotify(String absolutePath) {
+	public void notifyTaskOfTmpFileUpload(String absolutePath) {
 		display.asyncExec(new Runnable() {
 			public void run() {							
 				for (NewTaskSubTaskInfo newTaskSubTaskInfo : newTaskSubTaskInfoList) {
 					PluginConfigurationComposite pluginConfigurationComposite = (PluginConfigurationComposite)newTaskSubTaskInfo.getScrolledPluginConfigurationComposite().getContent();
-					pluginConfigurationComposite.newTmpUserFileNotify(absolutePath);
+					pluginConfigurationComposite.notifySubTaskOfTmpFileUpload(absolutePath);
 				}
 			}
 		});		

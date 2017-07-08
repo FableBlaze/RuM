@@ -193,7 +193,7 @@ public class PluginConfigurationComposite extends Composite {
 		
 	}
 
-	public void newTmpUserFileNotify(String absolutePath) {
+	public void notifySubTaskOfTmpFileUpload(String absolutePath) {
 		for (ConfigurationItemFile configurationItemFile : configurationItemFiles.values()) {
 			configurationItemFile.newTmpUserFileNotify(absolutePath);
 		}
