@@ -7,10 +7,7 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.rap.fileupload.FileUploadHandler;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
-import org.eclipse.swt.widgets.Composite;
-
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.database.domain.UserFile;
@@ -44,27 +41,35 @@ public class PluginSelectionChangedListener implements ISelectionChangedListener
 		newTaskSubTaskInfo.getPluginInfoComposite().updateSelectedPluginInfo(plugin);
 
 		ScrolledComposite scrolledPluginConfigurationComposite = newTaskSubTaskInfo.getScrolledPluginConfigurationComposite();
-
-		if (scrolledPluginConfigurationComposite.getContent()!=null && !scrolledPluginConfigurationComposite.getContent().isDisposed()) {
-			scrolledPluginConfigurationComposite.getContent().dispose();
+				
+		if (scrolledPluginConfigurationComposite.getContent()!=null) {
+			PluginConfigurationComposite prevPluginConfigurationComposite = (PluginConfigurationComposite)scrolledPluginConfigurationComposite.getContent();
+			newTaskSubTaskInfo.getNewTaskDetailsContainer().notifyTaskOfPluginDeselect(prevPluginConfigurationComposite.getOutputUserFiles());
+			
+			if (!scrolledPluginConfigurationComposite.getContent().isDisposed()) {
+				scrolledPluginConfigurationComposite.getContent().dispose();				
+			}
 		}
 
+		
 		if (plugin !=null) {
 			PluginInfo pluginInfo = PluginUtils.deserializePluginInfo(plugin);
 
 			List<UserFile> userFiles = newTaskSubTaskInfo.getNewTaskDetailsContainer().getUserFiles();
+			List<UserFile> taskUserFiles = newTaskSubTaskInfo.getNewTaskDetailsContainer().getTaskUserFiles();
 			List<UserFile> tmpUserFiles = newTaskSubTaskInfo.getNewTaskDetailsContainer().getTmpUserFiles();
 			List<FileUploadHandler> fileUploadHandlers = new ArrayList<FileUploadHandler>();
 			
-			PluginConfigurationComposite pluginConfigurationComposite = new PluginConfigurationComposite(scrolledPluginConfigurationComposite, pluginInfo, rumController, userFiles, tmpUserFiles);
+			PluginConfigurationComposite pluginConfigurationComposite = new PluginConfigurationComposite(scrolledPluginConfigurationComposite, pluginInfo, rumController, userFiles, taskUserFiles, tmpUserFiles);
 			for (int i = 0; i < pluginConfigurationComposite.getConfigurationItemFiles().size(); i++) {
 				fileUploadHandlers.add(new TmpFileUploadHandler(newTaskSubTaskInfo.getNewTaskDetailsContainer()));
 			}
 			pluginConfigurationComposite.setFileUploadHandlers(fileUploadHandlers);
+			newTaskSubTaskInfo.getNewTaskDetailsContainer().notifyTaskOfPluginSelect(pluginConfigurationComposite.getOutputUserFiles());
 			scrolledPluginConfigurationComposite.setContent(pluginConfigurationComposite);
 			pluginConfigurationComposite.setSize(scrolledPluginConfigurationComposite.getSize());
 		} else {
-			scrolledPluginConfigurationComposite.setContent(new Composite(scrolledPluginConfigurationComposite, SWT.NONE));
+			scrolledPluginConfigurationComposite.setContent(null);
 		}
 	}
 }

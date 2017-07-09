@@ -45,6 +45,8 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 	private File temporaryFile; //TODO: remove
 	private List<UserFile> userFiles;
 	private List<UserFile> userFilesInSelector;
+	private List<UserFile> taskUserFiles;
+	private List<UserFile> taskUserFilesInSelector;
 	private List<UserFile> tmpUserFiles;
 	private List<UserFile> tmpUserFilesInSelector;
 
@@ -85,9 +87,21 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 		this.userFilesInSelector = new ArrayList<UserFile>();
 		if (userFiles!=null) {
 			for (UserFile userFile : userFiles) {
-				if (checkFileTypes(userFile)) {					
-					fileSelectorCombo.add(userFile.getOriginalFilename() + "  (" + new SimpleDateFormat("dd-MM-yyyy HH:mm").format(userFile.getCreatedAt()) + ")");
+				if (checkFileTypes(userFile)) {
+					fileSelectorCombo.add(userFile.getOriginalFilename() + " (" + new SimpleDateFormat("dd-MM-yyyy HH:mm").format(userFile.getCreatedAt()) + ")");
 					userFilesInSelector.add(userFile);
+				}
+			}
+		}
+		
+		this.taskUserFiles = pluginConfigurationComposite.getTaskUserFiles();
+		this.taskUserFilesInSelector = new ArrayList<UserFile>();
+		if (taskUserFiles!=null) {
+			for (UserFile taskUserFile : taskUserFiles) {
+				if (checkFileTypes(taskUserFile)) {
+					//TODO: Add subtask name
+					fileSelectorCombo.add(taskUserFile.getOriginalFilename() + " ()");
+					taskUserFilesInSelector.add(taskUserFile);
 				}
 			}
 		}
@@ -169,7 +183,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 			if (userFiles==null) {
 				UserFile userFile = UserFileAccess.getUserFileDataFromDb(fileLocation);
 				if (userFile!=null) {
-					fileSelectorCombo.add(userFile.getOriginalFilename() + "  (" + new SimpleDateFormat("dd-MM-yyyy HH:mm").format(userFile.getCreatedAt()) + ")");
+					fileSelectorCombo.add(userFile.getOriginalFilename() + " (" + new SimpleDateFormat("dd-MM-yyyy HH:mm").format(userFile.getCreatedAt()) + ")");
 					fileSelectorCombo.select(0);	
 				}
 			} else {
@@ -241,21 +255,11 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 		return false;
 	}
 
-	public void newTmpUserFileNotify(String absolutePath) {
-		for (UserFile tmpUserFile : tmpUserFiles) {
-			if (tmpUserFile.getFileLocation()==absolutePath) {
-				if (checkFileTypes(tmpUserFile) && !tmpUserFilesInSelector.contains(tmpUserFile)) {
-					tmpUserFilesInSelector.add(tmpUserFile);
-					fileSelectorCombo.add(tmpUserFile.getOriginalFilename());
-				}
-			}
-		}
-	}
-
+	
 	public void addUserFile(UserFile userFile) {
 		if (checkFileTypes(userFile)) {
 			userFilesInSelector.add(userFile);
-			fileSelectorCombo.add(userFile.getOriginalFilename() + "  (" + new SimpleDateFormat("dd-MM-yyyy HH:mm").format(userFile.getCreatedAt()) + ")");
+			fileSelectorCombo.add(userFile.getOriginalFilename() + " (" + new SimpleDateFormat("dd-MM-yyyy HH:mm").format(userFile.getCreatedAt()) + ")");
 		}
 	}
 
@@ -264,7 +268,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 			int i = userFilesInSelector.indexOf(userFile);
 			userFilesInSelector.set(i, userFile);
 			fileSelectorCombo.remove(i);
-			fileSelectorCombo.add(userFile.getOriginalFilename() + "  (" + new SimpleDateFormat("dd-MM-yyyy HH:mm").format(userFile.getCreatedAt()) + ")", i);
+			fileSelectorCombo.add(userFile.getOriginalFilename() + " (" + new SimpleDateFormat("dd-MM-yyyy HH:mm").format(userFile.getCreatedAt()) + ")", i);
 		}
 	}
 
@@ -281,4 +285,50 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 			}
 		}
 	}
+		
+	public void notifyFileParameterOfTmpFileUpload(String absolutePath) {
+		for (UserFile tmpUserFile : tmpUserFiles) {
+			if (tmpUserFile.getFileLocation()==absolutePath) {
+				if (checkFileTypes(tmpUserFile) && !tmpUserFilesInSelector.contains(tmpUserFile)) {
+					tmpUserFilesInSelector.add(tmpUserFile);
+					fileSelectorCombo.add(tmpUserFile.getOriginalFilename());
+				}
+			}
+		}
+	}
+
+	public void notifyFileParameterOfPluginSelect(List<UserFile> outputFiles) {
+		for (UserFile userFile : outputFiles) {
+			addTaskUserFile(userFile);
+		}
+	}
+
+	public void notifyFileParameterOfPluginDeselect(List<UserFile> outputFiles) {
+		for (UserFile userFile : outputFiles) {
+			removeTaskUserFile(userFile);
+		}
+	}
+	
+	private void addTaskUserFile(UserFile userFile) {
+		if (checkFileTypes(userFile)) {
+			taskUserFilesInSelector.add(userFile);
+			//TODO: Add subtask name
+			fileSelectorCombo.add(userFile.getOriginalFilename() + " ()");
+		}
+	}
+
+	private void removeTaskUserFile(UserFile userFile) {
+		if (checkFileTypes(userFile)) {
+			int i = taskUserFilesInSelector.indexOf(userFile);
+			if (fileSelectorCombo.getSelectionIndex()==-1) {
+				taskUserFilesInSelector.remove(i);
+				fileSelectorCombo.remove(i + userFilesInSelector.size());
+			} else {
+				taskUserFilesInSelector.remove(i);
+				fileSelectorCombo.remove(i + userFilesInSelector.size());
+				fileSelectorCombo.select(i + userFilesInSelector.size());
+			}
+		}
+	}
+
 }

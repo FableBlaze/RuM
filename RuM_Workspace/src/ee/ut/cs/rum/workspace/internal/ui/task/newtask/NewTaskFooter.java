@@ -140,9 +140,13 @@ public class NewTaskFooter extends Composite {
 			@Override
 			public void handleEvent(Event event) {
 				Table table = newTaskComposite.getDetailsSideBar().getSubTaskTableViewer().getTable();
-				newTaskComposite.getNewTaskDetailsContainer().getNewTaskSubTaskInfoList().remove(table.getSelectionIndex());
+				NewTaskDetailsContainer newTaskDetailsContainer = newTaskComposite.getNewTaskDetailsContainer();
+				PluginConfigurationComposite pluginConfigurationComposite = (PluginConfigurationComposite)newTaskDetailsContainer.getNewTaskSubTaskInfoList().get(table.getSelectionIndex()).getScrolledPluginConfigurationComposite().getContent();
+				
+				newTaskDetailsContainer.notifyTaskOfPluginDeselect(pluginConfigurationComposite.getOutputUserFiles());
+				newTaskDetailsContainer.getNewTaskSubTaskInfoList().remove(table.getSelectionIndex());
 				table.remove(table.getSelectionIndex());
-				newTaskComposite.getNewTaskDetailsContainer().showGeneralInfo();
+				newTaskDetailsContainer.showGeneralInfo();
 			}
 		});
 		removeSubTaskButton.setVisible(false);

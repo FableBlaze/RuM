@@ -28,6 +28,7 @@ public class NewTaskDetailsContainer extends Composite implements RumUpdatableVi
 	private NewTaskGeneralInfo newTaskGeneralInfo;
 
 	private List<UserFile> userFiles;
+	private List<UserFile> taskUserFiles;
 	private List<UserFile> tmpUserFiles;
 	private List<NewTaskSubTaskInfo> newTaskSubTaskInfoList;
 
@@ -40,6 +41,7 @@ public class NewTaskDetailsContainer extends Composite implements RumUpdatableVi
 
 		this.newTaskComposite=newTaskComposite;
 		this.userFiles = UserFileAccess.getProjectUserFilesDataFromDb(newTaskComposite.getProjectTabFolder().getProject().getId());
+		this.taskUserFiles = new ArrayList<UserFile>();
 		this.tmpUserFiles = new ArrayList<UserFile>();
 
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -87,8 +89,40 @@ public class NewTaskDetailsContainer extends Composite implements RumUpdatableVi
 		return userFiles;
 	}
 	
+	public List<UserFile> getTaskUserFiles() {
+		return taskUserFiles;
+	}
+	
 	public List<UserFile> getTmpUserFiles() {
 		return tmpUserFiles;
+	}
+	
+	public void notifyTaskOfPluginSelect(List<UserFile> outputFiles) {
+		display.asyncExec(new Runnable() {
+			public void run() {
+				taskUserFiles.addAll(outputFiles);
+				for (NewTaskSubTaskInfo newTaskSubTaskInfo : newTaskSubTaskInfoList) {
+					PluginConfigurationComposite pluginConfigurationComposite = (PluginConfigurationComposite)newTaskSubTaskInfo.getScrolledPluginConfigurationComposite().getContent();
+					if (pluginConfigurationComposite != null && pluginConfigurationComposite.isDisposed()==false) {
+						pluginConfigurationComposite.notifySubTaskOfPluginSelect(outputFiles);						
+					}
+				}
+			}
+		});		
+	}
+	
+	public void notifyTaskOfPluginDeselect(List<UserFile> outputFiles) {
+		display.asyncExec(new Runnable() {
+			public void run() {
+				taskUserFiles.removeAll(outputFiles);
+				for (NewTaskSubTaskInfo newTaskSubTaskInfo : newTaskSubTaskInfoList) {
+					PluginConfigurationComposite pluginConfigurationComposite = (PluginConfigurationComposite)newTaskSubTaskInfo.getScrolledPluginConfigurationComposite().getContent();
+					if (pluginConfigurationComposite != null && pluginConfigurationComposite.isDisposed()==false) {
+						pluginConfigurationComposite.notifySubTaskOfPluginDeselect(outputFiles);						
+					}
+				}
+			}
+		});		
 	}
 	
 	public void notifyTaskOfTmpFileUpload(String absolutePath) {
@@ -96,7 +130,9 @@ public class NewTaskDetailsContainer extends Composite implements RumUpdatableVi
 			public void run() {							
 				for (NewTaskSubTaskInfo newTaskSubTaskInfo : newTaskSubTaskInfoList) {
 					PluginConfigurationComposite pluginConfigurationComposite = (PluginConfigurationComposite)newTaskSubTaskInfo.getScrolledPluginConfigurationComposite().getContent();
-					pluginConfigurationComposite.notifySubTaskOfTmpFileUpload(absolutePath);
+					if (pluginConfigurationComposite != null && pluginConfigurationComposite.isDisposed()==false) {
+						pluginConfigurationComposite.notifySubTaskOfTmpFileUpload(absolutePath);						
+					}
 				}
 			}
 		});		
@@ -114,7 +150,9 @@ public class NewTaskDetailsContainer extends Composite implements RumUpdatableVi
 						public void run() {							
 							for (NewTaskSubTaskInfo newTaskSubTaskInfo : newTaskSubTaskInfoList) {
 								PluginConfigurationComposite pluginConfigurationComposite = (PluginConfigurationComposite)newTaskSubTaskInfo.getScrolledPluginConfigurationComposite().getContent();
-								pluginConfigurationComposite.addUserFile(userFile);
+								if (pluginConfigurationComposite != null && pluginConfigurationComposite.isDisposed()==false) {
+									pluginConfigurationComposite.addUserFile(userFile);									
+								}
 							}
 						}
 					});
@@ -127,7 +165,9 @@ public class NewTaskDetailsContainer extends Composite implements RumUpdatableVi
 								public void run() {	
 									for (NewTaskSubTaskInfo newTaskSubTaskInfo : newTaskSubTaskInfoList) {
 										PluginConfigurationComposite pluginConfigurationComposite = (PluginConfigurationComposite)newTaskSubTaskInfo.getScrolledPluginConfigurationComposite().getContent();
-										pluginConfigurationComposite.modifyUserFile(userFile);
+										if (pluginConfigurationComposite != null && pluginConfigurationComposite.isDisposed()==false) {
+											pluginConfigurationComposite.modifyUserFile(userFile);											
+										}
 									}
 								}
 							});
@@ -141,7 +181,9 @@ public class NewTaskDetailsContainer extends Composite implements RumUpdatableVi
 						public void run() {	
 							for (NewTaskSubTaskInfo newTaskSubTaskInfo : newTaskSubTaskInfoList) {
 								PluginConfigurationComposite pluginConfigurationComposite = (PluginConfigurationComposite)newTaskSubTaskInfo.getScrolledPluginConfigurationComposite().getContent();
-								pluginConfigurationComposite.removeUserFile(userFile);
+								if (pluginConfigurationComposite != null && pluginConfigurationComposite.isDisposed()==false) {
+									pluginConfigurationComposite.removeUserFile(userFile);
+								}
 							}
 						}
 					});

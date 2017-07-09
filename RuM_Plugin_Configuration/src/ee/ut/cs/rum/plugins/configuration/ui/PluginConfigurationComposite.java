@@ -13,6 +13,7 @@ import org.eclipse.swt.widgets.Label;
 
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.UserFile;
+import ee.ut.cs.rum.database.domain.UserFileType;
 import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemDouble;
 import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemFile;
 import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemInteger;
@@ -37,21 +38,38 @@ public class PluginConfigurationComposite extends Composite {
 	private Map<String, ConfigurationItemFile> configurationItemFiles;
 	private PluginInfo pluginInfo;
 	private List<UserFile> userFiles;
+	private List<UserFile> taskUserFiles;
 	private List<UserFile> tmpUserFiles;
+	private List<UserFile> outputUserFiles;
 
-	public PluginConfigurationComposite(Composite parent, PluginInfo pluginInfo, RumController rumController, List<UserFile> userFiles, List<UserFile> tmpUserFiles) {
+	public PluginConfigurationComposite(Composite parent, PluginInfo pluginInfo, RumController rumController, List<UserFile> userFiles, List<UserFile> taskUserFiles, List<UserFile> tmpUserFiles) {
 		super(parent, SWT.NONE);
 
 		this.rumController=rumController;
 
 		this.pluginInfo=pluginInfo;
 		this.userFiles=userFiles;
+		this.taskUserFiles=taskUserFiles;
 		this.tmpUserFiles=tmpUserFiles;
 
 		this.setLayout(new GridLayout(2, false));
 
 		if (userFiles==null) {
 			this.setEnabled(false);
+		} else {
+			this.outputUserFiles = new ArrayList<UserFile>();
+			for (PluginOutput pluginOutput : pluginInfo.getOutputs()) {
+				UserFile userFile = new UserFile();
+				userFile.setOriginalFilename(pluginOutput.getFileName());
+				List<UserFileType> userFileTypes = new ArrayList<UserFileType>();
+				for (String fileType : pluginOutput.getFileTypes()) {
+					UserFileType userFileType = new UserFileType();
+					userFileType.setTypeName(fileType);
+					userFileTypes.add(userFileType);
+				}
+				userFile.setUserFileTypes(userFileTypes);
+				this.outputUserFiles.add(userFile);
+			}
 		}
 
 		createContents();
@@ -175,8 +193,16 @@ public class PluginConfigurationComposite extends Composite {
 		return userFiles;
 	}
 	
+	public List<UserFile> getTaskUserFiles() {
+		return taskUserFiles;
+	}
+	
 	public List<UserFile> getTmpUserFiles() {
 		return tmpUserFiles;
+	}
+	
+	public List<UserFile> getOutputUserFiles() {
+		return outputUserFiles;
 	}
 	
 	public List<ConfigurationItemFile> getConfigurationItemFiles() {
@@ -192,10 +218,26 @@ public class PluginConfigurationComposite extends Composite {
 		}
 		
 	}
+	
+	public void notifySubTaskOfPluginSelect(List<UserFile> outputFiles) {
+		if (outputUserFiles!=outputFiles) {
+			for (ConfigurationItemFile configurationItemFile : configurationItemFiles.values()) {
+				configurationItemFile.notifyFileParameterOfPluginSelect(outputFiles);
+			}			
+		}
+	}
+
+	public void notifySubTaskOfPluginDeselect(List<UserFile> outputFiles) {
+		if (outputUserFiles!=outputFiles) {
+			for (ConfigurationItemFile configurationItemFile : configurationItemFiles.values()) {
+				configurationItemFile.notifyFileParameterOfPluginDeselect(outputFiles);
+			}			
+		}
+	}
 
 	public void notifySubTaskOfTmpFileUpload(String absolutePath) {
 		for (ConfigurationItemFile configurationItemFile : configurationItemFiles.values()) {
-			configurationItemFile.newTmpUserFileNotify(absolutePath);
+			configurationItemFile.notifyFileParameterOfTmpFileUpload(absolutePath);
 		}
 	}
 
@@ -216,5 +258,4 @@ public class PluginConfigurationComposite extends Composite {
 			configurationItemFile.removeUserFile(userFile);
 		}
 	}
-
 }
