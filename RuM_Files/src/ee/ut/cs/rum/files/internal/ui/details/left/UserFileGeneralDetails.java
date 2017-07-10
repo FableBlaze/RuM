@@ -64,7 +64,7 @@ public class UserFileGeneralDetails extends Composite {
 		l.setText("Created by plugin:");
 
 		l = new Label(this, SWT.NONE);
-		if (userFile.getPlugin().getPluginName() != null) {
+		if (userFile.getPlugin() != null) {
 			l.setText(userFile.getPlugin().getPluginName());
 			l.setToolTipText("Id: " + userFile.getPlugin().getId().toString());
 		}
@@ -73,7 +73,7 @@ public class UserFileGeneralDetails extends Composite {
 		l.setText("Created in project:");
 
 		l = new Label(this, SWT.NONE);
-		if (userFile.getProject().getName() != null) {
+		if (userFile.getProject() != null) {
 			l.setText(userFile.getProject().getName());
 			l.setToolTipText("Id: " + userFile.getProject().getId().toString());
 		}
@@ -82,7 +82,7 @@ public class UserFileGeneralDetails extends Composite {
 		l.setText("Created in task:");
 
 		l = new Label(this, SWT.NONE);
-		if (userFile.getTask().getName() != null) {
+		if (userFile.getTask() != null) {
 			l.setText(userFile.getTask().getName());
 			l.setToolTipText("Id: " + userFile.getTask().getId().toString());
 		}
@@ -91,7 +91,7 @@ public class UserFileGeneralDetails extends Composite {
 		l.setText("Created by sub-task:");
 
 		l = new Label(this, SWT.NONE);
-		if (userFile.getSubTask().getName() != null) {
+		if (userFile.getSubTask() != null) {
 			l.setText(userFile.getSubTask().getName());
 			l.setToolTipText("Id: " + userFile.getSubTask().getId().toString());
 		}
