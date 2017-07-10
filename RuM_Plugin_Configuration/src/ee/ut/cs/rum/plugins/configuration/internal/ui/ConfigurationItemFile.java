@@ -39,6 +39,8 @@ import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterFil
 public class ConfigurationItemFile extends Composite implements ConfigurationItemInterface {
 	private static final long serialVersionUID = 3599873879215927039L;
 
+	private String internalName;
+	
 	private RumController rumController;
 
 	private List<UserFile> userFilesInSelector;
@@ -53,6 +55,8 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 
 	public ConfigurationItemFile(PluginConfigurationComposite pluginConfigurationComposite, PluginParameterFile parameterFile, RumController rumController) {
 		super(pluginConfigurationComposite, SWT.NONE);
+		
+		this.internalName=parameterFile.getInternalName();
 
 		this.rumController=rumController;
 
@@ -310,5 +314,10 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 				}
 			}
 		}
+	}
+
+	@Override
+	public String getInternalName() {
+		return internalName;
 	}
 }

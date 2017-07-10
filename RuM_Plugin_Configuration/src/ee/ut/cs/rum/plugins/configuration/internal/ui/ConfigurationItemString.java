@@ -9,9 +9,13 @@ import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterStr
 
 public class ConfigurationItemString extends Text implements ConfigurationItemInterface {
 	private static final long serialVersionUID = 7030044951525201312L;
-
+	
+	private String internalName;
+	
 	public ConfigurationItemString(PluginConfigurationComposite pluginConfigurationComposite, PluginParameterString parameterString) {
 		super(pluginConfigurationComposite, SWT.BORDER);
+		
+		this.internalName=parameterString.getInternalName();
 		
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		this.setText(parameterString.getDefaultValue());
@@ -26,5 +30,10 @@ public class ConfigurationItemString extends Text implements ConfigurationItemIn
 	@Override
 	public String getValue() {
 		return this.getText();
+	}
+
+	@Override
+	public String getInternalName() {
+		return internalName;
 	}
 }

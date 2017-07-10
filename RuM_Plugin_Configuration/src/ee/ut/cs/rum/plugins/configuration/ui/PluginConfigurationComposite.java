@@ -34,8 +34,8 @@ public class PluginConfigurationComposite extends Composite {
 
 	private RumController rumController;
 
-	private Map<String, ConfigurationItemInterface> configurationItems;
-	private Map<String, ConfigurationItemFile> configurationItemFiles;
+	private List<ConfigurationItemInterface> configurationItems;
+	private List<ConfigurationItemFile> configurationItemFiles;
 	private PluginInfo pluginInfo;
 	private List<UserFile> userFiles;
 	private List<UserFile> taskUserFiles;
@@ -77,8 +77,8 @@ public class PluginConfigurationComposite extends Composite {
 
 	private void createContents() {
 		Label label;
-		configurationItems = new HashMap<String, ConfigurationItemInterface>();
-		configurationItemFiles = new HashMap<String, ConfigurationItemFile>();
+		configurationItems = new ArrayList<ConfigurationItemInterface>();
+		configurationItemFiles = new ArrayList<ConfigurationItemFile>();
 
 		label = new Label (this, SWT.NONE);
 		label.setText("Plugin description:");
@@ -104,24 +104,23 @@ public class PluginConfigurationComposite extends Composite {
 			switch (pluginParameter.getParameterType()) {
 			case STRING:
 				PluginParameterString parameterString = (PluginParameterString) pluginParameter;
-				configurationItems.put(parameterString.getInternalName(), new ConfigurationItemString(this, parameterString));
+				configurationItems.add(new ConfigurationItemString(this, parameterString));
 				break; 
 			case INTEGER:
 				PluginParameterInteger parameterInteger = (PluginParameterInteger) pluginParameter;
-				configurationItems.put(parameterInteger.getInternalName(), new ConfigurationItemInteger(this, parameterInteger));
+				configurationItems.add(new ConfigurationItemInteger(this, parameterInteger));
 				break; 
 			case DOUBLE:
 				PluginParameterDouble parameterDouble = (PluginParameterDouble) pluginParameter;
-				configurationItems.put(parameterDouble.getInternalName(), new ConfigurationItemDouble(this, parameterDouble));
+				configurationItems.add(new ConfigurationItemDouble(this, parameterDouble));
 				break; 
 			case SELECTION:
 				PluginParameterSelection parameterSelection = (PluginParameterSelection) pluginParameter;
-				configurationItems.put(parameterSelection.getInternalName(), new ConfigurationItemSelection(this, parameterSelection));
+				configurationItems.add(new ConfigurationItemSelection(this, parameterSelection));
 				break; 
 			case FILE:
 				PluginParameterFile parameterFile = (PluginParameterFile) pluginParameter;
-				ConfigurationItemFile configurationItemFile = new ConfigurationItemFile(this, parameterFile, rumController);
-				configurationItemFiles.put(parameterFile.getInternalName(), configurationItemFile);
+				configurationItemFiles.add(new ConfigurationItemFile(this, parameterFile, rumController));
 				break; 
 			default:
 				break;
@@ -155,36 +154,42 @@ public class PluginConfigurationComposite extends Composite {
 
 	public Map<String, String> getConfigurationValues() {
 		Map<String, String> configurationValues = new HashMap<String, String>();
-		for (String key : configurationItems.keySet()) {
-			String configurationItemValue = configurationItems.get(key).getValue();
-			if (configurationItemValue!=null) {
-				configurationValues.put(key, configurationItemValue);
+		for (ConfigurationItemInterface configurationItem : configurationItems) {
+			if (configurationItem.getValue()!=null) {
+				configurationValues.put(configurationItem.getInternalName(), configurationItem.getValue());
 			} else {
-				configurationValues.put(key, "");
+				configurationValues.put(configurationItem.getInternalName(), "");
 			}
 		}
 		
-		for (String key : configurationItemFiles.keySet()) {
-			String configurationItemValue = configurationItemFiles.get(key).getValue();
-			if (configurationItemValue!=null) {
-				configurationValues.put(key, configurationItemValue);
+		for (ConfigurationItemFile configurationItemFile : configurationItemFiles) {
+			if (configurationItemFile.getValue()!=null) {
+				configurationValues.put(configurationItemFile.getInternalName(), configurationItemFile.getValue());
 			} else {
-				configurationValues.put(key, "");
+				configurationValues.put(configurationItemFile.getInternalName(), "");
 			}
 		}
 		
 		return configurationValues;
 	}
+	
+	public Map<String, String> getDependsOn() {
+		Map<String, String> configurationValues = new HashMap<String, String>();
+		
+		//TODO: The values of dependsOn
+		
+		return configurationValues;
+	}
 
 	public void setConfigurationValues(Map<String, String> configurationValues) {
-		for (String key : configurationValues.keySet()) {
-			if (configurationItems.get(key)!=null) {
-				configurationItems.get(key).setValue(configurationValues.get(key));	
+		for (ConfigurationItemInterface configurationItem : configurationItems) {
+			if (configurationValues.get(configurationItem.getInternalName())!=null) {
+				configurationItem.setValue(configurationValues.get(configurationItem.getInternalName()));				
 			}
 		}
-		for (String key : configurationValues.keySet()) {
-			if (configurationItemFiles.get(key)!=null) {
-				configurationItemFiles.get(key).setValue(configurationValues.get(key));	
+		for (ConfigurationItemFile configurationItemFile : configurationItemFiles) {
+			if (configurationValues.get(configurationItemFile.getInternalName())!=null) {
+				configurationItemFile.setValue(configurationValues.get(configurationItemFile.getInternalName()));				
 			}
 		}
 	}
@@ -206,13 +211,12 @@ public class PluginConfigurationComposite extends Composite {
 	}
 	
 	public List<ConfigurationItemFile> getConfigurationItemFiles() {
-		return new ArrayList<ConfigurationItemFile>(configurationItemFiles.values());
+		return configurationItemFiles;
 	}
 
 	public void setFileUploadHandlers(List<FileUploadHandler> fileUploadHandlers) {
-		Object[] keySet = configurationItemFiles.keySet().toArray();
-		for (int i = 0; i < keySet.length; i++) {
-			ConfigurationItemFile configurationItemFile = configurationItemFiles.get(keySet[i]);
+		for (int i = 0; i < configurationItemFiles.size(); i++) {
+			ConfigurationItemFile configurationItemFile = configurationItemFiles.get(i);
 			FileUploadHandler fileUploadHandler = fileUploadHandlers.get(i);
 			configurationItemFile.setUploadHandler(fileUploadHandler);
 		}
@@ -221,7 +225,7 @@ public class PluginConfigurationComposite extends Composite {
 	
 	public void notifySubTaskOfPluginSelect(List<UserFile> outputFiles) {
 		if (outputUserFiles!=outputFiles) {
-			for (ConfigurationItemFile configurationItemFile : configurationItemFiles.values()) {
+			for (ConfigurationItemFile configurationItemFile : configurationItemFiles) {
 				configurationItemFile.notifyFileParameterOfPluginSelect(outputFiles);
 			}			
 		}
@@ -229,32 +233,32 @@ public class PluginConfigurationComposite extends Composite {
 
 	public void notifySubTaskOfPluginDeselect(List<UserFile> outputFiles) {
 		if (outputUserFiles!=outputFiles) {
-			for (ConfigurationItemFile configurationItemFile : configurationItemFiles.values()) {
+			for (ConfigurationItemFile configurationItemFile : configurationItemFiles) {
 				configurationItemFile.notifyFileParameterOfPluginDeselect(outputFiles);
 			}			
 		}
 	}
 
 	public void notifySubTaskOfTmpFileUpload(String absolutePath) {
-		for (ConfigurationItemFile configurationItemFile : configurationItemFiles.values()) {
+		for (ConfigurationItemFile configurationItemFile : configurationItemFiles) {
 			configurationItemFile.notifyFileParameterOfTmpFileUpload(absolutePath);
 		}
 	}
 
 	public void addUserFile(UserFile userFile) {
-		for (ConfigurationItemFile configurationItemFile : configurationItemFiles.values()) {
+		for (ConfigurationItemFile configurationItemFile : configurationItemFiles) {
 			configurationItemFile.addUserFile(userFile);
 		}
 	}
 
 	public void modifyUserFile(UserFile userFile) {
-		for (ConfigurationItemFile configurationItemFile : configurationItemFiles.values()) {
+		for (ConfigurationItemFile configurationItemFile : configurationItemFiles) {
 			configurationItemFile.modifyUserFile(userFile);
 		}
 	}
 
 	public void removeUserFile(UserFile userFile) {
-		for (ConfigurationItemFile configurationItemFile : configurationItemFiles.values()) {
+		for (ConfigurationItemFile configurationItemFile : configurationItemFiles) {
 			configurationItemFile.removeUserFile(userFile);
 		}
 	}

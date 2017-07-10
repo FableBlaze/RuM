@@ -13,11 +13,15 @@ import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterSel
 
 public class ConfigurationItemSelection extends Combo implements ConfigurationItemInterface {
 	private static final long serialVersionUID = -4510159560743563899L;
-
+	
+	private String internalName;
+	
 	private List<PluginParameterSelectionItem> selectionItems;
 
 	public ConfigurationItemSelection(PluginConfigurationComposite pluginConfigurationComposite, PluginParameterSelection parameterSelection) {
 		super(pluginConfigurationComposite, SWT.READ_ONLY);
+		
+		this.internalName=parameterSelection.getInternalName();
 		
 		selectionItems = new ArrayList<PluginParameterSelectionItem>();
 
@@ -48,5 +52,10 @@ public class ConfigurationItemSelection extends Combo implements ConfigurationIt
 			return selectionItems.get(this.getSelectionIndex()).getInternalName();
 		}
 		return null;
+	}
+
+	@Override
+	public String getInternalName() {
+		return internalName;
 	}
 }
