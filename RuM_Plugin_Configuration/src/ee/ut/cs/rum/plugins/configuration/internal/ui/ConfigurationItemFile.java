@@ -206,38 +206,32 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 			//TODO: Handling of other subtask outputs
 			return null;
 		} else {
-			UserFile uf = tmpUserFilesInSelector.get(selectionIndex-userFilesInSelector.size()-taskUserFilesInSelector.size());
-			//If it is a new user uploaded file
-			boolean copySucceeded = false;
-			File destinationFile = new File(user_file_path, new SimpleDateFormat("ddMMyyyy_HHmmssSSS").format(new Date()));
-			try {
-				Files.copy( Paths.get(uf.getFileLocation()), destinationFile.toPath());
-				copySucceeded = true;
-				Activator.getLogger().info("Copied uploaded file to: " + destinationFile.toPath());
-			} catch (IOException e) {
-				Activator.getLogger().info("Failed to copy uploaded file to: " + destinationFile.toPath());
-			}
-
-			if (copySucceeded) {
-				UserFile userFile = new UserFile();
-				userFile.setOriginalFilename(uf.getOriginalFilename());
-				//userFile.setProject(project);
-				userFile.setFileLocation(destinationFile.toPath().toString());
-
-				List<UserFileType> userFileTypes = new ArrayList<UserFileType>();
-				String[] inputTypes = parameterFile.getInputTypes();
-				for (String inputType : inputTypes) {
-					UserFileType userFileType = new UserFileType();
-					userFileType.setTypeName(inputType);
-					userFileTypes.add(userFileType);
+			UserFile tmpUserFile = tmpUserFilesInSelector.get(selectionIndex-userFilesInSelector.size()-taskUserFilesInSelector.size());
+			
+			if (tmpUserFile.getCreatedAt()==null) {
+				//If it is a new user uploaded file
+				boolean copySucceeded = false;
+				File destinationFile = new File(user_file_path, new SimpleDateFormat("ddMMyyyy_HHmmssSSS").format(new Date()));
+				try {
+					Files.copy( Paths.get(tmpUserFile.getFileLocation()), destinationFile.toPath());
+					copySucceeded = true;
+					Activator.getLogger().info("Copied uploaded file to: " + destinationFile.toPath());
+				} catch (IOException e) {
+					Activator.getLogger().info("Failed to copy uploaded file to: " + destinationFile.toPath());
 				}
-				userFile.setUserFileTypes(userFileTypes);
-				this.rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.USER_FILE, userFile, "TODO");
-
-				return userFile.getFileLocation();
+				
+				if (copySucceeded) {
+					tmpUserFile.setFileLocation(destinationFile.toPath().toString());
+					tmpUserFile = (UserFile)this.rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.USER_FILE, tmpUserFile, "TODO");
+					
+					return tmpUserFile.getFileLocation();
+				} else {
+					return null;
+				}				
 			} else {
-				return null;
+				return tmpUserFile.getFileLocation();
 			}
+			
 
 		}
 	}
