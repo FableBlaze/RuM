@@ -207,8 +207,11 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 			return null;
 		} else if (selectionIndex < userFilesInSelector.size()) {
 			return userFilesInSelector.get(selectionIndex).getFileLocation();
+		} else if (selectionIndex < userFilesInSelector.size()+taskUserFilesInSelector.size()) {
+			//TODO: Handling of other subtask outputs
+			return null;
 		} else {
-			UserFile uf = tmpUserFilesInSelector.get(selectionIndex-userFilesInSelector.size());
+			UserFile uf = tmpUserFilesInSelector.get(selectionIndex-userFilesInSelector.size()-taskUserFilesInSelector.size());
 			//If it is a new user uploaded file
 			boolean copySucceeded = false;
 			File destinationFile = new File(user_file_path, new SimpleDateFormat("ddMMyyyy_HHmmssSSS").format(new Date()));
@@ -299,36 +302,27 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 
 	public void notifyFileParameterOfPluginSelect(List<UserFile> outputFiles) {
 		for (UserFile userFile : outputFiles) {
-			addTaskUserFile(userFile);
+			if (checkFileTypes(userFile)) {
+				//TODO: Add subtask name
+				fileSelectorCombo.add(userFile.getOriginalFilename() + " ()", userFilesInSelector.size()+taskUserFilesInSelector.size());
+				taskUserFilesInSelector.add(userFile);
+			}
 		}
 	}
 
 	public void notifyFileParameterOfPluginDeselect(List<UserFile> outputFiles) {
 		for (UserFile userFile : outputFiles) {
-			removeTaskUserFile(userFile);
-		}
-	}
-	
-	private void addTaskUserFile(UserFile userFile) {
-		if (checkFileTypes(userFile)) {
-			//TODO: Add subtask name
-			fileSelectorCombo.add(userFile.getOriginalFilename() + " ()", userFilesInSelector.size()+taskUserFilesInSelector.size());
-			taskUserFilesInSelector.add(userFile);
-		}
-	}
-
-	private void removeTaskUserFile(UserFile userFile) {
-		if (checkFileTypes(userFile)) {
-			int i = taskUserFilesInSelector.indexOf(userFile);
-			if (fileSelectorCombo.getSelectionIndex()==-1) {
-				taskUserFilesInSelector.remove(i);
-				fileSelectorCombo.remove(i + userFilesInSelector.size());
-			} else {
-				taskUserFilesInSelector.remove(i);
-				fileSelectorCombo.remove(i + userFilesInSelector.size());
-				fileSelectorCombo.select(i + userFilesInSelector.size());
+			if (checkFileTypes(userFile)) {
+				int i = taskUserFilesInSelector.indexOf(userFile);
+				if (fileSelectorCombo.getSelectionIndex()==-1) {
+					taskUserFilesInSelector.remove(i);
+					fileSelectorCombo.remove(i + userFilesInSelector.size());
+				} else {
+					taskUserFilesInSelector.remove(i);
+					fileSelectorCombo.remove(i + userFilesInSelector.size());
+					fileSelectorCombo.select(i + userFilesInSelector.size());
+				}
 			}
 		}
 	}
-
 }
