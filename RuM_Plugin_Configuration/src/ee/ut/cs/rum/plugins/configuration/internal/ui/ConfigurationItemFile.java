@@ -311,9 +311,9 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 	
 	private void addTaskUserFile(UserFile userFile) {
 		if (checkFileTypes(userFile)) {
-			taskUserFilesInSelector.add(userFile);
 			//TODO: Add subtask name
-			fileSelectorCombo.add(userFile.getOriginalFilename() + " ()");
+			fileSelectorCombo.add(userFile.getOriginalFilename() + " ()", userFilesInSelector.size()+taskUserFilesInSelector.size());
+			taskUserFilesInSelector.add(userFile);
 		}
 	}
 
