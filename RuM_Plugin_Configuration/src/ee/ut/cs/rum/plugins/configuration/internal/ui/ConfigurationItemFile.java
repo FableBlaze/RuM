@@ -41,8 +41,6 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 
 	private RumController rumController;
 
-	//Temporary file is always last on fileSelectorCombo
-	private File temporaryFile; //TODO: remove
 	private List<UserFile> userFilesInSelector;
 	private List<UserFile> taskUserFilesInSelector;
 	private List<UserFile> tmpUserFiles;
@@ -146,7 +144,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 			@Override
 			public void uploadFinished(FileUploadEvent arg0) {
 				DiskFileUploadReceiver receiver = (DiskFileUploadReceiver) uploadHandler.getReceiver();
-				temporaryFile = receiver.getTargetFiles()[receiver.getTargetFiles().length-1];
+				File temporaryFile = receiver.getTargetFiles()[receiver.getTargetFiles().length-1];
 				Activator.getLogger().info("Uploaded file: " + temporaryFile.getAbsolutePath());
 
 				UserFile tmpUserFile = new UserFile();
