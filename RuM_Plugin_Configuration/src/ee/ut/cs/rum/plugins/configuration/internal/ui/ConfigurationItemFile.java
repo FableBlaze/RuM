@@ -43,7 +43,6 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 
 	private List<UserFile> userFilesInSelector;
 	private List<UserFile> taskUserFilesInSelector;
-	private List<UserFile> tmpUserFiles;
 	private List<UserFile> tmpUserFilesInSelector;
 
 	private Combo fileSelectorCombo;
@@ -102,7 +101,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 			}
 		}
 
-		this.tmpUserFiles = pluginConfigurationComposite.getTmpUserFiles();
+		List<UserFile> tmpUserFiles = pluginConfigurationComposite.getTmpUserFiles();
 		this.tmpUserFilesInSelector = new ArrayList<UserFile>();
 		if (tmpUserFiles!=null) {
 			for (UserFile tmpUserFile : tmpUserFiles) {
@@ -159,7 +158,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 				}
 				tmpUserFile.setUserFileTypes(userFileTypes);
 
-				tmpUserFiles.add(tmpUserFile);
+				pluginConfigurationComposite.addTmpUserFile(tmpUserFile);
 				tmpUserFilesInSelector.add(tmpUserFile);
 
 				Display.getDefault().syncExec(new Runnable() {
@@ -309,7 +308,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 	}
 
 	public void notifyFileParameterOfTmpFileUpload(String absolutePath) {
-		for (UserFile tmpUserFile : tmpUserFiles) {
+		for (UserFile tmpUserFile : pluginConfigurationComposite.getTmpUserFiles()) {
 			if (tmpUserFile.getFileLocation()==absolutePath) {
 				if (checkFileTypes(tmpUserFile) && !tmpUserFilesInSelector.contains(tmpUserFile)) {
 					tmpUserFilesInSelector.add(tmpUserFile);

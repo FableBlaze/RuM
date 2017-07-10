@@ -258,4 +258,8 @@ public class PluginConfigurationComposite extends Composite {
 			configurationItemFile.removeUserFile(userFile);
 		}
 	}
+
+	public void addTmpUserFile(UserFile tmpUserFile) {
+		tmpUserFiles.add(tmpUserFile);
+	}
 }
