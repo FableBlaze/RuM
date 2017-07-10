@@ -43,9 +43,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 
 	//Temporary file is always last on fileSelectorCombo
 	private File temporaryFile; //TODO: remove
-	private List<UserFile> userFiles;
 	private List<UserFile> userFilesInSelector;
-	private List<UserFile> taskUserFiles;
 	private List<UserFile> taskUserFilesInSelector;
 	private List<UserFile> tmpUserFiles;
 	private List<UserFile> tmpUserFilesInSelector;
@@ -83,7 +81,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 		fileSelectorCombo = new Combo(this, SWT.READ_ONLY);
 		fileSelectorCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
-		this.userFiles = pluginConfigurationComposite.getUserFiles();
+		List<UserFile> userFiles = pluginConfigurationComposite.getUserFiles();
 		this.userFilesInSelector = new ArrayList<UserFile>();
 		if (userFiles!=null) {
 			for (UserFile userFile : userFiles) {
@@ -94,7 +92,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 			}
 		}
 		
-		this.taskUserFiles = pluginConfigurationComposite.getTaskUserFiles();
+		List<UserFile> taskUserFiles = pluginConfigurationComposite.getTaskUserFiles();
 		this.taskUserFilesInSelector = new ArrayList<UserFile>();
 		if (taskUserFiles!=null) {
 			for (UserFile taskUserFile : taskUserFiles) {
@@ -180,15 +178,15 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 	@Override
 	public void setValue(String fileLocation) {
 		if (fileLocation!=null && !fileLocation.equals("")) {
-			if (userFiles==null) {
+			if (pluginConfigurationComposite.isEnabled()==false) {
 				UserFile userFile = UserFileAccess.getUserFileDataFromDb(fileLocation);
 				if (userFile!=null) {
 					fileSelectorCombo.add(userFile.getOriginalFilename() + " (" + new SimpleDateFormat("dd-MM-yyyy HH:mm").format(userFile.getCreatedAt()) + ")");
 					fileSelectorCombo.select(0);	
 				}
 			} else {
-				for (int i = 0; i < userFiles.size(); i++) {
-					if (userFiles.get(i).getFileLocation().equals(fileLocation)) {
+				for (int i = 0; i < userFilesInSelector.size(); i++) {
+					if (userFilesInSelector.get(i).getFileLocation().equals(fileLocation)) {
 						fileSelectorCombo.select(i);
 					}
 				}
@@ -288,17 +286,6 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 			}
 		}
 	}
-		
-	public void notifyFileParameterOfTmpFileUpload(String absolutePath) {
-		for (UserFile tmpUserFile : tmpUserFiles) {
-			if (tmpUserFile.getFileLocation()==absolutePath) {
-				if (checkFileTypes(tmpUserFile) && !tmpUserFilesInSelector.contains(tmpUserFile)) {
-					tmpUserFilesInSelector.add(tmpUserFile);
-					fileSelectorCombo.add(tmpUserFile.getOriginalFilename());
-				}
-			}
-		}
-	}
 
 	public void notifyFileParameterOfPluginSelect(List<UserFile> outputFiles) {
 		for (UserFile userFile : outputFiles) {
@@ -310,6 +297,17 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 		}
 	}
 
+	public void notifyFileParameterOfTmpFileUpload(String absolutePath) {
+		for (UserFile tmpUserFile : tmpUserFiles) {
+			if (tmpUserFile.getFileLocation()==absolutePath) {
+				if (checkFileTypes(tmpUserFile) && !tmpUserFilesInSelector.contains(tmpUserFile)) {
+					tmpUserFilesInSelector.add(tmpUserFile);
+					fileSelectorCombo.add(tmpUserFile.getOriginalFilename());
+				}
+			}
+		}
+	}
+	
 	public void notifyFileParameterOfPluginDeselect(List<UserFile> outputFiles) {
 		for (UserFile userFile : outputFiles) {
 			if (checkFileTypes(userFile)) {
