@@ -87,10 +87,15 @@ public class NewTaskFooter extends Composite {
 							Gson gson = new Gson();
 							String configurationValuesString = gson.toJson(configurationValues);
 							subTask.setConfigurationValues(configurationValuesString);
+							
+							List<Map<String, String>> dependsOn = pluginConfigurationComposite.getDependsOn();
+							String dependsOnString = gson.toJson(dependsOn);
+							subTask.setDependsOn(dependsOnString);
+							
 						} catch (Exception e) {
 							taskInfoOk=false;
 							Activator.getLogger().info(e.toString());
-						}						
+						}
 
 						subTask.setCreatedBy("TODO");
 						subTask.setCreatedAt(createdAt);

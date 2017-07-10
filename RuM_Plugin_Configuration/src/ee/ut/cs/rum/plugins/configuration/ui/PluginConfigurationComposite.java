@@ -173,12 +173,19 @@ public class PluginConfigurationComposite extends Composite {
 		return configurationValues;
 	}
 	
-	public Map<String, String> getDependsOn() {
-		Map<String, String> configurationValues = new HashMap<String, String>();
+	public List<Map<String, String>> getDependsOn() {
+		List<Map<String, String>> dependsOn = new ArrayList<Map<String, String>>();
+		for (ConfigurationItemFile configurationItemFile : configurationItemFiles) {
+			if (configurationItemFile.getValue()==null && configurationItemFile.getDependsOnFileName()!=null) {
+				Map<String, String> sub = new HashMap<String, String>();
+				sub.put("subtaskId", "");
+				sub.put("parameter", configurationItemFile.getInternalName());
+				sub.put("fileName", configurationItemFile.getDependsOnFileName());
+				dependsOn.add(sub);
+			}
+		}
 		
-		//TODO: The values of dependsOn
-		
-		return configurationValues;
+		return dependsOn;
 	}
 
 	public void setConfigurationValues(Map<String, String> configurationValues) {
