@@ -292,7 +292,20 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 			if (checkFileTypes(userFile)) {
 				//TODO: Add subtask name
 				fileSelectorCombo.add(userFile.getOriginalFilename() + " ()", userFilesInSelector.size()+taskUserFilesInSelector.size());
+				if (fileSelectorCombo.getSelectionIndex()>=userFilesInSelector.size()+taskUserFilesInSelector.size()) {
+					fileSelectorCombo.select(fileSelectorCombo.getSelectionIndex()+1);
+				}
 				taskUserFilesInSelector.add(userFile);
+			}
+		}
+	}
+
+	public void notifyFileParameterOfPluginDeselect(List<UserFile> outputFiles) {
+		for (UserFile userFile : outputFiles) {
+			if (checkFileTypes(userFile)) {
+				int i = taskUserFilesInSelector.indexOf(userFile);
+				taskUserFilesInSelector.remove(i);
+				fileSelectorCombo.remove(i + userFilesInSelector.size());
 			}
 		}
 	}
@@ -303,22 +316,6 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 				if (checkFileTypes(tmpUserFile) && !tmpUserFilesInSelector.contains(tmpUserFile)) {
 					tmpUserFilesInSelector.add(tmpUserFile);
 					fileSelectorCombo.add(tmpUserFile.getOriginalFilename());
-				}
-			}
-		}
-	}
-	
-	public void notifyFileParameterOfPluginDeselect(List<UserFile> outputFiles) {
-		for (UserFile userFile : outputFiles) {
-			if (checkFileTypes(userFile)) {
-				int i = taskUserFilesInSelector.indexOf(userFile);
-				if (fileSelectorCombo.getSelectionIndex()==-1) {
-					taskUserFilesInSelector.remove(i);
-					fileSelectorCombo.remove(i + userFilesInSelector.size());
-				} else {
-					taskUserFilesInSelector.remove(i);
-					fileSelectorCombo.remove(i + userFilesInSelector.size());
-					fileSelectorCombo.select(i + userFilesInSelector.size());
 				}
 			}
 		}
