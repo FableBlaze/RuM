@@ -30,9 +30,6 @@ public class NewTaskSubTaskInfo extends Composite {
 	
 	private SubTask subTask;
 	
-	private Text subTaskNameText;
-	private Text subTaskDescriptionText;
-	
 	private PluginsTableComposite pluginsTableComposite;
 	private PluginInfoComposite pluginInfoComposite;
 	private ScrolledComposite scrolledPluginConfigurationComposite;
@@ -53,7 +50,7 @@ public class NewTaskSubTaskInfo extends Composite {
 		Label label = new Label(this, SWT.NONE);
 		label.setText("Sub-task name:");
 		label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false));
-		subTaskNameText = new Text(this, SWT.BORDER);
+		Text subTaskNameText = new Text(this, SWT.BORDER);
 		subTaskNameText.setText(subTask.getName());
 		subTaskNameText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
 		((GridData)subTaskNameText.getLayoutData()).widthHint=200;
@@ -77,7 +74,7 @@ public class NewTaskSubTaskInfo extends Composite {
 		label = new Label(this, SWT.NONE);
 		label.setText("Sub-task description:");
 		label.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, false, false));
-		subTaskDescriptionText = new Text(this, SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL);
+		Text subTaskDescriptionText = new Text(this, SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL);
 		subTaskDescriptionText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
 		((GridData)subTaskDescriptionText.getLayoutData()).widthHint=200;
 		((GridData)subTaskDescriptionText.getLayoutData()).heightHint=75;
