@@ -44,7 +44,7 @@ public class PluginSelectionChangedListener implements ISelectionChangedListener
 				
 		if (scrolledPluginConfigurationComposite.getContent()!=null) {
 			PluginConfigurationComposite prevPluginConfigurationComposite = (PluginConfigurationComposite)scrolledPluginConfigurationComposite.getContent();
-			newTaskSubTaskInfo.getNewTaskDetailsContainer().notifyTaskOfPluginDeselect(prevPluginConfigurationComposite.getOutputUserFiles());
+			newTaskSubTaskInfo.getNewTaskDetailsContainer().notifyTaskOfPluginDeselect(prevPluginConfigurationComposite.getOutputUserFiles(), newTaskSubTaskInfo);
 			
 			if (!scrolledPluginConfigurationComposite.getContent().isDisposed()) {
 				scrolledPluginConfigurationComposite.getContent().dispose();				
@@ -56,7 +56,7 @@ public class PluginSelectionChangedListener implements ISelectionChangedListener
 			PluginInfo pluginInfo = PluginUtils.deserializePluginInfo(plugin);
 
 			List<UserFile> userFiles = newTaskSubTaskInfo.getNewTaskDetailsContainer().getUserFiles();
-			List<UserFile> taskUserFiles = newTaskSubTaskInfo.getNewTaskDetailsContainer().getTaskUserFiles();
+			List<UserFile> taskUserFiles = newTaskSubTaskInfo.getNewTaskDetailsContainer().getInitialTaskUserFiles(newTaskSubTaskInfo);
 			List<UserFile> tmpUserFiles = newTaskSubTaskInfo.getNewTaskDetailsContainer().getTmpUserFiles();
 			List<FileUploadHandler> fileUploadHandlers = new ArrayList<FileUploadHandler>();
 			
@@ -69,7 +69,7 @@ public class PluginSelectionChangedListener implements ISelectionChangedListener
 			for (UserFile userFile : pluginConfigurationComposite.getOutputUserFiles()) {
 				userFile.setSubTask(newTaskSubTaskInfo.getSubTask());
 			}
-			newTaskSubTaskInfo.getNewTaskDetailsContainer().notifyTaskOfPluginSelect(pluginConfigurationComposite.getOutputUserFiles());
+			newTaskSubTaskInfo.getNewTaskDetailsContainer().notifyTaskOfPluginSelect(pluginConfigurationComposite.getOutputUserFiles(), newTaskSubTaskInfo);
 			
 			scrolledPluginConfigurationComposite.setContent(pluginConfigurationComposite);
 			pluginConfigurationComposite.setSize(scrolledPluginConfigurationComposite.getSize());

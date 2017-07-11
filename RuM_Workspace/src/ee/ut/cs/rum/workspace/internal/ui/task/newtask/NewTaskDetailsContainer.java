@@ -28,7 +28,6 @@ public class NewTaskDetailsContainer extends Composite implements RumUpdatableVi
 	private NewTaskGeneralInfo newTaskGeneralInfo;
 
 	private List<UserFile> userFiles;
-	private List<UserFile> taskUserFiles;
 	private List<UserFile> tmpUserFiles;
 	private List<NewTaskSubTaskInfo> newTaskSubTaskInfoList;
 
@@ -41,7 +40,6 @@ public class NewTaskDetailsContainer extends Composite implements RumUpdatableVi
 
 		this.newTaskComposite=newTaskComposite;
 		this.userFiles = UserFileAccess.getProjectUserFilesDataFromDb(newTaskComposite.getProjectTabFolder().getProject().getId());
-		this.taskUserFiles = new ArrayList<UserFile>();
 		this.tmpUserFiles = new ArrayList<UserFile>();
 
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -82,43 +80,48 @@ public class NewTaskDetailsContainer extends Composite implements RumUpdatableVi
 	public List<UserFile> getUserFiles() {
 		return userFiles;
 	}
-	
-	public List<UserFile> getTaskUserFiles() {
-		return taskUserFiles;
+
+	public List<UserFile> getInitialTaskUserFiles(NewTaskSubTaskInfo newTaskSubTaskInfo) {
+		List<UserFile> initialTaskUserFiles = new ArrayList<UserFile>();
+		for (int i = 0; i < newTaskSubTaskInfoList.indexOf(newTaskSubTaskInfo); i++) {
+			PluginConfigurationComposite pluginConfigurationComposite =((PluginConfigurationComposite)newTaskSubTaskInfoList.get(i).getScrolledPluginConfigurationComposite().getContent());
+			if (pluginConfigurationComposite!=null) {
+				initialTaskUserFiles.addAll(pluginConfigurationComposite.getOutputUserFiles());
+			}
+		}
+		return initialTaskUserFiles;
 	}
-	
+
 	public List<UserFile> getTmpUserFiles() {
 		return tmpUserFiles;
 	}
-	
-	public void notifyTaskOfPluginSelect(List<UserFile> outputFiles) {
+
+	public void notifyTaskOfPluginSelect(List<UserFile> outputFiles, NewTaskSubTaskInfo newTaskSubTaskInfo) {
 		display.asyncExec(new Runnable() {
 			public void run() {
-				taskUserFiles.addAll(outputFiles);
-				for (NewTaskSubTaskInfo newTaskSubTaskInfo : newTaskSubTaskInfoList) {
-					PluginConfigurationComposite pluginConfigurationComposite = (PluginConfigurationComposite)newTaskSubTaskInfo.getScrolledPluginConfigurationComposite().getContent();
-					if (pluginConfigurationComposite != null && pluginConfigurationComposite.isDisposed()==false) {
-						pluginConfigurationComposite.notifySubTaskOfPluginSelect(outputFiles);						
-					}
+				for (int i = newTaskSubTaskInfoList.indexOf(newTaskSubTaskInfo)+1; i < newTaskSubTaskInfoList.size(); i++) {
+					PluginConfigurationComposite pluginConfigurationComposite =((PluginConfigurationComposite)newTaskSubTaskInfoList.get(i).getScrolledPluginConfigurationComposite().getContent());
+					if (pluginConfigurationComposite!=null && pluginConfigurationComposite.isDisposed()==false) {
+						pluginConfigurationComposite.notifySubTaskOfPluginSelect(outputFiles);
+					}	
 				}
 			}
 		});		
 	}
-	
-	public void notifyTaskOfPluginDeselect(List<UserFile> outputFiles) {
+
+	public void notifyTaskOfPluginDeselect(List<UserFile> outputFiles, NewTaskSubTaskInfo newTaskSubTaskInfo) {
 		display.asyncExec(new Runnable() {
 			public void run() {
-				taskUserFiles.removeAll(outputFiles);
-				for (NewTaskSubTaskInfo newTaskSubTaskInfo : newTaskSubTaskInfoList) {
-					PluginConfigurationComposite pluginConfigurationComposite = (PluginConfigurationComposite)newTaskSubTaskInfo.getScrolledPluginConfigurationComposite().getContent();
-					if (pluginConfigurationComposite != null && pluginConfigurationComposite.isDisposed()==false) {
-						pluginConfigurationComposite.notifySubTaskOfPluginDeselect(outputFiles);						
-					}
+				for (int i = newTaskSubTaskInfoList.indexOf(newTaskSubTaskInfo)+1; i < newTaskSubTaskInfoList.size(); i++) {
+					PluginConfigurationComposite pluginConfigurationComposite =((PluginConfigurationComposite)newTaskSubTaskInfoList.get(i).getScrolledPluginConfigurationComposite().getContent());
+					if (pluginConfigurationComposite!=null && pluginConfigurationComposite.isDisposed()==false) {
+						pluginConfigurationComposite.notifySubTaskOfPluginDeselect(outputFiles);
+					}	
 				}
 			}
 		});		
 	}
-	
+
 	public void notifyTaskOfTmpFileUpload(String absolutePath) {
 		display.asyncExec(new Runnable() {
 			public void run() {							
