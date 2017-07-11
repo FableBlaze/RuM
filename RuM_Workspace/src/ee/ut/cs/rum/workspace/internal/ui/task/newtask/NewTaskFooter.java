@@ -89,6 +89,7 @@ public class NewTaskFooter extends Composite {
 						RumScheduler.scheduleTask(task.getId());
 						Activator.getLogger().info("Queued task: " + task.toString());						
 					} else {
+						task.getSubTasks().clear();
 						Activator.getLogger().info("Error queing task: " + task.toString());
 					}
 					
