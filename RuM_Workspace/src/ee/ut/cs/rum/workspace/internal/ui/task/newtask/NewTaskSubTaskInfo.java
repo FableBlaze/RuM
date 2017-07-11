@@ -4,8 +4,8 @@ import java.util.Map;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -18,7 +18,6 @@ import com.google.gson.Gson;
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.database.domain.SubTask;
-import ee.ut.cs.rum.database.domain.enums.TaskStatus;
 import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationComposite;
 import ee.ut.cs.rum.workspace.internal.Activator;
 import ee.ut.cs.rum.workspace.internal.ui.task.PluginInfoComposite;
@@ -38,13 +37,12 @@ public class NewTaskSubTaskInfo extends Composite {
 	private PluginInfoComposite pluginInfoComposite;
 	private ScrolledComposite scrolledPluginConfigurationComposite;
 
-	public NewTaskSubTaskInfo(NewTaskDetailsContainer newTaskDetailsContainer, RumController rumController) {
+	public NewTaskSubTaskInfo(NewTaskDetailsContainer newTaskDetailsContainer, SubTask subTask, RumController rumController) {
 		super(newTaskDetailsContainer, SWT.NONE);
 		
 		this.newTaskDetailsContainer=newTaskDetailsContainer;
 		
-		this.subTask = new SubTask();
-		subTask.setStatus(TaskStatus.NEW);
+		this.subTask = subTask;
 		
 		this.setLayout(new GridLayout(4, false));
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -56,15 +54,18 @@ public class NewTaskSubTaskInfo extends Composite {
 		label.setText("Sub-task name:");
 		label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false));
 		subTaskNameText = new Text(this, SWT.BORDER);
+		subTaskNameText.setText(subTask.getName());
 		subTaskNameText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
 		((GridData)subTaskNameText.getLayoutData()).widthHint=200;
-		subTaskNameText.addModifyListener(new ModifyListener() {
-			private static final long serialVersionUID = -4275986926694404712L;
-
+		subTaskNameText.addFocusListener(new FocusListener() {
+			private static final long serialVersionUID = 4820831828850851112L;
 			@Override
-			public void modifyText(ModifyEvent event) {
-				Table table = newTaskDetailsContainer.getNewTaskComposite().getDetailsSideBar().getSubTaskTableViewer().getTable();
-				table.getItem(table.getSelectionIndex()).setText(0, subTaskNameText.getText());
+			public void focusLost(FocusEvent event) {
+				subTask.setName(subTaskNameText.getText());
+				newTaskDetailsContainer.getNewTaskComposite().getDetailsSideBar().getSubTaskTableViewer().refresh(subTask);
+			}
+			@Override
+			public void focusGained(FocusEvent event) {
 			}
 		});
 
@@ -80,6 +81,16 @@ public class NewTaskSubTaskInfo extends Composite {
 		subTaskDescriptionText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
 		((GridData)subTaskDescriptionText.getLayoutData()).widthHint=200;
 		((GridData)subTaskDescriptionText.getLayoutData()).heightHint=75;
+		subTaskDescriptionText.addFocusListener(new FocusListener() {
+			private static final long serialVersionUID = 7788872561606011341L;
+			@Override
+			public void focusLost(FocusEvent event) {
+				subTask.setDescription(subTaskDescriptionText.getText());
+			}
+			@Override
+			public void focusGained(FocusEvent event) {
+			}
+		});
 
 		pluginInfoComposite = new PluginInfoComposite(this);
 		pluginInfoComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
@@ -88,9 +99,6 @@ public class NewTaskSubTaskInfo extends Composite {
 	}
 	
 	public boolean updateAndCheckSubTask() {
-		subTask.setName(subTaskNameText.getText());
-		subTask.setDescription(subTaskDescriptionText.getText());
-		
 		Table table = pluginsTableComposite.getPluginsTableViewer().getTable();
 		try {
 			//TODO: More intelligent error handling
