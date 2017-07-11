@@ -111,7 +111,7 @@ public class NewTaskSubTaskInfo extends Composite {
 			
 			return true;
 		} catch (Exception e) {
-			Activator.getLogger().info(e.toString());
+			Activator.getLogger().info("Problems with subtask info" + e.toString());
 			return false;
 		}
 	}
