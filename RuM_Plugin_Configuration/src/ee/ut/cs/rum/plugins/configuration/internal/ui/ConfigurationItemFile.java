@@ -238,11 +238,11 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 		}
 	}
 	
-	public String getDependsOnFileName() {
+	public UserFile getDependsOnFile() {
 		int selectionIndex = fileSelectorCombo.getSelectionIndex();
 		
 		if (selectionIndex >= userFilesInSelector.size() && selectionIndex < userFilesInSelector.size()+taskUserFilesInSelector.size()) {
-			return taskUserFilesInSelector.get(selectionIndex - userFilesInSelector.size()).getOriginalFilename();
+			return taskUserFilesInSelector.get(selectionIndex - userFilesInSelector.size());
 		} else {
 			return null;			
 		}

@@ -1,6 +1,5 @@
 package ee.ut.cs.rum.workspace.internal.ui.task.newtask;
 
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.swt.SWT;
@@ -103,9 +102,7 @@ public class NewTaskSubTaskInfo extends Composite {
 			String configurationValuesString = gson.toJson(configurationValues);
 			subTask.setConfigurationValues(configurationValuesString);
 			
-			List<Map<String, String>> dependsOn = pluginConfigurationComposite.getDependsOn();
-			String dependsOnString = gson.toJson(dependsOn);
-			//subTask.setDependsOn(dependsOnString);
+			subTask.setRequiredDependencies(pluginConfigurationComposite.getDependsOn());
 			
 			return true;
 		} catch (Exception e) {

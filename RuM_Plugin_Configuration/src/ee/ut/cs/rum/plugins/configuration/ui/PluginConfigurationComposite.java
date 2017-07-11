@@ -12,6 +12,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
 import ee.ut.cs.rum.controller.RumController;
+import ee.ut.cs.rum.database.domain.SubTaskDependency;
 import ee.ut.cs.rum.database.domain.UserFile;
 import ee.ut.cs.rum.database.domain.UserFileType;
 import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemDouble;
@@ -173,18 +174,17 @@ public class PluginConfigurationComposite extends Composite {
 		return configurationValues;
 	}
 	
-	public List<Map<String, String>> getDependsOn() {
-		List<Map<String, String>> dependsOn = new ArrayList<Map<String, String>>();
+	public List<SubTaskDependency> getDependsOn() {
+		List<SubTaskDependency> dependsOn = new ArrayList<SubTaskDependency>();
 		for (ConfigurationItemFile configurationItemFile : configurationItemFiles) {
-			if (configurationItemFile.getValue()==null && configurationItemFile.getDependsOnFileName()!=null) {
-				Map<String, String> sub = new HashMap<String, String>();
-				sub.put("subtaskId", "");
-				sub.put("parameter", configurationItemFile.getInternalName());
-				sub.put("fileName", configurationItemFile.getDependsOnFileName());
-				dependsOn.add(sub);
+			if (configurationItemFile.getValue()==null && configurationItemFile.getDependsOnFile()!=null) {
+				SubTaskDependency subTaskDependency = new SubTaskDependency();
+				subTaskDependency.setRequiredForParameter(configurationItemFile.getInternalName());
+				subTaskDependency.setFileName(configurationItemFile.getDependsOnFile().getOriginalFilename());
+				subTaskDependency.setFulfilledBySubTask(configurationItemFile.getDependsOnFile().getSubTask());
+				dependsOn.add(subTaskDependency);
 			}
 		}
-		
 		return dependsOn;
 	}
 

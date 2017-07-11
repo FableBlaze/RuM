@@ -1,5 +1,7 @@
 package ee.ut.cs.rum.database.domain;
 
+import java.util.ArrayList;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -31,12 +33,24 @@ public class SubTaskDependency {
 	}
 	public void setRequiredBySubTask(SubTask requiredBySubTask) {
 		this.requiredBySubTask = requiredBySubTask;
+		if (requiredBySubTask.getRequiredDependencies()==null) {
+			requiredBySubTask.setRequiredDependencies(new ArrayList<SubTaskDependency>());
+		}
+		if (!requiredBySubTask.getRequiredDependencies().contains(requiredBySubTask)) {
+			requiredBySubTask.getRequiredDependencies().add(this);
+		}
 	}
 	public SubTask getFulfilledBySubTask() {
 		return fulfilledBySubTask;
 	}
 	public void setFulfilledBySubTask(SubTask fulfilledBySubTask) {
 		this.fulfilledBySubTask = fulfilledBySubTask;
+		if (fulfilledBySubTask.getFulfilledDependencies()==null) {
+			fulfilledBySubTask.setFulfilledDependencies(new ArrayList<SubTaskDependency>());
+		}
+		if (!fulfilledBySubTask.getFulfilledDependencies().contains(fulfilledBySubTask)) {
+			fulfilledBySubTask.getFulfilledDependencies().add(this);
+		}
 	}
 	public String getRequiredForParameter() {
 		return requiredForParameter;
