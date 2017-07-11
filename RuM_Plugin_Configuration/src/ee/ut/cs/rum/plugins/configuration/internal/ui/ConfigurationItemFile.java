@@ -262,8 +262,11 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 	
 	public void addUserFile(UserFile userFile) {
 		if (checkFileTypes(userFile)) {
+			fileSelectorCombo.add(userFile.getOriginalFilename() + " (" + new SimpleDateFormat("dd-MM-yyyy HH:mm").format(userFile.getCreatedAt()) + ")", userFilesInSelector.size());
+			if (fileSelectorCombo.getSelectionIndex()>=userFilesInSelector.size()) {
+				fileSelectorCombo.select(fileSelectorCombo.getSelectionIndex()+1);
+			}
 			userFilesInSelector.add(userFile);
-			fileSelectorCombo.add(userFile.getOriginalFilename() + " (" + new SimpleDateFormat("dd-MM-yyyy HH:mm").format(userFile.getCreatedAt()) + ")");
 		}
 	}
 
