@@ -62,13 +62,7 @@ public class NewTaskDetailsContainer extends Composite implements RumUpdatableVi
 	}
 
 	public void showSubTaskInfo(int subTaskIndex) {
-		if (subTaskIndex < newTaskSubTaskInfoList.size()) {
-			((StackLayout)this.getLayout()).topControl = newTaskSubTaskInfoList.get(subTaskIndex);
-		} else {
-			NewTaskSubTaskInfo newTaskSubTaskInfo = new NewTaskSubTaskInfo(this, rumController);
-			((StackLayout)this.getLayout()).topControl = newTaskSubTaskInfo;
-			newTaskSubTaskInfoList.add(newTaskSubTaskInfo);
-		}
+		((StackLayout)this.getLayout()).topControl = newTaskSubTaskInfoList.get(subTaskIndex);
 		this.layout();
 		newTaskComposite.getNewTaskFooter().setRemoveSubTaskButtonVisible(true);
 	}

@@ -110,7 +110,11 @@ public class NewTaskFooter extends Composite {
 				subTask.setName("(Sub-task " + subTaskNameCounter++ + ")");
 				subTaskTableViewer.add(subTask);
 				subTaskTableViewer.getTable().select(subTaskTableViewer.getTable().getItemCount()-1);
-				newTaskComposite.getNewTaskDetailsContainer().showSubTaskInfo(subTaskTableViewer.getTable().getItemCount()-1);
+				
+				NewTaskDetailsContainer newTaskDetailsContainer = newTaskComposite.getNewTaskDetailsContainer();
+				NewTaskSubTaskInfo newTaskSubTaskInfo = new NewTaskSubTaskInfo(newTaskDetailsContainer, rumController);
+				newTaskDetailsContainer.getNewTaskSubTaskInfoList().add(newTaskSubTaskInfo);				
+				newTaskDetailsContainer.showSubTaskInfo(subTaskTableViewer.getTable().getItemCount()-1);
 			}
 		});
 
