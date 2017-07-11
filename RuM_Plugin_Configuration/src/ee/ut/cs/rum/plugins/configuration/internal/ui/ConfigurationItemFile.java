@@ -178,6 +178,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 
 	@Override
 	public void setValue(String fileLocation) {
+		//TODO: Setting the value when required subtask has failed
 		if (fileLocation!=null && !fileLocation.equals("")) {
 			if (pluginConfigurationComposite.isEnabled()==false) {
 				UserFile userFile = UserFileAccess.getUserFileDataFromDb(fileLocation);
@@ -207,7 +208,6 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 		} else if (selectionIndex < userFilesInSelector.size()) {
 			return userFilesInSelector.get(selectionIndex).getFileLocation();
 		} else if (selectionIndex < userFilesInSelector.size()+taskUserFilesInSelector.size()) {
-			//TODO: Handling of other subtask outputs
 			return null;
 		} else {
 			UserFile tmpUserFile = tmpUserFilesInSelector.get(selectionIndex-userFilesInSelector.size()-taskUserFilesInSelector.size());
