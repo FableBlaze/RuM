@@ -1,5 +1,8 @@
 package ee.ut.cs.rum.workspace.internal.ui.task.newtask;
 
+import java.util.List;
+import java.util.Map;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.ModifyEvent;
@@ -11,7 +14,14 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
 
+import com.google.gson.Gson;
+
 import ee.ut.cs.rum.controller.RumController;
+import ee.ut.cs.rum.database.domain.Plugin;
+import ee.ut.cs.rum.database.domain.SubTask;
+import ee.ut.cs.rum.database.domain.enums.TaskStatus;
+import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationComposite;
+import ee.ut.cs.rum.workspace.internal.Activator;
 import ee.ut.cs.rum.workspace.internal.ui.task.PluginInfoComposite;
 import ee.ut.cs.rum.workspace.internal.ui.task.newtask.pluginstable.PluginsTableComposite;
 
@@ -19,6 +29,8 @@ public class NewTaskSubTaskInfo extends Composite {
 	private static final long serialVersionUID = -9081862727975335668L;
 	
 	private NewTaskDetailsContainer newTaskDetailsContainer;
+	
+	private SubTask subTask;
 	
 	private Text subTaskNameText;
 	private Text subTaskDescriptionText;
@@ -31,6 +43,9 @@ public class NewTaskSubTaskInfo extends Composite {
 		super(newTaskDetailsContainer, SWT.NONE);
 		
 		this.newTaskDetailsContainer=newTaskDetailsContainer;
+		
+		this.subTask = new SubTask();
+		subTask.setStatus(TaskStatus.NEW);
 		
 		this.setLayout(new GridLayout(4, false));
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -73,20 +88,38 @@ public class NewTaskSubTaskInfo extends Composite {
 		((GridData) pluginInfoComposite.getLayoutData()).verticalSpan=3;
 	}
 	
-	public PluginsTableComposite getPluginsTableComposite() {
-		return pluginsTableComposite;
+	public boolean updateAndCheckSubTask() {
+		subTask.setName(subTaskNameText.getText());
+		subTask.setDescription(subTaskDescriptionText.getText());
+		
+		Table table = pluginsTableComposite.getPluginsTableViewer().getTable();
+		try {
+			//TODO: More intelligent error handling
+			Plugin plugin = (Plugin)table.getItem(table.getSelectionIndex()).getData();							
+			subTask.setPlugin(plugin);
+			PluginConfigurationComposite pluginConfigurationComposite = (PluginConfigurationComposite)scrolledPluginConfigurationComposite.getContent();
+			Map<String, String> configurationValues = pluginConfigurationComposite.getConfigurationValues();
+			Gson gson = new Gson();
+			String configurationValuesString = gson.toJson(configurationValues);
+			subTask.setConfigurationValues(configurationValuesString);
+			
+			List<Map<String, String>> dependsOn = pluginConfigurationComposite.getDependsOn();
+			String dependsOnString = gson.toJson(dependsOn);
+			subTask.setDependsOn(dependsOnString);
+			
+			return true;
+		} catch (Exception e) {
+			Activator.getLogger().info(e.toString());
+			return false;
+		}
+	}
+	
+	public SubTask getSubTask() {
+		return subTask;
 	}
 	
 	public NewTaskDetailsContainer getNewTaskDetailsContainer() {
 		return newTaskDetailsContainer;
-	}
-	
-	public String getSubTaskName() {
-		return subTaskNameText.getText();
-	}
-	
-	public String getSubTaskDescription() {
-		return subTaskDescriptionText.getText();
 	}
 	
 	public PluginInfoComposite getPluginInfoComposite() {

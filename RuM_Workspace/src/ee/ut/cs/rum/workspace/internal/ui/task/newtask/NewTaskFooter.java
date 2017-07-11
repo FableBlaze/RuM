@@ -3,8 +3,6 @@ package ee.ut.cs.rum.workspace.internal.ui.task.newtask;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -14,10 +12,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
 
-import com.google.gson.Gson;
-
 import ee.ut.cs.rum.controller.RumController;
-import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.database.domain.SubTask;
 import ee.ut.cs.rum.database.domain.Task;
 import ee.ut.cs.rum.database.domain.enums.SystemParameterName;
@@ -71,38 +66,20 @@ public class NewTaskFooter extends Composite {
 					List<NewTaskSubTaskInfo> newTaskSubTaskInfoList = newTaskComposite.getNewTaskDetailsContainer().getNewTaskSubTaskInfoList();
 					for (NewTaskSubTaskInfo newTaskSubTaskInfo : newTaskSubTaskInfoList) {
 						Date createdAt = new Date();
-
-						SubTask subTask = new SubTask();
-						subTask.setName(newTaskSubTaskInfo.getSubTaskName());
-						subTask.setDescription(newTaskSubTaskInfo.getSubTaskDescription());
-						subTask.setStatus(TaskStatus.NEW);
-
-						Table table = newTaskSubTaskInfo.getPluginsTableComposite().getPluginsTableViewer().getTable();
-						try {
-							//TODO: More intelligent error handling
-							Plugin plugin = (Plugin)table.getItem(table.getSelectionIndex()).getData();							
-							subTask.setPlugin(plugin);
-							PluginConfigurationComposite pluginConfigurationComposite = (PluginConfigurationComposite)newTaskSubTaskInfo.getScrolledPluginConfigurationComposite().getContent();
-							Map<String, String> configurationValues = pluginConfigurationComposite.getConfigurationValues();
-							Gson gson = new Gson();
-							String configurationValuesString = gson.toJson(configurationValues);
-							subTask.setConfigurationValues(configurationValuesString);
+						String userName = "TODO";
+						
+						if (newTaskSubTaskInfo.updateAndCheckSubTask()) {
+							SubTask subTask = newTaskSubTaskInfo.getSubTask();
 							
-							List<Map<String, String>> dependsOn = pluginConfigurationComposite.getDependsOn();
-							String dependsOnString = gson.toJson(dependsOn);
-							subTask.setDependsOn(dependsOnString);
+							subTask.setCreatedBy(userName);
+							subTask.setCreatedAt(createdAt);
+							subTask.setLastModifiedBy(userName);
+							subTask.setLastModifiedAt(createdAt);
 							
-						} catch (Exception e) {
+							subTasks.add(subTask);
+						} else {
 							taskInfoOk=false;
-							Activator.getLogger().info(e.toString());
 						}
-
-						subTask.setCreatedBy("TODO");
-						subTask.setCreatedAt(createdAt);
-						subTask.setLastModifiedBy("TODO");
-						subTask.setLastModifiedAt(createdAt);
-
-						subTasks.add(subTask);
 					}
 					
 					if (taskInfoOk && !subTasks.isEmpty()) {
