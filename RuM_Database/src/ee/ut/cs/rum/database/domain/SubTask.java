@@ -38,9 +38,9 @@ public class SubTask implements RumUpdatableEntity {
 	@Column(name = "configuration_values", columnDefinition = "TEXT")
 	private String configurationValues;
 	
-	@OneToMany(mappedBy="required_dependencies", cascade=CascadeType.PERSIST)
+	@OneToMany(mappedBy="requiredBySubTask", cascade=CascadeType.PERSIST)
 	private List<SubTaskDependency> requiredDependencies;
-	@OneToMany(mappedBy="fulfilled_dependencies", cascade=CascadeType.PERSIST)
+	@OneToMany(mappedBy="fulfilledBySubTask", cascade=CascadeType.PERSIST)
 	private List<SubTaskDependency> fulfilledDependencies;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
