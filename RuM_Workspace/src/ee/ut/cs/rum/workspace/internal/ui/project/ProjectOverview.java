@@ -11,6 +11,8 @@ import org.eclipse.swt.widgets.Listener;
 
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Project;
+import ee.ut.cs.rum.database.domain.Task;
+import ee.ut.cs.rum.database.domain.enums.TaskStatus;
 import ee.ut.cs.rum.workspace.internal.ui.project.taskstable.TasksTableComposite;
 import ee.ut.cs.rum.workspace.internal.ui.task.newtask.NewTaskComposite;
 
@@ -34,12 +36,12 @@ public class ProjectOverview extends Composite {
 		
 		projectDetailsContainer = new ProjectDetailsContainer(this, rumController);
 		
-		Button addTaskDialogueButton = new Button(this, SWT.PUSH);
-		addTaskDialogueButton.setText("New task");
-		addTaskDialogueButton.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false));
-		((GridData) addTaskDialogueButton.getLayoutData()).horizontalSpan = ((GridLayout) this.getLayout()).numColumns;
+		Button newTaskButton = new Button(this, SWT.PUSH);
+		newTaskButton.setText("New task");
+		newTaskButton.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false));
+		((GridData) newTaskButton.getLayoutData()).horizontalSpan = ((GridLayout) this.getLayout()).numColumns;
 		
-		addTaskDialogueButton.addListener(SWT.Selection, new Listener() {
+		newTaskButton.addListener(SWT.Selection, new Listener() {
 			private static final long serialVersionUID = -6086051326689769935L;
 
 			@Override
@@ -56,7 +58,11 @@ public class ProjectOverview extends Composite {
 				if (cTabItem == null) {
 					cTabItem = new CTabItem (projectTabFolder, SWT.CLOSE);
 					cTabItem.setText ("New task");
-					cTabItem.setControl(new NewTaskComposite(projectTabFolder, rumController));
+					Task task = new Task();
+					task.setName("(New task)");
+					task.setProject(project);
+					task.setStatus(TaskStatus.NEW);
+					cTabItem.setControl(new NewTaskComposite(projectTabFolder, task, rumController));
 					projectTabFolder.setSelection(cTabItem);
 				}
 			}

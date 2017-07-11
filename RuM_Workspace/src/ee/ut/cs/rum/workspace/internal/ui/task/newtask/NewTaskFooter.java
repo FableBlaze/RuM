@@ -52,16 +52,9 @@ public class NewTaskFooter extends Composite {
 				String task_results_root_asString = SystemParameterAccess.getSystemParameterValue(SystemParameterName.TASK_RESULTS_ROOT);
 				if (task_results_root_asString!=null) {
 
-					Task task = new Task();
-					NewTaskGeneralInfo newTaskGeneralInfo = newTaskComposite.getNewTaskDetailsContainer().getNewTaskGeneralInfo();
-					task.setName(newTaskGeneralInfo.getNewTaskName());
-					task.setDescription(newTaskGeneralInfo.getNewTaskDescription());
-					task.setStatus(TaskStatus.NEW);
-					task.setProject(newTaskComposite.getProjectTabFolder().getProject());
-
+					Task task = newTaskComposite.getTask();
 					List<SubTask> subTasks = new ArrayList<SubTask>();
-
-					boolean taskInfoOk =true;
+					boolean subTasksOk = true;
 					
 					List<NewTaskSubTaskInfo> newTaskSubTaskInfoList = newTaskComposite.getNewTaskDetailsContainer().getNewTaskSubTaskInfoList();
 					for (NewTaskSubTaskInfo newTaskSubTaskInfo : newTaskSubTaskInfoList) {
@@ -78,11 +71,11 @@ public class NewTaskFooter extends Composite {
 							
 							subTasks.add(subTask);
 						} else {
-							taskInfoOk=false;
+							subTasksOk=false;
 						}
 					}
 					
-					if (taskInfoOk && !subTasks.isEmpty()) {
+					if (subTasksOk && !subTasks.isEmpty()) {
 						task.setSubTasks(subTasks);
 						task = (Task)rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.TASK, task, "TODO");
 						

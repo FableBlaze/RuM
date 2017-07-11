@@ -39,7 +39,7 @@ public class NewTaskDetailsContainer extends Composite implements RumUpdatableVi
 		rumController.registerView(this, ControllerEntityType.USER_FILE);
 
 		this.newTaskComposite=newTaskComposite;
-		this.userFiles = UserFileAccess.getProjectUserFilesDataFromDb(newTaskComposite.getProjectTabFolder().getProject().getId());
+		this.userFiles = UserFileAccess.getProjectUserFilesDataFromDb(newTaskComposite.getTask().getProject().getId());
 		this.tmpUserFiles = new ArrayList<UserFile>();
 
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
