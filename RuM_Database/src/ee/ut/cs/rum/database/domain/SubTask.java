@@ -3,6 +3,7 @@ package ee.ut.cs.rum.database.domain;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,9 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -37,11 +37,12 @@ public class SubTask implements RumUpdatableEntity {
 	private Plugin plugin;
 	@Column(name = "configuration_values", columnDefinition = "TEXT")
 	private String configurationValues;
-	@Column(name = "depends_on", columnDefinition = "TEXT")
-	private String dependsOn;
-	@ManyToMany
-	@JoinTable(name = "sub_task_sub_task", joinColumns = @JoinColumn(name = "sub_task_id"), inverseJoinColumns = @JoinColumn(name = "required_for_sub_task"))
-	private List<SubTask> requiredFor;
+	
+	@OneToMany(mappedBy="required_dependencies", cascade=CascadeType.PERSIST)
+	private List<SubTaskDependency> requiredDependencies;
+	@OneToMany(mappedBy="fulfilled_dependencies", cascade=CascadeType.PERSIST)
+	private List<SubTaskDependency> fulfilledDependencies;
+	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "task_fk")
 	private Task task;
@@ -91,17 +92,24 @@ public class SubTask implements RumUpdatableEntity {
 	public void setConfigurationValues(String configurationValues) {
 		this.configurationValues = configurationValues;
 	}
-	public String getDependsOn() {
-		return dependsOn;
+	
+	public List<SubTaskDependency> getRequiredDependencies() {
+		return requiredDependencies;
 	}
-	public void setDependsOn(String dependsOn) {
-		this.dependsOn = dependsOn;
+	public void setRequiredDependencies(List<SubTaskDependency> requiredDependencies) {
+		for (SubTaskDependency subTaskDependency : requiredDependencies) {
+			subTaskDependency.setRequiredBySubTask(this);
+		}
+		this.requiredDependencies = requiredDependencies;
 	}
-	public List<SubTask> getRequiredFor() {
-		return requiredFor;
+	public List<SubTaskDependency> getFulfilledDependencies() {
+		return fulfilledDependencies;
 	}
-	public void setRequiredFor(List<SubTask> requiredFor) {
-		this.requiredFor = requiredFor;
+	public void setFulfilledDependencies(List<SubTaskDependency> fulfilledDependencies) {
+		for (SubTaskDependency subTaskDependency : fulfilledDependencies) {
+			subTaskDependency.setFulfilledBySubTask(this);
+		}
+		this.fulfilledDependencies = fulfilledDependencies;
 	}
 	public Task getTask() {
 		return task;

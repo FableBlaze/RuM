@@ -105,7 +105,7 @@ public class NewTaskSubTaskInfo extends Composite {
 			
 			List<Map<String, String>> dependsOn = pluginConfigurationComposite.getDependsOn();
 			String dependsOnString = gson.toJson(dependsOn);
-			subTask.setDependsOn(dependsOnString);
+			//subTask.setDependsOn(dependsOnString);
 			
 			return true;
 		} catch (Exception e) {
