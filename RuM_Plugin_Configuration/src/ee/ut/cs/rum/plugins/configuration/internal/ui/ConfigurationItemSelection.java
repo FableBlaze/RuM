@@ -15,6 +15,7 @@ public class ConfigurationItemSelection extends Combo implements ConfigurationIt
 	private static final long serialVersionUID = -4510159560743563899L;
 	
 	private String internalName;
+	private boolean required;
 	
 	private List<PluginParameterSelectionItem> selectionItems;
 
@@ -22,6 +23,7 @@ public class ConfigurationItemSelection extends Combo implements ConfigurationIt
 		super(pluginConfigurationComposite, SWT.READ_ONLY);
 		
 		this.internalName=parameterSelection.getInternalName();
+		this.required=parameterSelection.getRequired();
 		
 		selectionItems = new ArrayList<PluginParameterSelectionItem>();
 
@@ -57,5 +59,10 @@ public class ConfigurationItemSelection extends Combo implements ConfigurationIt
 	@Override
 	public String getInternalName() {
 		return internalName;
+	}
+
+	@Override
+	public boolean getRequired() {
+		return required;
 	}
 }

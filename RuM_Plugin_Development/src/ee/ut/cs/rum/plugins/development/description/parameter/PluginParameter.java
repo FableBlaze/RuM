@@ -34,7 +34,7 @@ public class PluginParameter {
 		this.description = description;
 	}
 
-	public boolean isRequired() {
+	public boolean getRequired() {
 		return required;
 	}
 

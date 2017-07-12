@@ -40,6 +40,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 	private static final long serialVersionUID = 3599873879215927039L;
 
 	private String internalName;
+	private boolean required;
 	
 	private RumController rumController;
 
@@ -57,6 +58,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 		super(pluginConfigurationComposite, SWT.NONE);
 		
 		this.internalName=parameterFile.getInternalName();
+		this.required=parameterFile.getRequired();
 
 		this.rumController=rumController;
 
@@ -340,5 +342,10 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 	@Override
 	public String getInternalName() {
 		return internalName;
+	}
+
+	@Override
+	public boolean getRequired() {
+		return required;
 	}
 }

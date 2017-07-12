@@ -4,4 +4,5 @@ public interface ConfigurationItemInterface {
 	public void setValue(String value);
 	public String getValue();
 	public String getInternalName();
+	public boolean getRequired();
 }
