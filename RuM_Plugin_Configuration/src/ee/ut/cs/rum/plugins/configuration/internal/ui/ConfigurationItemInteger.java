@@ -4,6 +4,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Text;
 
+import ee.ut.cs.rum.plugins.configuration.internal.Activator;
 import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationComposite;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterInteger;
 
@@ -24,7 +25,15 @@ public class ConfigurationItemInteger extends Text implements ConfigurationItemI
 
 	@Override
 	public void setValue(String value) {
-		this.setText(value);
+		try {
+			Integer.parseInt(value);			
+			this.setText(value);
+		} catch(NumberFormatException ex) {
+			if (!value.equals("")) {
+				Activator.getLogger().info(this.getClass().getSimpleName() + " can not be set to: " + value);				
+			}
+			this.setText("");
+		}
 	}
 
 	@Override
