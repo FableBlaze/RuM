@@ -98,8 +98,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 		if (taskUserFiles!=null) {
 			for (UserFile taskUserFile : taskUserFiles) {
 				if (checkFileTypes(taskUserFile)) {
-					//TODO: Add subtask name
-					fileSelectorCombo.add(taskUserFile.getOriginalFilename() + " ()");
+					fileSelectorCombo.add(taskUserFile.getOriginalFilename() + " (" + taskUserFile.getSubTask().getName() + ")");
 					taskUserFilesInSelector.add(taskUserFile);
 				}
 			}
@@ -296,8 +295,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 	public void notifyFileParameterOfPluginSelect(List<UserFile> outputFiles) {
 		for (UserFile userFile : outputFiles) {
 			if (checkFileTypes(userFile)) {
-				//TODO: Add subtask name
-				fileSelectorCombo.add(userFile.getOriginalFilename() + " ()", userFilesInSelector.size()+taskUserFilesInSelector.size());
+				fileSelectorCombo.add(userFile.getOriginalFilename() + " (" + userFile.getSubTask().getName() + ")", userFilesInSelector.size()+taskUserFilesInSelector.size());
 				if (fileSelectorCombo.getSelectionIndex()>=userFilesInSelector.size()+taskUserFilesInSelector.size()) {
 					fileSelectorCombo.select(fileSelectorCombo.getSelectionIndex()+1);
 				}
