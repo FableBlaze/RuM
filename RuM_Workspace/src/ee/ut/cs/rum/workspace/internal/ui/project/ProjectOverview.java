@@ -60,6 +60,7 @@ public class ProjectOverview extends Composite {
 					cTabItem.setText ("New task");
 					Task task = new Task();
 					task.setName("(New task)");
+					task.setDescription("");
 					task.setProject(project);
 					task.setStatus(TaskStatus.NEW);
 					cTabItem.setControl(new NewTaskComposite(projectTabFolder, task, rumController));
