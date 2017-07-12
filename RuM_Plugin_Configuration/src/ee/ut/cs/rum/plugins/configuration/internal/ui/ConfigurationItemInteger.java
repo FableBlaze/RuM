@@ -32,13 +32,11 @@ public class ConfigurationItemInteger extends Text implements ConfigurationItemI
 
 			@Override
 			public void verifyText(VerifyEvent event) {
-				String oldValue = ConfigurationItemInteger.this.getText();
-				String newValue = oldValue.substring(0, event.start) + event.text + oldValue.substring(event.end);
 				try {
-					Integer.parseInt(newValue);
+					Integer.parseInt(event.text);
 				} catch(NumberFormatException ex) {
-					if (!newValue.equals("")) {
-						event.doit=false;						
+					if (!event.text.equals("")) {
+						event.doit=false;
 					}
 				}
 			}

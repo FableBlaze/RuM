@@ -15,13 +15,13 @@ public class ConfigurationItemDouble extends Text implements ConfigurationItemIn
 
 	private String internalName;
 	private boolean required;
-	
+
 	public ConfigurationItemDouble(PluginConfigurationComposite pluginConfigurationComposite, PluginParameterDouble parameterDouble) {
 		super(pluginConfigurationComposite, SWT.BORDER);
-		
+
 		this.internalName=parameterDouble.getInternalName();
 		this.required=parameterDouble.getRequired();
-		
+
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		this.setText(Double.toString(parameterDouble.getDefaultValue()));
 		this.setToolTipText(parameterDouble.getDescription());
@@ -32,12 +32,13 @@ public class ConfigurationItemDouble extends Text implements ConfigurationItemIn
 
 			@Override
 			public void verifyText(VerifyEvent event) {
-				String oldValue = ConfigurationItemDouble.this.getText();
-				String newValue = oldValue.substring(0, event.start) + event.text + oldValue.substring(event.end);
 				try {
-					Double.parseDouble(newValue);
+					Double.parseDouble(event.text);
+					if (event.character=='\0') {
+						event.doit=false;
+					}
 				} catch(NumberFormatException ex) {
-					if (!newValue.equals("")) {
+					if (!event.text.equals("")) {
 						event.doit=false;						
 					}
 				}
