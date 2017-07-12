@@ -60,6 +60,7 @@ public class NewTaskSubTaskInfo extends Composite {
 			public void focusLost(FocusEvent event) {
 				subTask.setName(subTaskNameText.getText());
 				newTaskDetailsContainer.getNewTaskComposite().getDetailsSideBar().getSubTaskTableViewer().refresh(subTask);
+				newTaskDetailsContainer.notifyTaskOfSubTaskNameChange(subTask);
 			}
 			@Override
 			public void focusGained(FocusEvent event) {

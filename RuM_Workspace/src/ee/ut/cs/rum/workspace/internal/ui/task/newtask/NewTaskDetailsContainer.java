@@ -10,6 +10,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 
 import ee.ut.cs.rum.controller.RumController;
+import ee.ut.cs.rum.database.domain.SubTask;
 import ee.ut.cs.rum.database.domain.UserFile;
 import ee.ut.cs.rum.database.util.UserFileAccess;
 import ee.ut.cs.rum.enums.ControllerEntityType;
@@ -97,106 +98,140 @@ public class NewTaskDetailsContainer extends Composite implements RumUpdatableVi
 	}
 
 	public void notifyTaskOfPluginSelect(List<UserFile> outputFiles, NewTaskSubTaskInfo newTaskSubTaskInfo) {
-		display.asyncExec(new Runnable() {
+		display.syncExec(new Runnable() {
 			public void run() {
-				for (int i = newTaskSubTaskInfoList.indexOf(newTaskSubTaskInfo)+1; i < newTaskSubTaskInfoList.size(); i++) {
-					PluginConfigurationComposite pluginConfigurationComposite =((PluginConfigurationComposite)newTaskSubTaskInfoList.get(i).getScrolledPluginConfigurationComposite().getContent());
-					if (pluginConfigurationComposite!=null && pluginConfigurationComposite.isDisposed()==false) {
-						pluginConfigurationComposite.notifySubTaskOfPluginSelect(outputFiles);
-					}	
-				}
-			}
-		});		
-	}
-
-	public void notifyTaskOfPluginDeselect(List<UserFile> outputFiles, NewTaskSubTaskInfo newTaskSubTaskInfo) {
-		display.asyncExec(new Runnable() {
-			public void run() {
-				for (int i = newTaskSubTaskInfoList.indexOf(newTaskSubTaskInfo)+1; i < newTaskSubTaskInfoList.size(); i++) {
-					PluginConfigurationComposite pluginConfigurationComposite =((PluginConfigurationComposite)newTaskSubTaskInfoList.get(i).getScrolledPluginConfigurationComposite().getContent());
-					if (pluginConfigurationComposite!=null && pluginConfigurationComposite.isDisposed()==false) {
-						pluginConfigurationComposite.notifySubTaskOfPluginDeselect(outputFiles);
-					}	
-				}
-			}
-		});		
-	}
-
-	public void notifyTaskOfTmpFileUpload(String absolutePath) {
-		display.asyncExec(new Runnable() {
-			public void run() {							
-				for (NewTaskSubTaskInfo newTaskSubTaskInfo : newTaskSubTaskInfoList) {
-					PluginConfigurationComposite pluginConfigurationComposite = (PluginConfigurationComposite)newTaskSubTaskInfo.getScrolledPluginConfigurationComposite().getContent();
-					if (pluginConfigurationComposite != null && pluginConfigurationComposite.isDisposed()==false) {
-						pluginConfigurationComposite.notifySubTaskOfTmpFileUpload(absolutePath);						
+				if (newTaskSubTaskInfoList.indexOf(newTaskSubTaskInfo) != -1) {
+					for (int i = newTaskSubTaskInfoList.indexOf(newTaskSubTaskInfo)+1; i < newTaskSubTaskInfoList.size(); i++) {
+						PluginConfigurationComposite pluginConfigurationComposite =((PluginConfigurationComposite)newTaskSubTaskInfoList.get(i).getScrolledPluginConfigurationComposite().getContent());
+						if (pluginConfigurationComposite!=null && pluginConfigurationComposite.isDisposed()==false) {
+							pluginConfigurationComposite.notifySubTaskOfPluginSelect(outputFiles);
+						}	
+					} 
+				} else {
+						Activator.getLogger().info("newTaskSubTaskInfo not found");
 					}
 				}
-			}
-		});		
-	}
+			});		
+		}
 
-	@Override
-	public void controllerUpdateNotify(ControllerUpdateType updateType, Object updatedEntity) {
-		if (this.userFiles != null && updatedEntity instanceof UserFile) {
-			UserFile userFile = (UserFile) updatedEntity;
-			if (userFile.getProject()!=null && userFile.getProject().getId()==newTaskComposite.getProjectTabFolder().getProject().getId() && !userFile.getUserFileTypes().isEmpty()) {
-				switch (updateType) {
-				case CREATE:
-					userFiles.add(userFile);
-					display.asyncExec(new Runnable() {
-						public void run() {							
-							for (NewTaskSubTaskInfo newTaskSubTaskInfo : newTaskSubTaskInfoList) {
-								PluginConfigurationComposite pluginConfigurationComposite = (PluginConfigurationComposite)newTaskSubTaskInfo.getScrolledPluginConfigurationComposite().getContent();
-								if (pluginConfigurationComposite != null && pluginConfigurationComposite.isDisposed()==false) {
-									pluginConfigurationComposite.addUserFile(userFile);									
-								}
+		public void notifyTaskOfPluginDeselect(List<UserFile> outputFiles, NewTaskSubTaskInfo newTaskSubTaskInfo) {
+			display.syncExec(new Runnable() {
+				public void run() {
+					if (newTaskSubTaskInfoList.indexOf(newTaskSubTaskInfo) != -1) {
+						for (int i = newTaskSubTaskInfoList.indexOf(newTaskSubTaskInfo)+1; i < newTaskSubTaskInfoList.size(); i++) {
+							PluginConfigurationComposite pluginConfigurationComposite =((PluginConfigurationComposite)newTaskSubTaskInfoList.get(i).getScrolledPluginConfigurationComposite().getContent());
+							if (pluginConfigurationComposite!=null && pluginConfigurationComposite.isDisposed()==false) {
+								pluginConfigurationComposite.notifySubTaskOfPluginDeselect(outputFiles);
+							}	
+						}
+					} else {
+							Activator.getLogger().info("newTaskSubTaskInfo not found");
+						}
+					}
+				});
+			}
+
+			public void notifyTaskOfSubTaskNameChange(SubTask subTask) {
+				display.syncExec(new Runnable() {
+					public void run() {
+						List<UserFile> outputFiles = null;
+						int newTaskSubTaskInfoIndex = -1;
+						for (int i = 0; i < newTaskSubTaskInfoList.size(); i++) {
+							if (newTaskSubTaskInfoList.get(i).getSubTask() == subTask) {
+								outputFiles = ((PluginConfigurationComposite)newTaskSubTaskInfoList.get(i).getScrolledPluginConfigurationComposite().getContent()).getOutputUserFiles();
+								newTaskSubTaskInfoIndex = i;
+								break;
 							}
 						}
-					});
-					break;
-				case MODIFIY:
-					for (int i = 0; i < userFiles.size(); i++) {
-						if (userFile.getId()==userFiles.get(i).getId()) {
-							userFiles.set(i, userFile);
+						if (newTaskSubTaskInfoIndex != -1) {
+							for (int i = newTaskSubTaskInfoIndex+1; i < newTaskSubTaskInfoList.size(); i++) {
+								PluginConfigurationComposite pluginConfigurationComposite =((PluginConfigurationComposite)newTaskSubTaskInfoList.get(i).getScrolledPluginConfigurationComposite().getContent());
+								if (pluginConfigurationComposite!=null && pluginConfigurationComposite.isDisposed()==false) {
+									pluginConfigurationComposite.notifySubTaskOfSubTaskNameChange(outputFiles);
+								}	
+							}					
+						} else {
+							Activator.getLogger().info("newTaskSubTaskInfo not found");
+						}
+					}
+				});
+			}
+
+			public void notifyTaskOfTmpFileUpload(String absolutePath) {
+				display.syncExec(new Runnable() {
+					public void run() {							
+						for (NewTaskSubTaskInfo newTaskSubTaskInfo : newTaskSubTaskInfoList) {
+							PluginConfigurationComposite pluginConfigurationComposite = (PluginConfigurationComposite)newTaskSubTaskInfo.getScrolledPluginConfigurationComposite().getContent();
+							if (pluginConfigurationComposite != null && pluginConfigurationComposite.isDisposed()==false) {
+								pluginConfigurationComposite.notifySubTaskOfTmpFileUpload(absolutePath);						
+							}
+						}
+					}
+				});
+			}
+
+			@Override
+			public void controllerUpdateNotify(ControllerUpdateType updateType, Object updatedEntity) {
+				if (this.userFiles != null && updatedEntity instanceof UserFile) {
+					UserFile userFile = (UserFile) updatedEntity;
+					if (userFile.getProject()!=null && userFile.getProject().getId()==newTaskComposite.getProjectTabFolder().getProject().getId() && !userFile.getUserFileTypes().isEmpty()) {
+						switch (updateType) {
+						case CREATE:
+							userFiles.add(userFile);
 							display.asyncExec(new Runnable() {
-								public void run() {	
+								public void run() {							
 									for (NewTaskSubTaskInfo newTaskSubTaskInfo : newTaskSubTaskInfoList) {
 										PluginConfigurationComposite pluginConfigurationComposite = (PluginConfigurationComposite)newTaskSubTaskInfo.getScrolledPluginConfigurationComposite().getContent();
 										if (pluginConfigurationComposite != null && pluginConfigurationComposite.isDisposed()==false) {
-											pluginConfigurationComposite.modifyUserFile(userFile);											
+											pluginConfigurationComposite.addUserFile(userFile);									
 										}
 									}
 								}
 							});
 							break;
-						}
-					}
-					break;
-				case DELETE:
-					userFiles.remove(userFile);
-					display.asyncExec(new Runnable() {
-						public void run() {	
-							for (NewTaskSubTaskInfo newTaskSubTaskInfo : newTaskSubTaskInfoList) {
-								PluginConfigurationComposite pluginConfigurationComposite = (PluginConfigurationComposite)newTaskSubTaskInfo.getScrolledPluginConfigurationComposite().getContent();
-								if (pluginConfigurationComposite != null && pluginConfigurationComposite.isDisposed()==false) {
-									pluginConfigurationComposite.removeUserFile(userFile);
+						case MODIFIY:
+							for (int i = 0; i < userFiles.size(); i++) {
+								if (userFile.getId()==userFiles.get(i).getId()) {
+									userFiles.set(i, userFile);
+									display.asyncExec(new Runnable() {
+										public void run() {	
+											for (NewTaskSubTaskInfo newTaskSubTaskInfo : newTaskSubTaskInfoList) {
+												PluginConfigurationComposite pluginConfigurationComposite = (PluginConfigurationComposite)newTaskSubTaskInfo.getScrolledPluginConfigurationComposite().getContent();
+												if (pluginConfigurationComposite != null && pluginConfigurationComposite.isDisposed()==false) {
+													pluginConfigurationComposite.modifyUserFile(userFile);											
+												}
+											}
+										}
+									});
+									break;
 								}
 							}
+							break;
+						case DELETE:
+							userFiles.remove(userFile);
+							display.asyncExec(new Runnable() {
+								public void run() {	
+									for (NewTaskSubTaskInfo newTaskSubTaskInfo : newTaskSubTaskInfoList) {
+										PluginConfigurationComposite pluginConfigurationComposite = (PluginConfigurationComposite)newTaskSubTaskInfo.getScrolledPluginConfigurationComposite().getContent();
+										if (pluginConfigurationComposite != null && pluginConfigurationComposite.isDisposed()==false) {
+											pluginConfigurationComposite.removeUserFile(userFile);
+										}
+									}
+								}
+							});
+							break;
+						default:
+							break;
 						}
-					});
-					break;
-				default:
-					break;
+					}
 				}
+				Activator.getLogger().info("Update recived (TODO)");
 			}
+
+			@Override
+			public void dispose() {
+				rumController.unregisterView(this, ControllerEntityType.PROJECT);
+				super.dispose();
+			}
+
 		}
-		Activator.getLogger().info("Update recived (TODO)");
-	}
-
-	@Override
-	public void dispose() {
-		rumController.unregisterView(this, ControllerEntityType.PROJECT);
-		super.dispose();
-	}
-
-}

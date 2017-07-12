@@ -245,6 +245,14 @@ public class PluginConfigurationComposite extends Composite {
 			}			
 		}
 	}
+	
+	public void notifySubTaskOfSubTaskNameChange(List<UserFile> outputFiles) {
+		if (outputUserFiles!=outputFiles) {
+			for (ConfigurationItemFile configurationItemFile : configurationItemFiles) {
+				configurationItemFile.notifyFileParameterOfSubTaskNameChange(outputFiles);
+			}			
+		}
+	}
 
 	public void notifySubTaskOfTmpFileUpload(String absolutePath) {
 		for (ConfigurationItemFile configurationItemFile : configurationItemFiles) {
@@ -273,4 +281,5 @@ public class PluginConfigurationComposite extends Composite {
 	public void addTmpUserFile(UserFile tmpUserFile) {
 		tmpUserFiles.add(tmpUserFile);
 	}
+
 }

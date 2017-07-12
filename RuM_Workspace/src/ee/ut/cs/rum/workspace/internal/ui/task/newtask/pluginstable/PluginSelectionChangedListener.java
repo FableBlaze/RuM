@@ -65,14 +65,14 @@ public class PluginSelectionChangedListener implements ISelectionChangedListener
 				fileUploadHandlers.add(new TmpFileUploadHandler(newTaskSubTaskInfo.getNewTaskDetailsContainer()));
 			}
 			pluginConfigurationComposite.setFileUploadHandlers(fileUploadHandlers);
-			
 			for (UserFile userFile : pluginConfigurationComposite.getOutputUserFiles()) {
 				userFile.setSubTask(newTaskSubTaskInfo.getSubTask());
 			}
-			newTaskSubTaskInfo.getNewTaskDetailsContainer().notifyTaskOfPluginSelect(pluginConfigurationComposite.getOutputUserFiles(), newTaskSubTaskInfo);
 			
 			scrolledPluginConfigurationComposite.setContent(pluginConfigurationComposite);
 			pluginConfigurationComposite.setSize(scrolledPluginConfigurationComposite.getSize());
+			
+			newTaskSubTaskInfo.getNewTaskDetailsContainer().notifyTaskOfPluginSelect(pluginConfigurationComposite.getOutputUserFiles(), newTaskSubTaskInfo);
 		} else {
 			scrolledPluginConfigurationComposite.setContent(null);
 		}

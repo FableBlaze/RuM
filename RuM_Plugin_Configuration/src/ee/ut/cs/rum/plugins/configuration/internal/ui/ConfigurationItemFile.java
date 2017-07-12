@@ -313,6 +313,18 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 			}
 		}
 	}
+	
+	public void notifyFileParameterOfSubTaskNameChange(List<UserFile> outputFiles) {
+		for (UserFile userFile : outputFiles) {
+			if (checkFileTypes(userFile)) {
+				int selectionIndex = fileSelectorCombo.getSelectionIndex();
+				int i = taskUserFilesInSelector.indexOf(userFile);
+				fileSelectorCombo.remove(i + userFilesInSelector.size());
+				fileSelectorCombo.add(userFile.getOriginalFilename() + " (" + userFile.getSubTask().getName() + ")", i + userFilesInSelector.size());
+				fileSelectorCombo.select(selectionIndex);
+			}
+		}
+	}
 
 	public void notifyFileParameterOfTmpFileUpload(String absolutePath) {
 		for (UserFile tmpUserFile : pluginConfigurationComposite.getTmpUserFiles()) {
