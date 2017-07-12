@@ -1,6 +1,8 @@
 package ee.ut.cs.rum.plugins.configuration.internal.ui;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.VerifyEvent;
+import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Text;
 
@@ -21,6 +23,24 @@ public class ConfigurationItemDouble extends Text implements ConfigurationItemIn
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		this.setText(Double.toString(parameterDouble.getDefaultValue()));
 		this.setToolTipText(parameterDouble.getDescription());
+		this.addVerifyListener(new VerifyListener() {
+			private static final long serialVersionUID = -316837755145839293L;
+			//TODO: Consider using Spinner
+			//TODO: Feedback to user
+
+			@Override
+			public void verifyText(VerifyEvent event) {
+				String oldValue = ConfigurationItemDouble.this.getText();
+				String newValue = oldValue.substring(0, event.start) + event.text + oldValue.substring(event.end);
+				try {
+					Double.parseDouble(newValue);
+				} catch(NumberFormatException ex) {
+					if (!newValue.equals("")) {
+						event.doit=false;						
+					}
+				}
+			}
+		});
 	}
 
 	@Override
