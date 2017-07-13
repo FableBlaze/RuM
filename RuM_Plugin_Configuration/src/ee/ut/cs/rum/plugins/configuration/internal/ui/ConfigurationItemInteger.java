@@ -14,12 +14,14 @@ public class ConfigurationItemInteger extends Text implements ConfigurationItemI
 	private static final long serialVersionUID = -7798869134328255376L;
 
 	private String internalName;
+	private String displayName;
 	private boolean required;
 	
 	public ConfigurationItemInteger(PluginConfigurationComposite pluginConfigurationComposite, PluginParameterInteger parameterInteger) {
 		super(pluginConfigurationComposite, SWT.BORDER);
 		
 		this.internalName=parameterInteger.getInternalName();
+		this.displayName=parameterInteger.getDisplayName();
 		this.required=parameterInteger.getRequired();
 		
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
@@ -64,6 +66,11 @@ public class ConfigurationItemInteger extends Text implements ConfigurationItemI
 	@Override
 	public String getInternalName() {
 		return internalName;
+	}
+	
+	@Override
+	public String getDisplayName() {
+		return displayName;
 	}
 
 	@Override

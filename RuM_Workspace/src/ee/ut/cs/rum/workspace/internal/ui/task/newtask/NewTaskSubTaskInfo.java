@@ -98,16 +98,23 @@ public class NewTaskSubTaskInfo extends Composite {
 	
 	public boolean updateAndCheckSubTask() {
 		Table table = pluginsTableComposite.getPluginsTableViewer().getTable();
+		
 		try {
 			//TODO: More intelligent error handling
 			Plugin plugin = (Plugin)table.getItem(table.getSelectionIndex()).getData();							
-			subTask.setPlugin(plugin);
 			PluginConfigurationComposite pluginConfigurationComposite = (PluginConfigurationComposite)scrolledPluginConfigurationComposite.getContent();
+			
+			if (!pluginConfigurationComposite.getDisplayNamesOfEmptyRequiredParameters().isEmpty()) {
+				Activator.getLogger().info(subTask.getName() + "required parameters empty: " + pluginConfigurationComposite.getDisplayNamesOfEmptyRequiredParameters().toString());
+				return false;
+			}
+			
 			Map<String, String> configurationValues = pluginConfigurationComposite.getConfigurationValues();
 			Gson gson = new Gson();
 			String configurationValuesString = gson.toJson(configurationValues);
-			subTask.setConfigurationValues(configurationValuesString);
 			
+			subTask.setPlugin(plugin);
+			subTask.setConfigurationValues(configurationValuesString);
 			subTask.setRequiredDependencies(pluginConfigurationComposite.getDependsOn());
 			
 			return true;

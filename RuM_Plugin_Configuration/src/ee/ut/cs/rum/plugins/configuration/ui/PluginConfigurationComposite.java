@@ -152,6 +152,23 @@ public class PluginConfigurationComposite extends Composite {
 			label.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		}
 	}
+	
+	public List<String> getDisplayNamesOfEmptyRequiredParameters() {
+		List<String> displayNames = new ArrayList<String>();
+		
+		for (ConfigurationItemInterface configurationItem : configurationItems) {
+			if (configurationItem.getRequired() && (configurationItem.getValue()==null || configurationItem.getValue().equals(""))) {
+				displayNames.add(configurationItem.getDisplayName());
+			}
+		}
+		for (ConfigurationItemFile configurationItemFile : configurationItemFiles) {
+			if (configurationItemFile.getRequired() && (configurationItemFile.getValue()==null || configurationItemFile.getValue().equals(""))) {
+				displayNames.add(configurationItemFile.getDisplayName());
+			}
+		}
+		
+		return displayNames;
+	}
 
 	public Map<String, String> getConfigurationValues() {
 		Map<String, String> configurationValues = new HashMap<String, String>();
