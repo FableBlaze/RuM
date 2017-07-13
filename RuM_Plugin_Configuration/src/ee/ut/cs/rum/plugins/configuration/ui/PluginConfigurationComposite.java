@@ -99,7 +99,11 @@ public class PluginConfigurationComposite extends Composite {
 		for (PluginParameter pluginParameter : pluginInfo.getParameters()) {
 
 			label = new Label (this, SWT.NONE);
-			label.setText(pluginParameter.getDisplayName());
+			if (pluginParameter.getRequired()) {
+				label.setText(pluginParameter.getDisplayName()+" *");				
+			} else {
+				label.setText(pluginParameter.getDisplayName()+"  ");
+			}
 			label.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
 
 			switch (pluginParameter.getParameterType()) {
