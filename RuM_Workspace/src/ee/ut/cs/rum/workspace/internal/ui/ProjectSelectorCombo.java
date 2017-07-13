@@ -5,10 +5,10 @@ import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Listener;
 
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Project;
@@ -31,6 +31,8 @@ public class ProjectSelectorCombo extends Combo implements RumUpdatableView {
 	private WorkspaceUI workspaceUI;
 	private WorkspaceHeader workspaceHeader;
 
+	private int preEventSelectionIndex;
+
 	public ProjectSelectorCombo(WorkspaceHeader workspaceHeader, WorkspaceUI workspaceUI, RumController rumController) {
 		super(workspaceHeader, SWT.READ_ONLY);
 
@@ -44,13 +46,21 @@ public class ProjectSelectorCombo extends Combo implements RumUpdatableView {
 		this.add("Workspace overview");
 		this.setVisibleItemCount(10);
 		this.select(0);
+		this.preEventSelectionIndex=0;
 		updateWorkspaceSelector();
 
-		this.addListener(SWT.Selection, new Listener() {
-			private static final long serialVersionUID = -1752969541573951231L;
-
-			public void handleEvent(Event e) {
+		this.addSelectionListener(new SelectionListener() {			
+			private static final long serialVersionUID = -2671867325224354752L;
+			@Override
+			public void widgetSelected(SelectionEvent event) {
+				if (ProjectSelectorCombo.this.getSelectionIndex()==preEventSelectionIndex && event.stateMask==SWT.CTRL) {
+					ProjectSelectorCombo.this.select(0);
+				}
 				updateSelectedProjectDetails();
+				preEventSelectionIndex = ProjectSelectorCombo.this.getSelectionIndex();
+			}
+			@Override
+			public void widgetDefaultSelected(SelectionEvent event) {
 			}
 		});
 	}
