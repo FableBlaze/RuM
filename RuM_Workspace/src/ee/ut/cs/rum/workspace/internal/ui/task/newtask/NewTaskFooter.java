@@ -57,25 +57,31 @@ public class NewTaskFooter extends Composite {
 					boolean subTasksOk = true;
 					
 					List<NewTaskSubTaskInfo> newTaskSubTaskInfoList = newTaskComposite.getNewTaskDetailsContainer().getNewTaskSubTaskInfoList();
-					for (NewTaskSubTaskInfo newTaskSubTaskInfo : newTaskSubTaskInfoList) {
-						Date createdAt = new Date();
-						String userName = "TODO";
-						
-						if (newTaskSubTaskInfo.updateAndCheckSubTask()) {
-							SubTask subTask = newTaskSubTaskInfo.getSubTask();
+					if (!newTaskSubTaskInfoList.isEmpty()) {
+						for (NewTaskSubTaskInfo newTaskSubTaskInfo : newTaskSubTaskInfoList) {
 							
-							subTask.setCreatedBy(userName);
-							subTask.setCreatedAt(createdAt);
-							subTask.setLastModifiedBy(userName);
-							subTask.setLastModifiedAt(createdAt);
-							
-							subTasks.add(subTask);
-						} else {
-							subTasksOk=false;
+							if (newTaskSubTaskInfo.updateAndCheckSubTask()) {
+								SubTask subTask = newTaskSubTaskInfo.getSubTask();
+								
+								Date createdAt = new Date();
+								String userName = "TODO";
+								
+								subTask.setCreatedBy(userName);
+								subTask.setCreatedAt(createdAt);
+								subTask.setLastModifiedBy(userName);
+								subTask.setLastModifiedAt(createdAt);
+								
+								subTasks.add(subTask);
+							} else {
+								subTasksOk=false;
+							}
 						}
+					} else {
+						subTasksOk=false;
 					}
 					
 					task.setSubTasks(subTasks);
+					
 					if (subTasksOk && !subTasks.isEmpty()) {
 						task = (Task)rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.TASK, task, "TODO");
 						
