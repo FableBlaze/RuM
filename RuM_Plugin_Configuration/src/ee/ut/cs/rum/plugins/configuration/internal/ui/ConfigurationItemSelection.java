@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Combo;
 
@@ -19,6 +21,8 @@ public class ConfigurationItemSelection extends Combo implements ConfigurationIt
 	private boolean required;
 	
 	private List<PluginParameterSelectionItem> selectionItems;
+	
+	private int preEventSelectionIndex;
 
 	public ConfigurationItemSelection(PluginConfigurationComposite pluginConfigurationComposite, PluginParameterSelection parameterSelection) {
 		super(pluginConfigurationComposite, SWT.READ_ONLY);
@@ -27,16 +31,33 @@ public class ConfigurationItemSelection extends Combo implements ConfigurationIt
 		this.displayName=parameterSelection.getDisplayName();
 		this.required=parameterSelection.getRequired();
 		
+		this.preEventSelectionIndex=-1;
+		
 		selectionItems = new ArrayList<PluginParameterSelectionItem>();
 
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		this.setToolTipText(parameterSelection.getDescription());
+		
+		this.addSelectionListener(new SelectionListener() {			
+			private static final long serialVersionUID = -2671867325224354752L;
+			@Override
+			public void widgetSelected(SelectionEvent event) {
+				if (ConfigurationItemSelection.this.getSelectionIndex()==preEventSelectionIndex && event.stateMask==SWT.CTRL) {
+					ConfigurationItemSelection.this.deselectAll();
+				}
+				preEventSelectionIndex = ConfigurationItemSelection.this.getSelectionIndex();
+			}
+			@Override
+			public void widgetDefaultSelected(SelectionEvent event) {
+			}
+		});
 
 		for (PluginParameterSelectionItem parameterSelectionItem : parameterSelection.getSelectionItems()) {
 			this.add(parameterSelectionItem.getDisplayName());
 			selectionItems.add(parameterSelectionItem);
 			if (parameterSelectionItem.getInternalName().equals(parameterSelection.getDefaultValue())) {
 				this.select(selectionItems.size()-1);
+				this.preEventSelectionIndex=selectionItems.size()-1;
 			}
 		}
 	}

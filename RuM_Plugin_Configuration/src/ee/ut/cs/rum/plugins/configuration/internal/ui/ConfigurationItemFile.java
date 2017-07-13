@@ -17,6 +17,7 @@ import org.eclipse.rap.rwt.widgets.FileUpload;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
@@ -54,6 +55,8 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 	private File user_file_path;
 	private PluginParameterFile parameterFile;
 	private PluginConfigurationComposite pluginConfigurationComposite;
+	
+	private int preEventSelectionIndex;
 
 	public ConfigurationItemFile(PluginConfigurationComposite pluginConfigurationComposite, PluginParameterFile parameterFile, RumController rumController) {
 		super(pluginConfigurationComposite, SWT.NONE);
@@ -63,6 +66,8 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 		this.required=parameterFile.getRequired();
 
 		this.rumController=rumController;
+		
+		this.preEventSelectionIndex=-1;
 
 		this.pluginConfigurationComposite = pluginConfigurationComposite;
 		this.parameterFile = parameterFile;
@@ -85,6 +90,20 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 	private void createContents() {
 		fileSelectorCombo = new Combo(this, SWT.READ_ONLY);
 		fileSelectorCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		
+		fileSelectorCombo.addSelectionListener(new SelectionListener() {			
+			private static final long serialVersionUID = -2671867325224354752L;
+			@Override
+			public void widgetSelected(SelectionEvent event) {
+				if (fileSelectorCombo.getSelectionIndex()==preEventSelectionIndex && event.stateMask==SWT.CTRL) {
+					fileSelectorCombo.deselectAll();
+				}
+				preEventSelectionIndex = fileSelectorCombo.getSelectionIndex();
+			}
+			@Override
+			public void widgetDefaultSelected(SelectionEvent event) {
+			}
+		});
 
 		List<UserFile> userFiles = pluginConfigurationComposite.getUserFiles();
 		this.userFilesInSelector = new ArrayList<UserFile>();
@@ -211,7 +230,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 		} else if (selectionIndex < userFilesInSelector.size()) {
 			return userFilesInSelector.get(selectionIndex).getFileLocation();
 		} else if (selectionIndex < userFilesInSelector.size()+taskUserFilesInSelector.size()) {
-			return null;
+			return "";
 		} else {
 			UserFile tmpUserFile = tmpUserFilesInSelector.get(selectionIndex-userFilesInSelector.size()-taskUserFilesInSelector.size());
 			

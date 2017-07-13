@@ -166,7 +166,7 @@ public class PluginConfigurationComposite extends Composite {
 			}
 		}
 		for (ConfigurationItemFile configurationItemFile : configurationItemFiles) {
-			if (configurationItemFile.getRequired() && (configurationItemFile.getValue()==null || configurationItemFile.getValue().equals(""))) {
+			if (configurationItemFile.getRequired() && configurationItemFile.getValue()==null) {
 				displayNames.add(configurationItemFile.getDisplayName());
 			}
 		}
