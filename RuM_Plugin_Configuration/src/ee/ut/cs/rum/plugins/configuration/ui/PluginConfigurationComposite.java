@@ -55,7 +55,7 @@ public class PluginConfigurationComposite extends Composite {
 
 		this.setLayout(new GridLayout(2, false));
 
-		if (userFiles==null) {
+		if (rumController==null) {
 			this.setEnabled(false);
 		} else {
 			this.outputUserFiles = new ArrayList<UserFile>();

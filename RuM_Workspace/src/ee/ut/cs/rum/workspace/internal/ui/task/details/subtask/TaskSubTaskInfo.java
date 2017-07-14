@@ -19,6 +19,6 @@ public class TaskSubTaskInfo extends Composite {
 		
 		new TaskSubTaskInfoLeft(this, rumController, subTask);
 		
-		new TaskSubTaskInfoRight(this, rumController, subTask);
+		new TaskSubTaskInfoRight(this, subTask);
 	}
 }

@@ -143,7 +143,7 @@ public class PluginDetailsContents extends ExpandBar implements RumUpdatableView
 		configurationUiContent.setLayout(layout);
 
 		PluginInfo pluginInfo = PluginUtils.deserializePluginInfo(plugin);
-		new PluginConfigurationComposite(configurationUiContent, pluginInfo, rumController, null, null, null);
+		new PluginConfigurationComposite(configurationUiContent, pluginInfo, null, null, null, null);
 
 		configurationUiComposite.setContent(configurationUiContent);
 		configurationUiContent.setSize(configurationUiContent.computeSize(SWT.DEFAULT, SWT.DEFAULT));
