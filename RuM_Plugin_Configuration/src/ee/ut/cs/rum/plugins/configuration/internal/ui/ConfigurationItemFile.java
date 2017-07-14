@@ -85,6 +85,8 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 		this.setToolTipText(parameterFile.getDescription());
 
 		createContents();
+		
+		createUploadHandler();
 	}
 
 	private void createContents() {
@@ -157,7 +159,8 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 		}
 	}
 
-	public void setUploadHandler(FileUploadHandler uploadHandler) {
+	private void createUploadHandler() {
+		this.uploadHandler = new FileUploadHandler(new DiskFileUploadReceiver());
 		uploadHandler.addUploadListener(new FileUploadListener() {
 			@Override
 			public void uploadProgress(FileUploadEvent arg0) {
@@ -184,18 +187,16 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 				}
 				tmpUserFile.setUserFileTypes(userFileTypes);
 
-				pluginConfigurationComposite.addTmpUserFile(tmpUserFile);
-				tmpUserFilesInSelector.add(tmpUserFile);
+				UserFile finalTmpUserFile = pluginConfigurationComposite.addTmpUserFile(tmpUserFile);
+				tmpUserFilesInSelector.add(finalTmpUserFile);
 
 				Display.getDefault().syncExec(new Runnable() {
 					public void run() {
-						fileSelectorCombo.add(tmpUserFile.getOriginalFilename());
 						fileSelectorCombo.select(fileSelectorCombo.getItemCount()-1);
 					}
 				});
 			}
 		});
-		this.uploadHandler = uploadHandler;
 	}
 
 	@Override
@@ -349,14 +350,10 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 		}
 	}
 
-	public void notifyFileParameterOfTmpFileUpload(String absolutePath) {
-		for (UserFile tmpUserFile : pluginConfigurationComposite.getTmpUserFiles()) {
-			if (tmpUserFile.getFileLocation()==absolutePath) {
-				if (checkFileTypes(tmpUserFile) && !tmpUserFilesInSelector.contains(tmpUserFile)) {
-					tmpUserFilesInSelector.add(tmpUserFile);
-					fileSelectorCombo.add(tmpUserFile.getOriginalFilename());
-				}
-			}
+	public void notifyFileParameterOfTmpFileUpload(UserFile tmpUserFile) {
+		if (checkFileTypes(tmpUserFile) && !tmpUserFilesInSelector.contains(tmpUserFile)) {
+			tmpUserFilesInSelector.add(tmpUserFile);
+			fileSelectorCombo.add(tmpUserFile.getOriginalFilename());
 		}
 	}
 

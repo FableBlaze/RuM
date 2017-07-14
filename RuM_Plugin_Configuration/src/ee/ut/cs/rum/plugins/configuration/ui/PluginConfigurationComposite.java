@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.eclipse.rap.fileupload.FileUploadHandler;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -241,15 +240,6 @@ public class PluginConfigurationComposite extends Composite {
 	public List<ConfigurationItemFile> getConfigurationItemFiles() {
 		return configurationItemFiles;
 	}
-
-	public void setFileUploadHandlers(List<FileUploadHandler> fileUploadHandlers) {
-		for (int i = 0; i < configurationItemFiles.size(); i++) {
-			ConfigurationItemFile configurationItemFile = configurationItemFiles.get(i);
-			FileUploadHandler fileUploadHandler = fileUploadHandlers.get(i);
-			configurationItemFile.setUploadHandler(fileUploadHandler);
-		}
-		
-	}
 	
 	public void notifySubTaskOfPluginSelect(List<UserFile> outputFiles) {
 		if (outputUserFiles!=outputFiles) {
@@ -275,9 +265,9 @@ public class PluginConfigurationComposite extends Composite {
 		}
 	}
 
-	public void notifySubTaskOfTmpFileUpload(String absolutePath) {
+	public void notifySubTaskOfTmpFileUpload(UserFile tmpUserFile) {
 		for (ConfigurationItemFile configurationItemFile : configurationItemFiles) {
-			configurationItemFile.notifyFileParameterOfTmpFileUpload(absolutePath);
+			configurationItemFile.notifyFileParameterOfTmpFileUpload(tmpUserFile);
 		}
 	}
 
@@ -299,8 +289,12 @@ public class PluginConfigurationComposite extends Composite {
 		}
 	}
 
-	public void addTmpUserFile(UserFile tmpUserFile) {
-		tmpUserFiles.add(tmpUserFile);
+	public UserFile addTmpUserFile(UserFile tmpUserFile) {
+		synchronized (tmpUserFiles) {
+			tmpUserFiles.add(tmpUserFile);
+			tmpUserFile = tmpUserFiles.get(tmpUserFiles.size()-1);
+		}
+		return tmpUserFile;
 	}
 
 }
