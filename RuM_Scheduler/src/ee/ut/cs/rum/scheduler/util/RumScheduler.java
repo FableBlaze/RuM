@@ -37,11 +37,9 @@ public final class RumScheduler {
 				scheduler.scheduleJob(job, trigger);
 				Activator.getLogger().info("Added task to queue: " + subTaskId.toString() + " (" +rumJobName + ")");
 			} catch (SchedulerException e) {
-				Activator.getLogger().info("Failed scheduling task: " + subTaskId.toString() + " (" +rumJobName + ")");
-				e.printStackTrace();
+				Activator.getLogger().info("Failed scheduling task: " + subTaskId.toString() + " (" +rumJobName + ")" + e.toString());
 			} catch (Exception e) {
-				Activator.getLogger().info("General task scheduling error: " + subTaskId.toString() + " (" +rumJobName + ")");
-				e.printStackTrace();
+				Activator.getLogger().info("General task scheduling error: " + subTaskId.toString() + " (" +rumJobName + ")" + e.toString());
 			}
 		}
 
