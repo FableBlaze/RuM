@@ -198,7 +198,7 @@ public class PluginConfigurationComposite extends Composite {
 	public List<SubTaskDependency> getDependsOn() {
 		List<SubTaskDependency> dependsOn = new ArrayList<SubTaskDependency>();
 		for (ConfigurationItemFile configurationItemFile : configurationItemFiles) {
-			if (configurationItemFile.getValue()==null && configurationItemFile.getDependsOnFile()!=null) {
+			if (configurationItemFile.getValue().equals("") && configurationItemFile.getDependsOnFile()!=null) {
 				SubTaskDependency subTaskDependency = new SubTaskDependency();
 				subTaskDependency.setRequiredForParameter(configurationItemFile.getInternalName());
 				subTaskDependency.setFileName(configurationItemFile.getDependsOnFile().getOriginalFilename());
