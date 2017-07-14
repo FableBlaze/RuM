@@ -19,4 +19,13 @@ public final class SubTasksData {
 		
 		return subTask;
 	}
+	
+	public static SubTask updateSubTaskConfigurationValuesInDb(Long subTaskId, String configurationValuesString) {
+		SubTask subTask = SubTaskAccess.getSubTaskDataFromDb(subTaskId);
+		subTask.setConfigurationValues(configurationValuesString);
+		
+		subTask = (SubTask)Activator.getRumController().changeData(ControllerUpdateType.MODIFIY, ControllerEntityType.SUBTASK, subTask, "SYS (TODO)");
+		
+		return subTask;
+	}
 }

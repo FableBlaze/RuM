@@ -16,6 +16,7 @@ import org.quartz.JobKey;
 
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.database.domain.SubTask;
+import ee.ut.cs.rum.database.domain.SubTaskDependency;
 import ee.ut.cs.rum.database.domain.UserFile;
 import ee.ut.cs.rum.database.domain.UserFileType;
 import ee.ut.cs.rum.database.domain.enums.SystemParameterName;
@@ -30,9 +31,10 @@ import ee.ut.cs.rum.plugins.development.interfaces.RumPluginFactory;
 import ee.ut.cs.rum.plugins.development.interfaces.factory.RumPluginWorker;
 import ee.ut.cs.rum.scheduler.internal.Activator;
 import ee.ut.cs.rum.scheduler.internal.util.SubTasksData;
+import ee.ut.cs.rum.scheduler.util.RumScheduler;
 
 public class RumJob implements Job {
-	public static final String TASK_ID = "taskId";
+	public static final String SUB_TASK_ID = "subTaskId";
 	
 	private SubTask subTask;
 	private PluginOutput[] rumJobTaskOutputs;
@@ -42,10 +44,10 @@ public class RumJob implements Job {
 
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		JobKey jobKey = context.getJobDetail().getKey();
-		Long taskId = context.getJobDetail().getJobDataMap().getLong(TASK_ID);
+		Long subTaskId = context.getJobDetail().getJobDataMap().getLong(SUB_TASK_ID);
 
 		try {
-			subTask = SubTasksData.updateSubTaskStatusInDb(taskId, TaskStatus.STARTING);
+			subTask = SubTasksData.updateSubTaskStatusInDb(subTaskId, TaskStatus.STARTING);
 			Plugin plugin = subTask.getPlugin();
 			Bundle rumJobPluginBundle = findSelectedPluginBundle(plugin);
 
@@ -63,25 +65,29 @@ public class RumJob implements Job {
 			RumPluginWorker rumJobPluginWorker = rumJobPluginFactory.createRumPluginWorker();
 			
 			if (outputDirectory.mkdir()) {
-				SubTasksData.updateSubTaskStatusInDb(taskId, TaskStatus.RUNNING);
+				SubTasksData.updateSubTaskStatusInDb(subTaskId, TaskStatus.RUNNING);
 				Activator.getLogger().info("RumJob started: " + jobKey + " executing at " + new Date());
 				
 				int rumJobResult = rumJobPluginWorker.runWork(subTask.getConfigurationValues(), outputDirectory);
 				Activator.getLogger().info("RumJobResult toString: " + Integer.toString(rumJobResult));
 				
 				if (rumJobResult==0) {
-					SubTasksData.updateSubTaskStatusInDb(taskId, TaskStatus.DONE);
+					SubTasksData.updateSubTaskStatusInDb(subTaskId, TaskStatus.DONE);
 				} else {
-					SubTasksData.updateSubTaskStatusInDb(taskId, TaskStatus.FAILED);
-				}				
+					SubTasksData.updateSubTaskStatusInDb(subTaskId, TaskStatus.FAILED);
+				}
 				PluginInfo pluginInfo = PluginUtils.deserializePluginInfo(plugin);
 				rumJobTaskOutputs = pluginInfo.getOutputs();
 				addTaskCreatedFilesToDb(outputDirectory);
+				
+				for (SubTaskDependency subTaskDependency : subTask.getFulfilledDependencies()) {
+					RumScheduler.scheduleTask(subTaskDependency.getRequiredBySubTask().getTask().getId());
+				}
 			}			
 			
 			Activator.getLogger().info("RumJob done: " + jobKey + " at " + new Date());
 		} catch (Exception e) {
-			SubTasksData.updateSubTaskStatusInDb(taskId, TaskStatus.FAILED);
+			SubTasksData.updateSubTaskStatusInDb(subTaskId, TaskStatus.FAILED);
 			Activator.getLogger().info("RumJob failed: " + jobKey + " at " + new Date());
 			e.printStackTrace();
 		}
