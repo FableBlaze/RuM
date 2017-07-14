@@ -29,6 +29,7 @@ public class NewTaskFooter extends Composite {
 	private static final long serialVersionUID = -8265567504413682063L;
 
 	private int subTaskNameCounter;
+	private Button startTaskButton;
 	private Button removeSubTaskButton;
 
 	public NewTaskFooter(NewTaskComposite newTaskComposite, RumController rumController) {
@@ -39,10 +40,10 @@ public class NewTaskFooter extends Composite {
 		this.setLayout(new GridLayout(3, false));
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
-		//TODO: Button should be disabled when all required data is not entered
-		Button startTaskButton = new Button(this, SWT.PUSH);
+		startTaskButton = new Button(this, SWT.PUSH);
 		startTaskButton.setText("Start task");
 		startTaskButton.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
+		startTaskButton.setEnabled(false);
 		startTaskButton.addListener(SWT.Selection, new Listener() {
 			private static final long serialVersionUID = -2573553526165067810L;
 
@@ -55,43 +56,36 @@ public class NewTaskFooter extends Composite {
 					Task task = newTaskComposite.getTask();
 					List<SubTask> subTasks = new ArrayList<SubTask>();
 					boolean subTasksOk = true;
-					
+
 					List<NewTaskSubTaskInfo> newTaskSubTaskInfoList = newTaskComposite.getNewTaskDetailsContainer().getNewTaskSubTaskInfoList();
-					if (!newTaskSubTaskInfoList.isEmpty()) {
-						for (NewTaskSubTaskInfo newTaskSubTaskInfo : newTaskSubTaskInfoList) {
-							
-							if (newTaskSubTaskInfo.updateAndCheckSubTask()) {
-								SubTask subTask = newTaskSubTaskInfo.getSubTask();
-								
-								Date createdAt = new Date();
-								String userName = "TODO";
-								
-								subTask.setCreatedBy(userName);
-								subTask.setCreatedAt(createdAt);
-								subTask.setLastModifiedBy(userName);
-								subTask.setLastModifiedAt(createdAt);
-								
-								subTasks.add(subTask);
-							} else {
-								subTasksOk=false;
-							}
+					for (NewTaskSubTaskInfo newTaskSubTaskInfo : newTaskSubTaskInfoList) {
+						Date createdAt = new Date();
+						String userName = "TODO";
+
+						if (newTaskSubTaskInfo.updateAndCheckSubTask()) {
+							SubTask subTask = newTaskSubTaskInfo.getSubTask();
+							subTask.setCreatedBy(userName);
+							subTask.setCreatedAt(createdAt);
+							subTask.setLastModifiedBy(userName);
+							subTask.setLastModifiedAt(createdAt);
+							subTasks.add(subTask);
+						} else {
+							subTasksOk=false;
+							break;
 						}
-					} else {
-						subTasksOk=false;
 					}
-					
+
 					task.setSubTasks(subTasks);
-					
+
 					if (subTasksOk && !subTasks.isEmpty()) {
 						task = (Task)rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.TASK, task, "TODO");
-						
+
 						RumScheduler.scheduleTask(task.getId());
 						Activator.getLogger().info("Queued task: " + task.toString());						
 					} else {
 						task.getSubTasks().clear();
 						Activator.getLogger().info("Error queing task: " + task.toString());
 					}
-					
 				}
 			}
 		});
@@ -111,11 +105,15 @@ public class NewTaskFooter extends Composite {
 				subTask.setStatus(TaskStatus.NEW);
 				subTaskTableViewer.add(subTask);
 				subTaskTableViewer.getTable().select(subTaskTableViewer.getTable().getItemCount()-1);
-				
+
 				NewTaskDetailsContainer newTaskDetailsContainer = newTaskComposite.getNewTaskDetailsContainer();
 				NewTaskSubTaskInfo newTaskSubTaskInfo = new NewTaskSubTaskInfo(newTaskDetailsContainer, subTask, rumController);
 				newTaskDetailsContainer.getNewTaskSubTaskInfoList().add(newTaskSubTaskInfo);				
 				newTaskDetailsContainer.showSubTaskInfo(subTaskTableViewer.getTable().getItemCount()-1);
+
+				if (!startTaskButton.getEnabled()) {
+					startTaskButton.setEnabled(true);
+				}
 			}
 		});
 
@@ -130,14 +128,18 @@ public class NewTaskFooter extends Composite {
 				Table table = newTaskComposite.getDetailsSideBar().getSubTaskTableViewer().getTable();
 				NewTaskDetailsContainer newTaskDetailsContainer = newTaskComposite.getNewTaskDetailsContainer();
 				PluginConfigurationComposite pluginConfigurationComposite = (PluginConfigurationComposite)newTaskDetailsContainer.getNewTaskSubTaskInfoList().get(table.getSelectionIndex()).getScrolledPluginConfigurationComposite().getContent();
-				
+
 				if (pluginConfigurationComposite!=null) {
 					newTaskDetailsContainer.notifyTaskOfPluginDeselect(pluginConfigurationComposite.getOutputUserFiles(), newTaskDetailsContainer.getNewTaskSubTaskInfoList().get(table.getSelectionIndex()));
 				}
-				
+
 				newTaskDetailsContainer.getNewTaskSubTaskInfoList().remove(table.getSelectionIndex());
 				table.remove(table.getSelectionIndex());
 				newTaskDetailsContainer.showGeneralInfo();
+
+				if (table.getItemCount()==0 && startTaskButton.getEnabled()) {
+					startTaskButton.setEnabled(false);
+				}
 			}
 		});
 		removeSubTaskButton.setVisible(false);
