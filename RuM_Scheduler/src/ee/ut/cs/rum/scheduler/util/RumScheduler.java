@@ -16,6 +16,7 @@ import ee.ut.cs.rum.database.domain.enums.TaskStatus;
 import ee.ut.cs.rum.database.util.SubTaskAccess;
 import ee.ut.cs.rum.scheduler.internal.Activator;
 import ee.ut.cs.rum.scheduler.internal.task.RumJob;
+import ee.ut.cs.rum.scheduler.internal.util.SubTasksData;
 
 public final class RumScheduler {
 
@@ -28,9 +29,11 @@ public final class RumScheduler {
 		List<SubTask> subTasks = SubTaskAccess.getTaskSubtasksDataFromDb(taskId);
 		
 		for (SubTask subTask : subTasks) {
-			if (processSubTaskDependencies(subTask)) {
+			if (subTask.getStatus()==TaskStatus.NEW && processSubTaskDependencies(subTask)) {
 				Long subTaskId = subTask.getId();
+				SubTasksData.updateSubTaskStatusInDb(taskId, TaskStatus.QUEUING);
 				String rumJobName = "RumJob"+subTaskId.toString();
+				
 				JobDetail job = JobBuilder.newJob(RumJob.class).withIdentity(rumJobName, "RumJobs").build();
 				job.getJobDataMap().put(RumJob.TASK_ID, subTaskId);
 				
@@ -39,10 +42,13 @@ public final class RumScheduler {
 				try {
 					scheduler.scheduleJob(job, trigger);
 					Activator.getLogger().info("Added task to queue: " + subTaskId.toString() + " (" +rumJobName + ")");
+					SubTasksData.updateSubTaskStatusInDb(taskId, TaskStatus.QUEUED);
 				} catch (SchedulerException e) {
 					Activator.getLogger().info("Failed scheduling task: " + subTaskId.toString() + " (" +rumJobName + ")" + e.toString());
+					SubTasksData.updateSubTaskStatusInDb(taskId, TaskStatus.FAILED);
 				} catch (Exception e) {
 					Activator.getLogger().info("General task scheduling error: " + subTaskId.toString() + " (" +rumJobName + ")" + e.toString());
+					SubTasksData.updateSubTaskStatusInDb(taskId, TaskStatus.FAILED);
 				}
 			}
 		}
