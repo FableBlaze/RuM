@@ -127,15 +127,24 @@ public final class PluginConfiguration {
 		pluginParameterInteger.setRequired(true);
 		
 		
-		PluginParameterString pluginParameterString = new PluginParameterString();
-		pluginParameterString.setDefaultValue("defaultTextOfPlugin1");
-		pluginParameterString.setDescription("Testing string parameter");
-		pluginParameterString.setDisplayName("String");
-		pluginParameterString.setInternalName("str1");
-		pluginParameterString.setMaxInputLength(12);
-		pluginParameterString.setRequired(true);
+		PluginParameterString pluginParameterString1 = new PluginParameterString();
+		pluginParameterString1.setDefaultValue("default1");
+		pluginParameterString1.setDescription("Testing string parameter");
+		pluginParameterString1.setDisplayName("String1");
+		pluginParameterString1.setInternalName("str1");
+		pluginParameterString1.setMaxInputLength(12);
+		pluginParameterString1.setAllowedCharacters("");
+		pluginParameterString1.setRequired(true);
 		
-		PluginParameter[] parameters = {pluginParameterSelection1, pluginParameterSelection2, pluginParameterDouble, pluginParameterFile1, pluginParameterFile2, pluginParameterInteger, pluginParameterString};
+		PluginParameterString pluginParameterString2 = new PluginParameterString();
+		pluginParameterString2.setDefaultValue("a+b>c");
+		pluginParameterString2.setDescription("Only characters abc+-<> allowed");
+		pluginParameterString2.setDisplayName("String2");
+		pluginParameterString2.setInternalName("str2");
+		pluginParameterString2.setAllowedCharacters("abc+-<>");
+		pluginParameterString2.setRequired(true);
+		
+		PluginParameter[] parameters = {pluginParameterSelection1, pluginParameterSelection2, pluginParameterDouble, pluginParameterFile1, pluginParameterFile2, pluginParameterInteger, pluginParameterString1, pluginParameterString2};
 		
 		pluginInfo.setParameters(parameters);
 		

@@ -1,6 +1,8 @@
 package ee.ut.cs.rum.plugins.configuration.internal.ui;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.VerifyEvent;
+import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Text;
 
@@ -20,10 +22,31 @@ public class ConfigurationItemString extends Text implements ConfigurationItemIn
 		this.internalName=parameterString.getInternalName();
 		this.displayName=parameterString.getDisplayName();
 		this.required=parameterString.getRequired();
+		this.setToolTipText(parameterString.getDescription());
 		
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		this.setText(parameterString.getDefaultValue());
-		this.setToolTipText(parameterString.getDescription());
+		
+		this.setText(parameterString.getDefaultValue());			
+		if (parameterString.getMaxInputLength()!=0) {
+			this.setTextLimit(parameterString.getMaxInputLength());
+		}
+		if (parameterString.getAllowedCharacters()!=null && !parameterString.getAllowedCharacters().equals("")) {
+			this.addVerifyListener(new VerifyListener() {
+				private static final long serialVersionUID = -988037016675261725L;
+
+				@Override
+				public void verifyText(VerifyEvent event) {
+					for (int i = 0; i < event.text.length(); i++) {
+						//Have to check the entire string because event.character is empty for some reason
+						if (parameterString.getAllowedCharacters().indexOf((event.text.charAt(i)))==-1) {
+							event.doit=false;
+							break;
+						}
+					}
+				}
+			});
+		}
+		
 	}
 
 	@Override

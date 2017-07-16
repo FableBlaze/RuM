@@ -65,6 +65,7 @@ public class PluginInfoDeserializer implements JsonDeserializer<PluginInfo> {
 				PluginParameterString pluginParameterString = new PluginParameterString();
 				pluginParameterString.setMaxInputLength(pluginParameterJsonObject.get("maxInputLength").getAsInt());
 				pluginParameterString.setDefaultValue(pluginParameterJsonObject.get("defaultValue").getAsString());
+				pluginParameterString.setAllowedCharacters(pluginParameterJsonObject.get("allowedCharacters").getAsString());
 				pluginParameters[i] = pluginParameterString;
 				break; 
 			case INTEGER:
