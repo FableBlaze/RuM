@@ -30,7 +30,7 @@ public class ConfigurationItemString extends Text implements ConfigurationItemIn
 		if (parameterString.getMaxInputLength()!=0) {
 			this.setTextLimit(parameterString.getMaxInputLength());
 		}
-		if (parameterString.getAllowedCharacters()!=null && !parameterString.getAllowedCharacters().equals("")) {
+		if (!parameterString.getAllowedCharacters().equals("")) {
 			this.addVerifyListener(new VerifyListener() {
 				private static final long serialVersionUID = -988037016675261725L;
 
@@ -72,5 +72,13 @@ public class ConfigurationItemString extends Text implements ConfigurationItemIn
 	@Override
 	public boolean getRequired() {
 		return required;
+	}
+	
+	@Override
+	public void setTextLimit(int textLimit) {
+		if (textLimit<1) {
+			textLimit=Text.LIMIT;
+		}
+		super.setTextLimit(textLimit);
 	}
 }
