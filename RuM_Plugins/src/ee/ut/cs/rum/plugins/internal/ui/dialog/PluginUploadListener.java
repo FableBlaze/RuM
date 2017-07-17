@@ -23,10 +23,16 @@ public class PluginUploadListener implements FileUploadListener {
 	
 	private Bundle temporaryBundle;
 	private String pluginInfoJson;
+	private PluginInfo pluginInfo;
+	private Gson gson;
 	
 	public PluginUploadListener(DiskFileUploadReceiver receiver, PluginUploadDialog pluginUploadDialog) {
 		this.receiver=receiver;
 		this.pluginUploadDialog=pluginUploadDialog;
+		
+		GsonBuilder gsonBuilder = new GsonBuilder();
+		gsonBuilder.registerTypeAdapter(PluginInfo.class, new PluginInfoDeserializer());
+		gson = gsonBuilder.create();
 	}
 	
 	@Override
@@ -53,12 +59,20 @@ public class PluginUploadListener implements FileUploadListener {
 			} else {
 				Activator.getLogger().error("Uploaded file is not a valid plugin");
 			}
-		} catch (BundleException e1) {
-			Activator.getLogger().error("Temporary plugin loading failed: " + e1.toString());
+		} catch (BundleException e) {
+			Activator.getLogger().error("Temporary plugin loading failed: " + e.toString());
+		}
+		
+		if (pluginInfoJson!=null) {
+			try {
+				pluginInfo = gson.fromJson(pluginInfoJson, PluginInfo.class);				
+			} catch (Exception e) {
+				Activator.getLogger().info("Deserializing plugin info JSON failed: " + e.toString());
+			}
 		}
 
 		//TODO: Check for duplicates
-		if (temporaryBundle!=null && temporaryBundle.getSymbolicName()!=null && pluginInfoJson!=null) {
+		if (temporaryBundle!=null && temporaryBundle.getSymbolicName()!=null && pluginInfo!=null) {
 			Plugin temporaryPlugin = new Plugin();
 			
 			temporaryPlugin.setBundleSymbolicName(temporaryBundle.getHeaders().get("Bundle-SymbolicName"));
@@ -69,11 +83,6 @@ public class PluginUploadListener implements FileUploadListener {
 			temporaryPlugin.setBundleActivator(temporaryBundle.getHeaders().get("Bundle-Activator"));
 			temporaryPlugin.setBundleImportPackage(temporaryBundle.getHeaders().get("Import-Package"));
 			
-			GsonBuilder gsonBuilder = new GsonBuilder();
-			gsonBuilder.registerTypeAdapter(PluginInfo.class, new PluginInfoDeserializer());
-			Gson gson = gsonBuilder.create();
-			PluginInfo pluginInfo = gson.fromJson(pluginInfoJson, PluginInfo.class);
-			
 			temporaryPlugin.setPluginName(pluginInfo.getName());
 			temporaryPlugin.setPluginDescription(pluginInfo.getDescription());
 			temporaryPlugin.setPluginInfo(gson.toJson(pluginInfo));
@@ -81,7 +90,6 @@ public class PluginUploadListener implements FileUploadListener {
 			temporaryPlugin.setOriginalFilename(temporaryFile.getName());
 			temporaryPlugin.setEnabled(true);
 			pluginUploadDialog.setTemporaryPlugin(temporaryPlugin);
-			
 		} else {
 			pluginUploadDialog.setTemporaryPlugin(null);
 		}
