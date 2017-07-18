@@ -33,10 +33,10 @@ public class PluginParameterString extends PluginParameter {
 	public void setAllowedCharacters(String allowedCharacters) {
 		this.allowedCharacters = allowedCharacters;
 	}
-	
+
 	@Override
 	public String toString() {
-		return super.toString()
-				+ "PluginParameterInfoString [maxInputLength=" + maxInputLength + ", defaultValue=" + defaultValue + ", allowedCharacters=" + allowedCharacters + "]";
+		return "PluginParameterString [maxInputLength=" + maxInputLength + ", defaultValue=" + defaultValue
+				+ ", allowedCharacters=" + allowedCharacters + "]";
 	}
 }

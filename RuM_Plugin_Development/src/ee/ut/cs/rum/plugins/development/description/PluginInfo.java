@@ -51,5 +51,4 @@ public class PluginInfo {
 		return "PluginInfo [name=" + name + ", description=" + description + ", parameters="
 				+ Arrays.toString(parameters) + ", outputs=" + Arrays.toString(outputs) + "]";
 	}
-
 }

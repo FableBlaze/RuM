@@ -36,8 +36,7 @@ public class PluginParameterInteger extends PluginParameter {
 
 	@Override
 	public String toString() {
-		return super.toString() + "PluginParameterInteger [minValue=" + minValue + ", maxValue="	+ maxValue 
-				+ ", defaultValue=" + defaultValue + "]";
+		return "PluginParameterInteger [minValue=" + minValue + ", maxValue=" + maxValue + ", defaultValue="
+				+ defaultValue + "]";
 	}
-	
 }

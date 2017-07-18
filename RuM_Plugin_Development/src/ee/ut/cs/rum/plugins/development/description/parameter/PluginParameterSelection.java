@@ -29,7 +29,7 @@ public class PluginParameterSelection extends PluginParameter {
 
 	@Override
 	public String toString() {
-		return "PluginParameterSelection [defaultValue=" + defaultValue
-				+ ", selectionItems=" + Arrays.toString(selectionItems) + "]";
+		return "PluginParameterSelection [defaultValue=" + defaultValue + ", selectionItems="
+				+ Arrays.toString(selectionItems) + "]";
 	}
 }

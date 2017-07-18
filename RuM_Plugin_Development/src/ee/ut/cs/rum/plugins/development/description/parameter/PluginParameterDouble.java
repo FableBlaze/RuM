@@ -45,9 +45,7 @@ public class PluginParameterDouble extends PluginParameter {
 
 	@Override
 	public String toString() {
-		return super.toString() + "PluginParameterDouble [minValue=" + minValue + ", maxValue=" + maxValue + ", defaultValue="
+		return "PluginParameterDouble [minValue=" + minValue + ", maxValue=" + maxValue + ", defaultValue="
 				+ defaultValue + ", decimalPlaces=" + decimalPlaces + "]";
 	}
-	
-	
 }

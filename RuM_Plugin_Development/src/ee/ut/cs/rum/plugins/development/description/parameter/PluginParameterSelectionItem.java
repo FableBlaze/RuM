@@ -37,5 +37,4 @@ public class PluginParameterSelectionItem {
 		return "PluginParameterSelectionItem [internalName=" + internalName + ", displayName=" + displayName
 				+ ", description=" + description + "]";
 	}
-
 }

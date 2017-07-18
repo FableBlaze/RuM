@@ -52,8 +52,7 @@ public class PluginParameter {
 
 	@Override
 	public String toString() {
-		return "PluginParameterInfo [internalName=" + internalName + ", displayName=" + displayName + ", description="
+		return "PluginParameter [internalName=" + internalName + ", displayName=" + displayName + ", description="
 				+ description + ", required=" + required + ", parameterType=" + parameterType + "]";
 	}
-	
 }
