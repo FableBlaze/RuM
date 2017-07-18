@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-SymbolicName: RuM_Database
 Bundle-Description: RuM database connection and domain classes
-Bundle-Version: 0.0.2
+Bundle-Version: 0.0.3
 Bundle-Name: RuM_Database
 Bundle-Vendor: University of Tartu
 Bundle-ManifestVersion: 2

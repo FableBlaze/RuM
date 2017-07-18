@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-Description: This is the second toy plugin for RuM
 Bundle-SymbolicName: ToyPlugin2
-Bundle-Version: 0.3.7
+Bundle-Version: 0.3.8
 Bundle-Name: ToyPlugin2
 Bundle-Vendor: University of Tartu
 Bundle-ManifestVersion: 2

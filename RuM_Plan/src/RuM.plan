@@ -6,19 +6,19 @@
             http://www.springsource.org/schema/dm-server/plan/springsource-dm-server-plan.xsd">
 
 	<artifact type="bundle" name="org.eclipse.gemini.jpa" version="[1.2.0.M1,1.2.0.M1]"/>
-	<artifact type="bundle" name="RuM_Database" version="0.0.2"/>
+	<artifact type="bundle" name="RuM_Database" version="0.0.3"/>
 	
 	<artifact type="bundle" name="RuM_Controller" version="0.0.1"/>
-	<artifact type="bundle" name="RuM_Plugin_Development" version="0.0.5"/>
+	<artifact type="bundle" name="RuM_Plugin_Development" version="0.1.0"/>
 	
 	<artifact type="bundle" name="RuM_SystemAdministration" version="0.0.1"/>
-	<artifact type="bundle" name="RuM_Plugin_Configuration" version="0.0.1"/>
+	<artifact type="bundle" name="RuM_Plugin_Configuration" version="0.1.0"/>
 	
-	<artifact type="bundle" name="RuM_Scheduler" version="0.0.3"/>
-	<artifact type="bundle" name="RuM_Plugins" version="0.0.1"/>
+	<artifact type="bundle" name="RuM_Scheduler" version="0.1.0"/>
+	<artifact type="bundle" name="RuM_Plugins" version="0.1.0"/>
 	<artifact type="bundle" name="RuM_Files" version="0.0.1"/>
 	
-	<artifact type="bundle" name="RuM_Workspace" version="0.0.1"/>
+	<artifact type="bundle" name="RuM_Workspace" version="0.1.0"/>
 	
 	<artifact type="bundle" name="RuM" version="0.0.1"/>
 </plan> 
