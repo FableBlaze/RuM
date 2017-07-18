@@ -2,7 +2,6 @@
 	"name": "ToyPluginV2",
 	"description": "This is the second toy plugin for RuM. This description is loaded form JSON.",
 	"parameters": [{
-		"multiSelection": false,
 		"defaultValue": "12",
 		"selectionItems": [{
 			"internalName": "11",
@@ -26,7 +25,6 @@
 		"parameterType": "SELECTION"
 	},
 	{
-		"multiSelection": true,
 		"defaultValue": "23",
 		"selectionItems": [{
 			"internalName": "21",

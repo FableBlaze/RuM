@@ -41,7 +41,6 @@ public final class PluginConfiguration {
 		pluginParameterSelection1.setDisplayName("Selection");
 		pluginParameterSelection1.setInternalName("sel1");
 		pluginParameterSelection1.setDefaultValue("12");
-		pluginParameterSelection1.setMultiSelection(false);
 		pluginParameterSelection1.setRequired(true);
 
 		PluginParameterSelectionItem pluginParameterSelectionItem1 = new PluginParameterSelectionItem();
@@ -66,7 +65,6 @@ public final class PluginConfiguration {
 		pluginParameterSelection2.setDescription("Testing out the multi-selection parameter");
 		pluginParameterSelection2.setDisplayName("Selection2");
 		pluginParameterSelection2.setInternalName("sel2");
-		pluginParameterSelection2.setMultiSelection(true);
 		pluginParameterSelection2.setDefaultValue("23");
 		pluginParameterSelection2.setRequired(true);
 		

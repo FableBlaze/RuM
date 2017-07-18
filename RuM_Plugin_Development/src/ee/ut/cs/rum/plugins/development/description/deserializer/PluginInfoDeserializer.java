@@ -102,7 +102,6 @@ public class PluginInfoDeserializer implements JsonDeserializer<PluginInfo> {
 				break; 
 			case SELECTION:
 				PluginParameterSelection pluginParameterSelection = new PluginParameterSelection();
-				pluginParameterSelection.setMultiSelection(getAsBooleanFromJsonObject(pluginParameterJsonObject, "multiSelection", false));
 				//TODO: Should check if default value is in selection items
 				pluginParameterSelection.setDefaultValue(getAsStringFromJsonObject(pluginParameterJsonObject, "defaultValue", false));
 				JsonArray selectionItemsJsonArray = getAsJsonArrayFromJsonObject(pluginParameterJsonObject, "selectionItems", true);
