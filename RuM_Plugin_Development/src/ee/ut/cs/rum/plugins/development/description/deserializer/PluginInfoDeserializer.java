@@ -102,10 +102,10 @@ public class PluginInfoDeserializer implements JsonDeserializer<PluginInfo> {
 				break; 
 			case SELECTION:
 				PluginParameterSelection pluginParameterSelection = new PluginParameterSelection();
-				//TODO: Should check if default value is in selection items
 				pluginParameterSelection.setDefaultValue(getAsStringFromJsonObject(pluginParameterJsonObject, "defaultValue", false));
 				JsonArray selectionItemsJsonArray = getAsJsonArrayFromJsonObject(pluginParameterJsonObject, "selectionItems", true);
 				
+				boolean defaultOk=false;
 				PluginParameterSelectionItem[] selectionItems = new PluginParameterSelectionItem[selectionItemsJsonArray.size()];
 				for (int j = 0; j < selectionItems.length; j++) {
 					JsonObject selectionItemJsonObject = selectionItemsJsonArray.get(j).getAsJsonObject();
@@ -113,8 +113,16 @@ public class PluginInfoDeserializer implements JsonDeserializer<PluginInfo> {
 					parameterSelectionItem.setInternalName(getAsStringFromJsonObject(selectionItemJsonObject, "internalName", true));
 					parameterSelectionItem.setDisplayName(getAsStringFromJsonObject(selectionItemJsonObject, "displayName", true));
 					parameterSelectionItem.setDescription(getAsStringFromJsonObject(selectionItemJsonObject, "description", false));
+					if (parameterSelectionItem.getInternalName().equals(pluginParameterSelection.getDefaultValue())) {
+						defaultOk=true;
+					}
 					selectionItems[j]=parameterSelectionItem;
 				}
+				
+				if (!defaultOk && !pluginParameterSelection.getDefaultValue().equals("")) {
+					throw new JsonParseException("Invalid default value");
+				}
+				
 				pluginParameterSelection.setSelectionItems(selectionItems);
 				pluginParameters[i] = pluginParameterSelection;
 				break; 
