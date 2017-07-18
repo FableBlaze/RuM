@@ -22,9 +22,6 @@ public class PluginOutput {
 	}
 
 	public void setFileTypes(String[] fileTypes) {
-		for (int i = 0; i < fileTypes.length; i++) {
-			fileTypes[i]=fileTypes[i];
-		}
 		this.fileTypes = fileTypes;
 	}
 

@@ -16,9 +16,6 @@ public class PluginParameterFile extends PluginParameter {
 	}
 
 	public void setInputTypes(String[] inputTypes) {
-		for (int i = 0; i < inputTypes.length; i++) {
-			inputTypes[i]=inputTypes[i].toLowerCase();
-		}
 		this.inputTypes = inputTypes;
 	}
 

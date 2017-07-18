@@ -178,7 +178,7 @@ public class PluginInfoDeserializer implements JsonDeserializer<PluginInfo> {
 	
 	private String getFileTypeFromJsonArray(JsonArray jsonArray, int i) {
 		try {
-			String result = jsonArray.get(i).getAsString();
+			String result = jsonArray.get(i).getAsString().toLowerCase();
 			
 			if (result.equals("")) {
 				throw new JsonParseException("FileType can not be empty");
