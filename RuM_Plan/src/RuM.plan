@@ -20,6 +20,6 @@
 	
 	<artifact type="bundle" name="RuM_Workspace" version="0.1.0"/>
 	
-	<artifact type="bundle" name="RuM" version="0.0.1"/>
+	<artifact type="bundle" name="RuM" version="0.1.0"/>
 </plan> 
                                                           
