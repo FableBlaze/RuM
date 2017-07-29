@@ -63,6 +63,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 		
 		this.internalName=parameterFile.getInternalName();
 		this.displayName=parameterFile.getDisplayName();
+		this.setToolTipText(parameterFile.getDescription());
 		this.required=parameterFile.getRequired();
 
 		this.rumController=rumController;
@@ -82,7 +83,6 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 		this.setLayout(gridLayout);
 
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		this.setToolTipText(parameterFile.getDescription());
 
 		createContents();
 		

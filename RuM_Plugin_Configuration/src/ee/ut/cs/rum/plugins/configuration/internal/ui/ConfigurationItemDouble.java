@@ -22,11 +22,11 @@ public class ConfigurationItemDouble extends Text implements ConfigurationItemIn
 
 		this.internalName=parameterDouble.getInternalName();
 		this.displayName=parameterDouble.getDisplayName();
+		this.setToolTipText(parameterDouble.getDescription());
 		this.required=parameterDouble.getRequired();
 
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		this.setText(Double.toString(parameterDouble.getDefaultValue()));
-		this.setToolTipText(parameterDouble.getDescription());
 		this.addVerifyListener(new VerifyListener() {
 			private static final long serialVersionUID = -316837755145839293L;
 			//TODO: Consider using Spinner

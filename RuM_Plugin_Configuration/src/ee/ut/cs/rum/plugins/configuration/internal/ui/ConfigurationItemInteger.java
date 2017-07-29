@@ -22,11 +22,11 @@ public class ConfigurationItemInteger extends Text implements ConfigurationItemI
 		
 		this.internalName=parameterInteger.getInternalName();
 		this.displayName=parameterInteger.getDisplayName();
+		this.setToolTipText(parameterInteger.getDescription());
 		this.required=parameterInteger.getRequired();
 		
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		this.setText(Integer.toString(parameterInteger.getDefaultValue()));
-		this.setToolTipText(parameterInteger.getDescription());
 		this.addVerifyListener(new VerifyListener() {
 			private static final long serialVersionUID = -316837755145839293L;
 			//TODO: Consider using Spinner

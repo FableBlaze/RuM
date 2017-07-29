@@ -29,6 +29,7 @@ public class ConfigurationItemSelection extends Combo implements ConfigurationIt
 		
 		this.internalName=parameterSelection.getInternalName();
 		this.displayName=parameterSelection.getDisplayName();
+		this.setToolTipText(parameterSelection.getDescription());
 		this.required=parameterSelection.getRequired();
 		
 		this.preEventSelectionIndex=-1;
@@ -36,7 +37,6 @@ public class ConfigurationItemSelection extends Combo implements ConfigurationIt
 		selectionItems = new ArrayList<PluginParameterSelectionItem>();
 
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		this.setToolTipText(parameterSelection.getDescription());
 		
 		this.addSelectionListener(new SelectionListener() {			
 			private static final long serialVersionUID = -2671867325224354752L;

@@ -21,8 +21,8 @@ public class ConfigurationItemString extends Text implements ConfigurationItemIn
 		
 		this.internalName=parameterString.getInternalName();
 		this.displayName=parameterString.getDisplayName();
-		this.required=parameterString.getRequired();
 		this.setToolTipText(parameterString.getDescription());
+		this.required=parameterString.getRequired();
 		
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
@@ -30,6 +30,7 @@ public class ConfigurationItemString extends Text implements ConfigurationItemIn
 		if (parameterString.getMaxInputLength()!=0) {
 			this.setTextLimit(parameterString.getMaxInputLength());
 		}
+		
 		if (!parameterString.getAllowedCharacters().equals("")) {
 			this.addVerifyListener(new VerifyListener() {
 				private static final long serialVersionUID = -988037016675261725L;
