@@ -26,11 +26,13 @@ public class ConfigurationItemInteger extends Text implements ConfigurationItemI
 		this.required=parameterInteger.getRequired();
 		
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		
 		this.setText(Integer.toString(parameterInteger.getDefaultValue()));
 		this.addVerifyListener(new VerifyListener() {
 			private static final long serialVersionUID = -316837755145839293L;
 			//TODO: Consider using Spinner
 			//TODO: Feedback to user
+			//TODO: Set min and max value listeners
 
 			@Override
 			public void verifyText(VerifyEvent event) {
