@@ -81,17 +81,17 @@ public class PluginInfoDeserializer implements JsonDeserializer<PluginInfo> {
 				break; 
 			case INTEGER:
 				PluginParameterInteger parameterInteger = new PluginParameterInteger();
-				parameterInteger.setDefaultValue(getAsIntFromJsonObject(pluginParameterJsonObject, "defaultValue", false));
-				parameterInteger.setMinValue(getAsIntFromJsonObject(pluginParameterJsonObject, "minValue", false));
-				parameterInteger.setMaxValue(getAsIntFromJsonObject(pluginParameterJsonObject, "maxValue", false));
+				parameterInteger.setDefaultValue(getAsIntFromJsonObject(pluginParameterJsonObject, "defaultValue", true));
+				parameterInteger.setMinValue(getAsIntFromJsonObject(pluginParameterJsonObject, "minValue", true));
+				parameterInteger.setMaxValue(getAsIntFromJsonObject(pluginParameterJsonObject, "maxValue", true));
 				pluginParameters[i] = parameterInteger;
 				break; 
 			case DOUBLE:
 				PluginParameterDouble pluginParameterDouble = new PluginParameterDouble();
-				pluginParameterDouble.setDefaultValue(getAsDoubleFromJsonObject(pluginParameterJsonObject, "defaultValue", false));
-				pluginParameterDouble.setMinValue(getAsDoubleFromJsonObject(pluginParameterJsonObject, "minValue", false));
-				pluginParameterDouble.setMaxValue(getAsDoubleFromJsonObject(pluginParameterJsonObject, "maxValue", false));
-				pluginParameterDouble.setDecimalPlaces(getAsIntFromJsonObject(pluginParameterJsonObject, "decimalPlaces", false));
+				pluginParameterDouble.setDefaultValue(getAsDoubleFromJsonObject(pluginParameterJsonObject, "defaultValue", true));
+				pluginParameterDouble.setMinValue(getAsDoubleFromJsonObject(pluginParameterJsonObject, "minValue", true));
+				pluginParameterDouble.setMaxValue(getAsDoubleFromJsonObject(pluginParameterJsonObject, "maxValue", true));
+				pluginParameterDouble.setDecimalPlaces(getAsIntFromJsonObject(pluginParameterJsonObject, "decimalPlaces", true));
 				pluginParameters[i] = pluginParameterDouble;
 				break; 
 			case SELECTION:
