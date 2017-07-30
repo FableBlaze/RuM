@@ -27,8 +27,8 @@ public class ConfigurationItemString extends Text implements ConfigurationItemIn
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
 		this.setText(parameterString.getDefaultValue());
-		if (parameterString.getMaxInputLength()!=0) {
-			this.setTextLimit(parameterString.getMaxInputLength());
+		if (parameterString.getMaxInputLength()>0) {
+			this.setTextLimit(parameterString.getMaxInputLength());			
 		}
 		
 		if (!parameterString.getAllowedCharacters().equals("")) {
@@ -75,11 +75,4 @@ public class ConfigurationItemString extends Text implements ConfigurationItemIn
 		return required;
 	}
 	
-	@Override
-	public void setTextLimit(int textLimit) {
-		if (textLimit<1) {
-			textLimit=Text.LIMIT;
-		}
-		super.setTextLimit(textLimit);
-	}
 }
