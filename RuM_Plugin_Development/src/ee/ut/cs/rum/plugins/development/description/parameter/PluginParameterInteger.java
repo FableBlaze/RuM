@@ -1,36 +1,36 @@
 package ee.ut.cs.rum.plugins.development.description.parameter;
 
 public class PluginParameterInteger extends PluginParameter {
-	private int minValue;
-	private int maxValue;
-	private int defaultValue;
+	private Integer minValue;
+	private Integer maxValue;
+	private Integer defaultValue;
 	
 	public PluginParameterInteger() {
 		super();
 		super.setParameterType(PluginParameterType.INTEGER);
 	}
 
-	public int getMinValue() {
+	public Integer getMinValue() {
 		return minValue;
 	}
 
-	public void setMinValue(int minValue) {
+	public void setMinValue(Integer minValue) {
 		this.minValue = minValue;
 	}
 
-	public int getMaxValue() {
+	public Integer getMaxValue() {
 		return maxValue;
 	}
 
-	public void setMaxValue(int maxValue) {
+	public void setMaxValue(Integer maxValue) {
 		this.maxValue = maxValue;
 	}
 
-	public int getDefaultValue() {
+	public Integer getDefaultValue() {
 		return defaultValue;
 	}
 
-	public void setDefaultValue(int defaultValue) {
+	public void setDefaultValue(Integer defaultValue) {
 		this.defaultValue = defaultValue;
 	}
 

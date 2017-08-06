@@ -75,15 +75,15 @@ public class PluginInfoDeserializer implements JsonDeserializer<PluginInfo> {
 			case STRING:
 				PluginParameterString pluginParameterString = new PluginParameterString();
 				pluginParameterString.setDefaultValue(getAsStringFromJsonObject(pluginParameterJsonObject, "defaultValue", false));
-				pluginParameterString.setMaxInputLength(getAsIntFromJsonObject(pluginParameterJsonObject, "maxInputLength", false));
+				pluginParameterString.setMaxInputLength(getAsIntegerFromJsonObject(pluginParameterJsonObject, "maxInputLength", false));
 				pluginParameterString.setAllowedCharacters(getAsStringFromJsonObject(pluginParameterJsonObject, "allowedCharacters", false));
 				pluginParameters[i] = pluginParameterString;
 				break; 
 			case INTEGER:
 				PluginParameterInteger parameterInteger = new PluginParameterInteger();
-				parameterInteger.setDefaultValue(getAsIntFromJsonObject(pluginParameterJsonObject, "defaultValue", true));
-				parameterInteger.setMinValue(getAsIntFromJsonObject(pluginParameterJsonObject, "minValue", true));
-				parameterInteger.setMaxValue(getAsIntFromJsonObject(pluginParameterJsonObject, "maxValue", true));
+				parameterInteger.setDefaultValue(getAsIntegerFromJsonObject(pluginParameterJsonObject, "defaultValue", true));
+				parameterInteger.setMinValue(getAsIntegerFromJsonObject(pluginParameterJsonObject, "minValue", true));
+				parameterInteger.setMaxValue(getAsIntegerFromJsonObject(pluginParameterJsonObject, "maxValue", true));
 				pluginParameters[i] = parameterInteger;
 				break; 
 			case DOUBLE:
@@ -91,7 +91,7 @@ public class PluginInfoDeserializer implements JsonDeserializer<PluginInfo> {
 				pluginParameterDouble.setDefaultValue(getAsDoubleFromJsonObject(pluginParameterJsonObject, "defaultValue", true));
 				pluginParameterDouble.setMinValue(getAsDoubleFromJsonObject(pluginParameterJsonObject, "minValue", true));
 				pluginParameterDouble.setMaxValue(getAsDoubleFromJsonObject(pluginParameterJsonObject, "maxValue", true));
-				pluginParameterDouble.setDecimalPlaces(getAsIntFromJsonObject(pluginParameterJsonObject, "decimalPlaces", true));
+				pluginParameterDouble.setDecimalPlaces(getAsIntegerFromJsonObject(pluginParameterJsonObject, "decimalPlaces", true));
 				pluginParameters[i] = pluginParameterDouble;
 				break; 
 			case SELECTION:
@@ -156,26 +156,6 @@ public class PluginInfoDeserializer implements JsonDeserializer<PluginInfo> {
 		return fileTypes;
 	}
 	
-	private String getAsStringFromJsonObject(JsonObject jsonObject, String memberName, boolean required) {
-		try {
-			String result = jsonObject.get(memberName).getAsString();
-			
-			if (required && result.equals("")) {
-				throw new JsonParseException(memberName + " can not be empty");
-			} else {
-				return result;
-			}
-		} catch (NullPointerException e) {
-			if (required) {
-				throw new JsonParseException(memberName + " is rqeuired", e);
-			} else {
-				return "";				
-			}
-		} catch (ClassCastException e) {
-			throw new JsonParseException(memberName + " is invalid", e);
-		}
-	}
-	
 	private String getFileTypeFromJsonArray(JsonArray jsonArray, int i) {
 		try {
 			String result = jsonArray.get(i).getAsString().toLowerCase();
@@ -212,14 +192,34 @@ public class PluginInfoDeserializer implements JsonDeserializer<PluginInfo> {
 		}
 	}
 	
-	private int getAsIntFromJsonObject(JsonObject jsonObject, String memberName, boolean required) {
+	private String getAsStringFromJsonObject(JsonObject jsonObject, String memberName, boolean required) {
 		try {
-			return jsonObject.get(memberName).getAsInt();
+			String result = jsonObject.get(memberName).getAsString();
+			
+			if (required && result.equals("")) {
+				throw new JsonParseException(memberName + " can not be empty");
+			} else {
+				return result;
+			}
 		} catch (NullPointerException e) {
 			if (required) {
 				throw new JsonParseException(memberName + " is rqeuired", e);
 			} else {
-				return 0;				
+				return null;
+			}
+		} catch (ClassCastException e) {
+			throw new JsonParseException(memberName + " is invalid", e);
+		}
+	}
+	
+	private Integer getAsIntegerFromJsonObject(JsonObject jsonObject, String memberName, boolean required) {
+		try {
+			return new Integer(jsonObject.get(memberName).getAsInt());
+		} catch (NullPointerException e) {
+			if (required) {
+				throw new JsonParseException(memberName + " is rqeuired", e);
+			} else {
+				return null;				
 			}
 		} catch (ClassCastException e) {
 			throw new JsonParseException(memberName + " is invalid", e);
@@ -228,12 +228,12 @@ public class PluginInfoDeserializer implements JsonDeserializer<PluginInfo> {
 	
 	private Double getAsDoubleFromJsonObject(JsonObject jsonObject, String memberName, boolean required) {
 		try {
-			return jsonObject.get(memberName).getAsDouble();
+			return new Double(jsonObject.get(memberName).getAsDouble());
 		} catch (NullPointerException e) {
 			if (required) {
 				throw new JsonParseException(memberName + " is rqeuired", e);
 			} else {
-				return 0.0;				
+				return null;				
 			}
 		} catch (ClassCastException e) {
 			throw new JsonParseException(memberName + " is invalid", e);
@@ -242,12 +242,12 @@ public class PluginInfoDeserializer implements JsonDeserializer<PluginInfo> {
 	
 	private Boolean getAsBooleanFromJsonObject(JsonObject jsonObject, String memberName, boolean required) {
 		try {
-			return jsonObject.get(memberName).getAsBoolean();
+			return new Boolean(jsonObject.get(memberName).getAsBoolean());
 		} catch (NullPointerException e) {
 			if (required) {
 				throw new JsonParseException(memberName + " is rqeuired", e);
 			} else {
-				return false;				
+				return null;				
 			}
 		} catch (ClassCastException e) {
 			throw new JsonParseException(memberName + " is invalid", e);
