@@ -1,0 +1,106 @@
+{
+	"name": "ToyPluginV3",
+	"description": "Testing diferent combinations of plugin parameters. This description is loaded form JSON.",
+	"parameters": [{
+		"defaultValue": "12",
+		"selectionItems": [{
+			"internalName": "11",
+			"displayName": "First",
+			"description": "The first selection item of first selection"
+		},
+		{
+			"internalName": "12",
+			"displayName": "Second",
+			"description": "The second selection item of first selection"
+		},
+		{
+			"internalName": "13",
+			"displayName": "Third",
+			"description": "The third selection item of first selection"
+		}],
+		"internalName": "sel1",
+		"displayName": "Selection",
+		"description": "Testing out the selection parameter",
+		"required": true,
+		"parameterType": "SELECTION"
+	},
+	{
+		"defaultValue": "23",
+		"selectionItems": [{
+			"internalName": "21",
+			"displayName": "First",
+			"description": "The first selection item of second selection"
+		},
+		{
+			"internalName": "22",
+			"displayName": "Second",
+			"description": "The second selection item of second selection"
+		},
+		{
+			"internalName": "23",
+			"displayName": "Third",
+			"description": "The third selection item of first selection"
+		}],
+		"internalName": "sel2",
+		"displayName": "Selection2",
+		"description": "Testing out the multi-selection parameter",
+		"required": true,
+		"parameterType": "SELECTION"
+	},
+	{
+		"minValue": 1.22,
+		"maxValue": 10.8,
+		"defaultValue": 1.987,
+		"decimalPlaces": 2,
+		"internalName": "doub1",
+		"displayName": "Double",
+		"description": "Testing the double parameter",
+		"required": true,
+		"parameterType": "DOUBLE"
+	},
+	{
+		"inputTypes": ["GIF"],
+		"internalName": "file1",
+		"displayName": "GIF only file",
+		"description": "Testing the file parameter",
+		"required": true,
+		"parameterType": "FILE"
+	},
+	{
+		"inputTypes": ["GIF",
+		"CSV"],
+		"internalName": "file2",
+		"displayName": "GIF and CSV files",
+		"description": "Testing the file parameter",
+		"required": true,
+		"parameterType": "FILE"
+	},
+	{
+		"minValue": 2,
+		"maxValue": 123,
+		"defaultValue": 122,
+		"internalName": "inte1",
+		"displayName": "Integer",
+		"description": "Thesting integer parameter",
+		"required": true,
+		"parameterType": "INTEGER"
+	},
+	{
+		"maxInputLength": 12,
+		"defaultValue": "defaultTextOfPlugin3",
+		"internalName": "str1",
+		"displayName": "String",
+		"description": "Testing string parameter",
+		"required": true,
+		"parameterType": "STRING"
+	}],
+	"outputs": [{
+		"fileName": "textAndCSV.out",
+		"fileTypes": ["TEXT",
+		"CSV"]
+	},
+	{
+		"fileName": "gif.out",
+		"fileTypes": ["GIF"]
+	}]
+}

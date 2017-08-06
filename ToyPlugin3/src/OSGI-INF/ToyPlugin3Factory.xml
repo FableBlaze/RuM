@@ -1,0 +1,6 @@
+<component name="ToyPlugin3Factory">
+	<implementation class="ee.ut.cs.rum.example.plugin.v3.RumPluginFactoryImpl" />
+	<service>
+		<provide interface="ee.ut.cs.rum.plugins.development.interfaces.RumPluginFactory" />
+	</service>
+</component>
