@@ -87,7 +87,7 @@
 	},
 	{
 		"maxInputLength": 12,
-		"defaultValue": "defaultTextOfPlugin1",
+		"defaultValue": "defaultTextOfPlugin2",
 		"internalName": "str1",
 		"displayName": "String",
 		"description": "Testing string parameter",
