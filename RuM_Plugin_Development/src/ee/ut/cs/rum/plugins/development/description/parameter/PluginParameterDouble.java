@@ -1,9 +1,9 @@
 package ee.ut.cs.rum.plugins.development.description.parameter;
 
 public class PluginParameterDouble extends PluginParameter {
+	private Double defaultValue;
 	private Double minValue;
 	private Double maxValue;
-	private Double defaultValue;
 	private int decimalPlaces;
 	
 	public PluginParameterDouble() {
@@ -11,6 +11,14 @@ public class PluginParameterDouble extends PluginParameter {
 		super.setParameterType(PluginParameterType.DOUBLE);
 	}
 
+	public Double getDefaultValue() {
+		return defaultValue;
+	}
+
+	public void setDefaultValue(Double defaultValue) {
+		this.defaultValue = defaultValue;
+	}
+	
 	public Double getMinValue() {
 		return minValue;
 	}
@@ -25,14 +33,6 @@ public class PluginParameterDouble extends PluginParameter {
 
 	public void setMaxValue(Double maxValue) {
 		this.maxValue = maxValue;
-	}
-
-	public Double getDefaultValue() {
-		return defaultValue;
-	}
-
-	public void setDefaultValue(Double defaultValue) {
-		this.defaultValue = defaultValue;
 	}
 
 	public Integer getDecimalPlaces() {

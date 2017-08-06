@@ -1,13 +1,21 @@
 package ee.ut.cs.rum.plugins.development.description.parameter;
 
 public class PluginParameterString extends PluginParameter {
-	private Integer maxInputLength;
 	private String defaultValue;
+	private Integer maxInputLength;
 	private String allowedCharacters;
 	
 	public PluginParameterString() {
 		super();
 		super.setParameterType(PluginParameterType.STRING);
+	}
+
+	public String getDefaultValue() {
+		return defaultValue;
+	}
+	
+	public void setDefaultValue(String defaultValue) {
+		this.defaultValue = defaultValue;
 	}
 
 	public Integer getMaxInputLength() {
@@ -16,14 +24,6 @@ public class PluginParameterString extends PluginParameter {
 	
 	public void setMaxInputLength(Integer maxInputLength) {
 		this.maxInputLength = maxInputLength;
-	}
-	
-	public String getDefaultValue() {
-		return defaultValue;
-	}
-	
-	public void setDefaultValue(String defaultValue) {
-		this.defaultValue = defaultValue;
 	}
 	
 	public String getAllowedCharacters() {

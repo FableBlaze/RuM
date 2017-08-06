@@ -1,13 +1,21 @@
 package ee.ut.cs.rum.plugins.development.description.parameter;
 
 public class PluginParameterInteger extends PluginParameter {
+	private Integer defaultValue;
 	private Integer minValue;
 	private Integer maxValue;
-	private Integer defaultValue;
 	
 	public PluginParameterInteger() {
 		super();
 		super.setParameterType(PluginParameterType.INTEGER);
+	}
+
+	public Integer getDefaultValue() {
+		return defaultValue;
+	}
+
+	public void setDefaultValue(Integer defaultValue) {
+		this.defaultValue = defaultValue;
 	}
 
 	public Integer getMinValue() {
@@ -24,14 +32,6 @@ public class PluginParameterInteger extends PluginParameter {
 
 	public void setMaxValue(Integer maxValue) {
 		this.maxValue = maxValue;
-	}
-
-	public Integer getDefaultValue() {
-		return defaultValue;
-	}
-
-	public void setDefaultValue(Integer defaultValue) {
-		this.defaultValue = defaultValue;
 	}
 
 	@Override
