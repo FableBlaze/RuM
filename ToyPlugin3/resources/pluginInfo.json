@@ -13,6 +13,29 @@
 		"defaultValue": "defaultText",
 		"maxInputLength": 12,
 		"allowedCharacters": "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	},{
+		"internalName": "str2",
+		"displayName": "String (optionals empty strings, no maxInputLength)",
+		"description": "Testing string parameter (only letters)",
+		"required": true,
+		"parameterType": "STRING",
+		"defaultValue": "",
+		"allowedCharacters": ""
+	},{
+		"internalName": "str3",
+		"displayName": "String (optionals nulls)",
+		"description": "Testing string parameter (only letters)",
+		"required": true,
+		"parameterType": "STRING",
+		"defaultValue": null,
+		"maxInputLength": null,
+		"allowedCharacters": null
+	},{
+		"internalName": "str4",
+		"displayName": "String (optionals missing)",
+		"description": "Testing string parameter (only letters)",
+		"required": true,
+		"parameterType": "STRING"
 	},
 	
 	
@@ -27,6 +50,31 @@
 		"defaultValue": 122,
 		"minValue": 2,
 		"maxValue": 123
+	},{
+		"internalName": "inte2",
+		"displayName": "Integer (optionals nulls)",
+		"description": "Testing integer parameter",
+		"required": true,
+		"parameterType": "INTEGER",
+		"defaultValue": 122,
+		"minValue": null,
+		"maxValue": null
+	},{
+		"internalName": "inte3",
+		"displayName": "Integer (optionals missing)",
+		"description": "Testing integer parameter",
+		"required": true,
+		"parameterType": "INTEGER",
+		"defaultValue": 122
+	},{
+		"internalName": "inte4",
+		"displayName": "Integer (negatives)",
+		"description": "Testing integer parameter",
+		"required": true,
+		"parameterType": "INTEGER",
+		"defaultValue": -12,
+		"minValue": -123,
+		"maxValue": -1
 	},
 	
 	
@@ -42,6 +90,33 @@
 		"minValue": 1.22,
 		"maxValue": 10.8,
 		"decimalPlaces": 3
+	},{
+		"internalName": "doub2",
+		"displayName": "Double (optionals nulls)",
+		"description": "Testing the double parameter",
+		"required": true,
+		"parameterType": "DOUBLE",
+		"defaultValue": 1.987,
+		"minValue": null,
+		"maxValue": null,
+		"decimalPlaces": null
+	},{
+		"internalName": "doub3",
+		"displayName": "Double",
+		"description": "Testing the double parameter",
+		"required": true,
+		"parameterType": "DOUBLE",
+		"defaultValue": 1.987
+	},{
+		"internalName": "doub4",
+		"displayName": "Double (negatives)",
+		"description": "Testing the double parameter",
+		"required": true,
+		"parameterType": "DOUBLE",
+		"defaultValue": -1.987,
+		"minValue": -21.5,
+		"maxValue": -0.2,
+		"decimalPlaces": 4
 	},
 	
 	
@@ -72,11 +147,33 @@
 	},
 	{
 		"internalName": "sel2",
-		"displayName": "Selection2",
+		"displayName": "Selection (default null)",
 		"description": "Testing out the multi-selection parameter",
 		"required": true,
 		"parameterType": "SELECTION",
-		"defaultValue": "23",
+		"defaultValue": null,
+		"selectionItems": [{
+			"internalName": "21",
+			"displayName": "First",
+			"description": "The first selection item of second selection"
+		},
+		{
+			"internalName": "22",
+			"displayName": "Second",
+			"description": "The second selection item of second selection"
+		},
+		{
+			"internalName": "23",
+			"displayName": "Third",
+			"description": "The third selection item of first selection"
+		}]
+	},
+	{
+		"internalName": "sel3",
+		"displayName": "Selection (default missing)",
+		"description": "Testing out the multi-selection parameter",
+		"required": true,
+		"parameterType": "SELECTION",
 		"selectionItems": [{
 			"internalName": "21",
 			"displayName": "First",
