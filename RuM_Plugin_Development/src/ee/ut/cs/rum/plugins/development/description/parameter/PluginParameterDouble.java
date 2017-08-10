@@ -4,7 +4,7 @@ public class PluginParameterDouble extends PluginParameter {
 	private Double defaultValue;
 	private Double minValue;
 	private Double maxValue;
-	private int decimalPlaces;
+	private Integer decimalPlaces;
 	
 	public PluginParameterDouble() {
 		super();

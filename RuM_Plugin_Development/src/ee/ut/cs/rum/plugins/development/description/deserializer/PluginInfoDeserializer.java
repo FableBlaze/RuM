@@ -140,7 +140,7 @@ public class PluginInfoDeserializer implements JsonDeserializer<PluginInfo> {
 			selectionItems[j]=parameterSelectionItem;
 		}
 		
-		if (!defaultOk && !pluginParameterSelection.getDefaultValue().equals("")) {
+		if (!defaultOk && pluginParameterSelection.getDefaultValue()!=null && !pluginParameterSelection.getDefaultValue().equals("")) {
 			throw new JsonParseException("Invalid default value");
 		}
 		return selectionItems;
@@ -193,64 +193,69 @@ public class PluginInfoDeserializer implements JsonDeserializer<PluginInfo> {
 	}
 	
 	private String getAsStringFromJsonObject(JsonObject jsonObject, String memberName, boolean required) {
+		String result = null;
 		try {
-			String result = jsonObject.get(memberName).getAsString();
-			
+			if (!jsonObject.get(memberName).isJsonNull()) {
+				result = jsonObject.get(memberName).getAsString();
+			}
 			if (required && result.equals("")) {
 				throw new JsonParseException(memberName + " can not be empty");
-			} else {
-				return result;
 			}
-		} catch (NullPointerException e) {
+		} catch (NullPointerException  e) {
 			if (required) {
 				throw new JsonParseException(memberName + " is rqeuired", e);
-			} else {
-				return null;
 			}
 		} catch (ClassCastException e) {
 			throw new JsonParseException(memberName + " is invalid", e);
 		}
+		return result;
 	}
 	
 	private Integer getAsIntegerFromJsonObject(JsonObject jsonObject, String memberName, boolean required) {
+		Integer result = null;
 		try {
-			return new Integer(jsonObject.get(memberName).getAsInt());
+			if (!jsonObject.get(memberName).isJsonNull()) {
+				result = new Integer(jsonObject.get(memberName).getAsInt());
+			}
 		} catch (NullPointerException e) {
 			if (required) {
 				throw new JsonParseException(memberName + " is rqeuired", e);
-			} else {
-				return null;				
 			}
 		} catch (ClassCastException e) {
 			throw new JsonParseException(memberName + " is invalid", e);
 		}
+		return result;
 	}
 	
 	private Double getAsDoubleFromJsonObject(JsonObject jsonObject, String memberName, boolean required) {
+		Double result = null;
 		try {
-			return new Double(jsonObject.get(memberName).getAsDouble());
+			if (!jsonObject.get(memberName).isJsonNull()) {
+				result = new Double(jsonObject.get(memberName).getAsDouble()); 
+			}
 		} catch (NullPointerException e) {
 			if (required) {
 				throw new JsonParseException(memberName + " is rqeuired", e);
-			} else {
-				return null;				
 			}
 		} catch (ClassCastException e) {
 			throw new JsonParseException(memberName + " is invalid", e);
 		}
+		return result;
 	}
 	
 	private Boolean getAsBooleanFromJsonObject(JsonObject jsonObject, String memberName, boolean required) {
+		Boolean result = null;
 		try {
-			return new Boolean(jsonObject.get(memberName).getAsBoolean());
+			if (!jsonObject.get(memberName).isJsonNull()) {
+				result = new Boolean(jsonObject.get(memberName).getAsBoolean()); 
+			}
 		} catch (NullPointerException e) {
 			if (required) {
 				throw new JsonParseException(memberName + " is rqeuired", e);
-			} else {
-				return null;				
 			}
 		} catch (ClassCastException e) {
 			throw new JsonParseException(memberName + " is invalid", e);
 		}
+		return result;
 	}
 }
