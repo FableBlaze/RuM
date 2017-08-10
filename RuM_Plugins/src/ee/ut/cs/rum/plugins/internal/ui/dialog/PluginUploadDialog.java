@@ -197,7 +197,7 @@ public class PluginUploadDialog extends Dialog {
 		}
 	}
 
-	public void setTemporaryPlugin(Plugin temporaryPlugin) {
+	public void setTemporaryPlugin(Plugin temporaryPlugin, String feedback) {
 		this.temporaryPlugin = temporaryPlugin;
 		
 		//Needs syncExec because is called from PluginUploadListener
@@ -206,7 +206,6 @@ public class PluginUploadDialog extends Dialog {
 				if (temporaryPlugin==null) {
 					resetValues();
 					okButton.setEnabled(false);
-					feedbackTextValue.setText("The selected file is not a valid plugin");
 				} else {
 					if (!symbolicNameValue.isDisposed()) {symbolicNameValue.setText(temporaryPlugin.getBundleSymbolicName());} 
 					if (!versionValue.isDisposed()) {versionValue.setText(temporaryPlugin.getBundleVersion());} 
@@ -214,10 +213,9 @@ public class PluginUploadDialog extends Dialog {
 					if (!vendorValue.isDisposed()) {vendorValue.setText(temporaryPlugin.getBundleVendor());}
 					if (!descriptionValue.isDisposed()) {descriptionValue.setText(temporaryPlugin.getBundleDescription());}
 					if (!activatorValue.isDisposed()) {activatorValue.setText(temporaryPlugin.getBundleActivator());}
-
 					okButton.setEnabled(true);
-					feedbackTextValue.setText("");
 				}
+				feedbackTextValue.setText(feedback);
 			}
 		});
 	}
