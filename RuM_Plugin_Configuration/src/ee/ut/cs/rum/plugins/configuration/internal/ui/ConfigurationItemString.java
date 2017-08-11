@@ -27,7 +27,7 @@ public class ConfigurationItemString extends Text implements ConfigurationItemIn
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
 		this.setText(parameterString.getDefaultValue());
-		if (parameterString.getMaxInputLength()>0) {
+		if (parameterString.getMaxInputLength()!= null) {
 			this.setTextLimit(parameterString.getMaxInputLength());			
 		}
 		

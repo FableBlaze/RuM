@@ -15,12 +15,11 @@
 		"allowedCharacters": "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	},{
 		"internalName": "str2",
-		"displayName": "String (optionals empty strings, no maxInputLength)",
+		"displayName": "String (default empty string)",
 		"description": "Testing string parameter (only letters)",
 		"required": true,
 		"parameterType": "STRING",
-		"defaultValue": "",
-		"allowedCharacters": ""
+		"defaultValue": ""
 	},{
 		"internalName": "str3",
 		"displayName": "String (optionals nulls)",

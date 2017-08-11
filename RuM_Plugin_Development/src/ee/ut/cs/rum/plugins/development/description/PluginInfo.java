@@ -2,6 +2,8 @@ package ee.ut.cs.rum.plugins.development.description;
 
 import java.util.Arrays;
 
+import com.google.gson.JsonParseException;
+
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameter;
 
 public class PluginInfo {
@@ -19,6 +21,9 @@ public class PluginInfo {
 	}
 
 	public void setName(String name) {
+		if (name==null || name.equals("")) {
+			throw new JsonParseException(this.getClass().getSimpleName() + " - name can not be empty");
+		}
 		this.name = name;
 	}
 
@@ -27,6 +32,9 @@ public class PluginInfo {
 	}
 
 	public void setDescription(String description) {
+		if (description==null || description.equals("")) {
+			throw new JsonParseException(this.getClass().getSimpleName() + " - description can not be empty");
+		}
 		this.description = description;
 	}
 
@@ -35,6 +43,16 @@ public class PluginInfo {
 	}
 
 	public void setParameters(PluginParameter[] parameters) {
+		if (parameters==null || parameters.length==0) {
+			throw new JsonParseException(this.getClass().getSimpleName() + " - parameters can not be empty");
+		}
+		for (int i = 0; i < parameters.length; i++) {
+			for (int j = i+1; j < parameters.length; j++) {
+				if (parameters[i].getInternalName().equals(parameters[j].getInternalName())) {
+					throw new JsonParseException(this.getClass().getSimpleName() + " - parameter internal names must be unique");
+				}
+			}
+		}
 		this.parameters = parameters;
 	}
 
@@ -43,6 +61,16 @@ public class PluginInfo {
 	}
 
 	public void setOutputs(PluginOutput[] outputs) {
+		if (outputs==null || outputs.length==0) {
+			throw new JsonParseException(this.getClass().getSimpleName() + " - outputs can not be empty");
+		}
+		for (int i = 0; i < outputs.length; i++) {
+			for (int j = i+1; j < outputs.length; j++) {
+				if (outputs[i].getFileName().equals(outputs[j].getFileName())) {
+					throw new JsonParseException(this.getClass().getSimpleName() + " - output filenames must be unique");
+				}
+			}
+		}
 		this.outputs = outputs;
 	}
 

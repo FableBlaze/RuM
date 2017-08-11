@@ -1,5 +1,7 @@
 package ee.ut.cs.rum.plugins.development.description.parameter;
 
+import com.google.gson.JsonParseException;
+
 public class PluginParameterInteger extends PluginParameter {
 	private Integer defaultValue;
 	private Integer minValue;
@@ -15,6 +17,9 @@ public class PluginParameterInteger extends PluginParameter {
 	}
 
 	public void setDefaultValue(Integer defaultValue) {
+		if (defaultValue==null) {
+			throw new JsonParseException(this.getClass().getSimpleName() + " - defaultValue can not be empty");
+		}
 		this.defaultValue = defaultValue;
 	}
 

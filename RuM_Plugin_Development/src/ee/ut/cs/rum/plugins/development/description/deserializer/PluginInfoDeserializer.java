@@ -30,31 +30,12 @@ public class PluginInfoDeserializer implements JsonDeserializer<PluginInfo> {
 
 		PluginInfo pluginInfo = new PluginInfo();
 		
-		pluginInfo.setName(getAsStringFromJsonObject(pluginInfoJsonObject, "name", true));
-		pluginInfo.setDescription(getAsStringFromJsonObject(pluginInfoJsonObject, "description", true));
+		pluginInfo.setName(getAsStringFromJsonObject(pluginInfoJsonObject, "name"));
+		pluginInfo.setDescription(getAsStringFromJsonObject(pluginInfoJsonObject, "description"));
 		
-		JsonArray pluginOutputsJsonArray = getAsJsonArrayFromJsonObject(pluginInfoJsonObject, "outputs", true);
-		PluginOutput[] pluginOutputs = new PluginOutput[pluginOutputsJsonArray.size()];
-		
-		for (int i = 0; i < pluginOutputs.length; i++) {
-			JsonObject pluginOutputJsonObject;
-			try {
-				pluginOutputJsonObject = pluginOutputsJsonArray.get(i).getAsJsonObject();
-			} catch (IllegalStateException e) {
-				throw new JsonParseException("Plugin output object is invalid", e);
-			}
-			
-			PluginOutput pluginOutput = new PluginOutput();
-			pluginOutput.setFileName(getAsStringFromJsonObject(pluginOutputJsonObject, "fileName", true));
-			pluginOutput.setFileTypes(parseFileTypes(pluginOutputJsonObject, "fileTypes"));
-			pluginOutputs[i]=pluginOutput;
-		}
-
-		pluginInfo.setOutputs(pluginOutputs);
-		
-		JsonArray pluginParametersJsonArray = getAsJsonArrayFromJsonObject(pluginInfoJsonObject, "parameters", true);
+		//Parse plugin parameters
+		JsonArray pluginParametersJsonArray = getAsJsonArrayFromJsonObject(pluginInfoJsonObject, "parameters");
 		PluginParameter[] pluginParameters = new PluginParameter[pluginParametersJsonArray.size()];
-
 		for (int i = 0; i < pluginParameters.length; i++) {
 			JsonObject pluginParameterJsonObject;
 			try {
@@ -62,11 +43,11 @@ public class PluginInfoDeserializer implements JsonDeserializer<PluginInfo> {
 			} catch (IllegalStateException e) {
 				throw new JsonParseException("Plugin parameter object is invalid", e);
 			}
-			String parameterTypeString = getAsStringFromJsonObject(pluginParameterJsonObject, "parameterType", true);
+			String parameterTypeString = getAsStringFromJsonObject(pluginParameterJsonObject, "parameterType");
 			PluginParameterType parameterType;
 			try {
 				parameterType = PluginParameterType.valueOf(parameterTypeString);
-			} catch (IllegalArgumentException e) {
+			} catch (Exception e) {
 				throw new JsonParseException("Unknown plugin parameter type: " + parameterTypeString, e);
 			}
 
@@ -74,29 +55,29 @@ public class PluginInfoDeserializer implements JsonDeserializer<PluginInfo> {
 			//TODO: Defaults for optional values need reviewing
 			case STRING:
 				PluginParameterString pluginParameterString = new PluginParameterString();
-				pluginParameterString.setDefaultValue(getAsStringFromJsonObject(pluginParameterJsonObject, "defaultValue", false));
-				pluginParameterString.setMaxInputLength(getAsIntegerFromJsonObject(pluginParameterJsonObject, "maxInputLength", false));
-				pluginParameterString.setAllowedCharacters(getAsStringFromJsonObject(pluginParameterJsonObject, "allowedCharacters", false));
+				pluginParameterString.setDefaultValue(getAsStringFromJsonObject(pluginParameterJsonObject, "defaultValue"));
+				pluginParameterString.setMaxInputLength(getAsIntegerFromJsonObject(pluginParameterJsonObject, "maxInputLength"));
+				pluginParameterString.setAllowedCharacters(getAsStringFromJsonObject(pluginParameterJsonObject, "allowedCharacters"));
 				pluginParameters[i] = pluginParameterString;
 				break; 
 			case INTEGER:
 				PluginParameterInteger parameterInteger = new PluginParameterInteger();
-				parameterInteger.setDefaultValue(getAsIntegerFromJsonObject(pluginParameterJsonObject, "defaultValue", true));
-				parameterInteger.setMinValue(getAsIntegerFromJsonObject(pluginParameterJsonObject, "minValue", false));
-				parameterInteger.setMaxValue(getAsIntegerFromJsonObject(pluginParameterJsonObject, "maxValue", false));
+				parameterInteger.setDefaultValue(getAsIntegerFromJsonObject(pluginParameterJsonObject, "defaultValue"));
+				parameterInteger.setMinValue(getAsIntegerFromJsonObject(pluginParameterJsonObject, "minValue"));
+				parameterInteger.setMaxValue(getAsIntegerFromJsonObject(pluginParameterJsonObject, "maxValue"));
 				pluginParameters[i] = parameterInteger;
 				break; 
 			case DOUBLE:
 				PluginParameterDouble pluginParameterDouble = new PluginParameterDouble();
-				pluginParameterDouble.setDefaultValue(getAsDoubleFromJsonObject(pluginParameterJsonObject, "defaultValue", true));
-				pluginParameterDouble.setMinValue(getAsDoubleFromJsonObject(pluginParameterJsonObject, "minValue", false));
-				pluginParameterDouble.setMaxValue(getAsDoubleFromJsonObject(pluginParameterJsonObject, "maxValue", false));
-				pluginParameterDouble.setDecimalPlaces(getAsIntegerFromJsonObject(pluginParameterJsonObject, "decimalPlaces", false));
+				pluginParameterDouble.setDefaultValue(getAsDoubleFromJsonObject(pluginParameterJsonObject, "defaultValue"));
+				pluginParameterDouble.setMinValue(getAsDoubleFromJsonObject(pluginParameterJsonObject, "minValue"));
+				pluginParameterDouble.setMaxValue(getAsDoubleFromJsonObject(pluginParameterJsonObject, "maxValue"));
+				pluginParameterDouble.setDecimalPlaces(getAsIntegerFromJsonObject(pluginParameterJsonObject, "decimalPlaces"));
 				pluginParameters[i] = pluginParameterDouble;
 				break; 
 			case SELECTION:
 				PluginParameterSelection pluginParameterSelection = new PluginParameterSelection();
-				pluginParameterSelection.setDefaultValue(getAsStringFromJsonObject(pluginParameterJsonObject, "defaultValue", false));
+				pluginParameterSelection.setDefaultValue(getAsStringFromJsonObject(pluginParameterJsonObject, "defaultValue"));
 				pluginParameterSelection.setSelectionItems(parseSelectionItems(pluginParameterJsonObject, pluginParameterSelection));
 				pluginParameters[i] = pluginParameterSelection;
 				break; 
@@ -110,44 +91,54 @@ public class PluginInfoDeserializer implements JsonDeserializer<PluginInfo> {
 			}
 
 			if (pluginParameters[i]!=null) {
-				pluginParameters[i].setInternalName(getAsStringFromJsonObject(pluginParameterJsonObject, "internalName", true));
-				pluginParameters[i].setDisplayName(getAsStringFromJsonObject(pluginParameterJsonObject, "displayName", true));
-				pluginParameters[i].setDescription(getAsStringFromJsonObject(pluginParameterJsonObject, "description", true));
-				pluginParameters[i].setRequired(getAsBooleanFromJsonObject(pluginParameterJsonObject, "required", true));
+				pluginParameters[i].setInternalName(getAsStringFromJsonObject(pluginParameterJsonObject, "internalName"));
+				pluginParameters[i].setDisplayName(getAsStringFromJsonObject(pluginParameterJsonObject, "displayName"));
+				pluginParameters[i].setDescription(getAsStringFromJsonObject(pluginParameterJsonObject, "description"));
+				pluginParameters[i].setRequired(getAsBooleanFromJsonObject(pluginParameterJsonObject, "required"));
 			} else {
 				return null;
 			}
 		}
-
 		pluginInfo.setParameters(pluginParameters);
+		
+		//Parse plugin outputs
+		JsonArray pluginOutputsJsonArray = getAsJsonArrayFromJsonObject(pluginInfoJsonObject, "outputs");
+		PluginOutput[] pluginOutputs = new PluginOutput[pluginOutputsJsonArray.size()];
+		for (int i = 0; i < pluginOutputs.length; i++) {
+			JsonObject pluginOutputJsonObject;
+			try {
+				pluginOutputJsonObject = pluginOutputsJsonArray.get(i).getAsJsonObject();
+			} catch (IllegalStateException e) {
+				throw new JsonParseException("Plugin output object is invalid", e);
+			}
+			
+			PluginOutput pluginOutput = new PluginOutput();
+			pluginOutput.setFileName(getAsStringFromJsonObject(pluginOutputJsonObject, "fileName"));
+			pluginOutput.setFileTypes(parseFileTypes(pluginOutputJsonObject, "fileTypes"));
+			pluginOutputs[i]=pluginOutput;
+		}
+
+		pluginInfo.setOutputs(pluginOutputs);
 
 		return pluginInfo;
 	}
 	
 	private PluginParameterSelectionItem[] parseSelectionItems(JsonObject pluginParameterJsonObject, PluginParameterSelection pluginParameterSelection) {
-		JsonArray selectionItemsJsonArray = getAsJsonArrayFromJsonObject(pluginParameterJsonObject, "selectionItems", true);
-		boolean defaultOk=false;
+		JsonArray selectionItemsJsonArray = getAsJsonArrayFromJsonObject(pluginParameterJsonObject, "selectionItems");
 		PluginParameterSelectionItem[] selectionItems = new PluginParameterSelectionItem[selectionItemsJsonArray.size()];
 		for (int j = 0; j < selectionItems.length; j++) {
 			JsonObject selectionItemJsonObject = selectionItemsJsonArray.get(j).getAsJsonObject();
 			PluginParameterSelectionItem parameterSelectionItem = new PluginParameterSelectionItem();
-			parameterSelectionItem.setInternalName(getAsStringFromJsonObject(selectionItemJsonObject, "internalName", true));
-			parameterSelectionItem.setDisplayName(getAsStringFromJsonObject(selectionItemJsonObject, "displayName", true));
-			parameterSelectionItem.setDescription(getAsStringFromJsonObject(selectionItemJsonObject, "description", false));
-			if (parameterSelectionItem.getInternalName().equals(pluginParameterSelection.getDefaultValue())) {
-				defaultOk=true;
-			}
+			parameterSelectionItem.setInternalName(getAsStringFromJsonObject(selectionItemJsonObject, "internalName"));
+			parameterSelectionItem.setDisplayName(getAsStringFromJsonObject(selectionItemJsonObject, "displayName"));
+			parameterSelectionItem.setDescription(getAsStringFromJsonObject(selectionItemJsonObject, "description"));
 			selectionItems[j]=parameterSelectionItem;
-		}
-		
-		if (!defaultOk && pluginParameterSelection.getDefaultValue()!=null && !pluginParameterSelection.getDefaultValue().equals("")) {
-			throw new JsonParseException("Invalid default value");
 		}
 		return selectionItems;
 	}
 	
 	private String[] parseFileTypes(JsonObject jsonObject, String memberName) {
-		JsonArray fileTypesJsonArray = getAsJsonArrayFromJsonObject(jsonObject, memberName, true);
+		JsonArray fileTypesJsonArray = getAsJsonArrayFromJsonObject(jsonObject, memberName);
 		String[] fileTypes = new String[fileTypesJsonArray.size()];
 		
 		for (int j = 0; j < fileTypes.length; j++) {
@@ -172,88 +163,61 @@ public class PluginInfoDeserializer implements JsonDeserializer<PluginInfo> {
 		}
 	}
 	
-	private JsonArray getAsJsonArrayFromJsonObject(JsonObject jsonObject, String memberName, boolean required) {
+	private JsonArray getAsJsonArrayFromJsonObject(JsonObject jsonObject, String memberName) {
+		JsonArray result = new JsonArray();
 		try {
-			JsonArray result = jsonObject.get(memberName).getAsJsonArray();
-			
-			if (required && result.size()==0) {
-				throw new JsonParseException(memberName + " can not be empty");
-			} else {
-				return result;
+			if (jsonObject.has(memberName) && !jsonObject.get(memberName).isJsonNull()) {
+				result = jsonObject.get(memberName).getAsJsonArray();				
 			}
-		} catch (NullPointerException e) {
-			if (required) {
-				throw new JsonParseException(memberName + " is rqeuired", e);
-			} else {
-				return new JsonArray();				
-			}
-		} catch (IllegalStateException e) {
+		} catch (Exception e) {
 			throw new JsonParseException(memberName + " is invalid", e);
 		}
+		return result;
 	}
 	
-	private String getAsStringFromJsonObject(JsonObject jsonObject, String memberName, boolean required) {
+	private String getAsStringFromJsonObject(JsonObject jsonObject, String memberName) {
 		String result = null;
 		try {
-			if (!jsonObject.get(memberName).isJsonNull()) {
+			if (jsonObject.has(memberName) && !jsonObject.get(memberName).isJsonNull()) {
 				result = jsonObject.get(memberName).getAsString();
 			}
-			if (required && result.equals("")) {
-				throw new JsonParseException(memberName + " can not be empty");
-			}
-		} catch (NullPointerException  e) {
-			if (required) {
-				throw new JsonParseException(memberName + " is rqeuired", e);
-			}
-		} catch (ClassCastException e) {
+		} catch (Exception e) {
 			throw new JsonParseException(memberName + " is invalid", e);
 		}
 		return result;
 	}
 	
-	private Integer getAsIntegerFromJsonObject(JsonObject jsonObject, String memberName, boolean required) {
+	private Integer getAsIntegerFromJsonObject(JsonObject jsonObject, String memberName) {
 		Integer result = null;
 		try {
-			if (!jsonObject.get(memberName).isJsonNull()) {
+			if (jsonObject.has(memberName) && !jsonObject.get(memberName).isJsonNull()) {
 				result = new Integer(jsonObject.get(memberName).getAsInt());
 			}
-		} catch (NullPointerException e) {
-			if (required) {
-				throw new JsonParseException(memberName + " is rqeuired", e);
-			}
-		} catch (ClassCastException e) {
+		} catch (Exception e) {
 			throw new JsonParseException(memberName + " is invalid", e);
 		}
 		return result;
 	}
 	
-	private Double getAsDoubleFromJsonObject(JsonObject jsonObject, String memberName, boolean required) {
+	private Double getAsDoubleFromJsonObject(JsonObject jsonObject, String memberName) {
 		Double result = null;
 		try {
-			if (!jsonObject.get(memberName).isJsonNull()) {
+			if (jsonObject.has(memberName) && !jsonObject.get(memberName).isJsonNull()) {
 				result = new Double(jsonObject.get(memberName).getAsDouble()); 
 			}
-		} catch (NullPointerException e) {
-			if (required) {
-				throw new JsonParseException(memberName + " is rqeuired", e);
-			}
-		} catch (ClassCastException e) {
+		} catch (Exception e) {
 			throw new JsonParseException(memberName + " is invalid", e);
 		}
 		return result;
 	}
 	
-	private Boolean getAsBooleanFromJsonObject(JsonObject jsonObject, String memberName, boolean required) {
+	private Boolean getAsBooleanFromJsonObject(JsonObject jsonObject, String memberName) {
 		Boolean result = null;
 		try {
-			if (!jsonObject.get(memberName).isJsonNull()) {
+			if (jsonObject.has(memberName) && !jsonObject.get(memberName).isJsonNull()) {
 				result = new Boolean(jsonObject.get(memberName).getAsBoolean()); 
 			}
-		} catch (NullPointerException e) {
-			if (required) {
-				throw new JsonParseException(memberName + " is rqeuired", e);
-			}
-		} catch (ClassCastException e) {
+		} catch (Exception e) {
 			throw new JsonParseException(memberName + " is invalid", e);
 		}
 		return result;
