@@ -21,6 +21,12 @@ public class PluginParameterDouble extends PluginParameter {
 		if (defaultValue==null) {
 			throw new JsonParseException(this.getClass().getSimpleName() + " - defaultValue can not be empty");
 		}
+		if (minValue!=null && defaultValue<minValue) {
+			throw new JsonParseException(this.getClass().getSimpleName() + " - defaultValue can not be smaller than minValue");
+		}
+		if (maxValue!=null && defaultValue>maxValue) {
+			throw new JsonParseException(this.getClass().getSimpleName() + " - defaultValue can not be greater than maxValue");
+		}
 		this.defaultValue = defaultValue;
 	}
 	
@@ -31,6 +37,12 @@ public class PluginParameterDouble extends PluginParameter {
 	public void setMinValue(Double minValue) {
 		if (maxValue!=null && minValue>maxValue) {
 			throw new JsonParseException(this.getClass().getSimpleName() + " - minValue can not be smaller than maxValue");
+		}
+		if (defaultValue!=null && minValue!=null && minValue>defaultValue) {
+			throw new JsonParseException(this.getClass().getSimpleName() + " - minValue can not be greater than defaultValue");
+		}
+		if (defaultValue!=null && maxValue!=null && maxValue<defaultValue) {
+			throw new JsonParseException(this.getClass().getSimpleName() + " - maxValue can not be smaller than defaultValue");
 		}
 		this.minValue = minValue;
 	}
