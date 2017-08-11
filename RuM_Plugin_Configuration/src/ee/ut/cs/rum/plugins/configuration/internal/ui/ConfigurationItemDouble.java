@@ -25,19 +25,26 @@ public class ConfigurationItemDouble extends Spinner implements ConfigurationIte
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
 		this.setDigits(parameterDouble.getDecimalPlaces());
-		this.setSelection((int) (parameterDouble.getDefaultValue()*Math.pow(10, this.getDigits())));
-		if (parameterDouble.getMaxValue()!=null) {
-			this.setMaximum((int) (parameterDouble.getMaxValue()*Math.pow(10, this.getDigits())));			
-		}
-		if (parameterDouble.getMinValue()!=null) {
-			this.setMinimum((int) (parameterDouble.getMinValue()*Math.pow(10, this.getDigits())));			
+		if (parameterDouble.getMinValue()!=null && parameterDouble.getMaxValue()!=null) {
+			this.setValues(doubleToSpinnerInt(parameterDouble.getDefaultValue()), doubleToSpinnerInt(parameterDouble.getMinValue()), doubleToSpinnerInt(parameterDouble.getMaxValue()), this.getDigits(), this.getIncrement(), this.getPageIncrement());
+		} else if (parameterDouble.getMinValue()!=null) {
+			this.setValues(doubleToSpinnerInt(parameterDouble.getDefaultValue()), doubleToSpinnerInt(parameterDouble.getMinValue()), this.getMaximum(), this.getDigits(), this.getIncrement(), this.getPageIncrement());
+		} else if (parameterDouble.getMaxValue()!=null) {
+			this.setValues(doubleToSpinnerInt(parameterDouble.getDefaultValue()), this.getMinimum(), doubleToSpinnerInt(parameterDouble.getMaxValue()), this.getDigits(), this.getIncrement(), this.getPageIncrement());
+		} else {
+			this.setValues(doubleToSpinnerInt(parameterDouble.getDefaultValue()), this.getMinimum(), this.getMaximum(), this.getDigits(), this.getIncrement(), this.getPageIncrement());
 		}
 	}
+	
+	private int doubleToSpinnerInt(Double doubleValue) {
+		return (int) (doubleValue*Math.pow(10, this.getDigits()));
+	}
+	
 
 	@Override
 	public void setValue(String value) {
-		try {			
-			this.setSelection((int) (Double.parseDouble(value)*Math.pow(10, this.getDigits())));
+		try {
+			this.setSelection(doubleToSpinnerInt(Double.parseDouble(value)));
 		} catch(NumberFormatException ex) {
 			Activator.getLogger().info(this.getClass().getSimpleName() + " can not be set to: " + value);
 		}

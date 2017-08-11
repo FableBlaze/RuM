@@ -24,12 +24,15 @@ public class ConfigurationItemInteger extends Spinner implements ConfigurationIt
 		
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
-		this.setSelection(parameterInteger.getDefaultValue());
-		if (parameterInteger.getMaxValue()!=null) {
-			this.setMaximum(parameterInteger.getMaxValue());			
-		}
-		if (parameterInteger.getMinValue()!=null) {
-			this.setMinimum(parameterInteger.getMinValue());			
+		//TODO: Negative values issue
+		if (parameterInteger.getMinValue()!=null && parameterInteger.getMaxValue()!=null) {
+			this.setValues(parameterInteger.getDefaultValue(), parameterInteger.getMinValue(), parameterInteger.getMaxValue(), this.getDigits(), this.getIncrement(), this.getPageIncrement());
+		} else if (parameterInteger.getMinValue()!=null) {
+			this.setValues(parameterInteger.getDefaultValue(), parameterInteger.getMinValue(), this.getMaximum(), this.getDigits(), this.getIncrement(), this.getPageIncrement());
+		} else if (parameterInteger.getMaxValue()!=null) {
+			this.setValues(parameterInteger.getDefaultValue(), this.getMinimum(), parameterInteger.getMaxValue(), this.getDigits(), this.getIncrement(), this.getPageIncrement());
+		} else {
+			this.setValues(parameterInteger.getDefaultValue(), this.getMinimum(), this.getMaximum(), this.getDigits(), this.getIncrement(), this.getPageIncrement());
 		}
 	}
 
