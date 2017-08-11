@@ -28,6 +28,9 @@ public class PluginParameterInteger extends PluginParameter {
 	}
 
 	public void setMinValue(Integer minValue) {
+		if (maxValue!=null && minValue>maxValue) {
+			throw new JsonParseException(this.getClass().getSimpleName() + " - minValue can not be smaller than maxValue");
+		}
 		this.minValue = minValue;
 	}
 
@@ -36,6 +39,9 @@ public class PluginParameterInteger extends PluginParameter {
 	}
 
 	public void setMaxValue(Integer maxValue) {
+		if (minValue!=null && maxValue<minValue) {
+			throw new JsonParseException(this.getClass().getSimpleName() + " - maxValue can not be smaller than minValue");
+		}
 		this.maxValue = maxValue;
 	}
 

@@ -29,6 +29,9 @@ public class PluginParameterDouble extends PluginParameter {
 	}
 
 	public void setMinValue(Double minValue) {
+		if (maxValue!=null && minValue>maxValue) {
+			throw new JsonParseException(this.getClass().getSimpleName() + " - minValue can not be smaller than maxValue");
+		}
 		this.minValue = minValue;
 	}
 
@@ -37,6 +40,9 @@ public class PluginParameterDouble extends PluginParameter {
 	}
 
 	public void setMaxValue(Double maxValue) {
+		if (minValue!=null && maxValue<minValue) {
+			throw new JsonParseException(this.getClass().getSimpleName() + " - maxValue can not be smaller than minValue");
+		}
 		this.maxValue = maxValue;
 	}
 
@@ -45,8 +51,8 @@ public class PluginParameterDouble extends PluginParameter {
 	}
 
 	public void setDecimalPlaces(Integer decimalPlaces) {
-		if (decimalPlaces==null || !(decimalPlaces>0)) {
-			throw new JsonParseException(this.getClass().getSimpleName() + " - decimalPlaces must be > 0");
+		if (decimalPlaces==null || decimalPlaces<1) {
+			throw new JsonParseException(this.getClass().getSimpleName() + " - decimalPlaces can not be smaller than 1");
 		}
 		this.decimalPlaces = decimalPlaces;
 	}
