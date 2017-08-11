@@ -98,14 +98,15 @@
 		"defaultValue": 1.987,
 		"minValue": null,
 		"maxValue": null,
-		"decimalPlaces": null
+		"decimalPlaces": 2
 	},{
 		"internalName": "doub3",
 		"displayName": "Double",
 		"description": "Testing the double parameter",
 		"required": true,
 		"parameterType": "DOUBLE",
-		"defaultValue": 1.987
+		"defaultValue": 1.987,
+		"decimalPlaces": 1
 	},{
 		"internalName": "doub4",
 		"displayName": "Double (negatives)",

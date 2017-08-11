@@ -26,12 +26,15 @@ public class ConfigurationItemString extends Text implements ConfigurationItemIn
 		
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
-		this.setText(parameterString.getDefaultValue());
+		if (parameterString.getDefaultValue()!=null) {
+			this.setText(parameterString.getDefaultValue());			
+		}
+		
 		if (parameterString.getMaxInputLength()!= null) {
 			this.setTextLimit(parameterString.getMaxInputLength());			
 		}
 		
-		if (parameterString.getAllowedCharacters()!=null && !parameterString.getAllowedCharacters().equals("")) {
+		if (parameterString.getAllowedCharacters()!=null) {
 			this.addVerifyListener(new VerifyListener() {
 				private static final long serialVersionUID = -988037016675261725L;
 

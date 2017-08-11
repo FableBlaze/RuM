@@ -45,6 +45,9 @@ public class PluginParameterDouble extends PluginParameter {
 	}
 
 	public void setDecimalPlaces(Integer decimalPlaces) {
+		if (decimalPlaces==null || !(decimalPlaces>0)) {
+			throw new JsonParseException(this.getClass().getSimpleName() + " - decimalPlaces must be > 0");
+		}
 		this.decimalPlaces = decimalPlaces;
 	}
 

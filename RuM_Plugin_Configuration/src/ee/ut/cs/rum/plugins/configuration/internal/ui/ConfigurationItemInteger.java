@@ -25,8 +25,12 @@ public class ConfigurationItemInteger extends Spinner implements ConfigurationIt
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
 		this.setSelection(parameterInteger.getDefaultValue());
-		this.setMaximum(parameterInteger.getMaxValue());
-		this.setMinimum(parameterInteger.getMinValue());
+		if (parameterInteger.getMaxValue()!=null) {
+			this.setMaximum(parameterInteger.getMaxValue());			
+		}
+		if (parameterInteger.getMinValue()!=null) {
+			this.setMinimum(parameterInteger.getMinValue());			
+		}
 	}
 
 	@Override
