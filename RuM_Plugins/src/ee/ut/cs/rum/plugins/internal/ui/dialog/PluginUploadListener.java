@@ -84,8 +84,8 @@ public class PluginUploadListener implements FileUploadListener {
 		} catch (PluginManifestException e) {
 			Activator.getLogger().info("Invalid plugin manifest: " + e.toString());
 			pluginUploadDialog.setTemporaryPlugin(null, "Invalid plugin manifest");
-		} catch (Exception e) {
-			Activator.getLogger().info("General error: " + e.toString());
+		} catch (Throwable t) {
+			Activator.getLogger().info("General error: " + t.toString());
 			pluginUploadDialog.setTemporaryPlugin(null, "General error when loading plugin");
 		} finally {
 			if (temporaryBundle!=null) {
