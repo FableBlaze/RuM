@@ -61,15 +61,7 @@ public class PluginUploadListener implements FileUploadListener {
 			Activator.getLogger().info("Plugin info deserialized");
 
 			//TODO: Check for duplicates
-			Plugin temporaryPlugin = new Plugin();
-			temporaryPlugin.setBundleSymbolicName(temporaryBundle.getHeaders().get("Bundle-SymbolicName"));
-			temporaryPlugin.setBundleVersion(temporaryBundle.getHeaders().get("Bundle-Version"));
-			temporaryPlugin.setBundleName(temporaryBundle.getHeaders().get("Bundle-Name"));
-			temporaryPlugin.setBundleVendor(temporaryBundle.getHeaders().get("Bundle-Vendor"));
-			temporaryPlugin.setBundleDescription(temporaryBundle.getHeaders().get("Bundle-Description"));
-			temporaryPlugin.setBundleActivator(temporaryBundle.getHeaders().get("Bundle-Activator"));
-			temporaryPlugin.setBundleImportPackage(temporaryBundle.getHeaders().get("Import-Package"));
-
+			Plugin temporaryPlugin = temporaryBundleToPlugin(temporaryBundle);
 			temporaryPlugin.setPluginName(pluginInfo.getName());
 			temporaryPlugin.setPluginDescription(pluginInfo.getDescription());
 			temporaryPlugin.setPluginInfo(gson.toJson(pluginInfo));
@@ -89,7 +81,10 @@ public class PluginUploadListener implements FileUploadListener {
 		} catch (JsonParseException e) {
 			Activator.getLogger().info("Deserializing plugin info JSON failed: " + e.toString());
 			pluginUploadDialog.setTemporaryPlugin(null, e.getMessage());
-		}catch (Exception e) {
+		} catch (PluginManifestException e) {
+			Activator.getLogger().info("Invalid plugin manifest: " + e.toString());
+			pluginUploadDialog.setTemporaryPlugin(null, "Invalid plugin manifest");
+		} catch (Exception e) {
 			Activator.getLogger().info("General error: " + e.toString());
 			pluginUploadDialog.setTemporaryPlugin(null, "General error when loading plugin");
 		} finally {
@@ -117,5 +112,26 @@ public class PluginUploadListener implements FileUploadListener {
 			}
 		}
 		throw new ServiceException("RumPluginFactory service error");
+	}
+
+	private Plugin temporaryBundleToPlugin(Bundle temporaryBundle) throws PluginManifestException {
+		Plugin temporaryPlugin = new Plugin();
+		temporaryPlugin.setBundleSymbolicName(getValueFromManifest("Bundle-SymbolicName", temporaryBundle));
+		temporaryPlugin.setBundleVersion(getValueFromManifest("Bundle-Version", temporaryBundle));
+		temporaryPlugin.setBundleName(getValueFromManifest("Bundle-Name", temporaryBundle));
+		temporaryPlugin.setBundleVendor(getValueFromManifest("Bundle-Vendor", temporaryBundle));
+		temporaryPlugin.setBundleDescription(getValueFromManifest("Bundle-Description", temporaryBundle));
+		temporaryPlugin.setBundleActivator(getValueFromManifest("Bundle-Activator", temporaryBundle));
+		temporaryPlugin.setBundleImportPackage(getValueFromManifest("Import-Package", temporaryBundle));
+		return temporaryPlugin;
+	}
+
+	private String getValueFromManifest(String key, Bundle temporaryBundle) throws PluginManifestException {
+		String value = temporaryBundle.getHeaders().get(key);
+		if (value!=null && !value.equals("")) {
+			return value;
+		} else {
+			throw new PluginManifestException();			
+		}
 	}
 }
