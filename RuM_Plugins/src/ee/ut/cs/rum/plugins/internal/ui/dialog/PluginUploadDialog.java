@@ -14,6 +14,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
@@ -31,6 +32,7 @@ public class PluginUploadDialog extends Dialog {
 	private static final long serialVersionUID = 3382119816602279394L;
 
 	private RumController rumController;
+	private Shell shell;
 
 	private File temporaryFile;
 	private Plugin temporaryPlugin;
@@ -47,56 +49,30 @@ public class PluginUploadDialog extends Dialog {
 	private Button okButton;
 
 	public PluginUploadDialog(Shell activeShell, RumController rumController) {
-		super(activeShell, SWT.APPLICATION_MODAL | SWT.TITLE | SWT.BORDER);
-		
+		super(activeShell, SWT.APPLICATION_MODAL | SWT.TITLE | SWT.BORDER | SWT.RESIZE);
+
 		this.rumController=rumController;
 	}
 
 	public String open() {
-		Shell shell = new Shell(getParent(), getStyle());
+		shell = new Shell(this.getParent(), getStyle());
 		shell.setText("Add plugin");
-		createContents(shell);
+		createContents();
 		shell.pack();
 		shell.setLocation (100, 100);
 		shell.open();
 		return null;
 	}
 
-	private void createContents(final Shell shell) {
-		shell.setLayout(new GridLayout(2, true));
-
-		Label bundleNameLabel = new Label(shell, SWT.NONE);
-		bundleNameLabel.setText("Bundle name:");
-		nameValue = new Label(shell, SWT.NONE);
-		nameValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-
-		Label bundleSymbolicNameLabel = new Label(shell, SWT.NONE);
-		bundleSymbolicNameLabel.setText("Bundle symbolic name:");
-		symbolicNameValue = new Label(shell, SWT.NONE);
-		symbolicNameValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-
-		Label bundleVersionLabel = new Label(shell, SWT.NONE);
-		bundleVersionLabel.setText("Bundle version:");
-		versionValue = new Label(shell, SWT.NONE);
-		versionValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-
-		Label vendorLabel = new Label(shell, SWT.NONE);
-		vendorLabel.setText("Bundle vendor:");
-		vendorValue = new Label(shell, SWT.NONE);
-		vendorValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-
-		Label descriptionLabel = new Label(shell, SWT.NONE);
-		descriptionLabel.setText("Bundle description:");
-		descriptionValue = new Label(shell, SWT.NONE);
-		descriptionValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-
-		Label bundleActivatorLabel = new Label(shell, SWT.NONE);
-		bundleActivatorLabel.setText("Bundle activator:");
-		activatorValue = new Label(shell, SWT.NONE);
-		activatorValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+	private void createContents() {
+		//TODO: remove
+		shell.setLayout(new GridLayout(2, false));
+		
+		Composite manifestComposite = createManifestComposite();
+		((GridData) manifestComposite.getLayoutData()).horizontalSpan = ((GridLayout) shell.getLayout()).numColumns;
 
 		feedbackTextValue = new Label(shell, SWT.NONE);
-		feedbackTextValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		feedbackTextValue.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, true, true));
 		((GridData) feedbackTextValue.getLayoutData()).horizontalSpan = ((GridLayout) shell.getLayout()).numColumns;
 
 
@@ -147,16 +123,16 @@ public class PluginUploadDialog extends Dialog {
 					} catch (IOException e) {
 						Activator.getLogger().info("Failed to copy uploaded plugin to: " + destinationFile.toPath());
 					}
-					
+
 					if (copySucceeded) {
 						temporaryPlugin.setFileLocation(destinationFile.toPath().toString());
 						rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.PLUGIN, temporaryPlugin, "TODO");
-						
+
 						shell.close();
 					} else {
 						feedbackTextValue.setText("Plugin install failed");
 					}
-					
+
 				} else {
 					feedbackTextValue.setText("Plugin installing disabled");
 				}
@@ -175,6 +151,44 @@ public class PluginUploadDialog extends Dialog {
 		});
 	}
 
+	private Composite createManifestComposite() {
+		Composite manifestComposite  = new Composite(shell, SWT.NONE);
+		manifestComposite.setLayout(new GridLayout(2, false));
+		manifestComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		
+		Label bundleNameLabel = new Label(manifestComposite, SWT.NONE);
+		bundleNameLabel.setText("Bundle name:");
+		nameValue = new Label(manifestComposite, SWT.NONE);
+		nameValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+
+		Label bundleSymbolicNameLabel = new Label(manifestComposite, SWT.NONE);
+		bundleSymbolicNameLabel.setText("Bundle symbolic name:");
+		symbolicNameValue = new Label(manifestComposite, SWT.NONE);
+		symbolicNameValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+
+		Label bundleVersionLabel = new Label(manifestComposite, SWT.NONE);
+		bundleVersionLabel.setText("Bundle version:");
+		versionValue = new Label(manifestComposite, SWT.NONE);
+		versionValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+
+		Label vendorLabel = new Label(manifestComposite, SWT.NONE);
+		vendorLabel.setText("Bundle vendor:");
+		vendorValue = new Label(manifestComposite, SWT.NONE);
+		vendorValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+
+		Label descriptionLabel = new Label(manifestComposite, SWT.NONE);
+		descriptionLabel.setText("Bundle description:");
+		descriptionValue = new Label(manifestComposite, SWT.NONE);
+		descriptionValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+
+		Label bundleActivatorLabel = new Label(manifestComposite, SWT.NONE);
+		bundleActivatorLabel.setText("Bundle activator:");
+		activatorValue = new Label(manifestComposite, SWT.NONE);
+		activatorValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		
+		return manifestComposite;
+	}
+
 	private void resetValues() {
 		if (!symbolicNameValue.isDisposed()) {symbolicNameValue.setText("");} 
 		if (!versionValue.isDisposed()) {versionValue.setText("");} 
@@ -186,7 +200,7 @@ public class PluginUploadDialog extends Dialog {
 
 	public void setTemporaryFile(File temporaryFile) {
 		this.temporaryFile = temporaryFile;
-		
+
 		if (!fileName.isDisposed()) {
 			//Needs syncExec because is called from PluginUploadListener
 			Display.getDefault().syncExec(new Runnable() {
@@ -199,7 +213,7 @@ public class PluginUploadDialog extends Dialog {
 
 	public void setTemporaryPlugin(Plugin temporaryPlugin, String feedback) {
 		this.temporaryPlugin = temporaryPlugin;
-		
+
 		//Needs syncExec because is called from PluginUploadListener
 		Display.getDefault().syncExec(new Runnable() {
 			public void run() {
