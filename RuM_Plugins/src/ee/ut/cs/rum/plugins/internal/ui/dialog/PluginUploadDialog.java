@@ -72,7 +72,7 @@ public class PluginUploadDialog extends Dialog {
 		((GridData) manifestComposite.getLayoutData()).horizontalSpan = ((GridLayout) shell.getLayout()).numColumns;
 
 		feedbackTextValue = new Label(shell, SWT.NONE);
-		feedbackTextValue.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, true, true));
+		feedbackTextValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		((GridData) feedbackTextValue.getLayoutData()).horizontalSpan = ((GridLayout) shell.getLayout()).numColumns;
 
 
@@ -154,7 +154,7 @@ public class PluginUploadDialog extends Dialog {
 	private Composite createManifestComposite() {
 		Composite manifestComposite  = new Composite(shell, SWT.NONE);
 		manifestComposite.setLayout(new GridLayout(2, false));
-		manifestComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		manifestComposite.setLayoutData(new GridData(GridData.FILL_BOTH));
 		
 		Label bundleNameLabel = new Label(manifestComposite, SWT.NONE);
 		bundleNameLabel.setText("Bundle name:");
