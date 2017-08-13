@@ -109,32 +109,24 @@ public class PluginUploadDialog extends Dialog {
 			private static final long serialVersionUID = -7891195942424898731L;
 
 			public void widgetSelected(SelectionEvent event) {
-				boolean copySucceeded = false;
-				File destinationFile = null;
-
-				String plugin_path = SystemParameterAccess.getSystemParameterValue(SystemParameterName.PLUGIN_PATH);
-				if (plugin_path!=null) {
+				try {
+					String plugin_path = SystemParameterAccess.getSystemParameterValue(SystemParameterName.PLUGIN_PATH);
 					File plugin_path_file = new File(plugin_path);
-					destinationFile = new File(plugin_path_file, new SimpleDateFormat("ddMMyyyy_HHmmssSSS").format(new Date()) + ".jar");
-					try {
-						Files.copy( temporaryFile.toPath(), destinationFile.toPath());
-						copySucceeded = true;
-						Activator.getLogger().info("Copied uploaded plugin to: " + destinationFile.toPath());
-					} catch (IOException e) {
-						Activator.getLogger().info("Failed to copy uploaded plugin to: " + destinationFile.toPath());
-					}
+					//TDODO: Rule out non-unique file names
+					File destinationFile = new File(plugin_path_file, new SimpleDateFormat("ddMMyyyy_HHmmssSSS").format(new Date()) + ".jar");
+					Files.copy( temporaryFile.toPath(), destinationFile.toPath());
+					Activator.getLogger().info("Copied uploaded plugin to: " + destinationFile.toPath());
+					
+					temporaryPlugin.setFileLocation(destinationFile.toPath().toString());
+					rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.PLUGIN, temporaryPlugin, "TODO");
 
-					if (copySucceeded) {
-						temporaryPlugin.setFileLocation(destinationFile.toPath().toString());
-						rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.PLUGIN, temporaryPlugin, "TODO");
-
-						shell.close();
-					} else {
-						feedbackTextValue.setText("Plugin install failed");
-					}
-
-				} else {
+					shell.close();
+				} catch (NullPointerException e) {
 					feedbackTextValue.setText("Plugin installing disabled");
+					Activator.getLogger().info("Parameter" + SystemParameterName.PLUGIN_PATH.toString() + " not set");
+				} catch (IOException e) {
+					feedbackTextValue.setText("Plugin copy failed");
+					Activator.getLogger().info("Failed to copy uploaded plugin to plugins folder");
 				}
 			}
 		});
