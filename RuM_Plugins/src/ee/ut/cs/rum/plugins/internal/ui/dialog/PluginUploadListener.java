@@ -6,10 +6,13 @@ import org.eclipse.rap.fileupload.FileUploadEvent;
 import org.eclipse.rap.fileupload.FileUploadListener;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleException;
+import org.osgi.framework.ServiceException;
 import org.osgi.framework.ServiceReference;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonSyntaxException;
 
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.plugins.development.description.PluginInfo;
@@ -20,33 +23,33 @@ import ee.ut.cs.rum.plugins.internal.Activator;
 public class PluginUploadListener implements FileUploadListener {
 	private DiskFileUploadReceiver receiver;
 	private PluginUploadDialog pluginUploadDialog;
-	
+
 	private Gson gson;
-	
+
 	public PluginUploadListener(DiskFileUploadReceiver receiver, PluginUploadDialog pluginUploadDialog) {
 		this.receiver=receiver;
 		this.pluginUploadDialog=pluginUploadDialog;
-		
+
 		GsonBuilder gsonBuilder = new GsonBuilder();
 		gsonBuilder.registerTypeAdapter(PluginInfo.class, new PluginInfoDeserializer());
 		gson = gsonBuilder.create();
 	}
-	
+
 	@Override
 	public void uploadFailed(FileUploadEvent arg0) {}
 	@Override
 	public void uploadProgress(FileUploadEvent arg0) {}
-	
+
 	@Override
 	public void uploadFinished(FileUploadEvent arg0) {
 		Bundle temporaryBundle = null;
 		String pluginInfoJson = null;
 		PluginInfo pluginInfo = null;
-		
+
 		File temporaryFile = receiver.getTargetFiles()[receiver.getTargetFiles().length-1];
 		pluginUploadDialog.setTemporaryFile(temporaryFile);
 		Activator.getLogger().info("Uploaded file: " + temporaryFile.getAbsolutePath());
-		
+
 		try {
 			temporaryBundle = Activator.getContext().installBundle("file:///" + temporaryFile.getAbsolutePath());
 			Activator.getLogger().info("Temporary plugin loaded");
@@ -56,17 +59,9 @@ public class PluginUploadListener implements FileUploadListener {
 			Activator.getLogger().info("Temporary plugin initial start/stop done");
 			pluginInfo = gson.fromJson(pluginInfoJson, PluginInfo.class);
 			Activator.getLogger().info("Plugin info deserialized");
-		} catch (BundleException e1) {
-			e1.printStackTrace();
-			Activator.getLogger().info(e1.getMessage());
-		} catch (Exception e) {
-			Activator.getLogger().info("Deserializing plugin info JSON failed: " + e.toString());
-		}
 
-		//TODO: Check for duplicates
-		if (temporaryBundle!=null && temporaryBundle.getSymbolicName()!=null && pluginInfo!=null) {
+			//TODO: Check for duplicates
 			Plugin temporaryPlugin = new Plugin();
-			
 			temporaryPlugin.setBundleSymbolicName(temporaryBundle.getHeaders().get("Bundle-SymbolicName"));
 			temporaryPlugin.setBundleVersion(temporaryBundle.getHeaders().get("Bundle-Version"));
 			temporaryPlugin.setBundleName(temporaryBundle.getHeaders().get("Bundle-Name"));
@@ -74,29 +69,42 @@ public class PluginUploadListener implements FileUploadListener {
 			temporaryPlugin.setBundleDescription(temporaryBundle.getHeaders().get("Bundle-Description"));
 			temporaryPlugin.setBundleActivator(temporaryBundle.getHeaders().get("Bundle-Activator"));
 			temporaryPlugin.setBundleImportPackage(temporaryBundle.getHeaders().get("Import-Package"));
-			
+
 			temporaryPlugin.setPluginName(pluginInfo.getName());
 			temporaryPlugin.setPluginDescription(pluginInfo.getDescription());
 			temporaryPlugin.setPluginInfo(gson.toJson(pluginInfo));
-			
+
 			temporaryPlugin.setOriginalFilename(temporaryFile.getName());
 			temporaryPlugin.setEnabled(true);
 			pluginUploadDialog.setTemporaryPlugin(temporaryPlugin, "");
-		} else {
-			pluginUploadDialog.setTemporaryPlugin(null, "The selected file is not a valid plugin");
-		}
-
-		if (temporaryBundle!=null) {
-			try {
-				temporaryBundle.uninstall();
-				Activator.getLogger().error("Temporary plugin uninstalled");
-			} catch (BundleException e) {
-				Activator.getLogger().error("Temporary plugin uninstalling failed");
+		} catch (BundleException e) {
+			Activator.getLogger().info("Invalid bundle" + e.toString());
+			pluginUploadDialog.setTemporaryPlugin(null, "Invalid plugin bundle");
+		} catch (ServiceException e) {
+			Activator.getLogger().info("Error getting plugin info JSON from RumPluginFactory service: " + e.toString());
+			pluginUploadDialog.setTemporaryPlugin(null, e.getMessage());
+		} catch (JsonSyntaxException e) {
+			Activator.getLogger().info("Plugin info JSON malformed: " + e.toString());
+			pluginUploadDialog.setTemporaryPlugin(null, "Malformed plugin info JSON");
+		} catch (JsonParseException e) {
+			Activator.getLogger().info("Deserializing plugin info JSON failed: " + e.toString());
+			pluginUploadDialog.setTemporaryPlugin(null, e.getMessage());
+		}catch (Exception e) {
+			Activator.getLogger().info("General error: " + e.toString());
+			pluginUploadDialog.setTemporaryPlugin(null, "General error when loading plugin");
+		} finally {
+			if (temporaryBundle!=null) {
+				try {
+					temporaryBundle.uninstall();
+					Activator.getLogger().error("Temporary plugin uninstalled");
+				} catch (BundleException e) {
+					Activator.getLogger().error("Temporary plugin uninstalling failed");
+				}
 			}
 		}
 	}
 
-	private String getPluginInfoFromBundle(Bundle temporaryBundle) {
+	private String getPluginInfoFromBundle (Bundle temporaryBundle) throws ServiceException {
 		if (temporaryBundle.getRegisteredServices()!=null) {
 			for (ServiceReference<?> serviceReference : temporaryBundle.getRegisteredServices()) {
 				String[] objectClasses = (String[])serviceReference.getProperty("objectClass");
@@ -108,6 +116,6 @@ public class PluginUploadListener implements FileUploadListener {
 				}	
 			}
 		}
-		return null;
+		throw new ServiceException("RumPluginFactory service error");
 	}
 }
