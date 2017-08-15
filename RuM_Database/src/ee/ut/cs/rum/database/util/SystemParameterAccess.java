@@ -26,7 +26,7 @@ public final class SystemParameterAccess {
 		String systemParameterValue = systemParameter.getValue();
 		
 		if (systemParameterValue==null || systemParameterValue.isEmpty()) {
-			throw new SystemParameterNotSetException();
+			throw new SystemParameterNotSetException(systemParameterName);
 		}
 		return systemParameterValue;
 	}

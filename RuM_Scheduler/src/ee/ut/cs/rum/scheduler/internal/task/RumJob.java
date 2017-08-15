@@ -89,7 +89,7 @@ public class RumJob implements Job {
 			Activator.getLogger().info("RumJob done: " + jobKey + " at " + new Date());
 		} catch (SystemParameterNotSetException e) {
 			SubTasksData.updateSubTaskStatusInDb(subTaskId, TaskStatus.FAILED);
-			Activator.getLogger().info("RumJob failed: " + jobKey + " at " + new Date() + " " + "required system parameters not set");
+			Activator.getLogger().info("RumJob failed: " + jobKey + " at " + new Date() + " " + e.toString());
 		} catch (Exception e) {
 			SubTasksData.updateSubTaskStatusInDb(subTaskId, TaskStatus.FAILED);
 			Activator.getLogger().info("RumJob failed: " + jobKey + " at " + new Date() + " " + e.toString());

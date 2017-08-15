@@ -86,7 +86,7 @@ public class NewTaskFooter extends Composite {
 						Activator.getLogger().info("Error queing task: " + task.toString());
 					}
 				} catch (SystemParameterNotSetException e) {
-					Activator.getLogger().info("Can not queue task, required system parameter not set");
+					Activator.getLogger().info("Can not queue task " + e.toString());
 				}
 			}
 		});

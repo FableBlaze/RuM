@@ -78,7 +78,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 			user_file_path_asString = SystemParameterAccess.getSystemParameterValue(SystemParameterName.USER_FILE_PATH);
 			user_file_path = new File(user_file_path_asString);
 		} catch (SystemParameterNotSetException e) {
-			Activator.getLogger().info("File upload disabled, required system parameter not set");
+			Activator.getLogger().info("File upload disabled " + e.toString());
 		}
 
 		GridLayout gridLayout = new GridLayout(2, false);

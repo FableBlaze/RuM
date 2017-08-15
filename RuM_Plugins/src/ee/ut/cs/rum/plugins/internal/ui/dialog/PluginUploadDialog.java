@@ -124,7 +124,7 @@ public class PluginUploadDialog extends Dialog {
 					shell.close();
 				} catch (SystemParameterNotSetException e) {
 					feedbackTextValue.setText("Plugin installing disabled");
-					Activator.getLogger().info("Parameter " + SystemParameterName.PLUGIN_PATH.toString() + " not set");
+					Activator.getLogger().info("Can not install plugins " + e.toString());
 				} catch (IOException e) {
 					feedbackTextValue.setText("Plugin copy failed");
 					Activator.getLogger().info("Failed to copy uploaded plugin to plugins folder");
