@@ -22,6 +22,7 @@ import ee.ut.cs.rum.database.domain.UserFileType;
 import ee.ut.cs.rum.database.domain.enums.SystemParameterName;
 import ee.ut.cs.rum.database.domain.enums.TaskStatus;
 import ee.ut.cs.rum.database.util.SystemParameterAccess;
+import ee.ut.cs.rum.database.util.exceptions.SystemParameterNotSetException;
 import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
 import ee.ut.cs.rum.plugins.configuration.util.PluginUtils;
@@ -86,10 +87,12 @@ public class RumJob implements Job {
 			}			
 			
 			Activator.getLogger().info("RumJob done: " + jobKey + " at " + new Date());
+		} catch (SystemParameterNotSetException e) {
+			SubTasksData.updateSubTaskStatusInDb(subTaskId, TaskStatus.FAILED);
+			Activator.getLogger().info("RumJob failed: " + jobKey + " at " + new Date() + " " + "required system parameters not set");
 		} catch (Exception e) {
 			SubTasksData.updateSubTaskStatusInDb(subTaskId, TaskStatus.FAILED);
-			Activator.getLogger().info("RumJob failed: " + jobKey + " at " + new Date());
-			e.printStackTrace();
+			Activator.getLogger().info("RumJob failed: " + jobKey + " at " + new Date() + " " + e.toString());
 		}
 	}
 

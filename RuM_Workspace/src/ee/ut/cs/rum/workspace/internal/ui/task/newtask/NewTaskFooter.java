@@ -18,6 +18,7 @@ import ee.ut.cs.rum.database.domain.Task;
 import ee.ut.cs.rum.database.domain.enums.SystemParameterName;
 import ee.ut.cs.rum.database.domain.enums.TaskStatus;
 import ee.ut.cs.rum.database.util.SystemParameterAccess;
+import ee.ut.cs.rum.database.util.exceptions.SystemParameterNotSetException;
 import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
 import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationComposite;
@@ -49,10 +50,8 @@ public class NewTaskFooter extends Composite {
 
 			@Override
 			public void handleEvent(Event event) {
-
-				String task_results_root_asString = SystemParameterAccess.getSystemParameterValue(SystemParameterName.TASK_RESULTS_ROOT);
-				if (task_results_root_asString!=null) {
-
+				try {
+					SystemParameterAccess.getSystemParameterValue(SystemParameterName.TASK_RESULTS_ROOT);
 					Task task = newTaskComposite.getTask();
 					List<SubTask> subTasks = new ArrayList<SubTask>();
 					boolean subTasksOk = true;
@@ -86,6 +85,8 @@ public class NewTaskFooter extends Composite {
 						task.getSubTasks().clear();
 						Activator.getLogger().info("Error queing task: " + task.toString());
 					}
+				} catch (SystemParameterNotSetException e) {
+					Activator.getLogger().info("Can not queue task, required system parameter not set");
 				}
 			}
 		});

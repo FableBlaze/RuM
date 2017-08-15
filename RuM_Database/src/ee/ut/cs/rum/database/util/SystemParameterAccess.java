@@ -9,27 +9,24 @@ import javax.persistence.TypedQuery;
 import ee.ut.cs.rum.database.domain.SystemParameter;
 import ee.ut.cs.rum.database.domain.enums.SystemParameterName;
 import ee.ut.cs.rum.database.internal.Activator;
+import ee.ut.cs.rum.database.util.exceptions.SystemParameterNotSetException;
 
 public final class SystemParameterAccess {
 	
 	private SystemParameterAccess() {
 	}
 	
-	public static String getSystemParameterValue(SystemParameterName systemParameterName) {
-		SystemParameter systemParameter = null;
-		String systemParameterValue = null;
-		
+	public static String getSystemParameterValue(SystemParameterName systemParameterName) throws SystemParameterNotSetException {
 		EntityManagerFactory emf = Activator.getEmf();
 		EntityManager em = emf.createEntityManager();
 		
 		String queryString = "Select sp from SystemParameter sp where sp.name = '" + systemParameterName.toString() + "'";
 		TypedQuery<SystemParameter> query = em.createQuery(queryString, SystemParameter.class);
+		SystemParameter systemParameter = query.getSingleResult();
+		String systemParameterValue = systemParameter.getValue();
 		
-		try {
-			systemParameter = query.getSingleResult();
-			systemParameterValue = systemParameter.getValue();
-		} catch (Exception e) {
-			Activator.getLogger().info("Failed querying systemparameter with name: " + systemParameterName);
+		if (systemParameterValue==null || systemParameterValue.isEmpty()) {
+			throw new SystemParameterNotSetException();
 		}
 		return systemParameterValue;
 	}
@@ -43,22 +40,6 @@ public final class SystemParameterAccess {
 		List<SystemParameter> systemParameters = query.getResultList();
 		
 		return systemParameters;
-	}
-	
-	public static SystemParameter getSystemParameterDataFromDb(SystemParameterName systemParameterName) {
-		SystemParameter systemParameter = null;
-		EntityManagerFactory emf = Activator.getEmf();
-		EntityManager em = emf.createEntityManager();
-		
-		String queryString = "Select sp from SystemParameter sp where sp.name = '" + systemParameterName.toString() + "'";
-		TypedQuery<SystemParameter> query = em.createQuery(queryString, SystemParameter.class);
-		
-		try {
-			systemParameter = query.getSingleResult();
-		} catch (Exception e) {
-			Activator.getLogger().info("Failed querying systemparameter with name: " + systemParameterName);
-		}
-		return systemParameter;
 	}
 	
 	public static boolean updateParameterValue(SystemParameter updatedSystemParameter) {
@@ -108,5 +89,21 @@ public final class SystemParameterAccess {
 		} else {
 			Activator.getLogger().info("Skipped adding existing systemParameter: " + systemParameter.toString());
 		}
+	}
+	
+	private static SystemParameter getSystemParameterDataFromDb(SystemParameterName systemParameterName) {
+		SystemParameter systemParameter = null;
+		EntityManagerFactory emf = Activator.getEmf();
+		EntityManager em = emf.createEntityManager();
+		
+		String queryString = "Select sp from SystemParameter sp where sp.name = '" + systemParameterName.toString() + "'";
+		TypedQuery<SystemParameter> query = em.createQuery(queryString, SystemParameter.class);
+		
+		try {
+			systemParameter = query.getSingleResult();
+		} catch (Exception e) {
+			Activator.getLogger().info("Failed querying systemparameter with name: " + systemParameterName);
+		}
+		return systemParameter;
 	}
 }

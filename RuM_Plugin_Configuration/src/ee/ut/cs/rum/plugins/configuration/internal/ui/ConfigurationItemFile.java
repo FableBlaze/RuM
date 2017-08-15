@@ -31,6 +31,7 @@ import ee.ut.cs.rum.database.domain.UserFileType;
 import ee.ut.cs.rum.database.domain.enums.SystemParameterName;
 import ee.ut.cs.rum.database.util.SystemParameterAccess;
 import ee.ut.cs.rum.database.util.UserFileAccess;
+import ee.ut.cs.rum.database.util.exceptions.SystemParameterNotSetException;
 import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
 import ee.ut.cs.rum.plugins.configuration.internal.Activator;
@@ -72,9 +73,12 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 
 		this.pluginConfigurationComposite = pluginConfigurationComposite;
 		this.parameterFile = parameterFile;
-		String user_file_path_asString = SystemParameterAccess.getSystemParameterValue(SystemParameterName.USER_FILE_PATH);
-		if (user_file_path_asString!=null) {
+		String user_file_path_asString;
+		try {
+			user_file_path_asString = SystemParameterAccess.getSystemParameterValue(SystemParameterName.USER_FILE_PATH);
 			user_file_path = new File(user_file_path_asString);
+		} catch (SystemParameterNotSetException e) {
+			Activator.getLogger().info("File upload disabled, required system parameter not set");
 		}
 
 		GridLayout gridLayout = new GridLayout(2, false);

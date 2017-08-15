@@ -24,6 +24,7 @@ import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.database.domain.enums.SystemParameterName;
 import ee.ut.cs.rum.database.util.SystemParameterAccess;
+import ee.ut.cs.rum.database.util.exceptions.SystemParameterNotSetException;
 import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
 import ee.ut.cs.rum.plugins.internal.Activator;
@@ -121,9 +122,9 @@ public class PluginUploadDialog extends Dialog {
 					rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.PLUGIN, temporaryPlugin, "TODO");
 
 					shell.close();
-				} catch (NullPointerException e) {
+				} catch (SystemParameterNotSetException e) {
 					feedbackTextValue.setText("Plugin installing disabled");
-					Activator.getLogger().info("Parameter" + SystemParameterName.PLUGIN_PATH.toString() + " not set");
+					Activator.getLogger().info("Parameter " + SystemParameterName.PLUGIN_PATH.toString() + " not set");
 				} catch (IOException e) {
 					feedbackTextValue.setText("Plugin copy failed");
 					Activator.getLogger().info("Failed to copy uploaded plugin to plugins folder");
