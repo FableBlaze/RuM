@@ -28,7 +28,7 @@ import org.eclipse.swt.widgets.Label;
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.UserFile;
 import ee.ut.cs.rum.database.domain.UserFileType;
-import ee.ut.cs.rum.database.domain.enums.SystemParameterName;
+import ee.ut.cs.rum.database.domain.enums.SystemParametersEnum;
 import ee.ut.cs.rum.database.util.SystemParameterAccess;
 import ee.ut.cs.rum.database.util.UserFileAccess;
 import ee.ut.cs.rum.database.util.exceptions.SystemParameterNotSetException;
@@ -75,7 +75,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 		this.parameterFile = parameterFile;
 		String user_file_path_asString;
 		try {
-			user_file_path_asString = SystemParameterAccess.getSystemParameterValue(SystemParameterName.USER_FILE_PATH);
+			user_file_path_asString = SystemParameterAccess.getSystemParameterValue(SystemParametersEnum.USER_FILE_PATH);
 			user_file_path = new File(user_file_path_asString);
 		} catch (SystemParameterNotSetException e) {
 			Activator.getLogger().info("File upload disabled " + e.toString());

@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import ee.ut.cs.rum.database.EmfTrackerCustomizer;
 import ee.ut.cs.rum.database.RumEmfService;
 import ee.ut.cs.rum.database.domain.SystemParameter;
-import ee.ut.cs.rum.database.domain.enums.SystemParameterName;
+import ee.ut.cs.rum.database.domain.enums.SystemParametersEnum;
 import ee.ut.cs.rum.database.util.SystemParameterAccess;
 
 public class Activator implements BundleActivator {
@@ -47,36 +47,17 @@ public class Activator implements BundleActivator {
 	
 	private static void initializeSystemParameters() {
 		Date date;
-		
-		SystemParameter systemParameter = new SystemParameter();
-		systemParameter.setName(SystemParameterName.PLUGIN_PATH.toString());
-		systemParameter.setDescription("Location of plugin jars");
-		date = new Date();
-		systemParameter.setCreatedBy("SYS (TODO)");
-		systemParameter.setCreatedAt(date);
-		systemParameter.setLastModifiedBy("SYS (TODO)");
-		systemParameter.setLastModifiedAt(date);
-		SystemParameterAccess.addSystemParameterDataToDb(systemParameter);
-		
-		systemParameter = new SystemParameter();
-		systemParameter.setName(SystemParameterName.USER_FILE_PATH.toString());
-		systemParameter.setDescription("Location of user uploaded files");
-		date = new Date();
-		systemParameter.setCreatedBy("SYS (TODO)");
-		systemParameter.setCreatedAt(date);
-		systemParameter.setLastModifiedBy("SYS (TODO)");
-		systemParameter.setLastModifiedAt(date);
-		SystemParameterAccess.addSystemParameterDataToDb(systemParameter);
-		
-		systemParameter = new SystemParameter();
-		systemParameter.setName(SystemParameterName.TASK_RESULTS_ROOT.toString());
-		systemParameter.setDescription("Location of task output folders");
-		date = new Date();
-		systemParameter.setCreatedBy("SYS (TODO)");
-		systemParameter.setCreatedAt(date);
-		systemParameter.setLastModifiedBy("SYS (TODO)");
-		systemParameter.setLastModifiedAt(date);
-		SystemParameterAccess.addSystemParameterDataToDb(systemParameter);
+		for (SystemParametersEnum systemParameterEnumValue : SystemParametersEnum.values()) {
+			SystemParameter systemParameter = new SystemParameter();
+			systemParameter.setName(systemParameterEnumValue.toString());
+			systemParameter.setDescription(systemParameterEnumValue.getDescription());
+			date = new Date();
+			systemParameter.setCreatedBy("SYS (TODO)");
+			systemParameter.setCreatedAt(date);
+			systemParameter.setLastModifiedBy("SYS (TODO)");
+			systemParameter.setLastModifiedAt(date);
+			SystemParameterAccess.addSystemParameterDataToDb(systemParameter);
+		}
 	}
 
 	public static BundleContext getContext() {

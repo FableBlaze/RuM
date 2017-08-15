@@ -15,7 +15,7 @@ import org.eclipse.swt.widgets.Table;
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.SubTask;
 import ee.ut.cs.rum.database.domain.Task;
-import ee.ut.cs.rum.database.domain.enums.SystemParameterName;
+import ee.ut.cs.rum.database.domain.enums.SystemParametersEnum;
 import ee.ut.cs.rum.database.domain.enums.TaskStatus;
 import ee.ut.cs.rum.database.util.SystemParameterAccess;
 import ee.ut.cs.rum.database.util.exceptions.SystemParameterNotSetException;
@@ -51,7 +51,7 @@ public class NewTaskFooter extends Composite {
 			@Override
 			public void handleEvent(Event event) {
 				try {
-					SystemParameterAccess.getSystemParameterValue(SystemParameterName.TASK_RESULTS_ROOT);
+					SystemParameterAccess.getSystemParameterValue(SystemParametersEnum.TASK_RESULTS_ROOT);
 					Task task = newTaskComposite.getTask();
 					List<SubTask> subTasks = new ArrayList<SubTask>();
 					boolean subTasksOk = true;

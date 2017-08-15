@@ -22,7 +22,7 @@ import org.eclipse.swt.widgets.Shell;
 
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Plugin;
-import ee.ut.cs.rum.database.domain.enums.SystemParameterName;
+import ee.ut.cs.rum.database.domain.enums.SystemParametersEnum;
 import ee.ut.cs.rum.database.util.SystemParameterAccess;
 import ee.ut.cs.rum.database.util.exceptions.SystemParameterNotSetException;
 import ee.ut.cs.rum.enums.ControllerEntityType;
@@ -111,7 +111,7 @@ public class PluginUploadDialog extends Dialog {
 
 			public void widgetSelected(SelectionEvent event) {
 				try {
-					String plugin_path = SystemParameterAccess.getSystemParameterValue(SystemParameterName.PLUGIN_PATH);
+					String plugin_path = SystemParameterAccess.getSystemParameterValue(SystemParametersEnum.PLUGIN_PATH);
 					File plugin_path_file = new File(plugin_path);
 					//TDODO: Rule out non-unique file names
 					File destinationFile = new File(plugin_path_file, new SimpleDateFormat("ddMMyyyy_HHmmssSSS").format(new Date()) + ".jar");

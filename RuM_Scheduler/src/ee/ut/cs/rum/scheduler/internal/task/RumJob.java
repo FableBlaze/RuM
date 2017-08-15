@@ -19,7 +19,7 @@ import ee.ut.cs.rum.database.domain.SubTask;
 import ee.ut.cs.rum.database.domain.SubTaskDependency;
 import ee.ut.cs.rum.database.domain.UserFile;
 import ee.ut.cs.rum.database.domain.UserFileType;
-import ee.ut.cs.rum.database.domain.enums.SystemParameterName;
+import ee.ut.cs.rum.database.domain.enums.SystemParametersEnum;
 import ee.ut.cs.rum.database.domain.enums.TaskStatus;
 import ee.ut.cs.rum.database.util.SystemParameterAccess;
 import ee.ut.cs.rum.database.util.exceptions.SystemParameterNotSetException;
@@ -56,7 +56,7 @@ public class RumJob implements Job {
 				rumJobPluginBundle = installSelectedPluginBundle(plugin);
 			}
 			
-			String task_results_root_asString = SystemParameterAccess.getSystemParameterValue(SystemParameterName.TASK_RESULTS_ROOT);
+			String task_results_root_asString = SystemParameterAccess.getSystemParameterValue(SystemParametersEnum.TASK_RESULTS_ROOT);
 			File task_results_root = new File(task_results_root_asString);
 			File outputDirectory = new File(task_results_root, subTask.getId() + "_" + new SimpleDateFormat("ddMMyyyy_HHmmssSSS").format(subTask.getCreatedAt()));
 			subTask.setOutputPath(outputDirectory.getPath());

@@ -7,7 +7,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 
 import ee.ut.cs.rum.database.domain.SystemParameter;
-import ee.ut.cs.rum.database.domain.enums.SystemParameterName;
+import ee.ut.cs.rum.database.domain.enums.SystemParametersEnum;
 import ee.ut.cs.rum.database.internal.Activator;
 import ee.ut.cs.rum.database.util.exceptions.SystemParameterNotSetException;
 
@@ -16,7 +16,7 @@ public final class SystemParameterAccess {
 	private SystemParameterAccess() {
 	}
 	
-	public static String getSystemParameterValue(SystemParameterName systemParameterName) throws SystemParameterNotSetException {
+	public static String getSystemParameterValue(SystemParametersEnum systemParameterName) throws SystemParameterNotSetException {
 		EntityManagerFactory emf = Activator.getEmf();
 		EntityManager em = emf.createEntityManager();
 		
@@ -45,7 +45,7 @@ public final class SystemParameterAccess {
 	public static boolean updateParameterValue(SystemParameter updatedSystemParameter) {
 		//TODO: Review updating process
 		boolean setValueSuccess = false;
-		SystemParameterName systemParameterName = SystemParameterName.valueOf(updatedSystemParameter.getName());
+		SystemParametersEnum systemParameterName = SystemParametersEnum.valueOf(updatedSystemParameter.getName());
 		SystemParameter systemParameter = SystemParameterAccess.getSystemParameterDataFromDb(systemParameterName);
 		if (systemParameter!=null) {
 			systemParameter.setValue(updatedSystemParameter.getValue());
@@ -71,7 +71,7 @@ public final class SystemParameterAccess {
 	}
 	
 	public static void addSystemParameterDataToDb(SystemParameter systemParameter) {
-		SystemParameter existingSystemParameter = SystemParameterAccess.getSystemParameterDataFromDb(SystemParameterName.valueOf(systemParameter.getName()));
+		SystemParameter existingSystemParameter = SystemParameterAccess.getSystemParameterDataFromDb(SystemParametersEnum.valueOf(systemParameter.getName()));
 		
 		if (existingSystemParameter==null) {
 			EntityManagerFactory emf = Activator.getEmf();
@@ -91,7 +91,7 @@ public final class SystemParameterAccess {
 		}
 	}
 	
-	private static SystemParameter getSystemParameterDataFromDb(SystemParameterName systemParameterName) {
+	private static SystemParameter getSystemParameterDataFromDb(SystemParametersEnum systemParameterName) {
 		SystemParameter systemParameter = null;
 		EntityManagerFactory emf = Activator.getEmf();
 		EntityManager em = emf.createEntityManager();
