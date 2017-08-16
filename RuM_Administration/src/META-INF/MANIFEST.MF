@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-SymbolicName: RuM_SystemAdministration
 Bundle-Description: RuM system administration section
-Bundle-Version: 0.0.1
+Bundle-Version: 0.1.1
 Bundle-Name: RuM_SystemAdministration
 Bundle-ManifestVersion: 2
 Bundle-Vendor: University of Tartu

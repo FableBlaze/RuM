@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plan name="RuM" version="0.0.1" scoped="false" atomic="true"
+<plan name="RuM" version="0.1.1" scoped="false" atomic="true"
 	xmlns="http://www.springsource.org/schema/dm-server/plan" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="
             http://www.springsource.org/schema/dm-server/plan 
             http://www.springsource.org/schema/dm-server/plan/springsource-dm-server-plan.xsd">
 
 	<artifact type="bundle" name="org.eclipse.gemini.jpa" version="[1.2.0.M1,1.2.0.M1]"/>
-	<artifact type="bundle" name="RuM_Database" version="0.0.3"/>
+	<artifact type="bundle" name="RuM_Database" version="0.1.3"/>
 	
-	<artifact type="bundle" name="RuM_Controller" version="0.0.1"/>
-	<artifact type="bundle" name="RuM_Plugin_Development" version="0.1.0"/>
+	<artifact type="bundle" name="RuM_Controller" version="0.1.1"/>
+	<artifact type="bundle" name="RuM_Plugin_Development" version="0.2.0"/>
 	
-	<artifact type="bundle" name="RuM_SystemAdministration" version="0.0.1"/>
-	<artifact type="bundle" name="RuM_Plugin_Configuration" version="0.1.0"/>
+	<artifact type="bundle" name="RuM_SystemAdministration" version="0.1.1"/>
+	<artifact type="bundle" name="RuM_Plugin_Configuration" version="0.2.0"/>
 	
-	<artifact type="bundle" name="RuM_Scheduler" version="0.1.0"/>
-	<artifact type="bundle" name="RuM_Plugins" version="0.1.0"/>
-	<artifact type="bundle" name="RuM_Files" version="0.0.1"/>
+	<artifact type="bundle" name="RuM_Scheduler" version="0.2.0"/>
+	<artifact type="bundle" name="RuM_Plugins" version="0.2.0"/>
+	<artifact type="bundle" name="RuM_Files" version="0.1.1"/>
 	
-	<artifact type="bundle" name="RuM_Workspace" version="0.1.0"/>
+	<artifact type="bundle" name="RuM_Workspace" version="0.2.0"/>
 	
-	<artifact type="bundle" name="RuM" version="0.1.0"/>
+	<artifact type="bundle" name="RuM" version="0.2.0"/>
 </plan> 
                                                           

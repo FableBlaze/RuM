@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-SymbolicName: RuM_Scheduler
 Bundle-Description: RuM Scheduler bundle
-Bundle-Version: 0.1.0
+Bundle-Version: 0.2.0
 Bundle-Name: RuM_Scheduler
 Bundle-Vendor: University of Tartu
 Bundle-ManifestVersion: 2
