@@ -30,6 +30,7 @@ import ee.ut.cs.rum.database.domain.UserFile;
 import ee.ut.cs.rum.database.domain.UserFileType;
 import ee.ut.cs.rum.database.domain.enums.SystemParametersEnum;
 import ee.ut.cs.rum.database.util.SystemParameterAccess;
+import ee.ut.cs.rum.database.util.UserAccountAccess;
 import ee.ut.cs.rum.database.util.UserFileAccess;
 import ee.ut.cs.rum.database.util.exceptions.SystemParameterNotSetException;
 import ee.ut.cs.rum.enums.ControllerEntityType;
@@ -253,7 +254,8 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 				
 				if (copySucceeded) {
 					tmpUserFile.setFileLocation(destinationFile.toPath().toString());
-					tmpUserFile = (UserFile)this.rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.USER_FILE, tmpUserFile, "TODO");
+					//TODO: Should be real user
+					tmpUserFile = (UserFile)this.rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.USER_FILE, tmpUserFile, UserAccountAccess.getSystemUserAccount());
 					
 					return tmpUserFile.getFileLocation();
 				} else {

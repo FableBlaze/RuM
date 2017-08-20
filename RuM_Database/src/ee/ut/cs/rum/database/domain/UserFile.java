@@ -40,13 +40,13 @@ public class UserFile implements RumUpdatableEntity {
 	@Column(name = "file_location")
 	private String fileLocation;
 	
-	@Column(name = "created_by")
-	private String createdBy;
+	@JoinColumn(name = "created_by_fk")
+	private UserAccount createdBy;
 	@Column(name = "created_at")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdAt;
-	@Column(name = "last_modified_by")
-	private String lastModifiedBy;
+	@JoinColumn(name = "last_modified_by_fk")
+	private UserAccount lastModifiedBy;
 	@Column(name = "last_modified_at") 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastModifiedAt;
@@ -93,10 +93,10 @@ public class UserFile implements RumUpdatableEntity {
 	public void setFileLocation(String fileLocation) {
 		this.fileLocation = fileLocation;
 	}
-	public String getCreatedBy() {
+	public UserAccount getCreatedBy() {
 		return createdBy;
 	}
-	public void setCreatedBy(String createdBy) {
+	public void setCreatedBy(UserAccount createdBy) {
 		this.createdBy = createdBy;
 	}
 	public Date getCreatedAt() {
@@ -105,10 +105,10 @@ public class UserFile implements RumUpdatableEntity {
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
-	public String getLastModifiedBy() {
+	public UserAccount getLastModifiedBy() {
 		return lastModifiedBy;
 	}
-	public void setLastModifiedBy(String lastModifiedBy) {
+	public void setLastModifiedBy(UserAccount lastModifiedBy) {
 		this.lastModifiedBy = lastModifiedBy;
 	}
 	public Date getLastModifiedAt() {

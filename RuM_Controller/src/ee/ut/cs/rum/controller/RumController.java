@@ -11,6 +11,7 @@ import ee.ut.cs.rum.database.domain.Project;
 import ee.ut.cs.rum.database.domain.SubTask;
 import ee.ut.cs.rum.database.domain.SystemParameter;
 import ee.ut.cs.rum.database.domain.Task;
+import ee.ut.cs.rum.database.domain.UserAccount;
 import ee.ut.cs.rum.database.domain.UserFile;
 import ee.ut.cs.rum.database.domain.interfaces.RumUpdatableEntity;
 import ee.ut.cs.rum.database.util.PluginAccess;
@@ -41,10 +42,10 @@ public class RumController {
 		systemParameterListeners = Collections.synchronizedList(new ArrayList<RumUpdatableView>());
 	}
 
-	public Object changeData(ControllerUpdateType controllerUpdateType, ControllerEntityType controllerEntityType, Object updatedEntity, String user) {
+	public Object changeData(ControllerUpdateType controllerUpdateType, ControllerEntityType controllerEntityType, Object updatedEntity, UserAccount userAccount) {
 		Activator.getLogger().info("changeData - updateType: " + controllerUpdateType + ", entityType: " + controllerEntityType + ", entity: " + updatedEntity.toString());
 		if (updatedEntity instanceof RumUpdatableEntity) {			
-			updatedEntity = updateCreateModifyInfo((RumUpdatableEntity)updatedEntity, controllerUpdateType, user);
+			updatedEntity = updateCreateModifyInfo((RumUpdatableEntity)updatedEntity, controllerUpdateType, userAccount);
 			switch (controllerEntityType) {
 			case PROJECT:
 				if (updatedEntity instanceof Project) {
@@ -55,13 +56,13 @@ public class RumController {
 			case TASK:
 				if (updatedEntity instanceof Task) {
 					Task task = (Task)updatedEntity;
-					updatedEntity = changeDataTask(controllerUpdateType, task);				
+					updatedEntity = changeDataTask(controllerUpdateType, task);
 				}
 				break;
 			case SUBTASK:
 				if (updatedEntity instanceof SubTask) {
 					SubTask subTask = (SubTask)updatedEntity;
-					updatedEntity = changeDataSubTask(controllerUpdateType, subTask);				
+					updatedEntity = changeDataSubTask(controllerUpdateType, subTask);
 				}
 				break;
 			case USER_FILE:
@@ -89,15 +90,15 @@ public class RumController {
 		return updatedEntity;
 	}
 
-	private Object updateCreateModifyInfo(RumUpdatableEntity updatedEntity, ControllerUpdateType controllerUpdateType, String user) {
+	private Object updateCreateModifyInfo(RumUpdatableEntity updatedEntity, ControllerUpdateType controllerUpdateType, UserAccount userAccount) {
 		//TODO: This method causes taskModifiedAt to be slightly out of sync between subTask, task and project
 		//TODO: This method causes subTaskOutputFolder to be slightly out of sync with createdAt
 		Date date = new Date();
 		if (controllerUpdateType==ControllerUpdateType.CREATE) {
-			updatedEntity.setCreatedBy(user);
+			updatedEntity.setCreatedBy(userAccount);
 			updatedEntity.setCreatedAt(date);
 		}
-		updatedEntity.setLastModifiedBy(user);
+		updatedEntity.setLastModifiedBy(userAccount);
 		updatedEntity.setLastModifiedAt(date);
 		return updatedEntity;
 	}

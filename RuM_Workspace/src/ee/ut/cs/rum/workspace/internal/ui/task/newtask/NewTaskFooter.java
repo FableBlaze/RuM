@@ -15,9 +15,11 @@ import org.eclipse.swt.widgets.Table;
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.SubTask;
 import ee.ut.cs.rum.database.domain.Task;
+import ee.ut.cs.rum.database.domain.UserAccount;
 import ee.ut.cs.rum.database.domain.enums.SystemParametersEnum;
 import ee.ut.cs.rum.database.domain.enums.TaskStatus;
 import ee.ut.cs.rum.database.util.SystemParameterAccess;
+import ee.ut.cs.rum.database.util.UserAccountAccess;
 import ee.ut.cs.rum.database.util.exceptions.SystemParameterNotSetException;
 import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
@@ -59,13 +61,13 @@ public class NewTaskFooter extends Composite {
 					List<NewTaskSubTaskInfo> newTaskSubTaskInfoList = newTaskComposite.getNewTaskDetailsContainer().getNewTaskSubTaskInfoList();
 					for (NewTaskSubTaskInfo newTaskSubTaskInfo : newTaskSubTaskInfoList) {
 						Date createdAt = new Date();
-						String userName = "TODO";
+						UserAccount systemUserAccount = UserAccountAccess.getSystemUserAccount();
 
 						if (newTaskSubTaskInfo.updateAndCheckSubTask()) {
 							SubTask subTask = newTaskSubTaskInfo.getSubTask();
-							subTask.setCreatedBy(userName);
+							subTask.setCreatedBy(systemUserAccount);
 							subTask.setCreatedAt(createdAt);
-							subTask.setLastModifiedBy(userName);
+							subTask.setLastModifiedBy(systemUserAccount);
 							subTask.setLastModifiedAt(createdAt);
 							subTasks.add(subTask);
 						} else {
@@ -77,7 +79,8 @@ public class NewTaskFooter extends Composite {
 					task.setSubTasks(subTasks);
 
 					if (subTasksOk && !subTasks.isEmpty()) {
-						task = (Task)rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.TASK, task, "TODO");
+						//TODO: Should be real user
+						task = (Task)rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.TASK, task, UserAccountAccess.getSystemUserAccount());
 
 						RumScheduler.scheduleTask(task.getId());
 						Activator.getLogger().info("Queued task: " + task.toString());						

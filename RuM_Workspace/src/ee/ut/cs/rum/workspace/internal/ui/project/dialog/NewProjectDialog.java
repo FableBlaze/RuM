@@ -13,6 +13,7 @@ import org.eclipse.swt.widgets.Text;
 
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Project;
+import ee.ut.cs.rum.database.util.UserAccountAccess;
 import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
 
@@ -75,7 +76,8 @@ public class NewProjectDialog extends Dialog {
 					Project project = new Project();
 					project.setName(nameValue.getText());
 					project.setDescription(descriptionValue.getText());
-					rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.PROJECT, project, "TODO");
+					//TODO: Should be real user
+					rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.PROJECT, project, UserAccountAccess.getSystemUserAccount());
 					
 					shell.close();
 				}

@@ -7,6 +7,7 @@ import org.eclipse.jface.viewers.TextCellEditor;
 
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.SystemParameter;
+import ee.ut.cs.rum.database.util.UserAccountAccess;
 import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
 
@@ -48,7 +49,8 @@ public class SystemParameterValueEditingSupport extends EditingSupport {
 		
 		SystemParameter systemParameter = (SystemParameter) element;
 		systemParameter.setValue(String.valueOf(userInputValue));
-		rumController.changeData(ControllerUpdateType.MODIFIY, ControllerEntityType.SYSTEM_PARAMETER, systemParameter, "TODO");
+		//TODO: Should be real user
+		rumController.changeData(ControllerUpdateType.MODIFIY, ControllerEntityType.SYSTEM_PARAMETER, systemParameter, UserAccountAccess.getSystemUserAccount());
 	}
 
 }

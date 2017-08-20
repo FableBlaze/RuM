@@ -40,7 +40,7 @@ public class UserFileGeneralDetails extends Composite {
 		l.setText("Created by:");
 
 		l = new Label(this, SWT.NONE);
-		l.setText(userFile.getCreatedBy());
+		l.setText(userFile.getCreatedBy().getUserName());
 
 		l = new Label(this, SWT.NONE);
 		l.setText("Last modified at:");
@@ -52,7 +52,7 @@ public class UserFileGeneralDetails extends Composite {
 		l.setText("Last modified by:");
 
 		l = new Label(this, SWT.NONE);
-		l.setText(userFile.getLastModifiedBy());
+		l.setText(userFile.getLastModifiedBy().getUserName());
 
 		l = new Label(this, SWT.NONE);
 		l.setText("Original filename:");

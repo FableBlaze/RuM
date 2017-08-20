@@ -13,8 +13,10 @@ import org.slf4j.LoggerFactory;
 import ee.ut.cs.rum.database.EmfTrackerCustomizer;
 import ee.ut.cs.rum.database.RumEmfService;
 import ee.ut.cs.rum.database.domain.SystemParameter;
+import ee.ut.cs.rum.database.domain.UserAccount;
 import ee.ut.cs.rum.database.domain.enums.SystemParametersEnum;
 import ee.ut.cs.rum.database.util.SystemParameterAccess;
+import ee.ut.cs.rum.database.util.UserAccountAccess;
 
 public class Activator implements BundleActivator {
 	private static BundleContext context;
@@ -47,14 +49,15 @@ public class Activator implements BundleActivator {
 	
 	private static void initializeSystemParameters() {
 		Date date;
+		UserAccount systemUserAccount = UserAccountAccess.getSystemUserAccount();
 		for (SystemParametersEnum systemParameterEnumValue : SystemParametersEnum.values()) {
 			SystemParameter systemParameter = new SystemParameter();
 			systemParameter.setName(systemParameterEnumValue.toString());
 			systemParameter.setDescription(systemParameterEnumValue.getDescription());
 			date = new Date();
-			systemParameter.setCreatedBy("SYS (TODO)");
+			systemParameter.setCreatedBy(systemUserAccount);
 			systemParameter.setCreatedAt(date);
-			systemParameter.setLastModifiedBy("SYS (TODO)");
+			systemParameter.setLastModifiedBy(systemUserAccount);
 			systemParameter.setLastModifiedAt(date);
 			SystemParameterAccess.addSystemParameterDataToDb(systemParameter);
 		}

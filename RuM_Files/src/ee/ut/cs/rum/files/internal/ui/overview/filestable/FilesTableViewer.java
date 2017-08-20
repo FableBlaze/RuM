@@ -109,7 +109,7 @@ public class FilesTableViewer extends TableViewer implements RumUpdatableView {
 			@Override
 			public String getText(Object element) {
 				UserFile userFile = (UserFile) element;
-				return userFile.getCreatedBy();
+				return userFile.getCreatedBy().getUserName();
 			}
 		});
 
@@ -131,7 +131,7 @@ public class FilesTableViewer extends TableViewer implements RumUpdatableView {
 			@Override
 			public String getText(Object element) {
 				UserFile userFile = (UserFile) element;
-				return userFile.getLastModifiedBy();
+				return userFile.getLastModifiedBy().getUserName();
 			}
 		});
 

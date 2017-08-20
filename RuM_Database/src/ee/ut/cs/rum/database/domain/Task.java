@@ -35,13 +35,13 @@ public class Task implements RumUpdatableEntity {
 	private List<SubTask> subTasks;
 	@JoinColumn(name = "project_fk")
 	private Project project;
-	@Column(name = "created_by")
-	private String createdBy;
+	@JoinColumn(name = "created_by_fk")
+	private UserAccount createdBy;
 	@Column(name = "created_at")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdAt;
-	@Column(name = "last_modified_by")
-	private String lastModifiedBy;
+	@JoinColumn(name = "last_modified_by_fk")
+	private UserAccount lastModifiedBy;
 	@Column(name = "last_modified_at") //TODO: Implement modifying functionality 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastModifiedAt;
@@ -82,10 +82,10 @@ public class Task implements RumUpdatableEntity {
 	public void setProject(Project project) {
 		this.project = project;
 	}
-	public String getCreatedBy() {
+	public UserAccount getCreatedBy() {
 		return createdBy;
 	}
-	public void setCreatedBy(String createdBy) {
+	public void setCreatedBy(UserAccount createdBy) {
 		this.createdBy = createdBy;
 	}
 	public Date getCreatedAt() {
@@ -94,10 +94,10 @@ public class Task implements RumUpdatableEntity {
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
-	public String getLastModifiedBy() {
+	public UserAccount getLastModifiedBy() {
 		return lastModifiedBy;
 	}
-	public void setLastModifiedBy(String lastModifiedBy) {
+	public void setLastModifiedBy(UserAccount lastModifiedBy) {
 		this.lastModifiedBy = lastModifiedBy;
 	}
 	public Date getLastModifiedAt() {

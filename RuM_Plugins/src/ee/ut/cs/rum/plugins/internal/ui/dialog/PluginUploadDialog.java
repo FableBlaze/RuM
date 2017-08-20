@@ -24,6 +24,7 @@ import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.database.domain.enums.SystemParametersEnum;
 import ee.ut.cs.rum.database.util.SystemParameterAccess;
+import ee.ut.cs.rum.database.util.UserAccountAccess;
 import ee.ut.cs.rum.database.util.exceptions.SystemParameterNotSetException;
 import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
@@ -119,7 +120,8 @@ public class PluginUploadDialog extends Dialog {
 					Activator.getLogger().info("Copied uploaded plugin to: " + destinationFile.toPath());
 					
 					temporaryPlugin.setFileLocation(destinationFile.toPath().toString());
-					rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.PLUGIN, temporaryPlugin, "TODO");
+					//TODO: Should be real user
+					rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.PLUGIN, temporaryPlugin, UserAccountAccess.getSystemUserAccount());
 
 					shell.close();
 				} catch (SystemParameterNotSetException e) {

@@ -8,6 +8,7 @@ import org.eclipse.swt.widgets.Display;
 
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Plugin;
+import ee.ut.cs.rum.database.util.UserAccountAccess;
 import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
 import ee.ut.cs.rum.interfaces.RumUpdatableView;
@@ -52,7 +53,8 @@ public class PluginEnableButton extends Button implements RumUpdatableView {
 				} else {
 					tmpPlugin.setEnabled(true);
 				}
-				rumController.changeData(ControllerUpdateType.MODIFIY, ControllerEntityType.PLUGIN, tmpPlugin, "TODO");
+				//TODO: Should be real user
+				rumController.changeData(ControllerUpdateType.MODIFIY, ControllerEntityType.PLUGIN, tmpPlugin, UserAccountAccess.getSystemUserAccount());
 			}
 
 			@Override
