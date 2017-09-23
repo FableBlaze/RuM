@@ -34,13 +34,14 @@ public class NewTaskFooter extends Composite {
 	private int subTaskNameCounter;
 	private Button startTaskButton;
 	private Button removeSubTaskButton;
+	private Button removeAllSubTasksButton;
 
 	public NewTaskFooter(NewTaskComposite newTaskComposite, RumController rumController) {
 		super(newTaskComposite, SWT.NONE);
 
 		subTaskNameCounter=1;
 
-		this.setLayout(new GridLayout(3, false));
+		this.setLayout(new GridLayout(4, false));
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
 		startTaskButton = new Button(this, SWT.PUSH);
@@ -122,7 +123,7 @@ public class NewTaskFooter extends Composite {
 
 		removeSubTaskButton = new Button(this, SWT.PUSH);
 		removeSubTaskButton.setText("Remove sub-task");
-		removeSubTaskButton.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false));
+		removeSubTaskButton.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
 		removeSubTaskButton.addListener(SWT.Selection, new Listener() {
 			private static final long serialVersionUID = 1736754942801222766L;
 
@@ -145,10 +146,35 @@ public class NewTaskFooter extends Composite {
 				}
 			}
 		});
-		removeSubTaskButton.setVisible(false);
+		removeSubTaskButton.setEnabled(false);
+		
+		removeAllSubTasksButton = new Button(this, SWT.PUSH);
+		removeAllSubTasksButton.setText("Remove all sub-tasks");
+		removeAllSubTasksButton.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false));
+		removeAllSubTasksButton.addListener(SWT.Selection, new Listener() {
+			private static final long serialVersionUID = 6019579109943293915L;
+
+			@Override
+			public void handleEvent(Event arg0) {
+				Table table = newTaskComposite.getDetailsSideBar().getSubTaskTableViewer().getTable();
+				NewTaskDetailsContainer newTaskDetailsContainer = newTaskComposite.getNewTaskDetailsContainer();
+				
+				newTaskDetailsContainer.getNewTaskSubTaskInfoList().clear();
+				table.removeAll();
+				newTaskDetailsContainer.showGeneralInfo();
+
+				startTaskButton.setEnabled(false);
+				removeAllSubTasksButton.setEnabled(false);
+			}
+		});
+		removeAllSubTasksButton.setEnabled(false);
+	}
+	
+	public void setRemoveAllSubTasksButtonEnabled(boolean enabled) {
+		removeAllSubTasksButton.setEnabled(enabled);
 	}
 
-	public void setRemoveSubTaskButtonVisible(boolean visible) {
-		removeSubTaskButton.setVisible(visible);
+	public void setRemoveSubTaskButtonEnabled(boolean enabled) {
+		removeSubTaskButton.setEnabled(enabled);
 	}
 }
