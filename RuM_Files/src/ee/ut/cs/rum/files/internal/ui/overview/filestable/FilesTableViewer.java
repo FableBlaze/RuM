@@ -66,8 +66,8 @@ public class FilesTableViewer extends TableViewer implements RumUpdatableView {
 	}
 
 	private void createColumns(final TableViewer viewer, FilesManagementUI filesManagementUI) {
-		String[] titles = { "Id", "Name", "Location", "Created by", "Created at", "Modified by", "Modified at", "Details", "Download"};
-		int[] bounds = { 50, 200, 400, 125, 125, 125, 125, 80 , 80 };
+		String[] titles = { "Id", "Name", "Location", "Created by", "Created at", "Details", "Download"};
+		int[] bounds = { 50, 250, 600, 125, 125, 80 , 80 };
 
 		TableViewerColumn idColumn = createTableViewerColumn(titles[0], bounds[0], viewer);
 		idColumn.setLabelProvider(new ColumnLabelProvider() {
@@ -124,29 +124,7 @@ public class FilesTableViewer extends TableViewer implements RumUpdatableView {
 			}
 		});
 
-		TableViewerColumn lastModifiedByColumn = createTableViewerColumn(titles[5], bounds[5], viewer);
-		lastModifiedByColumn.setLabelProvider(new ColumnLabelProvider() {
-			private static final long serialVersionUID = 8797885823572868896L;
-
-			@Override
-			public String getText(Object element) {
-				UserFile userFile = (UserFile) element;
-				return userFile.getLastModifiedBy().getUserName();
-			}
-		});
-
-		TableViewerColumn lastModifiedAtColumn = createTableViewerColumn(titles[6], bounds[6], viewer);
-		lastModifiedAtColumn.setLabelProvider(new ColumnLabelProvider() {
-			private static final long serialVersionUID = 810828415600352131L;
-
-			@Override
-			public String getText(Object element) {
-				UserFile userFile = (UserFile) element;
-				return new SimpleDateFormat("dd-MM-yyyy").format(userFile.getLastModifiedAt());
-			}
-		});
-
-		TableViewerColumn detailsButtonColumn = createTableViewerColumn(titles[7], bounds[7], viewer);
+		TableViewerColumn detailsButtonColumn = createTableViewerColumn(titles[5], bounds[5], viewer);
 		detailsButtonColumn.setLabelProvider(new ColumnLabelProvider() {
 			private static final long serialVersionUID = 4559441071410857663L;
 
@@ -176,7 +154,7 @@ public class FilesTableViewer extends TableViewer implements RumUpdatableView {
 			}
 		});
 		
-		TableViewerColumn downloadButtonColumn = createTableViewerColumn(titles[8], bounds[8], viewer);
+		TableViewerColumn downloadButtonColumn = createTableViewerColumn(titles[6], bounds[6], viewer);
 		downloadButtonColumn.setLabelProvider(new ColumnLabelProvider() {
 			private static final long serialVersionUID = 4559441071410857663L;
 

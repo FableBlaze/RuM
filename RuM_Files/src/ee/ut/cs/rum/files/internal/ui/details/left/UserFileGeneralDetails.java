@@ -43,18 +43,6 @@ public class UserFileGeneralDetails extends Composite {
 		l.setText(userFile.getCreatedBy().getUserName());
 
 		l = new Label(this, SWT.NONE);
-		l.setText("Last modified at:");
-
-		l = new Label(this, SWT.NONE);
-		l.setText(new SimpleDateFormat("dd-MM-yyyy").format(userFile.getLastModifiedAt()));
-
-		l = new Label(this, SWT.NONE);
-		l.setText("Last modified by:");
-
-		l = new Label(this, SWT.NONE);
-		l.setText(userFile.getLastModifiedBy().getUserName());
-
-		l = new Label(this, SWT.NONE);
 		l.setText("Original filename:");
 
 		l = new Label(this, SWT.NONE);
