@@ -19,14 +19,14 @@ import ee.ut.cs.rum.database.domain.interfaces.RumUpdatableEntity;
 @Table(name="user_account")
 public class UserAccount implements RumUpdatableEntity {
 	//Named UserAccount because user is reserved in postgres
+	//Can be used later as a basis for implementing actual user accounts
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id") //TODO: Set references to user
 	private Long id;
 	@Column(name = "user_name", unique=true, nullable=false)
 	private String userName;
-	@Column(name = "password")
-	private UserAccountStatus pasword; //TODO: Encryption
 	@Column(name = "status")
 	private UserAccountStatus status;
 	
@@ -46,12 +46,6 @@ public class UserAccount implements RumUpdatableEntity {
 	}
 	public void setUserName(String userName) {
 		this.userName = userName;
-	}
-	public UserAccountStatus getPasword() {
-		return pasword;
-	}
-	public void setPasword(UserAccountStatus pasword) {
-		this.pasword = pasword;
 	}
 	public UserAccountStatus getStatus() {
 		return status;
@@ -89,7 +83,7 @@ public class UserAccount implements RumUpdatableEntity {
 	
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", userName=" + userName + ", pasword=" + pasword + ", status=" + status
+		return "User [id=" + id + ", userName=" + userName + ", status=" + status
 				+ ", createdBy=" + createdBy + ", createdAt=" + createdAt + ", lastModifiedBy=" + lastModifiedBy
 				+ ", lastModifiedAt=" + lastModifiedAt + "]";
 	}

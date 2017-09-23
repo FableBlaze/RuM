@@ -76,8 +76,7 @@ public class NewProjectDialog extends Dialog {
 					Project project = new Project();
 					project.setName(nameValue.getText());
 					project.setDescription(descriptionValue.getText());
-					//TODO: Should be real user
-					rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.PROJECT, project, UserAccountAccess.getSystemUserAccount());
+					rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.PROJECT, project, UserAccountAccess.getGenericUserAccount());
 					
 					shell.close();
 				}

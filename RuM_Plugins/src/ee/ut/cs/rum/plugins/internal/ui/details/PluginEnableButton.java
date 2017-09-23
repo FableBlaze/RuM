@@ -53,8 +53,7 @@ public class PluginEnableButton extends Button implements RumUpdatableView {
 				} else {
 					tmpPlugin.setEnabled(true);
 				}
-				//TODO: Should be real user
-				rumController.changeData(ControllerUpdateType.MODIFIY, ControllerEntityType.PLUGIN, tmpPlugin, UserAccountAccess.getSystemUserAccount());
+				rumController.changeData(ControllerUpdateType.MODIFIY, ControllerEntityType.PLUGIN, tmpPlugin, UserAccountAccess.getGenericUserAccount());
 			}
 
 			@Override

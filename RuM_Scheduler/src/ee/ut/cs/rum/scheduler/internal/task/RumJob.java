@@ -17,6 +17,7 @@ import org.quartz.JobKey;
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.database.domain.SubTask;
 import ee.ut.cs.rum.database.domain.SubTaskDependency;
+import ee.ut.cs.rum.database.domain.UserAccount;
 import ee.ut.cs.rum.database.domain.UserFile;
 import ee.ut.cs.rum.database.domain.UserFileType;
 import ee.ut.cs.rum.database.domain.enums.SystemParametersEnum;
@@ -40,8 +41,10 @@ public class RumJob implements Job {
 	
 	private SubTask subTask;
 	private PluginOutput[] rumJobTaskOutputs;
+	UserAccount systemUserAccount;
 
 	public RumJob() {
+		systemUserAccount = UserAccountAccess.getSystemUserAccount();
 	}
 
 	public void execute(JobExecutionContext context) throws JobExecutionException {
@@ -49,7 +52,7 @@ public class RumJob implements Job {
 		Long subTaskId = context.getJobDetail().getJobDataMap().getLong(SUB_TASK_ID);
 
 		try {
-			subTask = SubTasksData.updateSubTaskStatusInDb(subTaskId, TaskStatus.STARTING);
+			subTask = SubTasksData.updateSubTaskStatusInDb(subTaskId, TaskStatus.STARTING, systemUserAccount);
 			Plugin plugin = subTask.getPlugin();
 			Bundle rumJobPluginBundle = findSelectedPluginBundle(plugin);
 
@@ -61,23 +64,22 @@ public class RumJob implements Job {
 			File task_results_root = new File(task_results_root_asString);
 			File outputDirectory = new File(task_results_root, subTask.getId() + "_" + new SimpleDateFormat("ddMMyyyy_HHmmssSSS").format(subTask.getCreatedAt()));
 			subTask.setOutputPath(outputDirectory.getPath());
-			//TODO: Should be real user
-			Activator.getRumController().changeData(ControllerUpdateType.MODIFIY, ControllerEntityType.SUBTASK, subTask, UserAccountAccess.getSystemUserAccount());
+			Activator.getRumController().changeData(ControllerUpdateType.MODIFIY, ControllerEntityType.SUBTASK, subTask, systemUserAccount);
 
 			RumPluginFactory rumJobPluginFactory = findRumPluginFactoryService(rumJobPluginBundle);
 			RumPluginWorker rumJobPluginWorker = rumJobPluginFactory.createRumPluginWorker();
 			
 			if (outputDirectory.mkdir()) {
-				SubTasksData.updateSubTaskStatusInDb(subTaskId, TaskStatus.RUNNING);
+				SubTasksData.updateSubTaskStatusInDb(subTaskId, TaskStatus.RUNNING, systemUserAccount);
 				Activator.getLogger().info("RumJob started: " + jobKey + " executing at " + new Date());
 				
 				int rumJobResult = rumJobPluginWorker.runWork(subTask.getConfigurationValues(), outputDirectory);
 				Activator.getLogger().info("RumJobResult toString: " + Integer.toString(rumJobResult));
 				
 				if (rumJobResult==0) {
-					SubTasksData.updateSubTaskStatusInDb(subTaskId, TaskStatus.DONE);
+					SubTasksData.updateSubTaskStatusInDb(subTaskId, TaskStatus.DONE, systemUserAccount);
 				} else {
-					SubTasksData.updateSubTaskStatusInDb(subTaskId, TaskStatus.FAILED);
+					SubTasksData.updateSubTaskStatusInDb(subTaskId, TaskStatus.FAILED, systemUserAccount);
 				}
 				PluginInfo pluginInfo = PluginUtils.deserializePluginInfo(plugin);
 				rumJobTaskOutputs = pluginInfo.getOutputs();
@@ -90,10 +92,10 @@ public class RumJob implements Job {
 			
 			Activator.getLogger().info("RumJob done: " + jobKey + " at " + new Date());
 		} catch (SystemParameterNotSetException e) {
-			SubTasksData.updateSubTaskStatusInDb(subTaskId, TaskStatus.FAILED);
+			SubTasksData.updateSubTaskStatusInDb(subTaskId, TaskStatus.FAILED, systemUserAccount);
 			Activator.getLogger().info("RumJob failed: " + jobKey + " at " + new Date() + " " + e.toString());
 		} catch (Exception e) {
-			SubTasksData.updateSubTaskStatusInDb(subTaskId, TaskStatus.FAILED);
+			SubTasksData.updateSubTaskStatusInDb(subTaskId, TaskStatus.FAILED, systemUserAccount);
 			Activator.getLogger().info("RumJob failed: " + jobKey + " at " + new Date() + " " + e.toString());
 		}
 	}
@@ -157,8 +159,7 @@ public class RumJob implements Job {
 						Activator.getLogger().info("Found plugin output file with types: " + rumJobTaskOutput.getFileTypes().toString());
 					}
 				}
-				//TODO: Should be real user
-				userFile = (UserFile)Activator.getRumController().changeData(ControllerUpdateType.CREATE, ControllerEntityType.USER_FILE, userFile, UserAccountAccess.getSystemUserAccount());
+				userFile = (UserFile)Activator.getRumController().changeData(ControllerUpdateType.CREATE, ControllerEntityType.USER_FILE, userFile, systemUserAccount);
 			} else if (file.isDirectory()) {
 				addTaskCreatedFilesToDb(file);
 			}

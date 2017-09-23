@@ -254,8 +254,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 				
 				if (copySucceeded) {
 					tmpUserFile.setFileLocation(destinationFile.toPath().toString());
-					//TODO: Should be real user
-					tmpUserFile = (UserFile)this.rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.USER_FILE, tmpUserFile, UserAccountAccess.getSystemUserAccount());
+					tmpUserFile = (UserFile)this.rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.USER_FILE, tmpUserFile, UserAccountAccess.getGenericUserAccount());
 					
 					return tmpUserFile.getFileLocation();
 				} else {

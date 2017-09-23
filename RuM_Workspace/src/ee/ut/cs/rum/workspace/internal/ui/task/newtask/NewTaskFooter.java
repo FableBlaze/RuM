@@ -79,8 +79,7 @@ public class NewTaskFooter extends Composite {
 					task.setSubTasks(subTasks);
 
 					if (subTasksOk && !subTasks.isEmpty()) {
-						//TODO: Should be real user
-						task = (Task)rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.TASK, task, UserAccountAccess.getSystemUserAccount());
+						task = (Task)rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.TASK, task, UserAccountAccess.getGenericUserAccount());
 
 						RumScheduler.scheduleTask(task.getId());
 						Activator.getLogger().info("Queued task: " + task.toString());						

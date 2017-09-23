@@ -49,8 +49,7 @@ public class SystemParameterValueEditingSupport extends EditingSupport {
 		
 		SystemParameter systemParameter = (SystemParameter) element;
 		systemParameter.setValue(String.valueOf(userInputValue));
-		//TODO: Should be real user
-		rumController.changeData(ControllerUpdateType.MODIFIY, ControllerEntityType.SYSTEM_PARAMETER, systemParameter, UserAccountAccess.getSystemUserAccount());
+		rumController.changeData(ControllerUpdateType.MODIFIY, ControllerEntityType.SYSTEM_PARAMETER, systemParameter, UserAccountAccess.getGenericUserAccount());
 	}
 
 }

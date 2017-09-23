@@ -120,8 +120,7 @@ public class PluginUploadDialog extends Dialog {
 					Activator.getLogger().info("Copied uploaded plugin to: " + destinationFile.toPath());
 					
 					temporaryPlugin.setFileLocation(destinationFile.toPath().toString());
-					//TODO: Should be real user
-					rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.PLUGIN, temporaryPlugin, UserAccountAccess.getSystemUserAccount());
+					rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.PLUGIN, temporaryPlugin, UserAccountAccess.getGenericUserAccount());
 
 					shell.close();
 				} catch (SystemParameterNotSetException e) {

@@ -16,17 +16,23 @@ import com.google.gson.Gson;
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.SubTask;
 import ee.ut.cs.rum.database.domain.SubTaskDependency;
+import ee.ut.cs.rum.database.domain.UserAccount;
 import ee.ut.cs.rum.database.domain.UserFile;
 import ee.ut.cs.rum.database.domain.enums.TaskStatus;
 import ee.ut.cs.rum.database.util.SubTaskAccess;
+import ee.ut.cs.rum.database.util.UserAccountAccess;
 import ee.ut.cs.rum.database.util.UserFileAccess;
 import ee.ut.cs.rum.scheduler.internal.Activator;
 import ee.ut.cs.rum.scheduler.internal.task.RumJob;
 import ee.ut.cs.rum.scheduler.internal.util.SubTasksData;
 
 public final class RumScheduler {
+	
+
+	static UserAccount systemUserAccount;
 
 	private RumScheduler() {
+		systemUserAccount = UserAccountAccess.getSystemUserAccount();
 	}
 
 	public static void scheduleTask(Long taskId) {
@@ -38,7 +44,7 @@ public final class RumScheduler {
 			Long subTaskId = subTask.getId();
 			if (subTask.getStatus()==TaskStatus.NEW || subTask.getStatus()==TaskStatus.WAITING) {
 				if (processSubTaskDependencies(subTask)) {
-					SubTasksData.updateSubTaskStatusInDb(subTaskId, TaskStatus.QUEUING);
+					SubTasksData.updateSubTaskStatusInDb(subTaskId, TaskStatus.QUEUING, systemUserAccount);
 					String rumJobName = "RumJob"+subTaskId.toString();
 
 					JobDetail job = JobBuilder.newJob(RumJob.class).withIdentity(rumJobName, "RumJobs").build();
@@ -49,16 +55,16 @@ public final class RumScheduler {
 					try {
 						scheduler.scheduleJob(job, trigger);
 						Activator.getLogger().info("Added task to queue: " + subTaskId.toString() + " (" +rumJobName + ")");
-						SubTasksData.updateSubTaskStatusInDb(subTaskId, TaskStatus.QUEUED);
+						SubTasksData.updateSubTaskStatusInDb(subTaskId, TaskStatus.QUEUED, systemUserAccount);
 					} catch (SchedulerException e) {
 						Activator.getLogger().info("Failed scheduling task: " + subTaskId.toString() + " (" +rumJobName + ")" + e.toString());
-						SubTasksData.updateSubTaskStatusInDb(subTaskId, TaskStatus.FAILED);
+						SubTasksData.updateSubTaskStatusInDb(subTaskId, TaskStatus.FAILED, systemUserAccount);
 					} catch (Exception e) {
 						Activator.getLogger().info("General task scheduling error: " + subTaskId.toString() + " (" +rumJobName + ")" + e.toString());
-						SubTasksData.updateSubTaskStatusInDb(subTaskId, TaskStatus.FAILED);
+						SubTasksData.updateSubTaskStatusInDb(subTaskId, TaskStatus.FAILED, systemUserAccount);
 					}
 				} else if (subTask.getStatus()==TaskStatus.NEW) {
-					SubTasksData.updateSubTaskStatusInDb(subTaskId, TaskStatus.WAITING);
+					SubTasksData.updateSubTaskStatusInDb(subTaskId, TaskStatus.WAITING, systemUserAccount);
 				}
 			}
 		}
@@ -96,7 +102,7 @@ public final class RumScheduler {
 
 			if (dependenciesOk) {
 				String configurationValuesString = gson.toJson(configurationValues);
-				SubTasksData.updateSubTaskConfigurationValuesInDb(subTask.getId(), configurationValuesString);
+				SubTasksData.updateSubTaskConfigurationValuesInDb(subTask.getId(), configurationValuesString, systemUserAccount);
 			}
 		}
 		return dependenciesOk;
