@@ -81,27 +81,5 @@ public class RumHeader extends Composite {
 			}
 		});
 		
-		button = new Button(this, SWT.PUSH);
-		button.setText("(username)");
-		button.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false));
-		button.addSelectionListener( new SelectionAdapter() {
-			private static final long serialVersionUID = -7714989063610717365L;
-
-			public void widgetSelected( SelectionEvent event ) {
-				Composite sectionContainer = rumUI.getSectionContainer();
-				((StackLayout)sectionContainer.getLayout()).topControl = rumUI.getAccountDetailsSection();
-				sectionContainer.layout();
-			}
-		});
-		
-		button = new Button(this, SWT.PUSH);
-		button.setText("New updates: 0"); //TODO: Update notifications counter
-		button.addSelectionListener( new SelectionAdapter() {
-			private static final long serialVersionUID = -7714989063610717365L;
-
-			public void widgetSelected( SelectionEvent event ) {
-				//TODO: Open notification overview
-			}
-		});
 	}
 }

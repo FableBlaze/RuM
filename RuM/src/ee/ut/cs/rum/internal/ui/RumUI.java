@@ -27,7 +27,6 @@ public class RumUI extends AbstractEntryPoint {
 	private Composite filesSection;
 	private Composite pluginsManagementSection;
 	private Composite systemAdministrationSection;
-	private Composite accountDetailsSection;
 	
 	private static final RumController rumController = Activator.getRumController();
 	
@@ -45,7 +44,6 @@ public class RumUI extends AbstractEntryPoint {
 		filesSection = new FilesManagementUI(sectionContainer, rumController);
 		pluginsManagementSection = new PluginsManagementUI(sectionContainer, rumController);
 		systemAdministrationSection = new SystemAdministrationUI(sectionContainer, rumController);
-		accountDetailsSection = new Composite(sectionContainer, SWT.NONE);
 		
 		((StackLayout)sectionContainer.getLayout()).topControl = workspaceSection;
 		sectionContainer.layout();
@@ -85,8 +83,5 @@ public class RumUI extends AbstractEntryPoint {
 	}
 	public Composite getSystemAdministrationSection() {
 		return systemAdministrationSection;
-	}
-	public Composite getAccountDetailsSection() {
-		return accountDetailsSection;
 	}
 }

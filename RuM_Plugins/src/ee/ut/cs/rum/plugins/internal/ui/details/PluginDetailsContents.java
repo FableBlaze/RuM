@@ -114,11 +114,6 @@ public class PluginDetailsContents extends ExpandBar implements RumUpdatableView
 		label.setText(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(plugin.getCreatedAt()));
 
 		label = new Label (detailsContent, SWT.NONE);
-		label.setText("Uploaded by:");
-		label = new Label (detailsContent, SWT.NONE);
-		label.setText(plugin.getCreatedBy().getUserName());
-
-		label = new Label (detailsContent, SWT.NONE);
 		label.setText("File path:");
 		label = new Label (detailsContent, SWT.NONE);
 		label.setText(plugin.getFileLocation());
