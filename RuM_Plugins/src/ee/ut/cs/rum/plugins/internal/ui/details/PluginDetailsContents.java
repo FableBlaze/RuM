@@ -121,7 +121,11 @@ public class PluginDetailsContents extends ExpandBar implements RumUpdatableView
 		label = new Label (detailsContent, SWT.NONE);
 		label.setText("Enabled:");
 		enabledLabel = new Label (detailsContent, SWT.NONE);
-		enabledLabel.setText(plugin.getEnabled().toString());
+		if (plugin.getEnabled()) {
+			enabledLabel.setText("Enabled");
+		} else {
+			enabledLabel.setText("Disabled");
+		}
 
 		detailsComposite.setContent(detailsContent);
 		detailsContent.setSize(detailsContent.computeSize(SWT.DEFAULT, SWT.DEFAULT));
@@ -171,7 +175,11 @@ public class PluginDetailsContents extends ExpandBar implements RumUpdatableView
 		if (updatedEntity instanceof Plugin && ((Plugin) updatedEntity).getId()==plugin.getId() && updateType == ControllerUpdateType.MODIFIY) {
 			display.asyncExec(new Runnable() {
 				public void run() {
-					enabledLabel.setText(((Plugin) updatedEntity).getEnabled().toString());
+					if (plugin.getEnabled()) {
+						enabledLabel.setText("Enabled");
+					} else {
+						enabledLabel.setText("Disabled");
+					}
 					enabledLabel.pack();
 				}
 			});

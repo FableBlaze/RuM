@@ -142,7 +142,11 @@ public class PluginsTableViewer extends TableViewer implements RumUpdatableView 
 			@Override
 			public String getText(Object element) {
 				Plugin plugin = (Plugin) element;
-				return plugin.getEnabled().toString();
+				if (plugin.getEnabled()) {
+					return "Enabled";
+				} else {
+					return "Disabled";
+				}
 			}
 		});
 
