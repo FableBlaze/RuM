@@ -39,14 +39,14 @@ public class PluginUploadDialog extends Dialog {
 	private File temporaryFile;
 	private Plugin temporaryPlugin;
 
-	private Label nameValue;
-	private Label symbolicNameValue;
-	private Label versionValue;
-	private Label descriptionValue;
-	private Label vendorValue;
-	private Label activatorValue;
-	private Label feedbackTextValue;
-	private Label fileName;
+	private Label nameLabel;
+	private Label symbolicNameLabel;
+	private Label versionLabel;
+	private Label descriptionLabel;
+	private Label vendorLabel;
+	private Label activatorLabel;
+	private Label feedbackTextLabel;
+	private Label fileNameLabel;
 
 	private Button okButton;
 
@@ -62,50 +62,97 @@ public class PluginUploadDialog extends Dialog {
 		createContents();
 		shell.pack();
 		shell.setLocation (100, 100);
+		shell.setSize(shell.computeSize(600, SWT.DEFAULT));
 		shell.open();
 		return null;
 	}
 
 	private void createContents() {
-		//TODO: remove
-		shell.setLayout(new GridLayout(2, false));
-		
-		Composite manifestComposite = createManifestComposite();
-		((GridData) manifestComposite.getLayoutData()).horizontalSpan = ((GridLayout) shell.getLayout()).numColumns;
+		shell.setLayout(new GridLayout());
+		createManifestComposite();
+		feedbackTextLabel = new Label(shell, SWT.NONE);
+		feedbackTextLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		createUploadComposite();
+		createButtonsComposite();
+	}
 
-		feedbackTextValue = new Label(shell, SWT.NONE);
-		feedbackTextValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		((GridData) feedbackTextValue.getLayoutData()).horizontalSpan = ((GridLayout) shell.getLayout()).numColumns;
+	private void createManifestComposite() {
+		Composite manifestComposite  = new Composite(shell, SWT.NONE);
+		manifestComposite.setLayout(new GridLayout(2, false));
+		manifestComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
+		Label label = new Label(manifestComposite, SWT.NONE);
+		label.setText("Bundle name:");
+		nameLabel = new Label(manifestComposite, SWT.NONE);
+		nameLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+
+		label = new Label(manifestComposite, SWT.NONE);
+		label.setText("Bundle symbolic name:");
+		symbolicNameLabel = new Label(manifestComposite, SWT.NONE);
+		symbolicNameLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+
+		label = new Label(manifestComposite, SWT.NONE);
+		label.setText("Bundle version:");
+		versionLabel = new Label(manifestComposite, SWT.NONE);
+		versionLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+
+		label = new Label(manifestComposite, SWT.NONE);
+		label.setText("Bundle vendor:");
+		vendorLabel = new Label(manifestComposite, SWT.NONE);
+		vendorLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+
+		label = new Label(manifestComposite, SWT.NONE);
+		label.setText("Bundle description:");
+		descriptionLabel = new Label(manifestComposite, SWT.NONE);
+		descriptionLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+
+		label = new Label(manifestComposite, SWT.NONE);
+		label.setText("Bundle activator:");
+		activatorLabel = new Label(manifestComposite, SWT.NONE);
+		activatorLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+	}
+
+	private void createUploadComposite() {
+		Composite uploadComposite  = new Composite(shell, SWT.NONE);
+		uploadComposite.setLayout(new GridLayout(2, false));
+		uploadComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
 		DiskFileUploadReceiver receiver = new DiskFileUploadReceiver();
 		FileUploadHandler uploadHandler = new FileUploadHandler(receiver);
 		uploadHandler.addUploadListener(new PluginUploadListener(receiver, this));
 
-		FileUpload fileUpload = new FileUpload(shell, SWT.NONE);
-		fileUpload.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		FileUpload fileUpload = new FileUpload(uploadComposite, SWT.NONE);
 		fileUpload.setText("Select File");
 		fileUpload.addSelectionListener(new SelectionAdapter() {
 			private static final long serialVersionUID = -5887356014040291468L;
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (!fileName.isDisposed()) {
+				if (!fileNameLabel.isDisposed()) {
 					resetValues();
-					fileName.setText("");
+					fileNameLabel.setText("");
 					okButton.setEnabled(false);
 				}
 				fileUpload.submit(uploadHandler.getUploadUrl());
 			}
 		} );
 
-		fileName = new Label(shell, SWT.NONE);
-		fileName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		//Workaround to get filename displayed vertically in the middle
+		Composite fileNameComposite = new Composite(uploadComposite, SWT.BORDER);
+		fileNameComposite.setLayout(new GridLayout());
+		fileNameComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		fileNameLabel = new Label(fileNameComposite, SWT.NONE);
+		fileNameLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+	}
 
-		//okButton should be enabled only when a valid plugin is uploaded
-		okButton = new Button(shell, SWT.PUSH);
+	private void createButtonsComposite() {
+		Composite buttonsComposite  = new Composite(shell, SWT.NONE);
+		buttonsComposite.setLayout(new GridLayout(2, false));
+		buttonsComposite.setLayoutData(new GridData(GridData.FILL_BOTH));
+
+		okButton = new Button(buttonsComposite, SWT.PUSH);
 		okButton.setText("OK");
-		okButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		okButton.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, true, true));
 		okButton.setEnabled(false);
 		okButton.addSelectionListener(new SelectionAdapter() {
 			private static final long serialVersionUID = -7891195942424898731L;
@@ -114,28 +161,28 @@ public class PluginUploadDialog extends Dialog {
 				try {
 					String plugin_path = SystemParameterAccess.getSystemParameterValue(SystemParametersEnum.PLUGIN_PATH);
 					File plugin_path_file = new File(plugin_path);
-					//TDODO: Rule out non-unique file names
+					//TODO: Rule out non-unique file names
 					File destinationFile = new File(plugin_path_file, new SimpleDateFormat("ddMMyyyy_HHmmssSSS").format(new Date()) + ".jar");
 					Files.copy( temporaryFile.toPath(), destinationFile.toPath());
 					Activator.getLogger().info("Copied uploaded plugin to: " + destinationFile.toPath());
-					
+
 					temporaryPlugin.setFileLocation(destinationFile.toPath().toString());
 					rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.PLUGIN, temporaryPlugin, UserAccountAccess.getGenericUserAccount());
 
 					shell.close();
 				} catch (SystemParameterNotSetException e) {
-					feedbackTextValue.setText("Plugin installing disabled");
+					feedbackTextLabel.setText("Plugin installing disabled");
 					Activator.getLogger().info("Can not install plugins " + e.toString());
 				} catch (IOException e) {
-					feedbackTextValue.setText("Plugin copy failed");
+					feedbackTextLabel.setText("Plugin copy failed");
 					Activator.getLogger().info("Failed to copy uploaded plugin to plugins folder");
 				}
 			}
 		});
 
-		Button cancel = new Button(shell, SWT.PUSH);
+		Button cancel = new Button(buttonsComposite, SWT.PUSH);
 		cancel.setText("Cancel");
-		cancel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		cancel.setLayoutData(new GridData(SWT.CENTER, SWT.BOTTOM, false, true));
 		cancel.addSelectionListener(new SelectionAdapter() {
 			private static final long serialVersionUID = -415016060227564447L;
 
@@ -145,61 +192,23 @@ public class PluginUploadDialog extends Dialog {
 		});
 	}
 
-	private Composite createManifestComposite() {
-		Composite manifestComposite  = new Composite(shell, SWT.NONE);
-		manifestComposite.setLayout(new GridLayout(2, false));
-		manifestComposite.setLayoutData(new GridData(GridData.FILL_BOTH));
-		
-		Label bundleNameLabel = new Label(manifestComposite, SWT.NONE);
-		bundleNameLabel.setText("Bundle name:");
-		nameValue = new Label(manifestComposite, SWT.NONE);
-		nameValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-
-		Label bundleSymbolicNameLabel = new Label(manifestComposite, SWT.NONE);
-		bundleSymbolicNameLabel.setText("Bundle symbolic name:");
-		symbolicNameValue = new Label(manifestComposite, SWT.NONE);
-		symbolicNameValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-
-		Label bundleVersionLabel = new Label(manifestComposite, SWT.NONE);
-		bundleVersionLabel.setText("Bundle version:");
-		versionValue = new Label(manifestComposite, SWT.NONE);
-		versionValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-
-		Label vendorLabel = new Label(manifestComposite, SWT.NONE);
-		vendorLabel.setText("Bundle vendor:");
-		vendorValue = new Label(manifestComposite, SWT.NONE);
-		vendorValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-
-		Label descriptionLabel = new Label(manifestComposite, SWT.NONE);
-		descriptionLabel.setText("Bundle description:");
-		descriptionValue = new Label(manifestComposite, SWT.NONE);
-		descriptionValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-
-		Label bundleActivatorLabel = new Label(manifestComposite, SWT.NONE);
-		bundleActivatorLabel.setText("Bundle activator:");
-		activatorValue = new Label(manifestComposite, SWT.NONE);
-		activatorValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		
-		return manifestComposite;
-	}
-
 	private void resetValues() {
-		if (!symbolicNameValue.isDisposed()) {symbolicNameValue.setText("");} 
-		if (!versionValue.isDisposed()) {versionValue.setText("");} 
-		if (!nameValue.isDisposed()) {nameValue.setText("");} 
-		if (!vendorValue.isDisposed()) {vendorValue.setText("");}
-		if (!descriptionValue.isDisposed()) {descriptionValue.setText("");}
-		if (!activatorValue.isDisposed()) {activatorValue.setText("");}
+		if (!symbolicNameLabel.isDisposed()) {symbolicNameLabel.setText("");} 
+		if (!versionLabel.isDisposed()) {versionLabel.setText("");} 
+		if (!nameLabel.isDisposed()) {nameLabel.setText("");} 
+		if (!vendorLabel.isDisposed()) {vendorLabel.setText("");}
+		if (!descriptionLabel.isDisposed()) {descriptionLabel.setText("");}
+		if (!activatorLabel.isDisposed()) {activatorLabel.setText("");}
 	}
 
 	public void setTemporaryFile(File temporaryFile) {
 		this.temporaryFile = temporaryFile;
 
-		if (!fileName.isDisposed()) {
+		if (!fileNameLabel.isDisposed()) {
 			//Needs syncExec because is called from PluginUploadListener
 			Display.getDefault().syncExec(new Runnable() {
 				public void run() {
-					fileName.setText(temporaryFile.getName());
+					fileNameLabel.setText(temporaryFile.getName());
 				}
 			});
 		}
@@ -215,15 +224,15 @@ public class PluginUploadDialog extends Dialog {
 					resetValues();
 					okButton.setEnabled(false);
 				} else {
-					if (!symbolicNameValue.isDisposed()) {symbolicNameValue.setText(temporaryPlugin.getBundleSymbolicName());} 
-					if (!versionValue.isDisposed()) {versionValue.setText(temporaryPlugin.getBundleVersion());} 
-					if (!nameValue.isDisposed()) {nameValue.setText(temporaryPlugin.getBundleName());} 
-					if (!vendorValue.isDisposed()) {vendorValue.setText(temporaryPlugin.getBundleVendor());}
-					if (!descriptionValue.isDisposed()) {descriptionValue.setText(temporaryPlugin.getBundleDescription());}
-					if (!activatorValue.isDisposed()) {activatorValue.setText(temporaryPlugin.getBundleActivator());}
+					if (!symbolicNameLabel.isDisposed()) {symbolicNameLabel.setText(temporaryPlugin.getBundleSymbolicName());} 
+					if (!versionLabel.isDisposed()) {versionLabel.setText(temporaryPlugin.getBundleVersion());} 
+					if (!nameLabel.isDisposed()) {nameLabel.setText(temporaryPlugin.getBundleName());} 
+					if (!vendorLabel.isDisposed()) {vendorLabel.setText(temporaryPlugin.getBundleVendor());}
+					if (!descriptionLabel.isDisposed()) {descriptionLabel.setText(temporaryPlugin.getBundleDescription());}
+					if (!activatorLabel.isDisposed()) {activatorLabel.setText(temporaryPlugin.getBundleActivator());}
 					okButton.setEnabled(true);
 				}
-				feedbackTextValue.setText(feedback);
+				feedbackTextLabel.setText(feedback);
 			}
 		});
 	}
