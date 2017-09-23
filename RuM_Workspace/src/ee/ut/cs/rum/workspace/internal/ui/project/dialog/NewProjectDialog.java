@@ -6,6 +6,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
@@ -21,6 +22,7 @@ public class NewProjectDialog extends Dialog {
 	private static final long serialVersionUID = -9152678513520036179L;
 	
 	private RumController rumController;
+	private Shell shell;
 	
 	private Text nameValue;
 	private Text descriptionValue;
@@ -29,43 +31,55 @@ public class NewProjectDialog extends Dialog {
 	private Button okButton;
 	
 	public NewProjectDialog(Shell activeShell, RumController rumController) {
-		super(activeShell, SWT.APPLICATION_MODAL | SWT.TITLE | SWT.BORDER);
+		super(activeShell, SWT.APPLICATION_MODAL | SWT.TITLE | SWT.BORDER | SWT.RESIZE);
 		this.rumController=rumController;
 	}
 	
 	public String open() {
-		Shell shell = new Shell(getParent(), getStyle());
+		shell = new Shell(getParent(), getStyle());
 		shell.setText("Add project");
-		createContents(shell);
+		createContents();
 		shell.pack();
 		shell.setLocation (100, 100);
+		shell.setMinimumSize(shell.computeSize(500, 300));
 		shell.open();
 		return null;
 	}
 
-	private void createContents(final Shell shell) {
-		shell.setLayout(new GridLayout(2, true));
-
-		Label nameLabel = new Label(shell, SWT.NONE);
-		nameLabel.setText("Project name:");
-		nameValue = new Text(shell, SWT.BORDER);
-		nameValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+	private void createContents() {
+		shell.setLayout(new GridLayout());
 		
-		Label descriptionNameLabel = new Label(shell, SWT.NONE);
-		descriptionNameLabel.setText("Project description:");
-		descriptionNameLabel.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));
-		descriptionValue = new Text(shell, SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL);
-		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
-		gridData.heightHint=50;
-		descriptionValue.setLayoutData(gridData);
-		
+		createInputsComposite();
 		feedbackTextValue = new Label(shell, SWT.NONE);
 		feedbackTextValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		((GridData) feedbackTextValue.getLayoutData()).horizontalSpan = ((GridLayout) shell.getLayout()).numColumns;
+		createButtonsComposite();
+	}
+
+	private void createInputsComposite() {
+		Composite inputsComposite  = new Composite(shell, SWT.NONE);
+		inputsComposite.setLayout(new GridLayout(2, false));
+		inputsComposite.setLayoutData(new GridData(GridData.FILL_BOTH));
 		
-		okButton = new Button(shell, SWT.PUSH);
+		Label nameLabel = new Label(inputsComposite, SWT.NONE);
+		nameLabel.setText("Project name:");
+		nameValue = new Text(inputsComposite, SWT.BORDER);
+		nameValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		
+		Label descriptionNameLabel = new Label(inputsComposite, SWT.NONE);
+		descriptionNameLabel.setText("Project description:");
+		descriptionNameLabel.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));
+		descriptionValue = new Text(inputsComposite, SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL);
+		descriptionValue.setLayoutData(new GridData(GridData.FILL_BOTH));
+	}
+	
+	private void createButtonsComposite() {
+		Composite buttonsComposite  = new Composite(shell, SWT.NONE);
+		buttonsComposite.setLayout(new GridLayout(2, false));
+		buttonsComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		
+		okButton = new Button(buttonsComposite, SWT.PUSH);
 		okButton.setText("OK");
-		okButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		okButton.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, true, true));
 		okButton.addSelectionListener(new SelectionAdapter() {
 			private static final long serialVersionUID = -4306176546808600070L;
 			
@@ -83,9 +97,9 @@ public class NewProjectDialog extends Dialog {
 			}
 		});
 		
-		Button cancel = new Button(shell, SWT.PUSH);
+		Button cancel = new Button(buttonsComposite, SWT.PUSH);
 		cancel.setText("Cancel");
-		cancel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		cancel.setLayoutData(new GridData(SWT.CENTER, SWT.BOTTOM, false, true));
 		cancel.addSelectionListener(new SelectionAdapter() {
 			private static final long serialVersionUID = -4620143960354064523L;
 

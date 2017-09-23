@@ -62,7 +62,7 @@ public class PluginUploadDialog extends Dialog {
 		createContents();
 		shell.pack();
 		shell.setLocation (100, 100);
-		shell.setSize(shell.computeSize(600, SWT.DEFAULT));
+		shell.setMinimumSize(shell.computeSize(500, SWT.DEFAULT));
 		shell.open();
 		return null;
 	}
@@ -70,9 +70,9 @@ public class PluginUploadDialog extends Dialog {
 	private void createContents() {
 		shell.setLayout(new GridLayout());
 		createManifestComposite();
-		feedbackTextLabel = new Label(shell, SWT.NONE);
-		feedbackTextLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		createUploadComposite();
+		feedbackTextLabel = new Label(shell, SWT.NONE);
+		feedbackTextLabel.setLayoutData(new GridData(GridData.FILL_BOTH));
 		createButtonsComposite();
 	}
 
@@ -148,11 +148,11 @@ public class PluginUploadDialog extends Dialog {
 	private void createButtonsComposite() {
 		Composite buttonsComposite  = new Composite(shell, SWT.NONE);
 		buttonsComposite.setLayout(new GridLayout(2, false));
-		buttonsComposite.setLayoutData(new GridData(GridData.FILL_BOTH));
+		buttonsComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
 		okButton = new Button(buttonsComposite, SWT.PUSH);
 		okButton.setText("OK");
-		okButton.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, true, true));
+		okButton.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false));
 		okButton.setEnabled(false);
 		okButton.addSelectionListener(new SelectionAdapter() {
 			private static final long serialVersionUID = -7891195942424898731L;
@@ -182,7 +182,7 @@ public class PluginUploadDialog extends Dialog {
 
 		Button cancel = new Button(buttonsComposite, SWT.PUSH);
 		cancel.setText("Cancel");
-		cancel.setLayoutData(new GridData(SWT.CENTER, SWT.BOTTOM, false, true));
+		cancel.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false));
 		cancel.addSelectionListener(new SelectionAdapter() {
 			private static final long serialVersionUID = -415016060227564447L;
 
