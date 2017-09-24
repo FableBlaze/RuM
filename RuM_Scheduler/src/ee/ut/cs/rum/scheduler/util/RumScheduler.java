@@ -19,12 +19,14 @@ import ee.ut.cs.rum.database.domain.SubTaskDependency;
 import ee.ut.cs.rum.database.domain.UserAccount;
 import ee.ut.cs.rum.database.domain.UserFile;
 import ee.ut.cs.rum.database.domain.enums.SubTaskStatus;
+import ee.ut.cs.rum.database.domain.enums.TaskStatus;
 import ee.ut.cs.rum.database.util.SubTaskAccess;
 import ee.ut.cs.rum.database.util.UserAccountAccess;
 import ee.ut.cs.rum.database.util.UserFileAccess;
 import ee.ut.cs.rum.scheduler.internal.Activator;
 import ee.ut.cs.rum.scheduler.internal.task.RumJob;
 import ee.ut.cs.rum.scheduler.internal.util.SubTasksData;
+import ee.ut.cs.rum.scheduler.internal.util.TasksData;
 
 public final class RumScheduler {
 	
@@ -67,6 +69,12 @@ public final class RumScheduler {
 					SubTasksData.updateSubTaskStatusInDb(subTaskId, SubTaskStatus.WAITING, systemUserAccount);
 				}
 			}
+		}
+		
+		if (subTasks.isEmpty()) {
+			TasksData.updateTaskStatusInDb(taskId, TaskStatus.DONE, systemUserAccount);
+		} else {
+			TasksData.updateTaskStatusInDb(taskId, TaskStatus.QUEUED, systemUserAccount);
 		}
 	}
 

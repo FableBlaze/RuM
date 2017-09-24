@@ -21,6 +21,7 @@ import ee.ut.cs.rum.database.domain.UserAccount;
 import ee.ut.cs.rum.database.domain.UserFile;
 import ee.ut.cs.rum.database.domain.UserFileType;
 import ee.ut.cs.rum.database.domain.enums.SystemParametersEnum;
+import ee.ut.cs.rum.database.domain.enums.TaskStatus;
 import ee.ut.cs.rum.database.domain.enums.SubTaskStatus;
 import ee.ut.cs.rum.database.util.SystemParameterAccess;
 import ee.ut.cs.rum.database.util.UserAccountAccess;
@@ -34,6 +35,7 @@ import ee.ut.cs.rum.plugins.development.interfaces.RumPluginFactory;
 import ee.ut.cs.rum.plugins.development.interfaces.factory.RumPluginWorker;
 import ee.ut.cs.rum.scheduler.internal.Activator;
 import ee.ut.cs.rum.scheduler.internal.util.SubTasksData;
+import ee.ut.cs.rum.scheduler.internal.util.TasksData;
 import ee.ut.cs.rum.scheduler.util.RumScheduler;
 
 public class RumJob implements Job {
@@ -63,14 +65,16 @@ public class RumJob implements Job {
 			String task_results_root_asString = SystemParameterAccess.getSystemParameterValue(SystemParametersEnum.TASK_RESULTS_ROOT);
 			File task_results_root = new File(task_results_root_asString);
 			File outputDirectory = new File(task_results_root, subTask.getId() + "_" + new SimpleDateFormat("ddMMyyyy_HHmmssSSS").format(subTask.getCreatedAt()));
-			subTask.setOutputPath(outputDirectory.getPath());
-			Activator.getRumController().changeData(ControllerUpdateType.MODIFIY, ControllerEntityType.SUBTASK, subTask, systemUserAccount);
+			subTask = SubTasksData.updateSubTaskOutputPathInDb(subTaskId, outputDirectory.getPath(), systemUserAccount);
 
 			RumPluginFactory rumJobPluginFactory = findRumPluginFactoryService(rumJobPluginBundle);
 			RumPluginWorker rumJobPluginWorker = rumJobPluginFactory.createRumPluginWorker();
 			
 			if (outputDirectory.mkdir()) {
 				SubTasksData.updateSubTaskStatusInDb(subTaskId, SubTaskStatus.RUNNING, systemUserAccount);
+				if (subTask.getTask().getStatus() == TaskStatus.NEW || subTask.getTask().getStatus() == TaskStatus.QUEUED) {
+					TasksData.updateTaskStatusInDb(subTask.getTask().getId(), TaskStatus.STARTED, systemUserAccount);
+				}
 				Activator.getLogger().info("RumJob started: " + jobKey + " executing at " + new Date());
 				
 				int rumJobResult = rumJobPluginWorker.runWork(subTask.getConfigurationValues(), outputDirectory);
