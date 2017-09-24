@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import ee.ut.cs.rum.database.domain.UserFile;
@@ -12,6 +13,17 @@ import ee.ut.cs.rum.database.internal.Activator;
 public final class UserFileAccess {
 	
 	private UserFileAccess() {
+	}
+	
+	public static long getUserFilesCountFromDb() {
+		EntityManagerFactory emf = Activator.getEmf();
+		EntityManager em = emf.createEntityManager();
+		
+		String queryString = "Select count(uf) from UserFile uf";
+		Query query = em.createQuery(queryString);
+		Long count = (long) query.getSingleResult();
+		
+		return count;
 	}
 	
 	public static List<UserFile> getUserFilesDataFromDb() {
@@ -135,5 +147,4 @@ public final class UserFileAccess {
 		
 		return userFile;
 	}
-
 }

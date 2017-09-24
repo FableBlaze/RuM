@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import ee.ut.cs.rum.database.domain.Task;
@@ -12,6 +13,17 @@ import ee.ut.cs.rum.database.internal.Activator;
 public final class TaskAccess {
 	
 	private TaskAccess() {
+	}
+	
+	public static long getTasksCountFromDb() {
+		EntityManagerFactory emf = Activator.getEmf();
+		EntityManager em = emf.createEntityManager();
+		
+		String queryString = "Select count(t) from Task t";
+		Query query = em.createQuery(queryString);
+		Long count = (long) query.getSingleResult();
+		
+		return count;
 	}
 	
 	public static List<Task> getTasksDataFromDb() {

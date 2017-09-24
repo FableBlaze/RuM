@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import ee.ut.cs.rum.database.domain.Project;
@@ -12,6 +13,17 @@ import ee.ut.cs.rum.database.internal.Activator;
 public final class ProjectAccess {
 	
 	private ProjectAccess() {
+	}
+	
+	public static long getProjectsCountFromDb() {
+		EntityManagerFactory emf = Activator.getEmf();
+		EntityManager em = emf.createEntityManager();
+		
+		String queryString = "Select count(p) from Project p";
+		Query query = em.createQuery(queryString);
+		Long count = (long) query.getSingleResult();
+		
+		return count;
 	}
 	
 	public static List<Project> getProjectsDataFromDb() {

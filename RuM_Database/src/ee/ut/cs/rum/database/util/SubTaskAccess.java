@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import ee.ut.cs.rum.database.domain.SubTask;
@@ -11,6 +12,17 @@ import ee.ut.cs.rum.database.internal.Activator;
 
 public final class SubTaskAccess {
 	private SubTaskAccess() {
+	}
+	
+	public static long getSubTasksCountFromDb() {
+		EntityManagerFactory emf = Activator.getEmf();
+		EntityManager em = emf.createEntityManager();
+		
+		String queryString = "Select count(st) from SubTask st";
+		Query query = em.createQuery(queryString);
+		Long count = (long) query.getSingleResult();
+		
+		return count;
 	}
 	
 	public static SubTask getSubTaskDataFromDb(Long subTaskId) {
