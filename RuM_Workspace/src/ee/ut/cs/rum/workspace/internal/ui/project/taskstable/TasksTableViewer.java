@@ -16,7 +16,9 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 
 import ee.ut.cs.rum.controller.RumController;
+import ee.ut.cs.rum.database.domain.SubTask;
 import ee.ut.cs.rum.database.domain.Task;
+import ee.ut.cs.rum.database.domain.enums.SubTaskStatus;
 import ee.ut.cs.rum.database.util.TaskAccess;
 import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
@@ -88,7 +90,19 @@ public class TasksTableViewer extends TableViewer implements RumUpdatableView {
 
 			@Override
 			public String getText(Object element) {
-				return "TODO";
+				Task task = (Task) element;
+				if (task.getSubTasks()!=null) {
+					int subTasksTotal = task.getSubTasks().size();
+					int completedSubTasks = 0;
+					for (SubTask subTask : task.getSubTasks()) {
+						if (subTask.getStatus()==SubTaskStatus.DONE || subTask.getStatus()==SubTaskStatus.FAILED) {
+							completedSubTasks+=1;
+						}
+					}
+					return Integer.toString(completedSubTasks) + " of " + Integer.toString(subTasksTotal);					
+				} else {
+					return "";					
+				}
 			}
 		});
 
