@@ -74,6 +74,7 @@ public class NewTaskFooter extends Composite {
 						subTask.setCreatedAt(createdAt);
 						subTask.setLastModifiedBy(systemUserAccount);
 						subTask.setLastModifiedAt(createdAt);
+						subTask.setTask(task);
 						subTasks.add(subTask);
 					}
 
