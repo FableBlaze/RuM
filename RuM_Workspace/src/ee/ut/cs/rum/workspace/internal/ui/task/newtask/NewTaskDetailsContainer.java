@@ -144,8 +144,11 @@ public class NewTaskDetailsContainer extends Composite implements RumUpdatableVi
 				int newTaskSubTaskInfoIndex = -1;
 				for (int i = 0; i < newTaskSubTaskInfoList.size(); i++) {
 					if (newTaskSubTaskInfoList.get(i).getSubTask() == subTask) {
-						outputFiles = ((PluginConfigurationComposite)newTaskSubTaskInfoList.get(i).getScrolledPluginConfigurationComposite().getContent()).getOutputUserFiles();
-						newTaskSubTaskInfoIndex = i;
+						PluginConfigurationComposite pluginConfigurationComposite = (PluginConfigurationComposite)newTaskSubTaskInfoList.get(i).getScrolledPluginConfigurationComposite().getContent();
+						if (pluginConfigurationComposite!=null) {
+							outputFiles = ((PluginConfigurationComposite)newTaskSubTaskInfoList.get(i).getScrolledPluginConfigurationComposite().getContent()).getOutputUserFiles();
+							newTaskSubTaskInfoIndex = i;							
+						}
 						break;
 					}
 				}
