@@ -38,10 +38,10 @@ public class FilesOverview extends Composite implements RumUpdatableView {
 	
 	private void createContents() {
 		Label label = new Label(this, SWT.NONE);
-		label.setText("Total plugins:");
+		label.setText("Total files:");
 		label.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, true));
 		totalUserFiles = new Label(this, SWT.NONE);
-		totalUserFiles.setText(Integer.toString(UserFileAccess.getUserFilesDataFromDb().size()));
+		totalUserFiles.setText(Long.toString(UserFileAccess.getUserFilesCountFromDb()));
 		totalUserFiles.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, true, true));
 	}
 	
@@ -50,7 +50,7 @@ public class FilesOverview extends Composite implements RumUpdatableView {
 		if (updatedEntity instanceof UserFile) {
 			display.asyncExec(new Runnable() {
 				public void run() {
-					int totalUserFilesCount = Integer.parseInt(totalUserFiles.getText());
+					long totalUserFilesCount = Long.parseLong(totalUserFiles.getText());
 					switch (updateType) {
 					case CREATE:
 						totalUserFilesCount+=1;
@@ -61,7 +61,7 @@ public class FilesOverview extends Composite implements RumUpdatableView {
 					default:
 						break;
 					}
-					totalUserFiles.setText(Integer.toString(totalUserFilesCount));							
+					totalUserFiles.setText(Long.toString(totalUserFilesCount));							
 				}
 			});
 		}
