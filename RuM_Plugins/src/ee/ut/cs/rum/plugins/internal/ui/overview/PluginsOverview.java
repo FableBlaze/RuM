@@ -48,21 +48,21 @@ public class PluginsOverview extends Composite implements RumUpdatableView {
 		label.setText("Total plugins:");
 		label.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false));
 		totalPlugins = new Label(this, SWT.NONE);
-		totalPlugins.setText(Integer.toString(PluginAccess.getAllPluginsDataFromDb().size()));
+		totalPlugins.setText(Long.toString(PluginAccess.getPluginsCountFromDb()));
 		totalPlugins.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, true, false));
 		
 		label = new Label(this, SWT.NONE);
 		label.setText("Enabled plugins:");
 		label.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false));
 		enabledPlugins = new Label(this, SWT.NONE);
-		enabledPlugins.setText(Integer.toString(PluginAccess.getPluginsDataFromDb(true).size()));
+		enabledPlugins.setText(Long.toString(PluginAccess.getPluginsCountFromDb(true)));
 		enabledPlugins.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, true, false));
 		
 		label = new Label(this, SWT.NONE);
 		label.setText("Disabled plugins:");
 		label.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, true));
 		disabledPlugins = new Label(this, SWT.NONE);
-		disabledPlugins.setText(Integer.toString(PluginAccess.getPluginsDataFromDb(false).size()));
+		disabledPlugins.setText(Long.toString(PluginAccess.getPluginsCountFromDb(false)));
 		disabledPlugins.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, true, true));
 		
 		Button addPluginDialogueButton = new Button(this, SWT.PUSH);
@@ -87,9 +87,9 @@ public class PluginsOverview extends Composite implements RumUpdatableView {
 			display.asyncExec(new Runnable() {
 				public void run() {
 					Plugin updatedPlugin = (Plugin)updatedEntity;
-					int totalPluginsCount = Integer.parseInt(totalPlugins.getText());
-					int enabledPluginsCount = Integer.parseInt(enabledPlugins.getText());
-					int disabledPluginsCount = Integer.parseInt(disabledPlugins.getText());
+					long totalPluginsCount = Long.parseLong(totalPlugins.getText());
+					long enabledPluginsCount = Long.parseLong(enabledPlugins.getText());
+					long disabledPluginsCount = Long.parseLong(disabledPlugins.getText());
 					switch (updateType) {
 					case CREATE:
 						totalPluginsCount+=1;
@@ -115,9 +115,9 @@ public class PluginsOverview extends Composite implements RumUpdatableView {
 					default:
 						break;
 					}
-					totalPlugins.setText(Integer.toString(totalPluginsCount));
-					enabledPlugins.setText(Integer.toString(enabledPluginsCount));
-					disabledPlugins.setText(Integer.toString(disabledPluginsCount));
+					totalPlugins.setText(Long.toString(totalPluginsCount));
+					enabledPlugins.setText(Long.toString(enabledPluginsCount));
+					disabledPlugins.setText(Long.toString(disabledPluginsCount));
 				}
 			});
 		}

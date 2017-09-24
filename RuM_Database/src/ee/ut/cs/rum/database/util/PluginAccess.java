@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import ee.ut.cs.rum.database.domain.Plugin;
@@ -12,6 +13,28 @@ import ee.ut.cs.rum.database.internal.Activator;
 public final class PluginAccess {
 	
 	private PluginAccess() {
+	}
+	
+	public static long getPluginsCountFromDb() {
+		EntityManagerFactory emf = Activator.getEmf();
+		EntityManager em = emf.createEntityManager();
+		
+		String queryString = "Select count(p) from Plugin p";
+		Query query = em.createQuery(queryString);
+		Long count = (long) query.getSingleResult();
+		
+		return count;
+	}
+
+	public static long getPluginsCountFromDb(boolean enabled) {
+		EntityManagerFactory emf = Activator.getEmf();
+		EntityManager em = emf.createEntityManager();
+		
+		String queryString = "Select count(p) from Plugin p where p.enabled = " + enabled;
+		Query query = em.createQuery(queryString);
+		Long count = (long) query.getSingleResult();
+		
+		return count;
 	}
 	
 	public static List<Plugin> getAllPluginsDataFromDb() {
