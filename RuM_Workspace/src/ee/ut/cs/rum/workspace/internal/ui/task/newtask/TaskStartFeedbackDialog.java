@@ -14,25 +14,31 @@ import org.eclipse.swt.widgets.Shell;
 public class TaskStartFeedbackDialog extends Dialog {
 	private static final long serialVersionUID = -8757598978630338189L;
 
+	private Label feedbackTextValue;
+	private Label errorTextValue;
+	private Button okButton;
+
 	public TaskStartFeedbackDialog(Shell activeShell) {
 		super(activeShell, SWT.APPLICATION_MODAL | SWT.TITLE | SWT.BORDER | SWT.RESIZE);
 	}
-	
+
 	public String open() {
 		shell = new Shell(getParent(), getStyle());
 		createContents();
 		shell.pack();
 		shell.setLocation (100, 100);
-		shell.setMinimumSize(shell.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+		shell.setMinimumSize(shell.computeSize(500, SWT.DEFAULT));
 		shell.open();
 		return null;
 	}
 
 	private void createContents() {
 		shell.setLayout(new GridLayout());
-		
-		Label label = new Label(shell, SWT.NONE);
-		label.setText("Test");
+
+		feedbackTextValue = new Label(shell, SWT.NONE);
+		feedbackTextValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		errorTextValue = new Label(shell, SWT.NONE);
+		errorTextValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		createButtonsComposite();
 	}
 
@@ -40,8 +46,8 @@ public class TaskStartFeedbackDialog extends Dialog {
 		Composite buttonsComposite  = new Composite(shell, SWT.NONE);
 		buttonsComposite.setLayout(new GridLayout());
 		buttonsComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		
-		Button okButton = new Button(buttonsComposite, SWT.PUSH);
+
+		okButton = new Button(buttonsComposite, SWT.PUSH);
 		okButton.setText("OK");
 		okButton.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, true, true));
 		okButton.addSelectionListener(new SelectionAdapter() {
@@ -53,4 +59,22 @@ public class TaskStartFeedbackDialog extends Dialog {
 		});
 	}
 
+	public void setQueingInProgress() {
+		feedbackTextValue.setText("Task queing in progress...");
+		errorTextValue.setText("");
+		okButton.setEnabled(false);
+	}
+
+	public void setQueingSuccessful() {
+		feedbackTextValue.setText("Task succesfully queued");
+		errorTextValue.setText("");
+		okButton.setEnabled(true);
+	}
+
+	public void setQueingFailure(String message) {
+		feedbackTextValue.setText("Task queing failed");
+		errorTextValue.setText(message);
+		okButton.setEnabled(true);
+
+	}
 }

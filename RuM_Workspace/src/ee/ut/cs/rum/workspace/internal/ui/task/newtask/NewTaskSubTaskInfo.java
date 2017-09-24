@@ -69,7 +69,6 @@ public class NewTaskSubTaskInfo extends Composite {
 
 		scrolledPluginConfigurationComposite = new ScrolledComposite(this, SWT.H_SCROLL | SWT.V_SCROLL);
 		scrolledPluginConfigurationComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		//((GridData) scrolledPluginConfigurationComposite.getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns-2;
 		((GridData) scrolledPluginConfigurationComposite.getLayoutData()).verticalSpan=3;
 		
 		label = new Label(this, SWT.NONE);
@@ -96,17 +95,19 @@ public class NewTaskSubTaskInfo extends Composite {
 		((GridData) pluginInfoComposite.getLayoutData()).verticalSpan=3;
 	}
 	
-	public boolean updateAndCheckSubTask() {
+	public void updateAndCheckSubTask() throws SubTaskUpdateException {
 		Table table = pluginsTableComposite.getPluginsTableViewer().getTable();
 		
 		try {
-			//TODO: More intelligent error handling
+			if (table.getSelectionIndex()==-1) {
+				throw new SubTaskUpdateException("Plugin of subtask " + subTask.getName() + " not selected");
+			}
+			
 			Plugin plugin = (Plugin)table.getItem(table.getSelectionIndex()).getData();							
 			PluginConfigurationComposite pluginConfigurationComposite = (PluginConfigurationComposite)scrolledPluginConfigurationComposite.getContent();
 			
 			if (!pluginConfigurationComposite.getDisplayNamesOfEmptyRequiredParameters().isEmpty()) {
-				Activator.getLogger().info(subTask.getName() + "required parameters empty: " + pluginConfigurationComposite.getDisplayNamesOfEmptyRequiredParameters().toString());
-				return false;
+				throw new SubTaskUpdateException("Subtask " + subTask.getName() + " required parameters empty");
 			}
 			
 			Map<String, String> configurationValues = pluginConfigurationComposite.getConfigurationValues();
@@ -116,11 +117,11 @@ public class NewTaskSubTaskInfo extends Composite {
 			subTask.setPlugin(plugin);
 			subTask.setConfigurationValues(configurationValuesString);
 			subTask.setRequiredDependencies(pluginConfigurationComposite.getDependsOn());
-			
-			return true;
+		} catch (SubTaskUpdateException e) {
+			throw e;
 		} catch (Exception e) {
-			Activator.getLogger().info("Problems with subtask info" + e.toString());
-			return false;
+			Activator.getLogger().info("General issue with subtask " + subTask.getName() + " " + e.toString());
+			throw new SubTaskUpdateException("General issue with subtask " + subTask.getName());
 		}
 	}
 	

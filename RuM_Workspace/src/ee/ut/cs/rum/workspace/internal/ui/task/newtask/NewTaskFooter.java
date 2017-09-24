@@ -56,43 +56,38 @@ public class NewTaskFooter extends Composite {
 			public void handleEvent(Event event) {
 				TaskStartFeedbackDialog taskStartFeedbackDialog = new TaskStartFeedbackDialog(Display.getCurrent().getActiveShell());
 				taskStartFeedbackDialog.open();
+				Task task = newTaskComposite.getTask();
 				
 				try {
 					SystemParameterAccess.getSystemParameterValue(SystemParametersEnum.TASK_RESULTS_ROOT);
-					Task task = newTaskComposite.getTask();
 					List<SubTask> subTasks = new ArrayList<SubTask>();
-					boolean subTasksOk = true;
+					task.setSubTasks(subTasks);
 
 					List<NewTaskSubTaskInfo> newTaskSubTaskInfoList = newTaskComposite.getNewTaskDetailsContainer().getNewTaskSubTaskInfoList();
 					for (NewTaskSubTaskInfo newTaskSubTaskInfo : newTaskSubTaskInfoList) {
 						Date createdAt = new Date();
 						UserAccount systemUserAccount = UserAccountAccess.getSystemUserAccount();
-
-						if (newTaskSubTaskInfo.updateAndCheckSubTask()) {
-							SubTask subTask = newTaskSubTaskInfo.getSubTask();
-							subTask.setCreatedBy(systemUserAccount);
-							subTask.setCreatedAt(createdAt);
-							subTask.setLastModifiedBy(systemUserAccount);
-							subTask.setLastModifiedAt(createdAt);
-							subTasks.add(subTask);
-						} else {
-							subTasksOk=false;
-							break;
-						}
+						
+						newTaskSubTaskInfo.updateAndCheckSubTask();
+						SubTask subTask = newTaskSubTaskInfo.getSubTask();
+						subTask.setCreatedBy(systemUserAccount);
+						subTask.setCreatedAt(createdAt);
+						subTask.setLastModifiedBy(systemUserAccount);
+						subTask.setLastModifiedAt(createdAt);
+						subTasks.add(subTask);
 					}
 
-					task.setSubTasks(subTasks);
+					task = (Task)rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.TASK, task, UserAccountAccess.getGenericUserAccount());
 
-					if (subTasksOk && !subTasks.isEmpty()) {
-						task = (Task)rumController.changeData(ControllerUpdateType.CREATE, ControllerEntityType.TASK, task, UserAccountAccess.getGenericUserAccount());
-
-						RumScheduler.scheduleTask(task.getId());
-						Activator.getLogger().info("Queued task: " + task.toString());						
-					} else {
-						task.getSubTasks().clear();
-						Activator.getLogger().info("Error queing task: " + task.toString());
-					}
+					RumScheduler.scheduleTask(task.getId());
+					taskStartFeedbackDialog.setQueingSuccessful();
+					Activator.getLogger().info("Queued task: " + task.toString());
+				} catch (SubTaskUpdateException e) {
+					task.getSubTasks().clear();
+					taskStartFeedbackDialog.setQueingFailure(e.getMessage());
 				} catch (SystemParameterNotSetException e) {
+					task.getSubTasks().clear();
+					taskStartFeedbackDialog.setQueingFailure(SystemParametersEnum.TASK_RESULTS_ROOT + " not set");
 					Activator.getLogger().info("Can not queue task " + e.toString());
 				}
 			}
