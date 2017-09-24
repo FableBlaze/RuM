@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
@@ -35,7 +36,8 @@ public class ProjectsTableViewer extends TableViewer implements RumUpdatableView
 
 		this.display=Display.getCurrent();
 		rumController.registerView(this, ControllerEntityType.PROJECT);
-
+		
+		ColumnViewerToolTipSupport.enableFor(this);
 		createColumns(this);
 
 		final Table table = this.getTable();
@@ -58,13 +60,19 @@ public class ProjectsTableViewer extends TableViewer implements RumUpdatableView
 	}
 
 	private void createColumns(final TableViewer viewer) {
-		String[] titles = { "Name", "New updates", "Last change at", "Type"};
-		int[] bounds = { 200, 100, 175, 125 };
+		String[] titles = { "Name", "Created at", "Last change at"};
+		int[] bounds = { 200, 175, 175 };
 
 		TableViewerColumn nameColumn = createTableViewerColumn(titles[0], bounds[0], viewer);
 		nameColumn.setLabelProvider(new ColumnLabelProvider() {
 			private static final long serialVersionUID = -6627398148604308908L;
 
+			@Override
+			public String getToolTipText(Object element) {
+				Project project = (Project) element;
+				return project.getDescription();
+			}
+			
 			@Override
 			public String getText(Object element) {
 				Project project = (Project) element;
@@ -78,7 +86,8 @@ public class ProjectsTableViewer extends TableViewer implements RumUpdatableView
 
 			@Override
 			public String getText(Object element) {
-				return "TODO";
+				Project project = (Project) element;
+				return new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(project.getCreatedAt());
 			}
 		});
 
@@ -90,16 +99,6 @@ public class ProjectsTableViewer extends TableViewer implements RumUpdatableView
 			public String getText(Object element) {
 				Project project = (Project) element;
 				return new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(project.getLastModifiedAt());
-			}
-		});
-
-		TableViewerColumn typeColumn = createTableViewerColumn(titles[3], bounds[3], viewer);
-		typeColumn.setLabelProvider(new ColumnLabelProvider() {
-			private static final long serialVersionUID = -4095576663886113023L;
-
-			@Override
-			public String getText(Object element) {
-				return "TODO";
 			}
 		});
 	}

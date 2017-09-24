@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
@@ -37,6 +38,7 @@ public class TasksTableViewer extends TableViewer implements RumUpdatableView {
 		
 		this.tasksTableComposite=tasksTableComposite;
 		
+		ColumnViewerToolTipSupport.enableFor(this);
 		createColumns(this);
 		
 		final Table table = this.getTable();
@@ -67,6 +69,12 @@ public class TasksTableViewer extends TableViewer implements RumUpdatableView {
 		nameColumn.setLabelProvider(new ColumnLabelProvider() {
 			private static final long serialVersionUID = 8328614399553991618L;
 
+			@Override
+			public String getToolTipText(Object element) {
+				Task task = (Task) element;
+				return task.getDescription();
+			}
+			
 			@Override
 			public String getText(Object element) {
 				Task task = (Task) element;

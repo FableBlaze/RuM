@@ -1,6 +1,7 @@
 package ee.ut.cs.rum.workspace.internal.ui.task.newtask.sidebar;
 
 import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
@@ -16,6 +17,7 @@ public class SubTaskTableViewer extends TableViewer {
 	public SubTaskTableViewer(NewTaskDetailsSideBar detailsSideBar) {
 		super(detailsSideBar, SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 		
+		ColumnViewerToolTipSupport.enableFor(this);
 		createColumns(this);
 		
 		final Table table = this.getTable();
@@ -32,6 +34,12 @@ public class SubTaskTableViewer extends TableViewer {
 		nameColumn.setLabelProvider(new ColumnLabelProvider() {
 			private static final long serialVersionUID = 859768103676685673L;
 
+			@Override
+			public String getToolTipText(Object element) {
+				SubTask subTask = (SubTask) element;
+				return subTask.getDescription();
+			}
+			
 			@Override
 			public String getText(Object element) {
 				SubTask subTask = (SubTask) element;
