@@ -21,7 +21,7 @@ import ee.ut.cs.rum.database.domain.UserAccount;
 import ee.ut.cs.rum.database.domain.UserFile;
 import ee.ut.cs.rum.database.domain.UserFileType;
 import ee.ut.cs.rum.database.domain.enums.SystemParametersEnum;
-import ee.ut.cs.rum.database.domain.enums.TaskStatus;
+import ee.ut.cs.rum.database.domain.enums.SubTaskStatus;
 import ee.ut.cs.rum.database.util.SystemParameterAccess;
 import ee.ut.cs.rum.database.util.UserAccountAccess;
 import ee.ut.cs.rum.database.util.exceptions.SystemParameterNotSetException;
@@ -52,7 +52,7 @@ public class RumJob implements Job {
 		Long subTaskId = context.getJobDetail().getJobDataMap().getLong(SUB_TASK_ID);
 
 		try {
-			subTask = SubTasksData.updateSubTaskStatusInDb(subTaskId, TaskStatus.STARTING, systemUserAccount);
+			subTask = SubTasksData.updateSubTaskStatusInDb(subTaskId, SubTaskStatus.STARTING, systemUserAccount);
 			Plugin plugin = subTask.getPlugin();
 			Bundle rumJobPluginBundle = findSelectedPluginBundle(plugin);
 
@@ -70,16 +70,16 @@ public class RumJob implements Job {
 			RumPluginWorker rumJobPluginWorker = rumJobPluginFactory.createRumPluginWorker();
 			
 			if (outputDirectory.mkdir()) {
-				SubTasksData.updateSubTaskStatusInDb(subTaskId, TaskStatus.RUNNING, systemUserAccount);
+				SubTasksData.updateSubTaskStatusInDb(subTaskId, SubTaskStatus.RUNNING, systemUserAccount);
 				Activator.getLogger().info("RumJob started: " + jobKey + " executing at " + new Date());
 				
 				int rumJobResult = rumJobPluginWorker.runWork(subTask.getConfigurationValues(), outputDirectory);
 				Activator.getLogger().info("RumJobResult toString: " + Integer.toString(rumJobResult));
 				
 				if (rumJobResult==0) {
-					SubTasksData.updateSubTaskStatusInDb(subTaskId, TaskStatus.DONE, systemUserAccount);
+					SubTasksData.updateSubTaskStatusInDb(subTaskId, SubTaskStatus.DONE, systemUserAccount);
 				} else {
-					SubTasksData.updateSubTaskStatusInDb(subTaskId, TaskStatus.FAILED, systemUserAccount);
+					SubTasksData.updateSubTaskStatusInDb(subTaskId, SubTaskStatus.FAILED, systemUserAccount);
 				}
 				PluginInfo pluginInfo = PluginUtils.deserializePluginInfo(plugin);
 				rumJobTaskOutputs = pluginInfo.getOutputs();
@@ -92,10 +92,10 @@ public class RumJob implements Job {
 			
 			Activator.getLogger().info("RumJob done: " + jobKey + " at " + new Date());
 		} catch (SystemParameterNotSetException e) {
-			SubTasksData.updateSubTaskStatusInDb(subTaskId, TaskStatus.FAILED, systemUserAccount);
+			SubTasksData.updateSubTaskStatusInDb(subTaskId, SubTaskStatus.FAILED, systemUserAccount);
 			Activator.getLogger().info("RumJob failed: " + jobKey + " at " + new Date() + " " + e.toString());
 		} catch (Exception e) {
-			SubTasksData.updateSubTaskStatusInDb(subTaskId, TaskStatus.FAILED, systemUserAccount);
+			SubTasksData.updateSubTaskStatusInDb(subTaskId, SubTaskStatus.FAILED, systemUserAccount);
 			Activator.getLogger().info("RumJob failed: " + jobKey + " at " + new Date() + " " + e.toString());
 		}
 	}

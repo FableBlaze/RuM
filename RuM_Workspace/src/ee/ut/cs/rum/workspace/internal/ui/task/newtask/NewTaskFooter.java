@@ -18,7 +18,7 @@ import ee.ut.cs.rum.database.domain.SubTask;
 import ee.ut.cs.rum.database.domain.Task;
 import ee.ut.cs.rum.database.domain.UserAccount;
 import ee.ut.cs.rum.database.domain.enums.SystemParametersEnum;
-import ee.ut.cs.rum.database.domain.enums.TaskStatus;
+import ee.ut.cs.rum.database.domain.enums.SubTaskStatus;
 import ee.ut.cs.rum.database.util.SystemParameterAccess;
 import ee.ut.cs.rum.database.util.UserAccountAccess;
 import ee.ut.cs.rum.database.util.exceptions.SystemParameterNotSetException;
@@ -106,7 +106,7 @@ public class NewTaskFooter extends Composite {
 				SubTask subTask = new SubTask();
 				subTask.setName("(Sub-task " + subTaskNameCounter++ + ")");
 				subTask.setDescription("");
-				subTask.setStatus(TaskStatus.NEW);
+				subTask.setStatus(SubTaskStatus.NEW);
 				subTaskTableViewer.add(subTask);
 				subTaskTableViewer.getTable().select(subTaskTableViewer.getTable().getItemCount()-1);
 

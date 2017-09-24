@@ -17,7 +17,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import ee.ut.cs.rum.database.domain.enums.TaskStatus;
+import ee.ut.cs.rum.database.domain.enums.SubTaskStatus;
 import ee.ut.cs.rum.database.domain.interfaces.RumUpdatableEntity;
 
 @Entity
@@ -32,7 +32,7 @@ public class SubTask implements RumUpdatableEntity {
 	@Column(name = "description")
 	private String description;
 	@Column(name = "status")
-	private TaskStatus status;
+	private SubTaskStatus status;
 	@JoinColumn(name = "plugin_fk")
 	private Plugin plugin;
 	@Column(name = "configuration_values", columnDefinition = "TEXT")
@@ -74,10 +74,10 @@ public class SubTask implements RumUpdatableEntity {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public TaskStatus getStatus() {
+	public SubTaskStatus getStatus() {
 		return status;
 	}
-	public void setStatus(TaskStatus status) {
+	public void setStatus(SubTaskStatus status) {
 		this.status = status;
 	}
 	public Plugin getPlugin() {

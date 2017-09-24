@@ -23,8 +23,6 @@ public class NewTaskComposite extends Composite {
 	public NewTaskComposite(ProjectTabFolder projectTabFolder, Task task, RumController rumController) {
 		super(projectTabFolder, SWT.NONE);
 
-		//TODO: Listen to plugin changes
-		
 		this.projectTabFolder=projectTabFolder;
 		this.task=task;
 
