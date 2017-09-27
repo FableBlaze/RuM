@@ -20,7 +20,7 @@ public final class SubTasksData {
 		subTask = (SubTask)Activator.getRumController().changeData(ControllerUpdateType.MODIFIY, ControllerEntityType.SUBTASK, subTask, userAccount);
 		
 		if (subTaskStatus==SubTaskStatus.DONE || subTaskStatus==SubTaskStatus.FAILED) {
-			if (!subTask.getTask().getSubTasks().removeIf(st -> (st.getStatus()!=SubTaskStatus.DONE && st.getStatus()!=SubTaskStatus.FAILED))) {
+			if (!SubTaskAccess.getTaskSubtasksDataFromDb(subTask.getTask().getId()).removeIf(st -> (st.getStatus()!=SubTaskStatus.DONE && st.getStatus()!=SubTaskStatus.FAILED))) {
 				TasksData.updateTaskStatusInDb(subTask.getTask().getId(), TaskStatus.DONE, userAccount);
 			}
 		}

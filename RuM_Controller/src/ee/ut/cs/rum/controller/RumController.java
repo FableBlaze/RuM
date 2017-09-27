@@ -138,7 +138,8 @@ public class RumController {
 			break;
 		case MODIFIY:
 			task = TaskAccess.updateTaskDataInDb(task);
-			changeData(ControllerUpdateType.MODIFIY, ControllerEntityType.PROJECT, task.getProject(), task.getLastModifiedBy());
+			Project project = ProjectAccess.getProjectDataFromDb(task.getProject().getId());
+			changeData(ControllerUpdateType.MODIFIY, ControllerEntityType.PROJECT, project, task.getLastModifiedBy());
 			break;
 		case DELETE:
 			TaskAccess.removeTaskDataFromDb(task);
@@ -167,7 +168,8 @@ public class RumController {
 			break;
 		case MODIFIY:
 			subTask = SubTaskAccess.updateSubTaskDataInDb(subTask);
-			changeData(ControllerUpdateType.MODIFIY, ControllerEntityType.TASK, subTask.getTask(), subTask.getLastModifiedBy());
+			Task task = TaskAccess.getTaskDataFromDb(subTask.getTask().getId());
+			changeData(ControllerUpdateType.MODIFIY, ControllerEntityType.TASK, task, subTask.getLastModifiedBy());
 			break;
 		case DELETE:
 			SubTaskAccess.removeSubTaskDataFromDb(subTask);

@@ -26,6 +26,14 @@ public final class ProjectAccess {
 		return count;
 	}
 	
+	public static Project getProjectDataFromDb(Long projectId) {
+		EntityManagerFactory emf = Activator.getEmf();
+		EntityManager em = emf.createEntityManager();
+		
+		Project project = em.find(Project.class, projectId);
+		return project;
+	}
+	
 	public static List<Project> getProjectsDataFromDb() {
 		EntityManagerFactory emf = Activator.getEmf();
 		EntityManager em = emf.createEntityManager();

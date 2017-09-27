@@ -64,7 +64,7 @@ public class TasksTableViewer extends TableViewer implements RumUpdatableView {
 	}
 	
 	private void createColumns(TasksTableViewer viewer) {
-		String[] titles = { "Name", "Sub-tasks", "Status", "Last change at"};
+		String[] titles = { "Name", "Processed", "Status", "Last change at"};
 		int[] bounds = { 200, 100, 125, 175 };
 
 		TableViewerColumn nameColumn = createTableViewerColumn(titles[0], bounds[0], viewer);

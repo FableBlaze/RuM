@@ -14,9 +14,12 @@ public final class TasksData {
 	
 	public static Task updateTaskStatusInDb(Long taskId, TaskStatus taskStatus, UserAccount userAccount) {
 		Task task = TaskAccess.getTaskDataFromDb(taskId);
-		task.setStatus(taskStatus);
 		
-		task = (Task)Activator.getRumController().changeData(ControllerUpdateType.MODIFIY, ControllerEntityType.TASK, task, userAccount);
+		if (!(taskStatus == TaskStatus.QUEUED && task.getStatus() == TaskStatus.STARTED)) {
+			//Needed because first subtask can be started before task scheduling is done
+			task.setStatus(taskStatus);
+			task = (Task)Activator.getRumController().changeData(ControllerUpdateType.MODIFIY, ControllerEntityType.TASK, task, userAccount);
+		}
 		
 		return task;
 	}
