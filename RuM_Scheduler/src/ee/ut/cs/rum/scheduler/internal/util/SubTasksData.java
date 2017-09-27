@@ -28,10 +28,11 @@ public final class SubTasksData {
 		return subTask;
 	}
 	
-	public static SubTask updateSubTaskConfigurationValuesInDb(Long subTaskId, String configurationValuesString, UserAccount userAccount) {
+	public static SubTask setSubTaskToQueuing(Long subTaskId, String configurationValuesString, UserAccount userAccount) {
+		
 		SubTask subTask = SubTaskAccess.getSubTaskDataFromDb(subTaskId);
 		subTask.setConfigurationValues(configurationValuesString);
-		
+		subTask.setStatus(SubTaskStatus.QUEUING);
 		subTask = (SubTask)Activator.getRumController().changeData(ControllerUpdateType.MODIFIY, ControllerEntityType.SUBTASK, subTask, userAccount);
 		
 		return subTask;

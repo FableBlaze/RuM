@@ -45,8 +45,7 @@ public final class RumScheduler {
 		for (SubTask subTask : subTasks) {
 			Long subTaskId = subTask.getId();
 			if (subTask.getStatus()==SubTaskStatus.NEW || subTask.getStatus()==SubTaskStatus.WAITING) {
-				if (processSubTaskDependencies(subTask)) {
-					SubTasksData.updateSubTaskStatusInDb(subTaskId, SubTaskStatus.QUEUING, systemUserAccount);
+				if (prepareSubTaskForQueue(subTask)) {
 					String rumJobName = "RumJob"+subTaskId.toString();
 
 					JobDetail job = JobBuilder.newJob(RumJob.class).withIdentity(rumJobName, "RumJobs").build();
@@ -56,14 +55,14 @@ public final class RumScheduler {
 
 					try {
 						scheduler.scheduleJob(job, trigger);
-						Activator.getLogger().info("Added task to queue: " + subTaskId.toString() + " (" +rumJobName + ")");
 						SubTasksData.updateSubTaskStatusInDb(subTaskId, SubTaskStatus.QUEUED, systemUserAccount);
+						Activator.getLogger().info("Added task to queue: " + subTaskId.toString() + " (" +rumJobName + ")");
 					} catch (SchedulerException e) {
+						SubTasksData.updateSubTaskStatusInDb(subTaskId, SubTaskStatus.FAILED, systemUserAccount);
 						Activator.getLogger().info("Failed scheduling task: " + subTaskId.toString() + " (" +rumJobName + ")" + e.toString());
-						SubTasksData.updateSubTaskStatusInDb(subTaskId, SubTaskStatus.FAILED, systemUserAccount);
 					} catch (Exception e) {
-						Activator.getLogger().info("General task scheduling error: " + subTaskId.toString() + " (" +rumJobName + ")" + e.toString());
 						SubTasksData.updateSubTaskStatusInDb(subTaskId, SubTaskStatus.FAILED, systemUserAccount);
+						Activator.getLogger().info("General task scheduling error: " + subTaskId.toString() + " (" +rumJobName + ")" + e.toString());
 					}
 				} else if (subTask.getStatus()==SubTaskStatus.NEW) {
 					SubTasksData.updateSubTaskStatusInDb(subTaskId, SubTaskStatus.WAITING, systemUserAccount);
@@ -79,7 +78,7 @@ public final class RumScheduler {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static boolean processSubTaskDependencies(SubTask subTask) {
+	private static boolean prepareSubTaskForQueue(SubTask subTask) {
 		boolean dependenciesOk=true;
 
 		if (!subTask.getRequiredDependencies().isEmpty()) {
@@ -110,7 +109,7 @@ public final class RumScheduler {
 
 			if (dependenciesOk) {
 				String configurationValuesString = gson.toJson(configurationValues);
-				SubTasksData.updateSubTaskConfigurationValuesInDb(subTask.getId(), configurationValuesString, systemUserAccount);
+				subTask = SubTasksData.setSubTaskToQueuing(subTask.getId(), configurationValuesString, systemUserAccount);
 			}
 		}
 		return dependenciesOk;
