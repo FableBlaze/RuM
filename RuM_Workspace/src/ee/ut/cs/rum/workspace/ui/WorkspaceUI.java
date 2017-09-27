@@ -12,6 +12,8 @@ import ee.ut.cs.rum.workspace.internal.ui.overview.WorkspaceOverview;
 
 public class WorkspaceUI extends Composite {
 	private static final long serialVersionUID = 7689615370877170628L;
+	
+	public static final String SECTION_NAME = "workspaceUI";
 
 	private WorkspaceHeader workspaceHeader;
 	private Composite workspaceContainer;

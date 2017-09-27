@@ -11,6 +11,8 @@ import ee.ut.cs.rum.files.internal.ui.overview.OverviewTabContents;
 public class FilesManagementUI extends CTabFolder {
 	private static final long serialVersionUID = 2757777177503139030L;
 	
+	public static final String SECTION_NAME = "filesManagementUI";
+	
 	private CTabItem overviewTab;
 	private OverviewTabContents overviewTabContents;
 

@@ -1,7 +1,6 @@
 package ee.ut.cs.rum.internal.ui;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
@@ -9,7 +8,11 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
+import ee.ut.cs.rum.administration.ui.SystemAdministrationUI;
 import ee.ut.cs.rum.controller.RumController;
+import ee.ut.cs.rum.files.ui.FilesManagementUI;
+import ee.ut.cs.rum.plugins.ui.PluginsManagementUI;
+import ee.ut.cs.rum.workspace.ui.WorkspaceUI;
 
 import org.eclipse.swt.widgets.Button;
 
@@ -39,9 +42,7 @@ public class RumHeader extends Composite {
 			private static final long serialVersionUID = -7714989063610717365L;
 
 			public void widgetSelected( SelectionEvent event ) {
-				Composite sectionContainer = rumUI.getSectionContainer();
-				((StackLayout)sectionContainer.getLayout()).topControl = rumUI.getWorkspaceSection();
-				sectionContainer.layout();
+				rumUI.setVisibleSection(WorkspaceUI.SECTION_NAME);
 			}
 		});
 		
@@ -51,9 +52,7 @@ public class RumHeader extends Composite {
 			private static final long serialVersionUID = -7714989063610717365L;
 
 			public void widgetSelected( SelectionEvent event ) {
-				Composite sectionContainer = rumUI.getSectionContainer();
-				((StackLayout)sectionContainer.getLayout()).topControl = rumUI.getFilesSection();
-				sectionContainer.layout();
+				rumUI.setVisibleSection(FilesManagementUI.SECTION_NAME);
 			}
 		});
 		
@@ -63,9 +62,7 @@ public class RumHeader extends Composite {
 			private static final long serialVersionUID = -7714989063610717365L;
 
 			public void widgetSelected( SelectionEvent event ) {
-				Composite sectionContainer = rumUI.getSectionContainer();
-				((StackLayout)sectionContainer.getLayout()).topControl = rumUI.getPluginsManagementSection();
-				sectionContainer.layout();
+				rumUI.setVisibleSection(PluginsManagementUI.SECTION_NAME);
 			}
 		});
 		
@@ -75,9 +72,7 @@ public class RumHeader extends Composite {
 			private static final long serialVersionUID = -7714989063610717365L;
 
 			public void widgetSelected( SelectionEvent event ) {
-				Composite sectionContainer = rumUI.getSectionContainer();
-				((StackLayout)sectionContainer.getLayout()).topControl = rumUI.getSystemAdministrationSection();
-				sectionContainer.layout();
+				rumUI.setVisibleSection(SystemAdministrationUI.SECTION_NAME);
 			}
 		});
 		

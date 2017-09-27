@@ -40,13 +40,7 @@ public class RumUI extends AbstractEntryPoint {
 		sectionContainer.setLayoutData( new GridData(SWT.FILL, SWT.FILL, true, true));
 		sectionContainer.setLayout(new StackLayout());
 		
-		workspaceSection = new WorkspaceUI(sectionContainer, rumController);
-		filesSection = new FilesManagementUI(sectionContainer, rumController);
-		pluginsManagementSection = new PluginsManagementUI(sectionContainer, rumController);
-		systemAdministrationSection = new SystemAdministrationUI(sectionContainer, rumController);
-		
-		((StackLayout)sectionContainer.getLayout()).topControl = workspaceSection;
-		sectionContainer.layout();
+		this.setVisibleSection(WorkspaceUI.SECTION_NAME);
 		
 		Activator.getLogger().info("Someone opened ee.ut.cs.rum.RumUI");
 	}
@@ -67,21 +61,39 @@ public class RumUI extends AbstractEntryPoint {
 			}
 		});
 	}
-
-	//Section getters needed for navigationMenu buttons
-	public Composite getSectionContainer() {
-		return sectionContainer;
-	}
-	public Composite getWorkspaceSection() {
-		return workspaceSection;
-	}
-	public Composite getFilesSection() {
-		return filesSection;
-	}
-	public Composite getPluginsManagementSection() {
-		return pluginsManagementSection;
-	}
-	public Composite getSystemAdministrationSection() {
-		return systemAdministrationSection;
+	
+	public void setVisibleSection(String sectionName) {
+		switch (sectionName) {
+		case WorkspaceUI.SECTION_NAME:
+			if (workspaceSection==null) {
+				workspaceSection = new WorkspaceUI(sectionContainer, rumController);
+			}
+			((StackLayout)sectionContainer.getLayout()).topControl = workspaceSection;
+			sectionContainer.layout();
+			break;
+		case FilesManagementUI.SECTION_NAME:
+			if (filesSection==null) {
+				filesSection = new FilesManagementUI(sectionContainer, rumController);
+			}
+			((StackLayout)sectionContainer.getLayout()).topControl = filesSection;
+			sectionContainer.layout();
+			break;
+		case PluginsManagementUI.SECTION_NAME:
+			if (pluginsManagementSection==null) {
+				pluginsManagementSection = new PluginsManagementUI(sectionContainer, rumController);
+			}
+			((StackLayout)sectionContainer.getLayout()).topControl = pluginsManagementSection;
+			sectionContainer.layout();
+			break;
+		case SystemAdministrationUI.SECTION_NAME:
+			if (systemAdministrationSection==null) {
+				systemAdministrationSection = new SystemAdministrationUI(sectionContainer, rumController);
+			}
+			((StackLayout)sectionContainer.getLayout()).topControl = systemAdministrationSection;
+			sectionContainer.layout();
+			break;
+		default:
+			break;
+		}
 	}
 }

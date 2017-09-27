@@ -12,6 +12,8 @@ import ee.ut.cs.rum.plugins.internal.ui.overview.OverviewTabContents;
 public class PluginsManagementUI extends CTabFolder {
 	private static final long serialVersionUID = 2978902689070409076L;
 	
+	public static final String SECTION_NAME = "pluginsManagementUI";
+	
 	private CTabItem overviewTab;
 	private OverviewTabContents overviewTabContents;
 	
