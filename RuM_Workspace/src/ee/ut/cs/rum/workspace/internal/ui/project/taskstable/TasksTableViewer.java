@@ -84,8 +84,8 @@ public class TasksTableViewer extends TableViewer implements RumUpdatableView {
 			}
 		});
 
-		TableViewerColumn subtasksColumn = createTableViewerColumn(titles[1], bounds[1], viewer);
-		subtasksColumn.setLabelProvider(new ColumnLabelProvider() {
+		TableViewerColumn subTasksProcessedColumn = createTableViewerColumn(titles[1], bounds[1], viewer);
+		subTasksProcessedColumn.setLabelProvider(new ColumnLabelProvider() {
 			private static final long serialVersionUID = -2620995247851266199L;
 
 			@Override

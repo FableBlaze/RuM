@@ -14,7 +14,9 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
 import ee.ut.cs.rum.controller.RumController;
+import ee.ut.cs.rum.database.domain.SubTask;
 import ee.ut.cs.rum.database.domain.Task;
+import ee.ut.cs.rum.database.domain.enums.SubTaskStatus;
 import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
 import ee.ut.cs.rum.interfaces.RumUpdatableView;
@@ -32,7 +34,7 @@ public class ProjectTaskDetails extends Composite implements RumUpdatableView {
 	private Task task;
 	private Label taskName;
 	private Label taskDescription;
-	private Label taskSubTasks;
+	private Label subTasksProcessed;
 	private Label taskStatus;
 	private Label taskCreatedAt;
 	private Label taskLastModifiedAt;
@@ -71,11 +73,11 @@ public class ProjectTaskDetails extends Composite implements RumUpdatableView {
 		taskDescription.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
 		label = new Label(this, SWT.NONE);
-		label.setText("Sub-tasks:");
+		label.setText("Sub-tasks processed:");
 		label.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
-		taskSubTasks = new Label(this, SWT.NONE);
-		taskSubTasks.setText("TODO");
-		taskSubTasks.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		subTasksProcessed = new Label(this, SWT.NONE);
+		setSubTasksProcessedText();
+		subTasksProcessed.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
 		label = new Label(this, SWT.NONE);
 		label.setText("Task status:");
@@ -134,6 +136,17 @@ public class ProjectTaskDetails extends Composite implements RumUpdatableView {
 			}
 		});
 	}
+	
+	private void setSubTasksProcessedText() {
+		int subTasksTotal = task.getSubTasks().size();
+		int completedSubTasks = 0;
+		for (SubTask subTask : task.getSubTasks()) {
+			if (subTask.getStatus()==SubTaskStatus.DONE || subTask.getStatus()==SubTaskStatus.FAILED) {
+				completedSubTasks+=1;
+			}
+		}
+		subTasksProcessed.setText(Integer.toString(completedSubTasks) + " of " + Integer.toString(subTasksTotal));
+	}
 
 	@Override
 	public void controllerUpdateNotify(ControllerUpdateType updateType, Object updatedEntity) {
@@ -148,6 +161,7 @@ public class ProjectTaskDetails extends Composite implements RumUpdatableView {
 							taskDescription.setText(updatedTask.getDescription());
 							taskStatus.setText(updatedTask.getStatus().toString());
 							taskLastModifiedAt.setText(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(updatedTask.getLastModifiedAt()));
+							setSubTasksProcessedText();
 						}
 					});
 					break;
