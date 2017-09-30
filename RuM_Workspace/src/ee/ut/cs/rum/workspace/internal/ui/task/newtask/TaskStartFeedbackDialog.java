@@ -1,6 +1,7 @@
 package ee.ut.cs.rum.workspace.internal.ui.task.newtask;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
@@ -11,8 +12,17 @@ import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
+import ee.ut.cs.rum.controller.RumController;
+import ee.ut.cs.rum.database.domain.Task;
+import ee.ut.cs.rum.database.domain.enums.TaskStatus;
+import ee.ut.cs.rum.workspace.internal.ui.project.ProjectTabFolder;
+import ee.ut.cs.rum.workspace.internal.ui.task.details.TaskDetailsComposite;
+
 public class TaskStartFeedbackDialog extends Dialog {
 	private static final long serialVersionUID = -8757598978630338189L;
+	
+	private RumController rumController;
+	private NewTaskComposite newTaskComposite;
 
 	private Label feedbackTextValue;
 	private Label errorTextValue;
@@ -22,8 +32,11 @@ public class TaskStartFeedbackDialog extends Dialog {
 	private Button newTaskButton;
 	private Button okButton;
 
-	public TaskStartFeedbackDialog(Shell activeShell) {
+	public TaskStartFeedbackDialog(Shell activeShell, RumController rumController, NewTaskComposite newTaskComposite) {
 		super(activeShell, SWT.APPLICATION_MODAL | SWT.TITLE | SWT.BORDER | SWT.RESIZE);
+		
+		this.rumController=rumController;
+		this.newTaskComposite = newTaskComposite; 
 	}
 
 	public String open() {
@@ -62,6 +75,13 @@ public class TaskStartFeedbackDialog extends Dialog {
 			private static final long serialVersionUID = -1834525101825011748L;
 
 			public void widgetSelected(SelectionEvent event) {
+				ProjectTabFolder projectTabFolder = newTaskComposite.getProjectTabFolder();
+				for (CTabItem c : projectTabFolder.getItems()) {
+					if (c.getControl().getClass() == NewTaskComposite.class) {
+						c.dispose();
+					}
+				}
+				newTaskComposite.getProjectTabFolder().setSelection(0);
 				shell.close();
 			}
 		});
@@ -74,6 +94,20 @@ public class TaskStartFeedbackDialog extends Dialog {
 			private static final long serialVersionUID = 6754562075280340546L;
 
 			public void widgetSelected(SelectionEvent event) {
+				ProjectTabFolder projectTabFolder = newTaskComposite.getProjectTabFolder();
+				Long taskId = null;
+				for (CTabItem c : projectTabFolder.getItems()) {
+					if (c.getControl().getClass() == NewTaskComposite.class) {
+						taskId = ((NewTaskComposite)c.getControl()).getTask().getId();
+						c.dispose();
+					}
+				}
+				if (taskId!=null) {
+					CTabItem cTabItem = new CTabItem (projectTabFolder, SWT.CLOSE);
+					cTabItem.setText ("Task " + taskId.toString());
+					cTabItem.setControl(new TaskDetailsComposite(projectTabFolder, rumController, taskId));
+					projectTabFolder.setSelection(cTabItem);					
+				}
 				shell.close();
 			}
 		});
@@ -86,6 +120,21 @@ public class TaskStartFeedbackDialog extends Dialog {
 			private static final long serialVersionUID = 2862658622963869743L;
 
 			public void widgetSelected(SelectionEvent event) {
+				ProjectTabFolder projectTabFolder = newTaskComposite.getProjectTabFolder();
+				for (CTabItem c : projectTabFolder.getItems()) {
+					if (c.getControl().getClass() == NewTaskComposite.class) {
+						c.dispose();
+					}
+				}
+				CTabItem cTabItem = new CTabItem (projectTabFolder, SWT.CLOSE);
+				cTabItem.setText ("New task");
+				Task task = new Task();
+				task.setName("(New task)");
+				task.setDescription("");
+				task.setProject(projectTabFolder.getProject());
+				task.setStatus(TaskStatus.NEW);
+				cTabItem.setControl(new NewTaskComposite(projectTabFolder, task, rumController));
+				projectTabFolder.setSelection(cTabItem);
 				shell.close();
 			}
 		});

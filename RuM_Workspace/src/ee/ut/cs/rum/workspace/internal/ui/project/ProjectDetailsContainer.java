@@ -9,7 +9,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 
 import ee.ut.cs.rum.controller.RumController;
-import ee.ut.cs.rum.database.domain.Task;
 import ee.ut.cs.rum.workspace.internal.ui.project.details.ProjectTaskDetails;
 
 public class ProjectDetailsContainer extends Composite {
@@ -20,7 +19,7 @@ public class ProjectDetailsContainer extends Composite {
 	private ProjectOverview projectOverview;
 	private ProjectOverviewDetails projectOverviewDetails;
 	
-	private List<Long> selectedProjectIds;
+	private List<Long> selectedTaskIds;
 	private List<ProjectTaskDetails> workspaceProjectDetailsList;
 
 	public ProjectDetailsContainer(ProjectOverview projectOverview, RumController rumController) {
@@ -35,25 +34,25 @@ public class ProjectDetailsContainer extends Composite {
 		
 		projectOverviewDetails = new ProjectOverviewDetails(this, rumController);
 		
-		this.selectedProjectIds = new ArrayList<Long>();
+		this.selectedTaskIds = new ArrayList<Long>();
 		this.workspaceProjectDetailsList = new ArrayList<ProjectTaskDetails>();
 		
 		((StackLayout)this.getLayout()).topControl = projectOverviewDetails;
 		this.layout();
 	}
 	
-	public void showDetailsOf(Task selectedTask) {
-		if (selectedTask==null) {
+	public void showDetailsOf(Long taskId) {
+		if (taskId==null) {
 			((StackLayout)this.getLayout()).topControl = projectOverviewDetails;
 		} else {
-			int selectedProjectId = selectedProjectIds.indexOf(selectedTask.getId());
-			if (selectedProjectId==-1) {
-				selectedProjectIds.add(selectedTask.getId());
-				ProjectTaskDetails workspaceProjectDetails = new ProjectTaskDetails(this, selectedTask, rumController);
-				workspaceProjectDetailsList.add(workspaceProjectDetails);
-				((StackLayout)this.getLayout()).topControl = workspaceProjectDetails;
+			int selectedTaskId = selectedTaskIds.indexOf(taskId);
+			if (selectedTaskId==-1) {
+				selectedTaskIds.add(taskId);
+				ProjectTaskDetails projectTaskDetails = new ProjectTaskDetails(this, taskId, rumController);
+				workspaceProjectDetailsList.add(projectTaskDetails);
+				((StackLayout)this.getLayout()).topControl = projectTaskDetails;
 			} else {
-				((StackLayout)this.getLayout()).topControl = workspaceProjectDetailsList.get(selectedProjectId);
+				((StackLayout)this.getLayout()).topControl = workspaceProjectDetailsList.get(selectedTaskId);
 			}
 		}
 		this.layout();

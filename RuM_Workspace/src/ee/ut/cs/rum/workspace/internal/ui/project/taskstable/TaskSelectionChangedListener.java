@@ -26,7 +26,7 @@ public class TaskSelectionChangedListener implements ISelectionChangedListener {
 		}
 
 		ProjectDetailsContainer projectDetailsContainer = projectOverview.getProjectDetailsContainer(); 
-		projectDetailsContainer.showDetailsOf(selectedTask);
+		projectDetailsContainer.showDetailsOf(selectedTask.getId());
 	}
 
 }

@@ -54,7 +54,7 @@ public class NewTaskFooter extends Composite {
 
 			@Override
 			public void handleEvent(Event event) {
-				TaskStartFeedbackDialog taskStartFeedbackDialog = new TaskStartFeedbackDialog(Display.getCurrent().getActiveShell());
+				TaskStartFeedbackDialog taskStartFeedbackDialog = new TaskStartFeedbackDialog(Display.getCurrent().getActiveShell(), rumController, newTaskComposite);
 				taskStartFeedbackDialog.open();
 				Task task = newTaskComposite.getTask();
 				

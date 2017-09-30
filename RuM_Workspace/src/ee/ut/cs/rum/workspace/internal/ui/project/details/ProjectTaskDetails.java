@@ -17,6 +17,7 @@ import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.SubTask;
 import ee.ut.cs.rum.database.domain.Task;
 import ee.ut.cs.rum.database.domain.enums.SubTaskStatus;
+import ee.ut.cs.rum.database.util.TaskAccess;
 import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
 import ee.ut.cs.rum.interfaces.RumUpdatableView;
@@ -40,7 +41,7 @@ public class ProjectTaskDetails extends Composite implements RumUpdatableView {
 	private Label taskLastModifiedAt;
 
 
-	public ProjectTaskDetails(ProjectDetailsContainer projectDetailsContainer, Task task, RumController rumController) {
+	public ProjectTaskDetails(ProjectDetailsContainer projectDetailsContainer, Long taskId, RumController rumController) {
 		super(projectDetailsContainer, SWT.NONE);
 
 		this.display=Display.getCurrent();
@@ -48,7 +49,7 @@ public class ProjectTaskDetails extends Composite implements RumUpdatableView {
 		rumController.registerView(this, ControllerEntityType.TASK);
 
 		this.projectTabFolder = projectDetailsContainer.getProjectOverview().getProjectTabFolder();
-		this.task=task;
+		this.task=TaskAccess.getTaskDataFromDb(taskId);
 
 		this.setLayoutData( new GridData(SWT.FILL, SWT.FILL, true, true));
 		this.setLayout(new GridLayout(3, false));
