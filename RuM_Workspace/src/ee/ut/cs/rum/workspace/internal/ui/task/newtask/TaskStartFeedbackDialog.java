@@ -16,6 +16,10 @@ public class TaskStartFeedbackDialog extends Dialog {
 
 	private Label feedbackTextValue;
 	private Label errorTextValue;
+	private Composite buttonsComposite;
+	private Button projectButton;
+	private Button detailsButton;
+	private Button newTaskButton;
 	private Button okButton;
 
 	public TaskStartFeedbackDialog(Shell activeShell) {
@@ -37,19 +41,58 @@ public class TaskStartFeedbackDialog extends Dialog {
 
 		feedbackTextValue = new Label(shell, SWT.NONE);
 		feedbackTextValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		feedbackTextValue.setText("Task queing in progress...");
 		errorTextValue = new Label(shell, SWT.NONE);
-		errorTextValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		createButtonsComposite();
+		errorTextValue.setLayoutData(new GridData(GridData.FILL_BOTH));
+		errorTextValue.setText("");
+		buttonsComposite = createButtonsComposite();
+		buttonsComposite.setEnabled(false);
 	}
 
-	private void createButtonsComposite() {
+	private Composite createButtonsComposite() {
 		Composite buttonsComposite  = new Composite(shell, SWT.NONE);
-		buttonsComposite.setLayout(new GridLayout());
+		buttonsComposite.setLayout(new GridLayout(4, false));
 		buttonsComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		
+		projectButton = new Button(buttonsComposite, SWT.PUSH);
+		projectButton.setText("Project overwiev");
+		projectButton.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false));
+		projectButton.setEnabled(false);
+		projectButton.addSelectionListener(new SelectionAdapter() {
+			private static final long serialVersionUID = -1834525101825011748L;
 
+			public void widgetSelected(SelectionEvent event) {
+				shell.close();
+			}
+		});
+
+		detailsButton = new Button(buttonsComposite, SWT.PUSH);
+		detailsButton.setText("Task details");
+		detailsButton.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false));
+		detailsButton.setEnabled(false);
+		detailsButton.addSelectionListener(new SelectionAdapter() {
+			private static final long serialVersionUID = 6754562075280340546L;
+
+			public void widgetSelected(SelectionEvent event) {
+				shell.close();
+			}
+		});
+		
+		newTaskButton = new Button(buttonsComposite, SWT.PUSH);
+		newTaskButton.setText("New task");
+		newTaskButton.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false));
+		newTaskButton.setEnabled(false);
+		newTaskButton.addSelectionListener(new SelectionAdapter() {
+			private static final long serialVersionUID = 2862658622963869743L;
+
+			public void widgetSelected(SelectionEvent event) {
+				shell.close();
+			}
+		});
+		
 		okButton = new Button(buttonsComposite, SWT.PUSH);
 		okButton.setText("OK");
-		okButton.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, true, true));
+		okButton.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false));
 		okButton.addSelectionListener(new SelectionAdapter() {
 			private static final long serialVersionUID = -1834525101825011748L;
 
@@ -57,24 +100,22 @@ public class TaskStartFeedbackDialog extends Dialog {
 				shell.close();
 			}
 		});
-	}
-
-	public void setQueingInProgress() {
-		feedbackTextValue.setText("Task queing in progress...");
-		errorTextValue.setText("");
-		okButton.setEnabled(false);
+		return buttonsComposite;
 	}
 
 	public void setQueingSuccessful() {
 		feedbackTextValue.setText("Task succesfully queued");
 		errorTextValue.setText("");
-		okButton.setEnabled(true);
+		buttonsComposite.setEnabled(true);
+		projectButton.setEnabled(true);
+		detailsButton.setEnabled(true);
+		newTaskButton.setEnabled(true);
 	}
 
 	public void setQueingFailure(String message) {
 		feedbackTextValue.setText("Task queing failed");
 		errorTextValue.setText(message);
-		okButton.setEnabled(true);
+		buttonsComposite.setEnabled(true);
 
 	}
 }

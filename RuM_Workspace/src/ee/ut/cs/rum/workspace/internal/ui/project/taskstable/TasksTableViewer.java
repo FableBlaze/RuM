@@ -99,9 +99,9 @@ public class TasksTableViewer extends TableViewer implements RumUpdatableView {
 							completedSubTasks+=1;
 						}
 					}
-					return Integer.toString(completedSubTasks) + " of " + Integer.toString(subTasksTotal);					
+					return Integer.toString(completedSubTasks) + " of " + Integer.toString(subTasksTotal);
 				} else {
-					return "";					
+					return "";
 				}
 			}
 		});
