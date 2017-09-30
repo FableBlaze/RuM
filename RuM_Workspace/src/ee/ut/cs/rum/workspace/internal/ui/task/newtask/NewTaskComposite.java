@@ -7,6 +7,8 @@ import org.eclipse.swt.widgets.Composite;
 
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Task;
+import ee.ut.cs.rum.database.util.TaskAccess;
+import ee.ut.cs.rum.workspace.internal.Activator;
 import ee.ut.cs.rum.workspace.internal.ui.project.ProjectTabFolder;
 import ee.ut.cs.rum.workspace.internal.ui.task.newtask.sidebar.NewTaskDetailsSideBar;
 
@@ -37,6 +39,11 @@ public class NewTaskComposite extends Composite {
 		((GridData) newTaskFooter.getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
 	}
 
+	public void initializeBasedOnTask(Long taskId) {
+		Task baseTask = TaskAccess.getTaskDataFromDb(taskId);
+		Activator.getLogger().info("Initializing new task based on task: " + baseTask.toString());
+	}
+	
 	public ProjectTabFolder getProjectTabFolder() {
 		return projectTabFolder;
 	}
@@ -55,5 +62,5 @@ public class NewTaskComposite extends Composite {
 	
 	public NewTaskFooter getNewTaskFooter() {
 		return newTaskFooter;
-	}
+	} 
 }
