@@ -3,7 +3,6 @@ package ee.ut.cs.rum.workspace.internal.ui.task.newtask;
 import java.util.Map;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.layout.GridData;
@@ -145,7 +144,7 @@ public class NewTaskSubTaskInfo extends Composite {
 		return pluginInfoComposite;
 	}
 	
-	public ScrolledComposite getScrolledPluginConfigurationComposite() {
+	public ScrolledPluginConfigurationComposite getScrolledPluginConfigurationComposite() {
 		return scrolledPluginConfigurationComposite;
 	}
 }

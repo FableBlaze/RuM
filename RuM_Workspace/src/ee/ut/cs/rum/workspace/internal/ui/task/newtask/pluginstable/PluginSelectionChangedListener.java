@@ -5,13 +5,11 @@ import java.util.List;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.swt.custom.ScrolledComposite;
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.database.domain.UserFile;
 import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationComposite;
-import ee.ut.cs.rum.plugins.configuration.util.PluginUtils;
-import ee.ut.cs.rum.plugins.development.description.PluginInfo;
+import ee.ut.cs.rum.plugins.configuration.ui.ScrolledPluginConfigurationComposite;
 import ee.ut.cs.rum.workspace.internal.ui.task.newtask.NewTaskSubTaskInfo;
 
 public class PluginSelectionChangedListener implements ISelectionChangedListener {
@@ -34,39 +32,28 @@ public class PluginSelectionChangedListener implements ISelectionChangedListener
 			IStructuredSelection selection = (IStructuredSelection)event.getSelection();
 			plugin = (Plugin) selection.getFirstElement();			
 		}
-
-		newTaskSubTaskInfo.getPluginInfoComposite().updateSelectedPluginInfo(plugin);
-
-		ScrolledComposite scrolledPluginConfigurationComposite = newTaskSubTaskInfo.getScrolledPluginConfigurationComposite();
-				
-		if (scrolledPluginConfigurationComposite.getContent()!=null) {
-			PluginConfigurationComposite prevPluginConfigurationComposite = (PluginConfigurationComposite)scrolledPluginConfigurationComposite.getContent();
-			newTaskSubTaskInfo.getNewTaskDetailsContainer().notifyTaskOfPluginDeselect(prevPluginConfigurationComposite.getOutputUserFiles(), newTaskSubTaskInfo);
-			
-			if (!scrolledPluginConfigurationComposite.getContent().isDisposed()) {
-				scrolledPluginConfigurationComposite.getContent().dispose();				
-			}
-		}
-
 		
-		if (plugin !=null) {
-			PluginInfo pluginInfo = PluginUtils.deserializePluginInfo(plugin);
-
+		ScrolledPluginConfigurationComposite scrolledPluginConfigurationComposite = newTaskSubTaskInfo.getScrolledPluginConfigurationComposite(); 
+		PluginConfigurationComposite prevPluginConfigurationComposite = scrolledPluginConfigurationComposite.getPluginConfigurationComposite();
+		if (prevPluginConfigurationComposite!=null) {
+			newTaskSubTaskInfo.getNewTaskDetailsContainer().notifyTaskOfPluginDeselect(prevPluginConfigurationComposite.getOutputUserFiles(), newTaskSubTaskInfo);
+		}
+		
+		if (plugin!=null) {
 			List<UserFile> userFiles = newTaskSubTaskInfo.getNewTaskDetailsContainer().getUserFiles();
 			List<UserFile> taskUserFiles = newTaskSubTaskInfo.getNewTaskDetailsContainer().getInitialTaskUserFiles(newTaskSubTaskInfo);
 			List<UserFile> tmpUserFiles = newTaskSubTaskInfo.getNewTaskDetailsContainer().getTmpUserFiles();
 			
-			PluginConfigurationComposite pluginConfigurationComposite = new PluginConfigurationComposite(scrolledPluginConfigurationComposite, pluginInfo, rumController, userFiles, taskUserFiles, tmpUserFiles);
-			for (UserFile userFile : pluginConfigurationComposite.getOutputUserFiles()) {
+			scrolledPluginConfigurationComposite.showEnabledPluginConfigurationComposite(plugin, rumController, userFiles, taskUserFiles, tmpUserFiles);
+			List<UserFile> newOutputUserFiles = scrolledPluginConfigurationComposite.getPluginConfigurationComposite().getOutputUserFiles();
+			for (UserFile userFile : newOutputUserFiles) {
 				userFile.setSubTask(newTaskSubTaskInfo.getSubTask());
 			}
-			
-			scrolledPluginConfigurationComposite.setContent(pluginConfigurationComposite);
-			pluginConfigurationComposite.setSize(scrolledPluginConfigurationComposite.getSize());
-			
-			newTaskSubTaskInfo.getNewTaskDetailsContainer().notifyTaskOfPluginSelect(pluginConfigurationComposite.getOutputUserFiles(), newTaskSubTaskInfo);
+			newTaskSubTaskInfo.getNewTaskDetailsContainer().notifyTaskOfPluginSelect(newOutputUserFiles, newTaskSubTaskInfo);
 		} else {
-			scrolledPluginConfigurationComposite.setContent(null);
+			scrolledPluginConfigurationComposite.disposeCurrentPluginConfigurationComposite();
 		}
+		
+		newTaskSubTaskInfo.getPluginInfoComposite().updateSelectedPluginInfo(plugin);
 	}
 }

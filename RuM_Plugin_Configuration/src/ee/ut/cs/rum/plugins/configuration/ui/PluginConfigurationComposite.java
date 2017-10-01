@@ -48,38 +48,33 @@ public class PluginConfigurationComposite extends Composite {
 		setLayout();
 		createContents(pluginInfo);
 	}
-	
+
 	public PluginConfigurationComposite(Composite parent, PluginInfo pluginInfo, RumController rumController, List<UserFile> userFiles, List<UserFile> taskUserFiles, List<UserFile> tmpUserFiles) {
 		super(parent, SWT.NONE);
 
 		this.rumController=rumController;
-
 		this.userFiles=userFiles;
 		this.taskUserFiles=taskUserFiles;
 		this.tmpUserFiles=tmpUserFiles;
 
-		if (rumController==null) {
-			this.setEnabled(false);
-		} else {
-			this.outputUserFiles = new ArrayList<UserFile>();
-			for (PluginOutput pluginOutput : pluginInfo.getOutputs()) {
-				UserFile userFile = new UserFile();
-				userFile.setOriginalFilename(pluginOutput.getFileName());
-				List<UserFileType> userFileTypes = new ArrayList<UserFileType>();
-				for (String fileType : pluginOutput.getFileTypes()) {
-					UserFileType userFileType = new UserFileType();
-					userFileType.setTypeName(fileType);
-					userFileTypes.add(userFileType);
-				}
-				userFile.setUserFileTypes(userFileTypes);
-				this.outputUserFiles.add(userFile);
+		this.outputUserFiles = new ArrayList<UserFile>();
+		for (PluginOutput pluginOutput : pluginInfo.getOutputs()) {
+			UserFile userFile = new UserFile();
+			userFile.setOriginalFilename(pluginOutput.getFileName());
+			List<UserFileType> userFileTypes = new ArrayList<UserFileType>();
+			for (String fileType : pluginOutput.getFileTypes()) {
+				UserFileType userFileType = new UserFileType();
+				userFileType.setTypeName(fileType);
+				userFileTypes.add(userFileType);
 			}
+			userFile.setUserFileTypes(userFileTypes);
+			this.outputUserFiles.add(userFile);
 		}
 
 		setLayout();
 		createContents(pluginInfo);
 	}
-	
+
 	private void setLayout() {
 		GridLayout layout = new GridLayout(2, false);
 		layout.marginLeft = layout.marginTop = layout.marginRight = layout.marginBottom = 10;
@@ -166,10 +161,10 @@ public class PluginConfigurationComposite extends Composite {
 			label.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		}
 	}
-	
+
 	public List<String> getDisplayNamesOfEmptyRequiredParameters() {
 		List<String> displayNames = new ArrayList<String>();
-		
+
 		for (ConfigurationItemInterface configurationItem : configurationItems) {
 			if (configurationItem.getRequired() && (configurationItem.getValue()==null || configurationItem.getValue().equals(""))) {
 				displayNames.add(configurationItem.getDisplayName());
@@ -180,7 +175,7 @@ public class PluginConfigurationComposite extends Composite {
 				displayNames.add(configurationItemFile.getDisplayName());
 			}
 		}
-		
+
 		return displayNames;
 	}
 
@@ -193,7 +188,7 @@ public class PluginConfigurationComposite extends Composite {
 				configurationValues.put(configurationItem.getInternalName(), "");
 			}
 		}
-		
+
 		for (ConfigurationItemFile configurationItemFile : configurationItemFiles) {
 			if (configurationItemFile.getValue()!=null) {
 				configurationValues.put(configurationItemFile.getInternalName(), configurationItemFile.getValue());
@@ -201,10 +196,10 @@ public class PluginConfigurationComposite extends Composite {
 				configurationValues.put(configurationItemFile.getInternalName(), "");
 			}
 		}
-		
+
 		return configurationValues;
 	}
-	
+
 	public List<SubTaskDependency> getDependsOn() {
 		List<SubTaskDependency> dependsOn = new ArrayList<SubTaskDependency>();
 		for (ConfigurationItemFile configurationItemFile : configurationItemFiles) {
@@ -235,23 +230,23 @@ public class PluginConfigurationComposite extends Composite {
 	public List<UserFile> getUserFiles() {
 		return userFiles;
 	}
-	
+
 	public List<UserFile> getTaskUserFiles() {
 		return taskUserFiles;
 	}
-	
+
 	public List<UserFile> getTmpUserFiles() {
 		return tmpUserFiles;
 	}
-	
+
 	public List<UserFile> getOutputUserFiles() {
 		return outputUserFiles;
 	}
-	
+
 	public List<ConfigurationItemFile> getConfigurationItemFiles() {
 		return configurationItemFiles;
 	}
-	
+
 	public void notifySubTaskOfPluginSelect(List<UserFile> outputFiles) {
 		if (outputUserFiles!=outputFiles) {
 			for (ConfigurationItemFile configurationItemFile : configurationItemFiles) {
@@ -267,7 +262,7 @@ public class PluginConfigurationComposite extends Composite {
 			}			
 		}
 	}
-	
+
 	public void notifySubTaskOfSubTaskNameChange(List<UserFile> outputFiles) {
 		if (outputUserFiles!=outputFiles) {
 			for (ConfigurationItemFile configurationItemFile : configurationItemFiles) {
