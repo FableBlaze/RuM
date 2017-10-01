@@ -11,10 +11,7 @@ import org.eclipse.swt.widgets.Composite;
 import com.google.gson.Gson;
 
 import ee.ut.cs.rum.database.domain.SubTask;
-import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationComposite;
 import ee.ut.cs.rum.plugins.configuration.ui.ScrolledPluginConfigurationComposite;
-import ee.ut.cs.rum.plugins.configuration.util.PluginUtils;
-import ee.ut.cs.rum.plugins.development.description.PluginInfo;
 
 public class TaskSubTaskInfoRight extends Composite {
 	private static final long serialVersionUID = 2108550824294466913L;
@@ -27,17 +24,12 @@ public class TaskSubTaskInfoRight extends Composite {
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		
 		ScrolledPluginConfigurationComposite scrolledPluginConfigurationComposite = new ScrolledPluginConfigurationComposite(this);
-		scrolledPluginConfigurationComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		scrolledPluginConfigurationComposite.showDisabledPluginConfigurationComposite(subTask.getPlugin());
 		
-		PluginInfo pluginInfo = PluginUtils.deserializePluginInfo(subTask.getPlugin());
-		PluginConfigurationComposite pluginConfigurationComposite = new PluginConfigurationComposite(scrolledPluginConfigurationComposite, pluginInfo, null, null, null, null);
 		Gson gson = new Gson();
 		Map<String,String> configurationValues = new HashMap<String,String>();
 		configurationValues = gson.fromJson(subTask.getConfigurationValues(), configurationValues.getClass());
-		pluginConfigurationComposite.setConfigurationValues(configurationValues);
-		
-		scrolledPluginConfigurationComposite.setContent(pluginConfigurationComposite);
-		pluginConfigurationComposite.setSize(pluginConfigurationComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+		scrolledPluginConfigurationComposite.getPluginConfigurationComposite().setConfigurationValues(configurationValues);		
 	}
 
 }

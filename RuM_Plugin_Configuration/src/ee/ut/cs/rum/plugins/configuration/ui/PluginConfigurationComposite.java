@@ -36,23 +36,27 @@ public class PluginConfigurationComposite extends Composite {
 
 	private List<ConfigurationItemInterface> configurationItems;
 	private List<ConfigurationItemFile> configurationItemFiles;
-	private PluginInfo pluginInfo;
 	private List<UserFile> userFiles;
 	private List<UserFile> taskUserFiles;
 	private List<UserFile> tmpUserFiles;
 	private List<UserFile> outputUserFiles;
 
+	public PluginConfigurationComposite(ScrolledPluginConfigurationComposite parent, PluginInfo pluginInfo) {
+		super(parent, SWT.NONE);
+
+		this.setEnabled(false);
+		setLayout();
+		createContents(pluginInfo);
+	}
+	
 	public PluginConfigurationComposite(Composite parent, PluginInfo pluginInfo, RumController rumController, List<UserFile> userFiles, List<UserFile> taskUserFiles, List<UserFile> tmpUserFiles) {
 		super(parent, SWT.NONE);
 
 		this.rumController=rumController;
 
-		this.pluginInfo=pluginInfo;
 		this.userFiles=userFiles;
 		this.taskUserFiles=taskUserFiles;
 		this.tmpUserFiles=tmpUserFiles;
-
-		this.setLayout(new GridLayout(2, false));
 
 		if (rumController==null) {
 			this.setEnabled(false);
@@ -72,10 +76,17 @@ public class PluginConfigurationComposite extends Composite {
 			}
 		}
 
-		createContents();
+		setLayout();
+		createContents(pluginInfo);
+	}
+	
+	private void setLayout() {
+		GridLayout layout = new GridLayout(2, false);
+		layout.marginLeft = layout.marginTop = layout.marginRight = layout.marginBottom = 10;
+		this.setLayout(layout);
 	}
 
-	private void createContents() {
+	private void createContents(PluginInfo pluginInfo) {
 		Label label;
 		configurationItems = new ArrayList<ConfigurationItemInterface>();
 		configurationItemFiles = new ArrayList<ConfigurationItemFile>();

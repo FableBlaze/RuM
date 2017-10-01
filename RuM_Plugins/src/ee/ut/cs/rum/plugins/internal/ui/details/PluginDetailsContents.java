@@ -17,10 +17,7 @@ import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
 import ee.ut.cs.rum.interfaces.RumUpdatableView;
-import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationComposite;
 import ee.ut.cs.rum.plugins.configuration.ui.ScrolledPluginConfigurationComposite;
-import ee.ut.cs.rum.plugins.configuration.util.PluginUtils;
-import ee.ut.cs.rum.plugins.development.description.PluginInfo;
 
 public class PluginDetailsContents extends ExpandBar implements RumUpdatableView {
 	private static final long serialVersionUID = -4774110099028052424L;
@@ -135,16 +132,8 @@ public class PluginDetailsContents extends ExpandBar implements RumUpdatableView
 	}
 
 	private ScrolledComposite createConfigurationUiComposite() {
-		ScrolledComposite scrolledPluginConfigurationComposite = new ScrolledPluginConfigurationComposite(this);
-
-		PluginInfo pluginInfo = PluginUtils.deserializePluginInfo(plugin);
-		PluginConfigurationComposite pluginConfigurationComposite = new PluginConfigurationComposite(scrolledPluginConfigurationComposite, pluginInfo, null, null, null, null);
-		GridLayout layout = new GridLayout (2, false);
-		layout.marginLeft = layout.marginTop = layout.marginRight = layout.marginBottom = 10;
-		pluginConfigurationComposite.setLayout(layout);
-
-		scrolledPluginConfigurationComposite.setContent(pluginConfigurationComposite);
-		pluginConfigurationComposite.setSize(pluginConfigurationComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+		ScrolledPluginConfigurationComposite scrolledPluginConfigurationComposite = new ScrolledPluginConfigurationComposite(this);
+		scrolledPluginConfigurationComposite.showDisabledPluginConfigurationComposite(plugin);
 
 		return scrolledPluginConfigurationComposite;
 	}
