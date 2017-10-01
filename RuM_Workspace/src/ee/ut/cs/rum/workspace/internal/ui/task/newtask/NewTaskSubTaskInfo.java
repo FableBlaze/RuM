@@ -75,6 +75,7 @@ public class NewTaskSubTaskInfo extends Composite {
 		label.setText("Sub-task description:");
 		label.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, false, false));
 		Text subTaskDescriptionText = new Text(this, SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL);
+		subTaskDescriptionText.setText(subTask.getDescription());
 		subTaskDescriptionText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
 		((GridData)subTaskDescriptionText.getLayoutData()).widthHint=200;
 		((GridData)subTaskDescriptionText.getLayoutData()).heightHint=75;

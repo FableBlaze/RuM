@@ -14,6 +14,7 @@ import ee.ut.cs.rum.database.domain.Task;
 public class NewTaskGeneralInfo extends Composite {
 	private static final long serialVersionUID = 5067024324443453774L;
 	
+	private Task task;
 	private Text taskNameText;
 	private Text taskDescriptionText;
 
@@ -23,7 +24,7 @@ public class NewTaskGeneralInfo extends Composite {
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		this.setLayout(new GridLayout(3, false));
 		
-		Task task = newTaskDetailsContainer.getNewTaskComposite().getTask();
+		task = newTaskDetailsContainer.getNewTaskComposite().getTask();
 		
 		Label label = new Label(this, SWT.NONE);
 		label.setText("Task name:");
@@ -68,5 +69,12 @@ public class NewTaskGeneralInfo extends Composite {
 		subTaskGraphComposite.setText("Sub-task graph (TODO)");
 		subTaskGraphComposite.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true));
 		((GridData) subTaskGraphComposite.getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
+	}
+
+	public void initializeBasedOnTask(Task baseTask) {
+		taskNameText.setText(baseTask.getName());
+		task.setName(baseTask.getName());
+		taskDescriptionText.setText(baseTask.getDescription());
+		task.setDescription(baseTask.getDescription());
 	}
 }

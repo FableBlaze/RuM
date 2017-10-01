@@ -46,7 +46,7 @@ public class TaskDetailsFooter extends Composite {
 				task.setProject(projectTabFolder.getProject());
 				task.setStatus(TaskStatus.NEW);
 				NewTaskComposite newTaskComposite = new NewTaskComposite(projectTabFolder, task, rumController);
-				newTaskComposite.initializeBasedOnTask(taskDetailsComposite.getTask().getId());
+				newTaskComposite.initializeBasedOnTaskId(taskDetailsComposite.getTask().getId());
 				cTabItem.setControl(newTaskComposite);
 				projectTabFolder.setSelection(cTabItem);
 			}

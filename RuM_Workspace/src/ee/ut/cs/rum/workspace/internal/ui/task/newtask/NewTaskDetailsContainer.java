@@ -11,6 +11,7 @@ import org.eclipse.swt.widgets.Display;
 
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.SubTask;
+import ee.ut.cs.rum.database.domain.Task;
 import ee.ut.cs.rum.database.domain.UserFile;
 import ee.ut.cs.rum.database.util.UserFileAccess;
 import ee.ut.cs.rum.enums.ControllerEntityType;
@@ -70,6 +71,11 @@ public class NewTaskDetailsContainer extends Composite implements RumUpdatableVi
 		this.layout();
 		newTaskComposite.getNewTaskFooter().setRemoveSubTaskButtonEnabled(true);
 		newTaskComposite.getNewTaskFooter().setRemoveAllSubTasksButtonEnabled(false);
+	}
+	
+	public void initializeBasedOnTask(Task baseTask) {
+		newTaskGeneralInfo.initializeBasedOnTask(baseTask);
+		
 	}
 
 	public NewTaskComposite getNewTaskComposite() {
@@ -242,5 +248,4 @@ public class NewTaskDetailsContainer extends Composite implements RumUpdatableVi
 		rumController.unregisterView(this, ControllerEntityType.PROJECT);
 		super.dispose();
 	}
-
 }

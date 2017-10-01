@@ -31,7 +31,7 @@ public class NewTaskComposite extends Composite {
 		this.setLayout(new GridLayout(2, false));
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
-		this.detailsSideBar = new NewTaskDetailsSideBar(this);
+		this.detailsSideBar = new NewTaskDetailsSideBar(this, rumController);
 
 		this.newTaskDetailsContainer = new NewTaskDetailsContainer(this, rumController);
 
@@ -39,9 +39,11 @@ public class NewTaskComposite extends Composite {
 		((GridData) newTaskFooter.getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
 	}
 
-	public void initializeBasedOnTask(Long taskId) {
+	public void initializeBasedOnTaskId(Long taskId) {
 		Task baseTask = TaskAccess.getTaskDataFromDb(taskId);
 		Activator.getLogger().info("Initializing new task based on task: " + baseTask.toString());
+		detailsSideBar.initializeBasedOnTask(baseTask);
+		newTaskDetailsContainer.initializeBasedOnTask(baseTask);
 	}
 	
 	public ProjectTabFolder getProjectTabFolder() {

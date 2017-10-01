@@ -112,7 +112,7 @@ public class NewTaskFooter extends Composite {
 
 				NewTaskDetailsContainer newTaskDetailsContainer = newTaskComposite.getNewTaskDetailsContainer();
 				NewTaskSubTaskInfo newTaskSubTaskInfo = new NewTaskSubTaskInfo(newTaskDetailsContainer, subTask, rumController);
-				newTaskDetailsContainer.getNewTaskSubTaskInfoList().add(newTaskSubTaskInfo);				
+				newTaskDetailsContainer.getNewTaskSubTaskInfoList().add(newTaskSubTaskInfo);
 				newTaskDetailsContainer.showSubTaskInfo(subTaskTableViewer.getTable().getItemCount()-1);
 
 				if (!startTaskButton.getEnabled()) {
