@@ -70,11 +70,6 @@ public class WorkspaceProjectDetails extends Composite implements RumUpdatableVi
 		projectLastModifiedAt.setText(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(project.getLastModifiedAt()));
 		projectLastModifiedAt.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
-		Label notificationsTable = new Label(this, SWT.NONE);
-		notificationsTable.setText("Project notifications (TODO)");
-		notificationsTable.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true));
-		((GridData) notificationsTable.getLayoutData()).horizontalSpan = ((GridLayout) this.getLayout()).numColumns;
-		
 		Button openProjectButton = new Button(this, SWT.BORDER);
 		openProjectButton.setText("Open project");
 		openProjectButton.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, false));
