@@ -131,7 +131,7 @@ public class NewTaskFooter extends Composite {
 			public void handleEvent(Event event) {
 				Table table = newTaskComposite.getDetailsSideBar().getSubTaskTableViewer().getTable();
 				NewTaskDetailsContainer newTaskDetailsContainer = newTaskComposite.getNewTaskDetailsContainer();
-				PluginConfigurationComposite pluginConfigurationComposite = (PluginConfigurationComposite)newTaskDetailsContainer.getNewTaskSubTaskInfoList().get(table.getSelectionIndex()).getScrolledPluginConfigurationComposite().getContent();
+				PluginConfigurationComposite pluginConfigurationComposite = newTaskDetailsContainer.getNewTaskSubTaskInfoList().get(table.getSelectionIndex()).getScrolledPluginConfigurationComposite().getPluginConfigurationComposite();
 
 				if (pluginConfigurationComposite!=null) {
 					newTaskDetailsContainer.notifyTaskOfPluginDeselect(pluginConfigurationComposite.getOutputUserFiles(), newTaskDetailsContainer.getNewTaskSubTaskInfoList().get(table.getSelectionIndex()));

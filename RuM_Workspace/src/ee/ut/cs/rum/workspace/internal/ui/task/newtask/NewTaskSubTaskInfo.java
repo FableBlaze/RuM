@@ -106,7 +106,7 @@ public class NewTaskSubTaskInfo extends Composite {
 			}
 			
 			Plugin plugin = (Plugin)table.getItem(table.getSelectionIndex()).getData();							
-			PluginConfigurationComposite pluginConfigurationComposite = (PluginConfigurationComposite)scrolledPluginConfigurationComposite.getContent();
+			PluginConfigurationComposite pluginConfigurationComposite = scrolledPluginConfigurationComposite.getPluginConfigurationComposite();
 			
 			if (!pluginConfigurationComposite.getDisplayNamesOfEmptyRequiredParameters().isEmpty()) {
 				throw new SubTaskUpdateException("Subtask " + subTask.getName() + " required parameters empty");

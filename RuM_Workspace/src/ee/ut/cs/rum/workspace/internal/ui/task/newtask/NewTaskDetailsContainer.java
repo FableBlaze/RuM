@@ -96,7 +96,7 @@ public class NewTaskDetailsContainer extends Composite implements RumUpdatableVi
 	public List<UserFile> getInitialTaskUserFiles(NewTaskSubTaskInfo newTaskSubTaskInfo) {
 		List<UserFile> initialTaskUserFiles = new ArrayList<UserFile>();
 		for (int i = 0; i < newTaskSubTaskInfoList.indexOf(newTaskSubTaskInfo); i++) {
-			PluginConfigurationComposite pluginConfigurationComposite =((PluginConfigurationComposite)newTaskSubTaskInfoList.get(i).getScrolledPluginConfigurationComposite().getContent());
+			PluginConfigurationComposite pluginConfigurationComposite = newTaskSubTaskInfoList.get(i).getScrolledPluginConfigurationComposite().getPluginConfigurationComposite();
 			if (pluginConfigurationComposite!=null) {
 				initialTaskUserFiles.addAll(pluginConfigurationComposite.getOutputUserFiles());
 			}
@@ -113,7 +113,7 @@ public class NewTaskDetailsContainer extends Composite implements RumUpdatableVi
 			public void run() {
 				if (newTaskSubTaskInfoList.indexOf(newTaskSubTaskInfo) != -1) {
 					for (int i = newTaskSubTaskInfoList.indexOf(newTaskSubTaskInfo)+1; i < newTaskSubTaskInfoList.size(); i++) {
-						PluginConfigurationComposite pluginConfigurationComposite =((PluginConfigurationComposite)newTaskSubTaskInfoList.get(i).getScrolledPluginConfigurationComposite().getContent());
+						PluginConfigurationComposite pluginConfigurationComposite = newTaskSubTaskInfoList.get(i).getScrolledPluginConfigurationComposite().getPluginConfigurationComposite();
 						if (pluginConfigurationComposite!=null && pluginConfigurationComposite.isDisposed()==false) {
 							pluginConfigurationComposite.notifySubTaskOfPluginSelect(outputFiles);
 						}	
@@ -130,7 +130,7 @@ public class NewTaskDetailsContainer extends Composite implements RumUpdatableVi
 			public void run() {
 				if (newTaskSubTaskInfoList.indexOf(newTaskSubTaskInfo) != -1) {
 					for (int i = newTaskSubTaskInfoList.indexOf(newTaskSubTaskInfo)+1; i < newTaskSubTaskInfoList.size(); i++) {
-						PluginConfigurationComposite pluginConfigurationComposite =((PluginConfigurationComposite)newTaskSubTaskInfoList.get(i).getScrolledPluginConfigurationComposite().getContent());
+						PluginConfigurationComposite pluginConfigurationComposite = newTaskSubTaskInfoList.get(i).getScrolledPluginConfigurationComposite().getPluginConfigurationComposite();
 						if (pluginConfigurationComposite!=null && pluginConfigurationComposite.isDisposed()==false) {
 							pluginConfigurationComposite.notifySubTaskOfPluginDeselect(outputFiles);
 						}	
@@ -149,9 +149,9 @@ public class NewTaskDetailsContainer extends Composite implements RumUpdatableVi
 				int newTaskSubTaskInfoIndex = -1;
 				for (int i = 0; i < newTaskSubTaskInfoList.size(); i++) {
 					if (newTaskSubTaskInfoList.get(i).getSubTask() == subTask) {
-						PluginConfigurationComposite pluginConfigurationComposite = (PluginConfigurationComposite)newTaskSubTaskInfoList.get(i).getScrolledPluginConfigurationComposite().getContent();
+						PluginConfigurationComposite pluginConfigurationComposite = newTaskSubTaskInfoList.get(i).getScrolledPluginConfigurationComposite().getPluginConfigurationComposite();
 						if (pluginConfigurationComposite!=null) {
-							outputFiles = ((PluginConfigurationComposite)newTaskSubTaskInfoList.get(i).getScrolledPluginConfigurationComposite().getContent()).getOutputUserFiles();
+							outputFiles = newTaskSubTaskInfoList.get(i).getScrolledPluginConfigurationComposite().getPluginConfigurationComposite().getOutputUserFiles();
 							newTaskSubTaskInfoIndex = i;							
 						}
 						break;
@@ -159,7 +159,7 @@ public class NewTaskDetailsContainer extends Composite implements RumUpdatableVi
 				}
 				if (newTaskSubTaskInfoIndex != -1) {
 					for (int i = newTaskSubTaskInfoIndex+1; i < newTaskSubTaskInfoList.size(); i++) {
-						PluginConfigurationComposite pluginConfigurationComposite =((PluginConfigurationComposite)newTaskSubTaskInfoList.get(i).getScrolledPluginConfigurationComposite().getContent());
+						PluginConfigurationComposite pluginConfigurationComposite = newTaskSubTaskInfoList.get(i).getScrolledPluginConfigurationComposite().getPluginConfigurationComposite();
 						if (pluginConfigurationComposite!=null && pluginConfigurationComposite.isDisposed()==false) {
 							pluginConfigurationComposite.notifySubTaskOfSubTaskNameChange(outputFiles);
 						}	
@@ -175,7 +175,7 @@ public class NewTaskDetailsContainer extends Composite implements RumUpdatableVi
 		display.syncExec(new Runnable() {
 			public void run() {							
 				for (NewTaskSubTaskInfo newTaskSubTaskInfo : newTaskSubTaskInfoList) {
-					PluginConfigurationComposite pluginConfigurationComposite = (PluginConfigurationComposite)newTaskSubTaskInfo.getScrolledPluginConfigurationComposite().getContent();
+					PluginConfigurationComposite pluginConfigurationComposite = newTaskSubTaskInfo.getScrolledPluginConfigurationComposite().getPluginConfigurationComposite();
 					if (pluginConfigurationComposite != null && pluginConfigurationComposite.isDisposed()==false) {
 						pluginConfigurationComposite.notifySubTaskOfTmpFileUpload(tmpUserFile);						
 					}
@@ -195,7 +195,7 @@ public class NewTaskDetailsContainer extends Composite implements RumUpdatableVi
 					display.asyncExec(new Runnable() {
 						public void run() {							
 							for (NewTaskSubTaskInfo newTaskSubTaskInfo : newTaskSubTaskInfoList) {
-								PluginConfigurationComposite pluginConfigurationComposite = (PluginConfigurationComposite)newTaskSubTaskInfo.getScrolledPluginConfigurationComposite().getContent();
+								PluginConfigurationComposite pluginConfigurationComposite = newTaskSubTaskInfo.getScrolledPluginConfigurationComposite().getPluginConfigurationComposite();
 								if (pluginConfigurationComposite != null && pluginConfigurationComposite.isDisposed()==false) {
 									pluginConfigurationComposite.addUserFile(userFile);									
 								}
@@ -210,7 +210,7 @@ public class NewTaskDetailsContainer extends Composite implements RumUpdatableVi
 							display.asyncExec(new Runnable() {
 								public void run() {	
 									for (NewTaskSubTaskInfo newTaskSubTaskInfo : newTaskSubTaskInfoList) {
-										PluginConfigurationComposite pluginConfigurationComposite = (PluginConfigurationComposite)newTaskSubTaskInfo.getScrolledPluginConfigurationComposite().getContent();
+										PluginConfigurationComposite pluginConfigurationComposite = newTaskSubTaskInfo.getScrolledPluginConfigurationComposite().getPluginConfigurationComposite();
 										if (pluginConfigurationComposite != null && pluginConfigurationComposite.isDisposed()==false) {
 											pluginConfigurationComposite.modifyUserFile(userFile);											
 										}
@@ -226,7 +226,7 @@ public class NewTaskDetailsContainer extends Composite implements RumUpdatableVi
 					display.asyncExec(new Runnable() {
 						public void run() {	
 							for (NewTaskSubTaskInfo newTaskSubTaskInfo : newTaskSubTaskInfoList) {
-								PluginConfigurationComposite pluginConfigurationComposite = (PluginConfigurationComposite)newTaskSubTaskInfo.getScrolledPluginConfigurationComposite().getContent();
+								PluginConfigurationComposite pluginConfigurationComposite = newTaskSubTaskInfo.getScrolledPluginConfigurationComposite().getPluginConfigurationComposite();
 								if (pluginConfigurationComposite != null && pluginConfigurationComposite.isDisposed()==false) {
 									pluginConfigurationComposite.removeUserFile(userFile);
 								}
