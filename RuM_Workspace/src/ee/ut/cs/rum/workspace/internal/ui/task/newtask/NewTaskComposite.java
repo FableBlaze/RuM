@@ -44,6 +44,7 @@ public class NewTaskComposite extends Composite {
 		Activator.getLogger().info("Initializing new task based on task: " + baseTask.toString());
 		detailsSideBar.initializeBasedOnTask(baseTask);
 		newTaskDetailsContainer.initializeBasedOnTask(baseTask);
+		newTaskFooter.setStartTaskButtonEnabled(true);
 	}
 	
 	public ProjectTabFolder getProjectTabFolder() {

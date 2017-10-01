@@ -75,7 +75,6 @@ public class NewTaskDetailsContainer extends Composite implements RumUpdatableVi
 	
 	public void initializeBasedOnTask(Task baseTask) {
 		newTaskGeneralInfo.initializeBasedOnTask(baseTask);
-		
 	}
 
 	public NewTaskComposite getNewTaskComposite() {

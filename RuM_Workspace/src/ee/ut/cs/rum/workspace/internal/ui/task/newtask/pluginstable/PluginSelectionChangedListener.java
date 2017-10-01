@@ -46,9 +46,7 @@ public class PluginSelectionChangedListener implements ISelectionChangedListener
 			
 			scrolledPluginConfigurationComposite.showEnabledPluginConfigurationComposite(plugin, rumController, userFiles, taskUserFiles, tmpUserFiles);
 			List<UserFile> newOutputUserFiles = scrolledPluginConfigurationComposite.getPluginConfigurationComposite().getOutputUserFiles();
-			for (UserFile userFile : newOutputUserFiles) {
-				userFile.setSubTask(newTaskSubTaskInfo.getSubTask());
-			}
+			newOutputUserFiles.forEach(outputFile -> outputFile.setSubTask(newTaskSubTaskInfo.getSubTask()));
 			newTaskSubTaskInfo.getNewTaskDetailsContainer().notifyTaskOfPluginSelect(newOutputUserFiles, newTaskSubTaskInfo);
 		} else {
 			scrolledPluginConfigurationComposite.disposeCurrentPluginConfigurationComposite();

@@ -170,6 +170,10 @@ public class NewTaskFooter extends Composite {
 		removeAllSubTasksButton.setEnabled(false);
 	}
 	
+	public void setStartTaskButtonEnabled(boolean enabled) {
+		startTaskButton.setEnabled(enabled);
+	}
+	
 	public void setRemoveAllSubTasksButtonEnabled(boolean enabled) {
 		removeAllSubTasksButton.setEnabled(enabled);
 	}

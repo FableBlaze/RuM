@@ -1,5 +1,6 @@
 package ee.ut.cs.rum.workspace.internal.ui.task.newtask;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.swt.SWT;
@@ -27,7 +28,7 @@ public class NewTaskSubTaskInfo extends Composite {
 	private static final long serialVersionUID = -9081862727975335668L;
 	
 	private NewTaskDetailsContainer newTaskDetailsContainer;
-	
+	private RumController rumController;
 	private SubTask subTask;
 	
 	private PluginsTableComposite pluginsTableComposite;
@@ -38,7 +39,7 @@ public class NewTaskSubTaskInfo extends Composite {
 		super(newTaskDetailsContainer, SWT.NONE);
 		
 		this.newTaskDetailsContainer=newTaskDetailsContainer;
-		
+		this.rumController =rumController;
 		this.subTask = subTask;
 		
 		this.setLayout(new GridLayout(4, false));
@@ -126,10 +127,20 @@ public class NewTaskSubTaskInfo extends Composite {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void initializeBasedOnSubTask(SubTask baseSubTask) {
 		int pluginIndex = pluginsTableComposite.getPluginsTableViewer().findPluginIndex(baseSubTask.getPlugin());
 		pluginsTableComposite.getPluginsTableViewer().getTable().select(pluginIndex);
 		pluginInfoComposite.updateSelectedPluginInfo(pluginsTableComposite.getPluginsTableViewer().getPlugins().get(pluginIndex));
+		scrolledPluginConfigurationComposite.showEnabledPluginConfigurationComposite(baseSubTask.getPlugin(), rumController, newTaskDetailsContainer.getUserFiles(), newTaskDetailsContainer.getInitialTaskUserFiles(this), newTaskDetailsContainer.getTmpUserFiles());
+		
+		Gson gson = new Gson();
+		Map<String,String> configurationValues = new HashMap<String,String>();
+		configurationValues = gson.fromJson(baseSubTask.getConfigurationValues(), configurationValues.getClass());
+		PluginConfigurationComposite pluginConfigurationComposite = scrolledPluginConfigurationComposite.getPluginConfigurationComposite();
+		pluginConfigurationComposite.setConfigurationValues(configurationValues);
+		pluginConfigurationComposite.getOutputUserFiles().forEach(outputFile -> outputFile.setSubTask(subTask));
+		newTaskDetailsContainer.notifyTaskOfPluginSelect(pluginConfigurationComposite.getOutputUserFiles(), this);
 	}
 	
 	public SubTask getSubTask() {
