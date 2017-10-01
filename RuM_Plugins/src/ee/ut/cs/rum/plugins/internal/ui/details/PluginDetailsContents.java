@@ -18,6 +18,7 @@ import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
 import ee.ut.cs.rum.interfaces.RumUpdatableView;
 import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationComposite;
+import ee.ut.cs.rum.plugins.configuration.ui.ScrolledPluginConfigurationComposite;
 import ee.ut.cs.rum.plugins.configuration.util.PluginUtils;
 import ee.ut.cs.rum.plugins.development.description.PluginInfo;
 
@@ -134,20 +135,18 @@ public class PluginDetailsContents extends ExpandBar implements RumUpdatableView
 	}
 
 	private ScrolledComposite createConfigurationUiComposite() {
-		ScrolledComposite configurationUiComposite = new ScrolledComposite(this, SWT.H_SCROLL);
-
-		Composite configurationUiContent = new Composite (configurationUiComposite, SWT.NONE);
-		GridLayout layout = new GridLayout (2, false);
-		layout.marginLeft = layout.marginTop = layout.marginRight = layout.marginBottom = 10;
-		configurationUiContent.setLayout(layout);
+		ScrolledComposite scrolledPluginConfigurationComposite = new ScrolledPluginConfigurationComposite(this);
 
 		PluginInfo pluginInfo = PluginUtils.deserializePluginInfo(plugin);
-		new PluginConfigurationComposite(configurationUiContent, pluginInfo, null, null, null, null);
+		PluginConfigurationComposite pluginConfigurationComposite = new PluginConfigurationComposite(scrolledPluginConfigurationComposite, pluginInfo, null, null, null, null);
+		GridLayout layout = new GridLayout (2, false);
+		layout.marginLeft = layout.marginTop = layout.marginRight = layout.marginBottom = 10;
+		pluginConfigurationComposite.setLayout(layout);
 
-		configurationUiComposite.setContent(configurationUiContent);
-		configurationUiContent.setSize(configurationUiContent.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+		scrolledPluginConfigurationComposite.setContent(pluginConfigurationComposite);
+		pluginConfigurationComposite.setSize(pluginConfigurationComposite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
-		return configurationUiComposite;
+		return scrolledPluginConfigurationComposite;
 	}
 
 	private Composite createImportedPackagesComposite() {

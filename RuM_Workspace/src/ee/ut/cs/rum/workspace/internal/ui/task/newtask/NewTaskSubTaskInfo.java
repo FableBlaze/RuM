@@ -19,6 +19,7 @@ import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.database.domain.SubTask;
 import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationComposite;
+import ee.ut.cs.rum.plugins.configuration.ui.ScrolledPluginConfigurationComposite;
 import ee.ut.cs.rum.workspace.internal.Activator;
 import ee.ut.cs.rum.workspace.internal.ui.task.PluginInfoComposite;
 import ee.ut.cs.rum.workspace.internal.ui.task.newtask.pluginstable.PluginsTableComposite;
@@ -32,7 +33,7 @@ public class NewTaskSubTaskInfo extends Composite {
 	
 	private PluginsTableComposite pluginsTableComposite;
 	private PluginInfoComposite pluginInfoComposite;
-	private ScrolledComposite scrolledPluginConfigurationComposite;
+	private ScrolledPluginConfigurationComposite scrolledPluginConfigurationComposite;
 
 	public NewTaskSubTaskInfo(NewTaskDetailsContainer newTaskDetailsContainer, SubTask subTask, RumController rumController) {
 		super(newTaskDetailsContainer, SWT.NONE);
@@ -67,7 +68,7 @@ public class NewTaskSubTaskInfo extends Composite {
 			}
 		});
 
-		scrolledPluginConfigurationComposite = new ScrolledComposite(this, SWT.H_SCROLL | SWT.V_SCROLL);
+		scrolledPluginConfigurationComposite = new ScrolledPluginConfigurationComposite(this);
 		scrolledPluginConfigurationComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		((GridData) scrolledPluginConfigurationComposite.getLayoutData()).verticalSpan=3;
 		
@@ -124,6 +125,12 @@ public class NewTaskSubTaskInfo extends Composite {
 			Activator.getLogger().info("General issue with subtask " + subTask.getName() + " " + e.toString());
 			throw new SubTaskUpdateException("General issue with subtask " + subTask.getName());
 		}
+	}
+	
+	public void initializeBasedOnSubTask(SubTask baseSubTask) {
+		int pluginIndex = pluginsTableComposite.getPluginsTableViewer().findPluginIndex(baseSubTask.getPlugin());
+		pluginsTableComposite.getPluginsTableViewer().getTable().select(pluginIndex);
+		pluginInfoComposite.updateSelectedPluginInfo(pluginsTableComposite.getPluginsTableViewer().getPlugins().get(pluginIndex));
 	}
 	
 	public SubTask getSubTask() {

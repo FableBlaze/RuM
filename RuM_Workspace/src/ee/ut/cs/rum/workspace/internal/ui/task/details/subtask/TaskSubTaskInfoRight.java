@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -13,6 +12,7 @@ import com.google.gson.Gson;
 
 import ee.ut.cs.rum.database.domain.SubTask;
 import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationComposite;
+import ee.ut.cs.rum.plugins.configuration.ui.ScrolledPluginConfigurationComposite;
 import ee.ut.cs.rum.plugins.configuration.util.PluginUtils;
 import ee.ut.cs.rum.plugins.development.description.PluginInfo;
 
@@ -26,7 +26,7 @@ public class TaskSubTaskInfoRight extends Composite {
 		this.setLayout(new GridLayout(1, false));
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		
-		ScrolledComposite scrolledPluginConfigurationComposite = new ScrolledComposite(this, SWT.H_SCROLL | SWT.V_SCROLL);
+		ScrolledPluginConfigurationComposite scrolledPluginConfigurationComposite = new ScrolledPluginConfigurationComposite(this);
 		scrolledPluginConfigurationComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
 		PluginInfo pluginInfo = PluginUtils.deserializePluginInfo(subTask.getPlugin());

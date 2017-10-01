@@ -89,6 +89,19 @@ public class PluginsTableViewer extends TableViewer implements RumUpdatableView 
 		column.setResizable(true);
 		return viewerColumn;
 	}
+	
+	public int findPluginIndex(Plugin plugin) {
+		for (int i = 0; i < this.plugins.size(); i++) {
+			if (this.plugins.get(i).getId()==plugin.getId()) {
+				return i;
+			}
+		}
+		return -1;
+	}
+	
+	public List<Plugin> getPlugins() {
+		return plugins;
+	}
 
 	@Override
 	public void controllerUpdateNotify(ControllerUpdateType updateType, Object updatedEntity) {
@@ -133,16 +146,5 @@ public class PluginsTableViewer extends TableViewer implements RumUpdatableView 
 				break;
 			}
 		}
-
 	}
-
-	private int findPluginIndex(Plugin plugin) {
-		for (int i = 0; i < this.plugins.size(); i++) {
-			if (this.plugins.get(i).getId()==plugin.getId()) {
-				return i;
-			}
-		}
-		return -1;
-	}
-
 }
