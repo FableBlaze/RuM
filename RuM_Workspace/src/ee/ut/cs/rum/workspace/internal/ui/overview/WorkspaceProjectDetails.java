@@ -72,7 +72,7 @@ public class WorkspaceProjectDetails extends Composite implements RumUpdatableVi
 		
 		Button openProjectButton = new Button(this, SWT.BORDER);
 		openProjectButton.setText("Open project");
-		openProjectButton.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, false));
+		openProjectButton.setLayoutData(new GridData(SWT.LEFT, SWT.BOTTOM, false, true));
 		((GridData) openProjectButton.getLayoutData()).horizontalSpan = ((GridLayout) this.getLayout()).numColumns;
 		openProjectButton.addListener(SWT.Selection, new Listener() {
 			private static final long serialVersionUID = 6660200337375128860L;
