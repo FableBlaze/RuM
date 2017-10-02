@@ -24,8 +24,8 @@ public class ConfigurationItemSelection extends Combo implements ConfigurationIt
 	
 	private int preEventSelectionIndex;
 
-	public ConfigurationItemSelection(PluginConfigurationUi pluginConfigurationComposite, PluginParameterSelection parameterSelection) {
-		super(pluginConfigurationComposite, SWT.READ_ONLY);
+	public ConfigurationItemSelection(PluginConfigurationUi pluginConfigurationUi, PluginParameterSelection parameterSelection) {
+		super(pluginConfigurationUi, SWT.READ_ONLY);
 		
 		this.internalName=parameterSelection.getInternalName();
 		this.displayName=parameterSelection.getDisplayName();

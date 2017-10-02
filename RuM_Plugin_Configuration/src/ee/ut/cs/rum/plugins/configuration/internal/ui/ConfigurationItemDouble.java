@@ -14,8 +14,8 @@ public class ConfigurationItemDouble extends Spinner implements ConfigurationIte
 	private String displayName;
 	private boolean required;
 
-	public ConfigurationItemDouble(PluginConfigurationUi pluginConfigurationComposite, PluginParameterDouble parameterDouble) {
-		super(pluginConfigurationComposite, SWT.BORDER);
+	public ConfigurationItemDouble(PluginConfigurationUi pluginConfigurationUi, PluginParameterDouble parameterDouble) {
+		super(pluginConfigurationUi, SWT.BORDER);
 
 		this.internalName=parameterDouble.getInternalName();
 		this.displayName=parameterDouble.getDisplayName();

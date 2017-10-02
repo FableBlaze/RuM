@@ -16,8 +16,8 @@ public class ConfigurationItemString extends Text implements ConfigurationItemIn
 	private String displayName;
 	private boolean required;
 	
-	public ConfigurationItemString(PluginConfigurationUi pluginConfigurationComposite, PluginParameterString parameterString) {
-		super(pluginConfigurationComposite, SWT.BORDER);
+	public ConfigurationItemString(PluginConfigurationUi pluginConfigurationUi, PluginParameterString parameterString) {
+		super(pluginConfigurationUi, SWT.BORDER);
 		
 		this.internalName=parameterString.getInternalName();
 		this.displayName=parameterString.getDisplayName();

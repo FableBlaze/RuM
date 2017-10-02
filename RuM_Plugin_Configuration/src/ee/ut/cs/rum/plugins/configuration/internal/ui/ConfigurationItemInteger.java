@@ -14,8 +14,8 @@ public class ConfigurationItemInteger extends Spinner implements ConfigurationIt
 	private String displayName;
 	private boolean required;
 	
-	public ConfigurationItemInteger(PluginConfigurationUi pluginConfigurationComposite, PluginParameterInteger parameterInteger) {
-		super(pluginConfigurationComposite, SWT.BORDER);
+	public ConfigurationItemInteger(PluginConfigurationUi pluginConfigurationUi, PluginParameterInteger parameterInteger) {
+		super(pluginConfigurationUi, SWT.BORDER);
 		
 		this.internalName=parameterInteger.getInternalName();
 		this.displayName=parameterInteger.getDisplayName();

@@ -56,12 +56,12 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 	private FileUploadHandler uploadHandler;
 	private File user_file_path;
 	private PluginParameterFile parameterFile;
-	private PluginConfigurationUi pluginConfigurationComposite;
+	private PluginConfigurationUi pluginConfigurationUi;
 	
 	private int preEventSelectionIndex;
 
-	public ConfigurationItemFile(PluginConfigurationUi pluginConfigurationComposite, PluginParameterFile parameterFile, RumController rumController) {
-		super(pluginConfigurationComposite, SWT.NONE);
+	public ConfigurationItemFile(PluginConfigurationUi pluginConfigurationUi, PluginParameterFile parameterFile, RumController rumController) {
+		super(pluginConfigurationUi, SWT.NONE);
 		
 		this.internalName=parameterFile.getInternalName();
 		this.displayName=parameterFile.getDisplayName();
@@ -72,7 +72,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 		
 		this.preEventSelectionIndex=-1;
 
-		this.pluginConfigurationComposite = pluginConfigurationComposite;
+		this.pluginConfigurationUi = pluginConfigurationUi;
 		this.parameterFile = parameterFile;
 		String user_file_path_asString;
 		try {
@@ -112,7 +112,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 			}
 		});
 
-		List<UserFile> userFiles = pluginConfigurationComposite.getUserFiles();
+		List<UserFile> userFiles = pluginConfigurationUi.getUserFiles();
 		this.userFilesInSelector = new ArrayList<UserFile>();
 		if (userFiles!=null) {
 			for (UserFile userFile : userFiles) {
@@ -123,7 +123,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 			}
 		}
 		
-		List<UserFile> taskUserFiles = pluginConfigurationComposite.getTaskUserFiles();
+		List<UserFile> taskUserFiles = pluginConfigurationUi.getTaskUserFiles();
 		this.taskUserFilesInSelector = new ArrayList<UserFile>();
 		if (taskUserFiles!=null) {
 			for (UserFile taskUserFile : taskUserFiles) {
@@ -134,7 +134,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 			}
 		}
 
-		List<UserFile> tmpUserFiles = pluginConfigurationComposite.getTmpUserFiles();
+		List<UserFile> tmpUserFiles = pluginConfigurationUi.getTmpUserFiles();
 		this.tmpUserFilesInSelector = new ArrayList<UserFile>();
 		if (tmpUserFiles!=null) {
 			for (UserFile tmpUserFile : tmpUserFiles) {
@@ -192,7 +192,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 				}
 				tmpUserFile.setUserFileTypes(userFileTypes);
 
-				UserFile finalTmpUserFile = pluginConfigurationComposite.addTmpUserFile(tmpUserFile);
+				UserFile finalTmpUserFile = pluginConfigurationUi.addTmpUserFile(tmpUserFile);
 				tmpUserFilesInSelector.add(finalTmpUserFile);
 
 				Display.getDefault().syncExec(new Runnable() {
@@ -208,7 +208,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 	public void setValue(String fileLocation) {
 		//TODO: Setting the value when required subtask has failed
 		if (fileLocation!=null && !fileLocation.equals("")) {
-			if (pluginConfigurationComposite.isEnabled()==false) {
+			if (pluginConfigurationUi.isEnabled()==false) {
 				UserFile userFile = UserFileAccess.getUserFileDataFromDb(fileLocation);
 				if (userFile!=null) {
 					fileSelectorCombo.add(userFile.getOriginalFilename() + " (" + new SimpleDateFormat("dd-MM-yyyy HH:mm").format(userFile.getCreatedAt()) + ")");

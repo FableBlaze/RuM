@@ -41,16 +41,16 @@ public class PluginConfigurationUi extends Composite {
 	private List<UserFile> tmpUserFiles;
 	private List<UserFile> outputUserFiles;
 
-	public PluginConfigurationUi(PluginConfigurationContainer parent, PluginInfo pluginInfo) {
-		super(parent, SWT.NONE);
+	public PluginConfigurationUi(PluginConfigurationContainer pluginConfigurationContainer, PluginInfo pluginInfo) {
+		super(pluginConfigurationContainer, SWT.NONE);
 
 		this.setEnabled(false);
 		setLayout();
 		createContents(pluginInfo);
 	}
 
-	public PluginConfigurationUi(Composite parent, PluginInfo pluginInfo, RumController rumController, List<UserFile> userFiles, List<UserFile> taskUserFiles, List<UserFile> tmpUserFiles) {
-		super(parent, SWT.NONE);
+	public PluginConfigurationUi(PluginConfigurationContainer pluginConfigurationContainer, PluginInfo pluginInfo, RumController rumController, List<UserFile> userFiles, List<UserFile> taskUserFiles, List<UserFile> tmpUserFiles) {
+		super(pluginConfigurationContainer, SWT.NONE);
 
 		this.rumController=rumController;
 		this.userFiles=userFiles;
