@@ -15,5 +15,6 @@ public abstract class PluginConfigurationEnabledContainerParent extends Composit
 	}
 	
 	public abstract UserFile tmpUserFileUploadedNotify(UserFile tmpUserFile);
-	public abstract void taskUserFileSelectedNotify(UserFile tmpUserFile);
+	public abstract void taskUserFileSelectedNotify(UserFile taskUserFile);
+	public abstract void taskUserFileDeselectedNotify(UserFile taskUserFile);
 }

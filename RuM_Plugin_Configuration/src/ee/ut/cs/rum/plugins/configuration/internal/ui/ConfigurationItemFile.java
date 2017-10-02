@@ -37,12 +37,14 @@ import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
 import ee.ut.cs.rum.plugins.configuration.internal.Activator;
 import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationEnabledContainer;
+import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationEnabledContainerParent;
 import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationUi;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterFile;
 
 public class ConfigurationItemFile extends Composite implements ConfigurationItemInterface {
 	private static final long serialVersionUID = 3599873879215927039L;
 
+	private PluginConfigurationEnabledContainerParent pluginConfigurationEnabledContainerParent;
 	private String internalName;
 	private String displayName;
 	private boolean required;
@@ -64,6 +66,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 	public ConfigurationItemFile(PluginConfigurationUi pluginConfigurationUi, PluginParameterFile parameterFile, RumController rumController) {
 		super(pluginConfigurationUi, SWT.NONE);
 		
+		this.pluginConfigurationEnabledContainerParent=((PluginConfigurationEnabledContainer)pluginConfigurationUi.getPluginConfigurationContainer()).getPluginConfigurationEnabledContainerParent();
 		this.internalName=parameterFile.getInternalName();
 		this.displayName=parameterFile.getDisplayName();
 		this.setToolTipText(parameterFile.getDescription());
@@ -103,10 +106,21 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 			private static final long serialVersionUID = -2671867325224354752L;
 			@Override
 			public void widgetSelected(SelectionEvent event) {
-				if (fileSelectorCombo.getSelectionIndex()==preEventSelectionIndex && event.stateMask==SWT.CTRL) {
+				int newEventSelectionIndex = fileSelectorCombo.getSelectionIndex();
+				
+				if (newEventSelectionIndex==preEventSelectionIndex && event.stateMask==SWT.CTRL) {
 					fileSelectorCombo.deselectAll();
 				}
-				preEventSelectionIndex = fileSelectorCombo.getSelectionIndex();
+				
+				if (preEventSelectionIndex >= userFilesInSelector.size() && preEventSelectionIndex < userFilesInSelector.size()+taskUserFilesInSelector.size()) {
+					pluginConfigurationEnabledContainerParent.taskUserFileDeselectedNotify(taskUserFilesInSelector.get(preEventSelectionIndex-userFilesInSelector.size()));
+				}
+				
+				if (newEventSelectionIndex >= userFilesInSelector.size() && newEventSelectionIndex < userFilesInSelector.size()+taskUserFilesInSelector.size()) {
+					pluginConfigurationEnabledContainerParent.taskUserFileSelectedNotify(taskUserFilesInSelector.get(newEventSelectionIndex-userFilesInSelector.size()));
+				}
+				
+				preEventSelectionIndex = newEventSelectionIndex;
 			}
 			@Override
 			public void widgetDefaultSelected(SelectionEvent event) {
@@ -193,14 +207,17 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 				}
 				tmpUserFile.setUserFileTypes(userFileTypes);
 				
-				PluginConfigurationEnabledContainer pluginConfigurationEnabledContainer = (PluginConfigurationEnabledContainer) pluginConfigurationUi.getPluginConfigurationContainer();
-				UserFile finalTmpUserFile = pluginConfigurationEnabledContainer.getPluginConfigurationEnabledContainerParent().tmpUserFileUploadedNotify(tmpUserFile);
+				UserFile finalTmpUserFile = pluginConfigurationEnabledContainerParent.tmpUserFileUploadedNotify(tmpUserFile);
 
 				tmpUserFilesInSelector.add(finalTmpUserFile);
 
 				Display.getDefault().syncExec(new Runnable() {
 					public void run() {
 						fileSelectorCombo.select(fileSelectorCombo.getItemCount()-1);
+						if (preEventSelectionIndex >= userFilesInSelector.size() && preEventSelectionIndex < userFilesInSelector.size()+taskUserFilesInSelector.size()) {
+							pluginConfigurationEnabledContainerParent.taskUserFileDeselectedNotify(taskUserFilesInSelector.get(preEventSelectionIndex-userFilesInSelector.size()));
+						}
+						preEventSelectionIndex=fileSelectorCombo.getItemCount()-1;
 					}
 				});
 			}
@@ -291,6 +308,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 	}
 
 	
+	//TODO: Needs review! Following methods should in some cases update preEventSelectionIndex and notifyOfTaskFileDeselect. 
 	public void addUserFile(UserFile userFile) {
 		if (checkFileTypes(userFile)) {
 			fileSelectorCombo.add(userFile.getOriginalFilename() + " (" + new SimpleDateFormat("dd-MM-yyyy HH:mm").format(userFile.getCreatedAt()) + ")", userFilesInSelector.size());
