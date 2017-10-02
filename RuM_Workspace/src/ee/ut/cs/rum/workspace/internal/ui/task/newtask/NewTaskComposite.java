@@ -45,6 +45,7 @@ public class NewTaskComposite extends Composite {
 		detailsSideBar.initializeBasedOnTask(baseTask);
 		newTaskDetailsContainer.initializeBasedOnTask(baseTask);
 		newTaskFooter.setStartTaskButtonEnabled(true);
+		newTaskFooter.setRemoveAllSubTasksButtonEnabled(true);
 	}
 	
 	public ProjectTabFolder getProjectTabFolder() {

@@ -10,12 +10,14 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 import ee.ut.cs.rum.database.domain.Task;
+import ee.ut.cs.rum.workspace.internal.ui.task.newtask.outputs.ExpectedOutputsTableComposite;
 
 public class NewTaskGeneralInfo extends Composite {
 	private static final long serialVersionUID = 5067024324443453774L;
 	
 	private Task task;
 	private Text taskNameText;
+	private ExpectedOutputsTableComposite expectedOutputsTableComposite;
 	private Text taskDescriptionText;
 
 	public NewTaskGeneralInfo(NewTaskDetailsContainer newTaskDetailsContainer) {
@@ -44,10 +46,8 @@ public class NewTaskGeneralInfo extends Composite {
 		});
 
 		
-		Label outputFilesTable = new Label(this, SWT.NONE);
-		outputFilesTable.setText("Expected task outputs (TODO)");
-		outputFilesTable.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true));
-		((GridData) outputFilesTable.getLayoutData()).verticalSpan=2;
+		expectedOutputsTableComposite = new ExpectedOutputsTableComposite(this);
+		((GridData) expectedOutputsTableComposite.getLayoutData()).verticalSpan=2;
 		
 		label = new Label(this, SWT.NONE);
 		label.setText("Task description:");
@@ -76,5 +76,9 @@ public class NewTaskGeneralInfo extends Composite {
 		task.setName(baseTask.getName());
 		taskDescriptionText.setText(baseTask.getDescription());
 		task.setDescription(baseTask.getDescription());
+	}
+
+	public ExpectedOutputsTableComposite getExpectedOutputsTableComposite() {
+		return expectedOutputsTableComposite;
 	}
 }

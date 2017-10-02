@@ -161,6 +161,7 @@ public class NewTaskFooter extends Composite {
 				
 				newTaskDetailsContainer.getNewTaskSubTaskInfoList().clear();
 				table.removeAll();
+				newTaskDetailsContainer.getNewTaskGeneralInfo().getExpectedOutputsTableComposite().clearOutputsTable();
 				newTaskDetailsContainer.showGeneralInfo();
 
 				startTaskButton.setEnabled(false);
