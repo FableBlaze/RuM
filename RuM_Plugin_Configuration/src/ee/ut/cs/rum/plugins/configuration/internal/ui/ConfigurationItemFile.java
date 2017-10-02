@@ -36,7 +36,7 @@ import ee.ut.cs.rum.database.util.exceptions.SystemParameterNotSetException;
 import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
 import ee.ut.cs.rum.plugins.configuration.internal.Activator;
-import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationComposite;
+import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationUi;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterFile;
 
 public class ConfigurationItemFile extends Composite implements ConfigurationItemInterface {
@@ -56,11 +56,11 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 	private FileUploadHandler uploadHandler;
 	private File user_file_path;
 	private PluginParameterFile parameterFile;
-	private PluginConfigurationComposite pluginConfigurationComposite;
+	private PluginConfigurationUi pluginConfigurationComposite;
 	
 	private int preEventSelectionIndex;
 
-	public ConfigurationItemFile(PluginConfigurationComposite pluginConfigurationComposite, PluginParameterFile parameterFile, RumController rumController) {
+	public ConfigurationItemFile(PluginConfigurationUi pluginConfigurationComposite, PluginParameterFile parameterFile, RumController rumController) {
 		super(pluginConfigurationComposite, SWT.NONE);
 		
 		this.internalName=parameterFile.getInternalName();

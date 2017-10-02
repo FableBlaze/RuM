@@ -4,7 +4,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Spinner;
 import ee.ut.cs.rum.plugins.configuration.internal.Activator;
-import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationComposite;
+import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationUi;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterInteger;
 
 public class ConfigurationItemInteger extends Spinner implements ConfigurationItemInterface {
@@ -14,7 +14,7 @@ public class ConfigurationItemInteger extends Spinner implements ConfigurationIt
 	private String displayName;
 	private boolean required;
 	
-	public ConfigurationItemInteger(PluginConfigurationComposite pluginConfigurationComposite, PluginParameterInteger parameterInteger) {
+	public ConfigurationItemInteger(PluginConfigurationUi pluginConfigurationComposite, PluginParameterInteger parameterInteger) {
 		super(pluginConfigurationComposite, SWT.BORDER);
 		
 		this.internalName=parameterInteger.getInternalName();

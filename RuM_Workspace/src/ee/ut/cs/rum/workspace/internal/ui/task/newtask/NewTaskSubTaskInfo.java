@@ -18,8 +18,8 @@ import com.google.gson.Gson;
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.database.domain.SubTask;
-import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationComposite;
-import ee.ut.cs.rum.plugins.configuration.ui.ScrolledPluginConfigurationComposite;
+import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationUi;
+import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationContainer;
 import ee.ut.cs.rum.workspace.internal.Activator;
 import ee.ut.cs.rum.workspace.internal.ui.task.PluginInfoComposite;
 import ee.ut.cs.rum.workspace.internal.ui.task.newtask.pluginstable.PluginsTableComposite;
@@ -33,7 +33,7 @@ public class NewTaskSubTaskInfo extends Composite {
 	
 	private PluginsTableComposite pluginsTableComposite;
 	private PluginInfoComposite pluginInfoComposite;
-	private ScrolledPluginConfigurationComposite scrolledPluginConfigurationComposite;
+	private PluginConfigurationContainer pluginConfigurationContainer;
 
 	public NewTaskSubTaskInfo(NewTaskDetailsContainer newTaskDetailsContainer, SubTask subTask, RumController rumController) {
 		super(newTaskDetailsContainer, SWT.NONE);
@@ -68,9 +68,9 @@ public class NewTaskSubTaskInfo extends Composite {
 			}
 		});
 
-		scrolledPluginConfigurationComposite = new ScrolledPluginConfigurationComposite(this);
-		scrolledPluginConfigurationComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		((GridData) scrolledPluginConfigurationComposite.getLayoutData()).verticalSpan=3;
+		pluginConfigurationContainer = new PluginConfigurationContainer(this);
+		pluginConfigurationContainer.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		((GridData) pluginConfigurationContainer.getLayoutData()).verticalSpan=3;
 		
 		label = new Label(this, SWT.NONE);
 		label.setText("Sub-task description:");
@@ -106,19 +106,19 @@ public class NewTaskSubTaskInfo extends Composite {
 			}
 			
 			Plugin plugin = (Plugin)table.getItem(table.getSelectionIndex()).getData();							
-			PluginConfigurationComposite pluginConfigurationComposite = scrolledPluginConfigurationComposite.getPluginConfigurationComposite();
+			PluginConfigurationUi pluginConfigurationUi = pluginConfigurationContainer.getPluginConfigurationUi();
 			
-			if (!pluginConfigurationComposite.getDisplayNamesOfEmptyRequiredParameters().isEmpty()) {
+			if (!pluginConfigurationUi.getDisplayNamesOfEmptyRequiredParameters().isEmpty()) {
 				throw new SubTaskUpdateException("Subtask " + subTask.getName() + " required parameters empty");
 			}
 			
-			Map<String, String> configurationValues = pluginConfigurationComposite.getConfigurationValues();
+			Map<String, String> configurationValues = pluginConfigurationUi.getConfigurationValues();
 			Gson gson = new Gson();
 			String configurationValuesString = gson.toJson(configurationValues);
 			
 			subTask.setPlugin(plugin);
 			subTask.setConfigurationValues(configurationValuesString);
-			subTask.setRequiredDependencies(pluginConfigurationComposite.getDependsOn());
+			subTask.setRequiredDependencies(pluginConfigurationUi.getDependsOn());
 		} catch (SubTaskUpdateException e) {
 			throw e;
 		} catch (Exception e) {
@@ -132,15 +132,15 @@ public class NewTaskSubTaskInfo extends Composite {
 		int pluginIndex = pluginsTableComposite.getPluginsTableViewer().findPluginIndex(baseSubTask.getPlugin());
 		pluginsTableComposite.getPluginsTableViewer().getTable().select(pluginIndex);
 		pluginInfoComposite.updateSelectedPluginInfo(pluginsTableComposite.getPluginsTableViewer().getPlugins().get(pluginIndex));
-		scrolledPluginConfigurationComposite.showEnabledPluginConfigurationComposite(baseSubTask.getPlugin(), rumController, newTaskDetailsContainer.getUserFiles(), newTaskDetailsContainer.getInitialTaskUserFiles(this), newTaskDetailsContainer.getTmpUserFiles());
+		pluginConfigurationContainer.showEnabledPluginConfigurationUi(baseSubTask.getPlugin(), rumController, newTaskDetailsContainer.getUserFiles(), newTaskDetailsContainer.getInitialTaskUserFiles(this), newTaskDetailsContainer.getTmpUserFiles());
 		
 		Gson gson = new Gson();
 		Map<String,String> configurationValues = new HashMap<String,String>();
 		configurationValues = gson.fromJson(baseSubTask.getConfigurationValues(), configurationValues.getClass());
-		PluginConfigurationComposite pluginConfigurationComposite = scrolledPluginConfigurationComposite.getPluginConfigurationComposite();
-		pluginConfigurationComposite.setConfigurationValues(configurationValues);
-		pluginConfigurationComposite.getOutputUserFiles().forEach(outputFile -> outputFile.setSubTask(subTask));
-		newTaskDetailsContainer.notifyTaskOfPluginSelect(pluginConfigurationComposite.getOutputUserFiles(), this);
+		PluginConfigurationUi pluginConfigurationUi = pluginConfigurationContainer.getPluginConfigurationUi();
+		pluginConfigurationUi.setConfigurationValues(configurationValues);
+		pluginConfigurationUi.getOutputUserFiles().forEach(outputFile -> outputFile.setSubTask(subTask));
+		newTaskDetailsContainer.notifyTaskOfPluginSelect(pluginConfigurationUi.getOutputUserFiles(), this);
 	}
 	
 	public SubTask getSubTask() {
@@ -155,7 +155,7 @@ public class NewTaskSubTaskInfo extends Composite {
 		return pluginInfoComposite;
 	}
 	
-	public ScrolledPluginConfigurationComposite getScrolledPluginConfigurationComposite() {
-		return scrolledPluginConfigurationComposite;
+	public PluginConfigurationContainer getPluginConfigurationContainer() {
+		return pluginConfigurationContainer;
 	}
 }

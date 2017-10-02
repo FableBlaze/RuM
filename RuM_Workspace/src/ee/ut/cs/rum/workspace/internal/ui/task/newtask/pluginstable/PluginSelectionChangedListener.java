@@ -8,8 +8,8 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.database.domain.UserFile;
-import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationComposite;
-import ee.ut.cs.rum.plugins.configuration.ui.ScrolledPluginConfigurationComposite;
+import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationUi;
+import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationContainer;
 import ee.ut.cs.rum.workspace.internal.ui.task.newtask.NewTaskSubTaskInfo;
 
 public class PluginSelectionChangedListener implements ISelectionChangedListener {
@@ -33,10 +33,10 @@ public class PluginSelectionChangedListener implements ISelectionChangedListener
 			plugin = (Plugin) selection.getFirstElement();			
 		}
 		
-		ScrolledPluginConfigurationComposite scrolledPluginConfigurationComposite = newTaskSubTaskInfo.getScrolledPluginConfigurationComposite(); 
-		PluginConfigurationComposite prevPluginConfigurationComposite = scrolledPluginConfigurationComposite.getPluginConfigurationComposite();
-		if (prevPluginConfigurationComposite!=null) {
-			newTaskSubTaskInfo.getNewTaskDetailsContainer().notifyTaskOfPluginDeselect(prevPluginConfigurationComposite.getOutputUserFiles(), newTaskSubTaskInfo);
+		PluginConfigurationContainer pluginConfigurationContainer = newTaskSubTaskInfo.getPluginConfigurationContainer(); 
+		PluginConfigurationUi pluginConfigurationUi = pluginConfigurationContainer.getPluginConfigurationUi();
+		if (pluginConfigurationUi!=null) {
+			newTaskSubTaskInfo.getNewTaskDetailsContainer().notifyTaskOfPluginDeselect(pluginConfigurationUi.getOutputUserFiles(), newTaskSubTaskInfo);
 		}
 		
 		if (plugin!=null) {
@@ -44,12 +44,12 @@ public class PluginSelectionChangedListener implements ISelectionChangedListener
 			List<UserFile> taskUserFiles = newTaskSubTaskInfo.getNewTaskDetailsContainer().getInitialTaskUserFiles(newTaskSubTaskInfo);
 			List<UserFile> tmpUserFiles = newTaskSubTaskInfo.getNewTaskDetailsContainer().getTmpUserFiles();
 			
-			scrolledPluginConfigurationComposite.showEnabledPluginConfigurationComposite(plugin, rumController, userFiles, taskUserFiles, tmpUserFiles);
-			List<UserFile> newOutputUserFiles = scrolledPluginConfigurationComposite.getPluginConfigurationComposite().getOutputUserFiles();
+			pluginConfigurationContainer.showEnabledPluginConfigurationUi(plugin, rumController, userFiles, taskUserFiles, tmpUserFiles);
+			List<UserFile> newOutputUserFiles = pluginConfigurationContainer.getPluginConfigurationUi().getOutputUserFiles();
 			newOutputUserFiles.forEach(outputFile -> outputFile.setSubTask(newTaskSubTaskInfo.getSubTask()));
 			newTaskSubTaskInfo.getNewTaskDetailsContainer().notifyTaskOfPluginSelect(newOutputUserFiles, newTaskSubTaskInfo);
 		} else {
-			scrolledPluginConfigurationComposite.disposeCurrentPluginConfigurationComposite();
+			pluginConfigurationContainer.disposeCurrentPluginConfigurationUi();
 		}
 		
 		newTaskSubTaskInfo.getPluginInfoComposite().updateSelectedPluginInfo(plugin);

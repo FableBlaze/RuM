@@ -24,7 +24,7 @@ import ee.ut.cs.rum.database.util.UserAccountAccess;
 import ee.ut.cs.rum.database.util.exceptions.SystemParameterNotSetException;
 import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
-import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationComposite;
+import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationUi;
 import ee.ut.cs.rum.scheduler.util.RumScheduler;
 import ee.ut.cs.rum.workspace.internal.Activator;
 import ee.ut.cs.rum.workspace.internal.ui.task.newtask.sidebar.SubTaskTableViewer;
@@ -131,10 +131,10 @@ public class NewTaskFooter extends Composite {
 			public void handleEvent(Event event) {
 				Table table = newTaskComposite.getDetailsSideBar().getSubTaskTableViewer().getTable();
 				NewTaskDetailsContainer newTaskDetailsContainer = newTaskComposite.getNewTaskDetailsContainer();
-				PluginConfigurationComposite pluginConfigurationComposite = newTaskDetailsContainer.getNewTaskSubTaskInfoList().get(table.getSelectionIndex()).getScrolledPluginConfigurationComposite().getPluginConfigurationComposite();
+				PluginConfigurationUi pluginConfigurationUi = newTaskDetailsContainer.getNewTaskSubTaskInfoList().get(table.getSelectionIndex()).getPluginConfigurationContainer().getPluginConfigurationUi();
 
-				if (pluginConfigurationComposite!=null) {
-					newTaskDetailsContainer.notifyTaskOfPluginDeselect(pluginConfigurationComposite.getOutputUserFiles(), newTaskDetailsContainer.getNewTaskSubTaskInfoList().get(table.getSelectionIndex()));
+				if (pluginConfigurationUi!=null) {
+					newTaskDetailsContainer.notifyTaskOfPluginDeselect(pluginConfigurationUi.getOutputUserFiles(), newTaskDetailsContainer.getNewTaskSubTaskInfoList().get(table.getSelectionIndex()));
 				}
 
 				newTaskDetailsContainer.getNewTaskSubTaskInfoList().remove(table.getSelectionIndex());

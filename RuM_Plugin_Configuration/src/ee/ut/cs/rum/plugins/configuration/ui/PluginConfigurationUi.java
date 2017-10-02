@@ -29,7 +29,7 @@ import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterInt
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterSelection;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterString;
 
-public class PluginConfigurationComposite extends Composite {
+public class PluginConfigurationUi extends Composite {
 	private static final long serialVersionUID = -5475837154117723386L;
 
 	private RumController rumController;
@@ -41,7 +41,7 @@ public class PluginConfigurationComposite extends Composite {
 	private List<UserFile> tmpUserFiles;
 	private List<UserFile> outputUserFiles;
 
-	public PluginConfigurationComposite(ScrolledPluginConfigurationComposite parent, PluginInfo pluginInfo) {
+	public PluginConfigurationUi(PluginConfigurationContainer parent, PluginInfo pluginInfo) {
 		super(parent, SWT.NONE);
 
 		this.setEnabled(false);
@@ -49,7 +49,7 @@ public class PluginConfigurationComposite extends Composite {
 		createContents(pluginInfo);
 	}
 
-	public PluginConfigurationComposite(Composite parent, PluginInfo pluginInfo, RumController rumController, List<UserFile> userFiles, List<UserFile> taskUserFiles, List<UserFile> tmpUserFiles) {
+	public PluginConfigurationUi(Composite parent, PluginInfo pluginInfo, RumController rumController, List<UserFile> userFiles, List<UserFile> taskUserFiles, List<UserFile> tmpUserFiles) {
 		super(parent, SWT.NONE);
 
 		this.rumController=rumController;

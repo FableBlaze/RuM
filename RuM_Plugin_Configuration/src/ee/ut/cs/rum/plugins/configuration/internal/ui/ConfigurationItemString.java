@@ -6,7 +6,7 @@ import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Text;
 
-import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationComposite;
+import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationUi;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterString;
 
 public class ConfigurationItemString extends Text implements ConfigurationItemInterface {
@@ -16,7 +16,7 @@ public class ConfigurationItemString extends Text implements ConfigurationItemIn
 	private String displayName;
 	private boolean required;
 	
-	public ConfigurationItemString(PluginConfigurationComposite pluginConfigurationComposite, PluginParameterString parameterString) {
+	public ConfigurationItemString(PluginConfigurationUi pluginConfigurationComposite, PluginParameterString parameterString) {
 		super(pluginConfigurationComposite, SWT.BORDER);
 		
 		this.internalName=parameterString.getInternalName();
