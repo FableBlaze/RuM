@@ -33,6 +33,7 @@ public class PluginConfigurationUi extends Composite {
 	private static final long serialVersionUID = -5475837154117723386L;
 
 	private RumController rumController;
+	private PluginConfigurationContainer pluginConfigurationContainer;
 
 	private List<ConfigurationItemInterface> configurationItems;
 	private List<ConfigurationItemFile> configurationItemFiles;
@@ -51,6 +52,8 @@ public class PluginConfigurationUi extends Composite {
 
 	public PluginConfigurationUi(PluginConfigurationContainer pluginConfigurationContainer, PluginInfo pluginInfo, RumController rumController, List<UserFile> userFiles, List<UserFile> taskUserFiles, List<UserFile> tmpUserFiles) {
 		super(pluginConfigurationContainer, SWT.NONE);
+		
+		this.pluginConfigurationContainer=pluginConfigurationContainer;
 
 		this.rumController=rumController;
 		this.userFiles=userFiles;
@@ -246,6 +249,10 @@ public class PluginConfigurationUi extends Composite {
 	public List<ConfigurationItemFile> getConfigurationItemFiles() {
 		return configurationItemFiles;
 	}
+	
+	public PluginConfigurationContainer getPluginConfigurationContainer() {
+		return pluginConfigurationContainer;
+	}
 
 	public void notifySubTaskOfPluginSelect(List<UserFile> outputFiles) {
 		if (outputUserFiles!=outputFiles) {
@@ -293,14 +300,6 @@ public class PluginConfigurationUi extends Composite {
 		for (ConfigurationItemFile configurationItemFile : configurationItemFiles) {
 			configurationItemFile.removeUserFile(userFile);
 		}
-	}
-
-	public UserFile addTmpUserFile(UserFile tmpUserFile) {
-		synchronized (tmpUserFiles) {
-			tmpUserFiles.add(tmpUserFile);
-			tmpUserFile = tmpUserFiles.get(tmpUserFiles.size()-1);
-		}
-		return tmpUserFile;
 	}
 
 }

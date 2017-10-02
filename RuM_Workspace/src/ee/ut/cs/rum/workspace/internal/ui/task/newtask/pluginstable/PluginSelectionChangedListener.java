@@ -9,7 +9,7 @@ import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.Plugin;
 import ee.ut.cs.rum.database.domain.UserFile;
 import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationUi;
-import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationContainer;
+import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationEnabledContainer;
 import ee.ut.cs.rum.workspace.internal.ui.task.newtask.NewTaskSubTaskInfo;
 
 public class PluginSelectionChangedListener implements ISelectionChangedListener {
@@ -33,8 +33,8 @@ public class PluginSelectionChangedListener implements ISelectionChangedListener
 			plugin = (Plugin) selection.getFirstElement();			
 		}
 		
-		PluginConfigurationContainer pluginConfigurationContainer = newTaskSubTaskInfo.getPluginConfigurationContainer(); 
-		PluginConfigurationUi pluginConfigurationUi = pluginConfigurationContainer.getPluginConfigurationUi();
+		PluginConfigurationEnabledContainer pluginConfigurationEnabledContainer = newTaskSubTaskInfo.getPluginConfigurationEnabledContainer(); 
+		PluginConfigurationUi pluginConfigurationUi = pluginConfigurationEnabledContainer.getPluginConfigurationUi();
 		if (pluginConfigurationUi!=null) {
 			newTaskSubTaskInfo.getNewTaskDetailsContainer().notifyTaskOfPluginDeselect(pluginConfigurationUi.getOutputUserFiles(), newTaskSubTaskInfo);
 		}
@@ -44,12 +44,12 @@ public class PluginSelectionChangedListener implements ISelectionChangedListener
 			List<UserFile> taskUserFiles = newTaskSubTaskInfo.getNewTaskDetailsContainer().getInitialTaskUserFiles(newTaskSubTaskInfo);
 			List<UserFile> tmpUserFiles = newTaskSubTaskInfo.getNewTaskDetailsContainer().getTmpUserFiles();
 			
-			pluginConfigurationContainer.showEnabledPluginConfigurationUi(plugin, rumController, userFiles, taskUserFiles, tmpUserFiles);
-			List<UserFile> newOutputUserFiles = pluginConfigurationContainer.getPluginConfigurationUi().getOutputUserFiles();
+			pluginConfigurationEnabledContainer.showEnabledPluginConfigurationUi(plugin, rumController, userFiles, taskUserFiles, tmpUserFiles);
+			List<UserFile> newOutputUserFiles = pluginConfigurationEnabledContainer.getPluginConfigurationUi().getOutputUserFiles();
 			newOutputUserFiles.forEach(outputFile -> outputFile.setSubTask(newTaskSubTaskInfo.getSubTask()));
 			newTaskSubTaskInfo.getNewTaskDetailsContainer().notifyTaskOfPluginSelect(newOutputUserFiles, newTaskSubTaskInfo);
 		} else {
-			pluginConfigurationContainer.disposeCurrentPluginConfigurationUi();
+			pluginConfigurationEnabledContainer.disposeCurrentPluginConfigurationUi();
 		}
 		
 		newTaskSubTaskInfo.getPluginInfoComposite().updateSelectedPluginInfo(plugin);

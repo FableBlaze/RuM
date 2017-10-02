@@ -36,6 +36,7 @@ import ee.ut.cs.rum.database.util.exceptions.SystemParameterNotSetException;
 import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
 import ee.ut.cs.rum.plugins.configuration.internal.Activator;
+import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationEnabledContainer;
 import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationUi;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterFile;
 
@@ -191,8 +192,10 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 					userFileTypes.add(userFileType);
 				}
 				tmpUserFile.setUserFileTypes(userFileTypes);
+				
+				PluginConfigurationEnabledContainer pluginConfigurationEnabledContainer = (PluginConfigurationEnabledContainer) pluginConfigurationUi.getPluginConfigurationContainer();
+				UserFile finalTmpUserFile = pluginConfigurationEnabledContainer.getPluginConfigurationEnabledContainerParent().tmpUserFileUploadedNotify(tmpUserFile);
 
-				UserFile finalTmpUserFile = pluginConfigurationUi.addTmpUserFile(tmpUserFile);
 				tmpUserFilesInSelector.add(finalTmpUserFile);
 
 				Display.getDefault().syncExec(new Runnable() {
