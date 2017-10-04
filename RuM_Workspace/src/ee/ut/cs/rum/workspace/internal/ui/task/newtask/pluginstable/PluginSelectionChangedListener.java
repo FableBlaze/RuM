@@ -35,7 +35,7 @@ public class PluginSelectionChangedListener implements ISelectionChangedListener
 		
 		PluginConfigurationEnabledContainer pluginConfigurationEnabledContainer = newTaskSubTaskInfo.getPluginConfigurationEnabledContainer(); 
 		PluginConfigurationUi pluginConfigurationUi = pluginConfigurationEnabledContainer.getPluginConfigurationUi();
-		if (pluginConfigurationUi!=null) {
+		if (pluginConfigurationUi!=null && pluginConfigurationUi.isDisposed()==false) {
 			newTaskSubTaskInfo.getNewTaskDetailsContainer().notifyTaskOfPluginDeselect(pluginConfigurationUi.getOutputUserFiles(), newTaskSubTaskInfo);
 		}
 		
