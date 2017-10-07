@@ -61,7 +61,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 	private PluginParameterFile parameterFile;
 	private PluginConfigurationUi pluginConfigurationUi;
 	
-	private int preEventSelectionIndex;
+	private int selectionIndex;
 
 	public ConfigurationItemFile(PluginConfigurationUi pluginConfigurationUi, PluginParameterFile parameterFile, RumController rumController) {
 		super(pluginConfigurationUi, SWT.NONE);
@@ -74,7 +74,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 
 		this.rumController=rumController;
 		
-		this.preEventSelectionIndex=-1;
+		this.selectionIndex=-1;
 
 		this.pluginConfigurationUi = pluginConfigurationUi;
 		this.parameterFile = parameterFile;
@@ -106,21 +106,21 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 			private static final long serialVersionUID = -2671867325224354752L;
 			@Override
 			public void widgetSelected(SelectionEvent event) {
-				int newEventSelectionIndex = fileSelectorCombo.getSelectionIndex();
+				int newSelectionIndex = fileSelectorCombo.getSelectionIndex();
 				
-				if (newEventSelectionIndex==preEventSelectionIndex && event.stateMask==SWT.CTRL) {
+				if (newSelectionIndex==selectionIndex && event.stateMask==SWT.CTRL) {
 					fileSelectorCombo.deselectAll();
 				}
 				
-				if (preEventSelectionIndex >= userFilesInSelector.size() && preEventSelectionIndex < userFilesInSelector.size()+taskUserFilesInSelector.size()) {
-					pluginConfigurationEnabledContainerParent.taskUserFileDeselectedNotify(taskUserFilesInSelector.get(preEventSelectionIndex-userFilesInSelector.size()));
+				if (selectionIndex >= userFilesInSelector.size() && selectionIndex < userFilesInSelector.size()+taskUserFilesInSelector.size()) {
+					pluginConfigurationEnabledContainerParent.taskUserFileDeselectedNotify(taskUserFilesInSelector.get(selectionIndex-userFilesInSelector.size()));
 				}
 				
-				if (newEventSelectionIndex >= userFilesInSelector.size() && newEventSelectionIndex < userFilesInSelector.size()+taskUserFilesInSelector.size()) {
-					pluginConfigurationEnabledContainerParent.taskUserFileSelectedNotify(taskUserFilesInSelector.get(newEventSelectionIndex-userFilesInSelector.size()));
+				if (newSelectionIndex >= userFilesInSelector.size() && newSelectionIndex < userFilesInSelector.size()+taskUserFilesInSelector.size()) {
+					pluginConfigurationEnabledContainerParent.taskUserFileSelectedNotify(taskUserFilesInSelector.get(newSelectionIndex-userFilesInSelector.size()));
 				}
 				
-				preEventSelectionIndex = newEventSelectionIndex;
+				selectionIndex = newSelectionIndex;
 			}
 			@Override
 			public void widgetDefaultSelected(SelectionEvent event) {
@@ -214,10 +214,10 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 				Display.getDefault().syncExec(new Runnable() {
 					public void run() {
 						fileSelectorCombo.select(fileSelectorCombo.getItemCount()-1);
-						if (preEventSelectionIndex >= userFilesInSelector.size() && preEventSelectionIndex < userFilesInSelector.size()+taskUserFilesInSelector.size()) {
-							pluginConfigurationEnabledContainerParent.taskUserFileDeselectedNotify(taskUserFilesInSelector.get(preEventSelectionIndex-userFilesInSelector.size()));
+						if (selectionIndex >= userFilesInSelector.size() && selectionIndex < userFilesInSelector.size()+taskUserFilesInSelector.size()) {
+							pluginConfigurationEnabledContainerParent.taskUserFileDeselectedNotify(taskUserFilesInSelector.get(selectionIndex-userFilesInSelector.size()));
 						}
-						preEventSelectionIndex=fileSelectorCombo.getItemCount()-1;
+						selectionIndex=fileSelectorCombo.getSelectionIndex();
 					}
 				});
 			}
@@ -238,6 +238,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 				for (int i = 0; i < userFilesInSelector.size(); i++) {
 					if (userFilesInSelector.get(i).getFileLocation().equals(fileLocation)) {
 						fileSelectorCombo.select(i);
+						selectionIndex=fileSelectorCombo.getSelectionIndex();
 					}
 				}
 			}
@@ -308,12 +309,12 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 	}
 
 	
-	//TODO: Needs review! Following methods should in some cases update preEventSelectionIndex and notifyOfTaskFileDeselect. 
 	public void addUserFile(UserFile userFile) {
 		if (checkFileTypes(userFile)) {
 			fileSelectorCombo.add(userFile.getOriginalFilename() + " (" + new SimpleDateFormat("dd-MM-yyyy HH:mm").format(userFile.getCreatedAt()) + ")", userFilesInSelector.size());
-			if (fileSelectorCombo.getSelectionIndex()>=userFilesInSelector.size()) {
-				fileSelectorCombo.select(fileSelectorCombo.getSelectionIndex()+1);
+			if (selectionIndex>=userFilesInSelector.size()) {
+				fileSelectorCombo.select(selectionIndex+1);
+				selectionIndex=fileSelectorCombo.getSelectionIndex();
 			}
 			userFilesInSelector.add(userFile);
 		}
@@ -330,15 +331,16 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 
 	public void removeUserFile(UserFile userFile) {
 		if (checkFileTypes(userFile)) {
-			int i = userFilesInSelector.indexOf(userFile);
-			if (fileSelectorCombo.getSelectionIndex()==-1) {
-				userFilesInSelector.remove(i);
-				fileSelectorCombo.remove(i);
-			} else {
-				userFilesInSelector.remove(i);
-				fileSelectorCombo.remove(i);
-				fileSelectorCombo.select(i);
+			int removeFileIndex = userFilesInSelector.indexOf(userFile);
+			if (selectionIndex==removeFileIndex) {
+				fileSelectorCombo.deselectAll();
+				selectionIndex=fileSelectorCombo.getSelectionIndex();
+			} else if (selectionIndex>removeFileIndex) {
+				fileSelectorCombo.select(selectionIndex-1);
+				selectionIndex=fileSelectorCombo.getSelectionIndex();
 			}
+			userFilesInSelector.remove(removeFileIndex);
+			fileSelectorCombo.remove(removeFileIndex);
 		}
 	}
 
@@ -346,8 +348,9 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 		for (UserFile userFile : outputFiles) {
 			if (checkFileTypes(userFile)) {
 				fileSelectorCombo.add(userFile.getOriginalFilename() + " (" + userFile.getSubTask().getName() + ")", userFilesInSelector.size()+taskUserFilesInSelector.size());
-				if (fileSelectorCombo.getSelectionIndex()>=userFilesInSelector.size()+taskUserFilesInSelector.size()) {
-					fileSelectorCombo.select(fileSelectorCombo.getSelectionIndex()+1);
+				if (selectionIndex>=userFilesInSelector.size()+taskUserFilesInSelector.size()) {
+					fileSelectorCombo.select(selectionIndex+1);
+					selectionIndex=fileSelectorCombo.getSelectionIndex();
 				}
 				taskUserFilesInSelector.add(userFile);
 			}
@@ -357,9 +360,14 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 	public void notifyFileParameterOfPluginDeselect(List<UserFile> outputFiles) {
 		for (UserFile userFile : outputFiles) {
 			if (checkFileTypes(userFile)) {
-				int i = taskUserFilesInSelector.indexOf(userFile);
-				taskUserFilesInSelector.remove(i);
-				fileSelectorCombo.remove(i + userFilesInSelector.size());
+				int removeFileIndex = taskUserFilesInSelector.indexOf(userFile);
+				int removeSelectorIndex = removeFileIndex + userFilesInSelector.size();
+				if (selectionIndex==removeSelectorIndex) {
+					fileSelectorCombo.deselectAll();
+				}
+				taskUserFilesInSelector.remove(removeFileIndex);
+				fileSelectorCombo.remove(removeSelectorIndex);
+				selectionIndex=fileSelectorCombo.getSelectionIndex();
 			}
 		}
 	}
