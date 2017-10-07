@@ -228,7 +228,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 
 	@Override
 	public void setValue(String fileLocation) {
-		//TODO: Setting the value when required subtask has failed (check for empty string and get name from depends on)
+		//TODO: Setting the value when required subtask has failed (has to be fed into PluginConfigurationUi setConfigurationValues)
 		if (fileLocation!=null && !fileLocation.equals("")) {
 			if (pluginConfigurationUi.isEnabled()==false) {
 				UserFile userFile = UserFileAccess.getUserFileDataFromDb(fileLocation);
