@@ -46,7 +46,7 @@ public class PluginConfigurationUi extends Composite {
 		super(pluginConfigurationContainer, SWT.NONE);
 
 		this.setEnabled(false);
-		setLayout();
+		this.setLayout();
 		createContents(pluginInfo);
 	}
 
@@ -74,8 +74,8 @@ public class PluginConfigurationUi extends Composite {
 			this.outputUserFiles.add(userFile);
 		}
 
-		setLayout();
-		createContents(pluginInfo);
+		this.setLayout();
+		this.createContents(pluginInfo);
 	}
 
 	private void setLayout() {

@@ -66,7 +66,9 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 	public ConfigurationItemFile(PluginConfigurationUi pluginConfigurationUi, PluginParameterFile parameterFile, RumController rumController) {
 		super(pluginConfigurationUi, SWT.NONE);
 		
-		this.pluginConfigurationEnabledContainerParent=((PluginConfigurationEnabledContainer)pluginConfigurationUi.getPluginConfigurationContainer()).getPluginConfigurationEnabledContainerParent();
+		if (pluginConfigurationUi.getPluginConfigurationContainer()!=null) {
+			this.pluginConfigurationEnabledContainerParent=((PluginConfigurationEnabledContainer)pluginConfigurationUi.getPluginConfigurationContainer()).getPluginConfigurationEnabledContainerParent();			
+		}
 		this.internalName=parameterFile.getInternalName();
 		this.displayName=parameterFile.getDisplayName();
 		this.setToolTipText(parameterFile.getDescription());
@@ -226,7 +228,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 
 	@Override
 	public void setValue(String fileLocation) {
-		//TODO: Setting the value when required subtask has failed
+		//TODO: Setting the value when required subtask has failed (check for empty string and get name from depends on)
 		if (fileLocation!=null && !fileLocation.equals("")) {
 			if (pluginConfigurationUi.isEnabled()==false) {
 				UserFile userFile = UserFileAccess.getUserFileDataFromDb(fileLocation);
