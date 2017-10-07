@@ -58,7 +58,7 @@ public class RumJob implements Job {
 			Plugin plugin = subTask.getPlugin();
 			Bundle rumJobPluginBundle = findSelectedPluginBundle(plugin);
 
-			if (rumJobPluginBundle==null) {
+			if (rumJobPluginBundle==null || rumJobPluginBundle.getRegisteredServices()==null) {
 				rumJobPluginBundle = installSelectedPluginBundle(plugin);
 			}
 			
