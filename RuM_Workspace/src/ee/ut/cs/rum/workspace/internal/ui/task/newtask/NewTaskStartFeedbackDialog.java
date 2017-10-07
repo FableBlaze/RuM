@@ -18,7 +18,7 @@ import ee.ut.cs.rum.database.domain.enums.TaskStatus;
 import ee.ut.cs.rum.workspace.internal.ui.project.ProjectTabFolder;
 import ee.ut.cs.rum.workspace.internal.ui.task.details.TaskDetailsComposite;
 
-public class TaskStartFeedbackDialog extends Dialog {
+public class NewTaskStartFeedbackDialog extends Dialog {
 	private static final long serialVersionUID = -8757598978630338189L;
 	
 	private RumController rumController;
@@ -32,7 +32,7 @@ public class TaskStartFeedbackDialog extends Dialog {
 	private Button newTaskButton;
 	private Button okButton;
 
-	public TaskStartFeedbackDialog(Shell activeShell, RumController rumController, NewTaskComposite newTaskComposite) {
+	public NewTaskStartFeedbackDialog(Shell activeShell, RumController rumController, NewTaskComposite newTaskComposite) {
 		super(activeShell, SWT.APPLICATION_MODAL | SWT.TITLE | SWT.BORDER | SWT.RESIZE);
 		
 		this.rumController=rumController;
