@@ -88,10 +88,6 @@ public class RumJob implements Job {
 				PluginInfo pluginInfo = PluginUtils.deserializePluginInfo(plugin);
 				rumJobTaskOutputs = pluginInfo.getOutputs();
 				addTaskCreatedFilesToDb(outputDirectory);
-				
-				for (SubTaskDependency subTaskDependency : subTask.getFulfilledDependencies()) {
-					RumScheduler.scheduleTask(subTaskDependency.getRequiredBySubTask().getTask().getId());
-				}
 			}			
 			
 			Activator.getLogger().info("RumJob done: " + jobKey + " at " + new Date());
@@ -101,6 +97,10 @@ public class RumJob implements Job {
 		} catch (Exception e) {
 			SubTasksData.updateSubTaskStatusInDb(subTaskId, SubTaskStatus.FAILED, systemUserAccount);
 			Activator.getLogger().info("RumJob failed: " + jobKey + " at " + new Date() + " " + e.toString());
+		} finally {
+			for (SubTaskDependency subTaskDependency : subTask.getFulfilledDependencies()) {
+				RumScheduler.scheduleTask(subTaskDependency.getRequiredBySubTask().getTask().getId());
+			}
 		}
 	}
 
