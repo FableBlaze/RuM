@@ -1,11 +1,14 @@
 package ee.ut.cs.rum.workspace.internal.ui.task.newtask;
 
+import java.util.ArrayList;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
 import ee.ut.cs.rum.database.domain.SubTask;
@@ -18,9 +21,20 @@ public class NewTaskDependenciesScrolledComposite extends ScrolledComposite {
 	private Composite dependsOnContents;
 	private Composite subTaskNamesComposite;
 	private Composite requiredForContents;
+	
+	private ArrayList<SubTask> subTasks;
+	private ArrayList<ArrayList<Label>> subTaskLabels;
+	private ArrayList<Composite> subTaskDependsOnComposites;
+	private ArrayList<Composite> subTaskRequiredForComposites;
 
 	public NewTaskDependenciesScrolledComposite(NewTaskGeneralInfo newTaskGeneralInfo) {
 		super(newTaskGeneralInfo, SWT.V_SCROLL);
+		
+		subTasks = new ArrayList<SubTask>();
+		subTaskLabels = new ArrayList<ArrayList<Label>>();
+		subTaskDependsOnComposites = new ArrayList<Composite>();
+		subTaskRequiredForComposites = new ArrayList<Composite>();
+		
 		createContents();
 	}
 
@@ -76,24 +90,69 @@ public class NewTaskDependenciesScrolledComposite extends ScrolledComposite {
 		});
 	}
 	
+	private void layoutContents() {
+		dependsOnContents.layout();
+		subTaskNamesComposite.layout();
+		requiredForContents.layout();
+	}
+	
 	public void initializeBasedOnTask(Task baseTask) {
 		Activator.getLogger().info("initializing NewTaskDependenciesScrolledComposite based on task: " + baseTask);
 	}
 
 	public void clearContents() {
 		Activator.getLogger().info("clearing NewTaskDependenciesScrolledComposite");
+		
+		for (ArrayList<Label> subTaskLabelsSubList : subTaskLabels) {
+			for (Label label : subTaskLabelsSubList) {
+				if (!label.isDisposed()) {
+					label.dispose();
+				}
+			}
+		}
+		subTaskLabels.clear();
+		subTaskDependsOnComposites.forEach(c -> c.dispose());
+		subTaskRequiredForComposites.forEach(c -> c.dispose());
+		subTaskDependsOnComposites.clear();
+		subTaskRequiredForComposites.clear();
+		layoutContents();
 	}
 
 	public void addSubTask(SubTask subTask) {
-		Activator.getLogger().info("adding NewTaskDependenciesScrolledComposite subtask: " + subTask);
+		Label l = new Label(subTaskNamesComposite, SWT.NONE);
+		l.setText(subTask.getName());
+		GridData gd = new GridData(SWT.CENTER, SWT.FILL, false, false);
+		gd.heightHint=20;
+		l.setLayoutData(gd);
+		
+		subTaskLabels.add(new ArrayList<Label>());
+		subTaskLabels.get(subTaskLabels.size()-1).add(l);
+		subTaskDependsOnComposites.add(new Composite(dependsOnContents, SWT.NONE));
+		subTaskRequiredForComposites.add(new Composite(requiredForContents, SWT.NONE));
+		subTasks.add(subTask);
 	}
 
 	public void removeSubtask(SubTask subTask) {
-		Activator.getLogger().info("removing NewTaskDependenciesScrolledComposite subtask: " + subTask);
+		int subTaskIndex = subTasks.indexOf(subTask);
+		subTasks.remove(subTaskIndex);
+		subTaskLabels.remove(subTaskIndex).forEach(l -> l.dispose());
+		subTaskDependsOnComposites.remove(subTaskIndex).dispose();
+		subTaskRequiredForComposites.remove(subTaskIndex).dispose();
+		
+		layoutContents();
 	}
 
 	public void changeSubTaskName(SubTask subTask) {
-		Activator.getLogger().info("Changing NewTaskDependenciesScrolledComposite subtask name: " + subTask);
+		int subTaskIndex = subTasks.indexOf(subTask);
+		for (Label label : subTaskLabels.get(subTaskIndex)) {
+			if (label.isDisposed()) {
+				//Should do cleanup in removeSubtask method, but it's easier here
+				subTaskLabels.get(subTaskIndex).remove(label);
+			} else {
+				label.setText(subTask.getName());				
+			}
+		}
+		layoutContents();
 	}
 
 	public void addDependency(SubTask dependsOnSubTask, SubTask requiredForSubTask) {
