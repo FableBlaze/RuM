@@ -2,7 +2,6 @@ package ee.ut.cs.rum.workspace.internal.ui.task.newtask;
 
 import ee.ut.cs.rum.database.domain.UserFile;
 import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationEnabledContainerParent;
-import ee.ut.cs.rum.workspace.internal.Activator;
 
 public class PluginConfigurationEnabledContainerParentImpl extends PluginConfigurationEnabledContainerParent {
 	private static final long serialVersionUID = 8755962797664453874L;
@@ -26,12 +25,12 @@ public class PluginConfigurationEnabledContainerParentImpl extends PluginConfigu
 
 	@Override
 	public void taskUserFileSelectedNotify(UserFile taskUserFile) {
-		Activator.getLogger().info("Selected TaskUserFile: " + taskUserFile.getOriginalFilename() + "; of subtask: " + taskUserFile.getSubTask().getName() + "; in subtask: " + newTaskSubTaskInfo.getSubTask().getName());
+		newTaskDetailsContainer.getNewTaskGeneralInfo().getNewTaskDependenciesScrolledComposite().addDependency(taskUserFile.getSubTask(), newTaskSubTaskInfo.getSubTask());
 	}
 
 	@Override
 	public void taskUserFileDeselectedNotify(UserFile taskUserFile) {
-		Activator.getLogger().info("Deselected TaskUserFile: " + taskUserFile.getOriginalFilename() + "; of subtask: " + taskUserFile.getSubTask().getName() + "; in subtask: " + newTaskSubTaskInfo.getSubTask().getName());
+		newTaskDetailsContainer.getNewTaskGeneralInfo().getNewTaskDependenciesScrolledComposite().removeDependency(taskUserFile.getSubTask(), newTaskSubTaskInfo.getSubTask());
 	}
 
 }

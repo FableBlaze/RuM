@@ -62,6 +62,7 @@ public class NewTaskSubTaskInfo extends Composite {
 				subTask.setName(subTaskNameText.getText());
 				newTaskDetailsContainer.getNewTaskComposite().getDetailsSideBar().getSubTaskTableViewer().refresh(subTask);
 				newTaskDetailsContainer.notifyTaskOfSubTaskNameChange(subTask);
+				newTaskDetailsContainer.getNewTaskGeneralInfo().getNewTaskDependenciesScrolledComposite().changeSubTaskName(subTask);
 			}
 			@Override
 			public void focusGained(FocusEvent event) {

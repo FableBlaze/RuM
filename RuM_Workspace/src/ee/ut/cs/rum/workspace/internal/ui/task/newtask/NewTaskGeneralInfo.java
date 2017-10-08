@@ -19,6 +19,7 @@ public class NewTaskGeneralInfo extends Composite {
 	private Text taskNameText;
 	private ExpectedOutputsTableComposite expectedOutputsTableComposite;
 	private Text taskDescriptionText;
+	private NewTaskDependenciesScrolledComposite newTaskDependenciesScrolledComposite;
 
 	public NewTaskGeneralInfo(NewTaskDetailsContainer newTaskDetailsContainer) {
 		super(newTaskDetailsContainer, SWT.NONE);
@@ -65,10 +66,8 @@ public class NewTaskGeneralInfo extends Composite {
 			}
 		});
 		
-		Label subTaskGraphComposite = new Label(this, SWT.NONE);
-		subTaskGraphComposite.setText("Sub-task graph (TODO)");
-		subTaskGraphComposite.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true));
-		((GridData) subTaskGraphComposite.getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
+		newTaskDependenciesScrolledComposite = new NewTaskDependenciesScrolledComposite(this);
+		((GridData) newTaskDependenciesScrolledComposite.getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
 	}
 
 	public void initializeBasedOnTask(Task baseTask) {
@@ -76,9 +75,14 @@ public class NewTaskGeneralInfo extends Composite {
 		task.setName(baseTask.getName());
 		taskDescriptionText.setText(baseTask.getDescription());
 		task.setDescription(baseTask.getDescription());
+		newTaskDependenciesScrolledComposite.initializeBasedOnTask(baseTask);
 	}
 
 	public ExpectedOutputsTableComposite getExpectedOutputsTableComposite() {
 		return expectedOutputsTableComposite;
+	}
+	
+	public NewTaskDependenciesScrolledComposite getNewTaskDependenciesScrolledComposite() {
+		return newTaskDependenciesScrolledComposite;
 	}
 }

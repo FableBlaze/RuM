@@ -165,7 +165,7 @@ public class NewTaskDetailsContainer extends Composite implements RumUpdatableVi
 						if (pluginConfigurationUi!=null && pluginConfigurationUi.isDisposed()==false) {
 							pluginConfigurationUi.notifySubTaskOfSubTaskNameChange(outputFiles);
 						}	
-					}					
+					}
 				} else {
 					Activator.getLogger().info("newTaskSubTaskInfo not found");
 				}

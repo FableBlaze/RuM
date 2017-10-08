@@ -113,6 +113,7 @@ public class NewTaskFooter extends Composite {
 				NewTaskDetailsContainer newTaskDetailsContainer = newTaskComposite.getNewTaskDetailsContainer();
 				NewTaskSubTaskInfo newTaskSubTaskInfo = new NewTaskSubTaskInfo(newTaskDetailsContainer, subTask, rumController);
 				newTaskDetailsContainer.getNewTaskSubTaskInfoList().add(newTaskSubTaskInfo);
+				newTaskDetailsContainer.getNewTaskGeneralInfo().getNewTaskDependenciesScrolledComposite().addSubTask(subTask);
 				newTaskDetailsContainer.showSubTaskInfo(subTaskTableViewer.getTable().getItemCount()-1);
 
 				if (!startTaskButton.getEnabled()) {
@@ -131,7 +132,8 @@ public class NewTaskFooter extends Composite {
 			public void handleEvent(Event event) {
 				Table table = newTaskComposite.getDetailsSideBar().getSubTaskTableViewer().getTable();
 				NewTaskDetailsContainer newTaskDetailsContainer = newTaskComposite.getNewTaskDetailsContainer();
-				PluginConfigurationUi pluginConfigurationUi = newTaskDetailsContainer.getNewTaskSubTaskInfoList().get(table.getSelectionIndex()).getPluginConfigurationEnabledContainer().getPluginConfigurationUi();
+				NewTaskSubTaskInfo newTaskSubTaskInfo = newTaskDetailsContainer.getNewTaskSubTaskInfoList().get(table.getSelectionIndex());
+				PluginConfigurationUi pluginConfigurationUi = newTaskSubTaskInfo.getPluginConfigurationEnabledContainer().getPluginConfigurationUi();
 
 				if (pluginConfigurationUi!=null) {
 					newTaskDetailsContainer.notifyTaskOfPluginDeselect(pluginConfigurationUi.getOutputUserFiles(), newTaskDetailsContainer.getNewTaskSubTaskInfoList().get(table.getSelectionIndex()));
@@ -139,6 +141,7 @@ public class NewTaskFooter extends Composite {
 
 				newTaskDetailsContainer.getNewTaskSubTaskInfoList().remove(table.getSelectionIndex());
 				table.remove(table.getSelectionIndex());
+				newTaskDetailsContainer.getNewTaskGeneralInfo().getNewTaskDependenciesScrolledComposite().removeSubtask(newTaskSubTaskInfo.getSubTask());
 				newTaskDetailsContainer.showGeneralInfo();
 
 				if (table.getItemCount()==0 && startTaskButton.getEnabled()) {
@@ -162,6 +165,7 @@ public class NewTaskFooter extends Composite {
 				newTaskDetailsContainer.getNewTaskSubTaskInfoList().clear();
 				table.removeAll();
 				newTaskDetailsContainer.getNewTaskGeneralInfo().getExpectedOutputsTableComposite().clearOutputsTable();
+				newTaskDetailsContainer.getNewTaskGeneralInfo().getNewTaskDependenciesScrolledComposite().clearContents();
 				newTaskDetailsContainer.showGeneralInfo();
 
 				startTaskButton.setEnabled(false);
