@@ -25,7 +25,7 @@ public class NewTaskGeneralInfo extends Composite {
 		super(newTaskDetailsContainer, SWT.NONE);
 		
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		this.setLayout(new GridLayout(3, false));
+		this.setLayout(new GridLayout(4, false));
 		
 		task = newTaskDetailsContainer.getNewTaskComposite().getTask();
 		
@@ -45,10 +45,14 @@ public class NewTaskGeneralInfo extends Composite {
 			public void focusGained(FocusEvent event) {
 			}
 		});
+		
+		Composite c = new Composite(this, SWT.NONE);
+		c.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		((GridData) c.getLayoutData()).verticalSpan=2;
 
 		
 		expectedOutputsTableComposite = new ExpectedOutputsTableComposite(this);
-		((GridData) expectedOutputsTableComposite.getLayoutData()).verticalSpan=2;
+		((GridData) expectedOutputsTableComposite.getLayoutData()).verticalSpan=3;
 		
 		label = new Label(this, SWT.NONE);
 		label.setText("Task description:");
@@ -67,7 +71,7 @@ public class NewTaskGeneralInfo extends Composite {
 		});
 		
 		newTaskDependenciesScrolledComposite = new NewTaskDependenciesScrolledComposite(this);
-		((GridData) newTaskDependenciesScrolledComposite.getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
+		((GridData) newTaskDependenciesScrolledComposite.getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns-1;
 	}
 
 	public void initializeBasedOnTask(Task baseTask) {

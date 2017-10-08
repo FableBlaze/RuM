@@ -126,8 +126,8 @@ public class NewTaskDependenciesScrolledComposite extends ScrolledComposite {
 		subTaskLabels.add(new ArrayList<Label>());
 		subTaskLabels.get(subTaskLabels.size()-1).add(l);
 		
-		Composite c = new Composite(dependsOnContents, SWT.NONE);
-		gd = new GridData(SWT.FILL, SWT.FILL, false, false);
+		Composite c = new Composite(dependsOnContents, SWT.RIGHT_TO_LEFT);
+		gd = new GridData(SWT.FILL, SWT.FILL, true, false);
 		gd.heightHint=22;
 		c.setLayoutData(gd);
 		RowLayout rl = new RowLayout();
@@ -137,7 +137,7 @@ public class NewTaskDependenciesScrolledComposite extends ScrolledComposite {
 		subTaskDependsOnComposites.add(c);
 		
 		c = new Composite(requiredForContents, SWT.NONE);
-		gd = new GridData(SWT.FILL, SWT.FILL, false, false);
+		gd = new GridData(SWT.FILL, SWT.FILL, true, false);
 		gd.heightHint=22;
 		c.setLayoutData(gd);
 		rl = new RowLayout();
@@ -175,13 +175,24 @@ public class NewTaskDependenciesScrolledComposite extends ScrolledComposite {
 	public void addDependency(SubTask dependsOnSubTask, SubTask requiredForSubTask) {
 		int dependsOnSubTaskIndex = subTasks.indexOf(dependsOnSubTask);
 		int requiredForSubTaskIndex = subTasks.indexOf(requiredForSubTask);
+		Label l;
 		
-		Label l = new Label(subTaskRequiredForComposites.get(dependsOnSubTaskIndex), SWT.BORDER);
+		if (subTaskRequiredForComposites.get(dependsOnSubTaskIndex).getChildren().length==0) {
+			l = new Label(subTaskRequiredForComposites.get(dependsOnSubTaskIndex), SWT.NONE);
+			l.setText(">>  ");
+			l.setLayoutData(new RowData());
+		}
+		l = new Label(subTaskRequiredForComposites.get(dependsOnSubTaskIndex), SWT.BORDER);
 		l.setText(requiredForSubTask.getName());
 		l.setLayoutData(new RowData());
 		subTaskRequiredForComposites.get(dependsOnSubTaskIndex).layout();
 		subTaskLabels.get(requiredForSubTaskIndex).add(l);				
 		
+		if (subTaskDependsOnComposites.get(requiredForSubTaskIndex).getChildren().length==0) {
+			l = new Label(subTaskDependsOnComposites.get(requiredForSubTaskIndex), SWT.NONE);
+			l.setText("<<  ");
+			l.setLayoutData(new RowData());
+		}
 		l = new Label(subTaskDependsOnComposites.get(requiredForSubTaskIndex), SWT.BORDER);
 		l.setText(dependsOnSubTask.getName());
 		l.setLayoutData(new RowData());
@@ -194,6 +205,8 @@ public class NewTaskDependenciesScrolledComposite extends ScrolledComposite {
 	public void removeDependency(SubTask dependsOnSubTask, SubTask requiredForSubTask) {
 		int dependsOnSubTaskIndex = subTasks.indexOf(dependsOnSubTask);
 		int requiredForSubTaskIndex = subTasks.indexOf(requiredForSubTask);
+		
+		//TODO: BUG: Labels stay in UI if task file is deselected with CTRL+click
 		
 		ArrayList<Label> subTaskLabelsSubList = subTaskLabels.get(requiredForSubTaskIndex);
 		for (Control control : subTaskRequiredForComposites.get(dependsOnSubTaskIndex).getChildren()) {
@@ -213,6 +226,14 @@ public class NewTaskDependenciesScrolledComposite extends ScrolledComposite {
 			}
 		}
 		
+		if (subTaskRequiredForComposites.get(dependsOnSubTaskIndex).getChildren().length==1) {
+			subTaskRequiredForComposites.get(dependsOnSubTaskIndex).getChildren()[0].dispose();
+			subTaskRequiredForComposites.get(dependsOnSubTaskIndex).layout();
+		}
+		if (subTaskDependsOnComposites.get(requiredForSubTaskIndex).getChildren().length==1) {
+			subTaskDependsOnComposites.get(requiredForSubTaskIndex).getChildren()[0].dispose();
+			subTaskDependsOnComposites.get(requiredForSubTaskIndex).layout();
+		}
 		layoutContents();
 	}
 }

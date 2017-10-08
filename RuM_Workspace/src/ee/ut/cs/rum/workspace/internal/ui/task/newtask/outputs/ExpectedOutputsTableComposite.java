@@ -24,7 +24,7 @@ public class ExpectedOutputsTableComposite extends Composite {
 		
 		this.display=Display.getCurrent();
 		
-		this.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, true, true));
+		this.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, true));
 		this.setLayout(new GridLayout(1, false));
 		
 		Label expectedOutputsLabel = new Label(this, SWT.NONE);
