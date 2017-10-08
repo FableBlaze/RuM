@@ -91,24 +91,23 @@ public class TaskDependenciesScrolledComposite extends ScrolledComposite {
 	private void addTaskInfo(Task task) {
 		Label l;
 		List<SubTask> subTasks= task.getSubTasks();
-		//subTasks.sort(Comparator.comparing(SubTask::getId));
 		for (SubTask subTask : subTasks) {
 			
 			l = new Label(dependsOnContents,SWT.NONE);
 			GridData gd = new GridData(SWT.RIGHT, SWT.FILL, true, false);
 			gd.heightHint=20;
 			l.setLayoutData(gd);
-			List<SubTask> fulfilledBySubTaskSet = new ArrayList<SubTask>();
+			List<SubTask> fulfilledBySubTasks = new ArrayList<SubTask>();
 			List<SubTaskDependency> requiredSubTaskDependencies = subTask.getRequiredDependencies();
-			//requiredSubTaskDependencies.sort((o1, o2) -> o1.getFulfilledBySubTask().getId().compareTo(o2.getFulfilledBySubTask().getId()));
+			requiredSubTaskDependencies.sort((o1, o2) -> o1.getFulfilledBySubTask().getId().compareTo(o2.getFulfilledBySubTask().getId()));
 			for (SubTaskDependency subTaskDependency : requiredSubTaskDependencies) {
-				if (!fulfilledBySubTaskSet.contains(subTaskDependency.getFulfilledBySubTask())) {
-					fulfilledBySubTaskSet.add(subTaskDependency.getFulfilledBySubTask());
+				if (!fulfilledBySubTasks.contains(subTaskDependency.getFulfilledBySubTask())) {
+					fulfilledBySubTasks.add(subTaskDependency.getFulfilledBySubTask());
 				}
 			}
-			if (!fulfilledBySubTaskSet.isEmpty()) {
+			if (!fulfilledBySubTasks.isEmpty()) {
 				String fulfilledBySubTasString = "";
-				for (SubTask fulfilledBySubTask : fulfilledBySubTaskSet) {
+				for (SubTask fulfilledBySubTask : fulfilledBySubTasks) {
 					fulfilledBySubTasString+=fulfilledBySubTask.getName() + "; ";
 				}
 				l.setText(fulfilledBySubTasString.substring(0, fulfilledBySubTasString.length()-2) + "  >>");
@@ -124,17 +123,17 @@ public class TaskDependenciesScrolledComposite extends ScrolledComposite {
 			gd = new GridData();
 			gd.heightHint=20;
 			l.setLayoutData(gd);
-			List<SubTask> requiredForSubTaskSet = new ArrayList<SubTask>();
+			List<SubTask> requiredForSubTasks = new ArrayList<SubTask>();
 			List<SubTaskDependency> fulfilledSubTaskDependencies = subTask.getFulfilledDependencies();
-			//requiredSubTaskDependencies.sort((o1, o2) -> o1.getRequiredBySubTask().getId().compareTo(o2.getRequiredBySubTask().getId()));
+			fulfilledSubTaskDependencies.sort((o1, o2) -> o1.getRequiredBySubTask().getId().compareTo(o2.getRequiredBySubTask().getId()));
 			for (SubTaskDependency subTaskDependency : fulfilledSubTaskDependencies) {
-				if (!requiredForSubTaskSet.contains(subTaskDependency.getRequiredBySubTask())) {
-					requiredForSubTaskSet.add(subTaskDependency.getRequiredBySubTask());
+				if (!requiredForSubTasks.contains(subTaskDependency.getRequiredBySubTask())) {
+					requiredForSubTasks.add(subTaskDependency.getRequiredBySubTask());
 				}
 			}
-			if (!requiredForSubTaskSet.isEmpty()) {
+			if (!requiredForSubTasks.isEmpty()) {
 				String requiredForSubTasString = "";
-				for (SubTask requiredForSubTask : requiredForSubTaskSet) {
+				for (SubTask requiredForSubTask : requiredForSubTasks) {
 					requiredForSubTasString+=requiredForSubTask.getName() + "; ";
 				}
 				l.setText(">>  " + requiredForSubTasString.substring(0, requiredForSubTasString.length()-2));

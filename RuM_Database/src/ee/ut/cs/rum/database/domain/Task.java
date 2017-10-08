@@ -1,5 +1,6 @@
 package ee.ut.cs.rum.database.domain;
 
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -68,6 +69,7 @@ public class Task implements RumUpdatableEntity {
 		this.status = status;
 	}
 	public List<SubTask> getSubTasks() {
+		subTasks.sort(Comparator.comparing(SubTask::getId));
 		return subTasks;
 	}
 	public void setSubTasks(List<SubTask> subTasks) {
