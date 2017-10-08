@@ -16,6 +16,7 @@ import ee.ut.cs.rum.database.domain.enums.SubTaskStatus;
 import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
 import ee.ut.cs.rum.interfaces.RumUpdatableView;
+import ee.ut.cs.rum.workspace.internal.ui.TaskDependenciesScrolledComposite;
 
 public class TaskGeneralInfo extends Composite implements RumUpdatableView {
 	private static final long serialVersionUID = 684141659312417380L;
@@ -91,10 +92,8 @@ public class TaskGeneralInfo extends Composite implements RumUpdatableView {
 		taskLastModifiedAt.setText(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(task.getLastModifiedAt()));
 		taskLastModifiedAt.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, false));
 		
-		Label subTaskGraphComposite = new Label(this, SWT.NONE);
-		subTaskGraphComposite.setText("Sub-task graph (TODO)");
-		subTaskGraphComposite.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true));
-		((GridData) subTaskGraphComposite.getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
+		TaskDependenciesScrolledComposite taskDependenciesScrolledComposite = new TaskDependenciesScrolledComposite(this, task);
+		((GridData) taskDependenciesScrolledComposite.getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
 	}
 	
 	private void setSubTasksProcessedText() {

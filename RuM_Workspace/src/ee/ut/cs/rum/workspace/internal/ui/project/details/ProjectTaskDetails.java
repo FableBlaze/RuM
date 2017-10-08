@@ -21,6 +21,7 @@ import ee.ut.cs.rum.database.util.TaskAccess;
 import ee.ut.cs.rum.enums.ControllerEntityType;
 import ee.ut.cs.rum.enums.ControllerUpdateType;
 import ee.ut.cs.rum.interfaces.RumUpdatableView;
+import ee.ut.cs.rum.workspace.internal.ui.TaskDependenciesScrolledComposite;
 import ee.ut.cs.rum.workspace.internal.ui.project.ProjectDetailsContainer;
 import ee.ut.cs.rum.workspace.internal.ui.project.ProjectTabFolder;
 import ee.ut.cs.rum.workspace.internal.ui.task.details.TaskDetailsComposite;
@@ -102,10 +103,8 @@ public class ProjectTaskDetails extends Composite implements RumUpdatableView {
 		taskLastModifiedAt.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
 
-		Label subTaskGraph = new Label(this, SWT.NONE);
-		subTaskGraph.setText("Sub-task graph (TODO)");
-		subTaskGraph.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true));
-		((GridData) subTaskGraph.getLayoutData()).horizontalSpan = ((GridLayout) this.getLayout()).numColumns;
+		TaskDependenciesScrolledComposite taskDependenciesScrolledComposite = new TaskDependenciesScrolledComposite(this, task);
+		((GridData) taskDependenciesScrolledComposite.getLayoutData()).horizontalSpan = ((GridLayout) this.getLayout()).numColumns;
 
 		Button openTaskButton = new Button(this, SWT.BORDER);
 		openTaskButton.setText("Open task");
