@@ -6,6 +6,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowData;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
@@ -121,14 +123,33 @@ public class NewTaskDependenciesScrolledComposite extends ScrolledComposite {
 	public void addSubTask(SubTask subTask) {
 		Label l = new Label(subTaskNamesComposite, SWT.NONE);
 		l.setText(subTask.getName());
-		GridData gd = new GridData(SWT.CENTER, SWT.FILL, false, false);
-		gd.heightHint=20;
+		GridData gd = new GridData(SWT.CENTER, SWT.CENTER, false, false);
+		gd.heightHint=22;
 		l.setLayoutData(gd);
-		
 		subTaskLabels.add(new ArrayList<Label>());
 		subTaskLabels.get(subTaskLabels.size()-1).add(l);
-		subTaskDependsOnComposites.add(new Composite(dependsOnContents, SWT.NONE));
-		subTaskRequiredForComposites.add(new Composite(requiredForContents, SWT.NONE));
+		
+		Composite c = new Composite(dependsOnContents, SWT.NONE);
+		gd = new GridData(SWT.FILL, SWT.FILL, false, false);
+		gd.heightHint=22;
+		c.setLayoutData(gd);
+		RowLayout rl = new RowLayout();
+		rl.wrap=false;
+		rl.marginTop=rl.marginBottom=0;
+		rl.center=true;
+		c.setLayout(rl);
+		subTaskDependsOnComposites.add(c);
+		
+		c = new Composite(requiredForContents, SWT.NONE);
+		gd = new GridData(SWT.FILL, SWT.FILL, false, false);
+		gd.heightHint=22;
+		c.setLayoutData(gd);
+		rl = new RowLayout();
+		rl.wrap=false;
+		rl.marginTop=rl.marginBottom=0;
+		rl.center=true;
+		c.setLayout(rl);
+		subTaskRequiredForComposites.add(c);
 		subTasks.add(subTask);
 	}
 
@@ -156,7 +177,20 @@ public class NewTaskDependenciesScrolledComposite extends ScrolledComposite {
 	}
 
 	public void addDependency(SubTask dependsOnSubTask, SubTask requiredForSubTask) {
-		Activator.getLogger().info("Adding dependency: " + dependsOnSubTask.getName() + " >> " + requiredForSubTask.getName());
+		int dependsOnSubTaskIndex = subTasks.indexOf(dependsOnSubTask);
+		int requiredForSubTaskIndex = subTasks.indexOf(requiredForSubTask);
+
+		Label l = new Label(subTaskRequiredForComposites.get(dependsOnSubTaskIndex), SWT.BORDER);
+		l.setText(requiredForSubTask.getName());
+		l.setLayoutData(new RowData());
+		subTaskLabels.get(requiredForSubTaskIndex).add(l);
+		
+		l = new Label(subTaskDependsOnComposites.get(requiredForSubTaskIndex), SWT.BORDER);
+		l.setText(dependsOnSubTask.getName());
+		l.setLayoutData(new RowData());
+		subTaskLabels.get(dependsOnSubTaskIndex).add(l);
+		
+		layoutContents();
 	}
 	
 	public void removeDependency(SubTask dependsOnSubTask, SubTask requiredForSubTask) {
