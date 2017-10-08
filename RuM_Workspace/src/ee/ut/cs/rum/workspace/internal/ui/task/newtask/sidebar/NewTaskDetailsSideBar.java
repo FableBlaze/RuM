@@ -67,6 +67,7 @@ public class NewTaskDetailsSideBar extends Composite {
 			NewTaskDetailsContainer newTaskDetailsContainer = newTaskComposite.getNewTaskDetailsContainer();
 			NewTaskSubTaskInfo newTaskSubTaskInfo = new NewTaskSubTaskInfo(newTaskDetailsContainer, subTask, rumController);
 			newTaskDetailsContainer.getNewTaskSubTaskInfoList().add(newTaskSubTaskInfo);
+			newTaskDetailsContainer.getNewTaskGeneralInfo().getNewTaskDependenciesScrolledComposite().addSubTask(subTask);
 			newTaskSubTaskInfo.initializeBasedOnSubTask(baseSubTask);
 		}
 	}

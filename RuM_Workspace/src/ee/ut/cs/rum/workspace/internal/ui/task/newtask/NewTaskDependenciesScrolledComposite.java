@@ -14,7 +14,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
 import ee.ut.cs.rum.database.domain.SubTask;
-import ee.ut.cs.rum.database.domain.Task;
 import ee.ut.cs.rum.workspace.internal.Activator;
 
 public class NewTaskDependenciesScrolledComposite extends ScrolledComposite {
@@ -97,10 +96,6 @@ public class NewTaskDependenciesScrolledComposite extends ScrolledComposite {
 		subTaskNamesComposite.layout();
 		requiredForContents.layout();
 	}
-	
-	public void initializeBasedOnTask(Task baseTask) {
-		Activator.getLogger().info("initializing NewTaskDependenciesScrolledComposite based on task: " + baseTask);
-	}
 
 	public void clearContents() {
 		Activator.getLogger().info("clearing NewTaskDependenciesScrolledComposite");
@@ -180,15 +175,16 @@ public class NewTaskDependenciesScrolledComposite extends ScrolledComposite {
 		int dependsOnSubTaskIndex = subTasks.indexOf(dependsOnSubTask);
 		int requiredForSubTaskIndex = subTasks.indexOf(requiredForSubTask);
 
-		Label l = new Label(subTaskRequiredForComposites.get(dependsOnSubTaskIndex), SWT.BORDER);
+		Label l = new Label(subTaskDependsOnComposites.get(requiredForSubTaskIndex), SWT.BORDER);
+		l.setText(dependsOnSubTask.getName());
+		l.setLayoutData(new RowData());
+		subTaskLabels.get(dependsOnSubTaskIndex).add(l);
+		
+		l = new Label(subTaskRequiredForComposites.get(dependsOnSubTaskIndex), SWT.BORDER);
 		l.setText(requiredForSubTask.getName());
 		l.setLayoutData(new RowData());
 		subTaskLabels.get(requiredForSubTaskIndex).add(l);
 		
-		l = new Label(subTaskDependsOnComposites.get(requiredForSubTaskIndex), SWT.BORDER);
-		l.setText(dependsOnSubTask.getName());
-		l.setLayoutData(new RowData());
-		subTaskLabels.get(dependsOnSubTaskIndex).add(l);
 		
 		layoutContents();
 	}

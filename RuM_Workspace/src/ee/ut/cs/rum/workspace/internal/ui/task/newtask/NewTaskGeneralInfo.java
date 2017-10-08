@@ -75,7 +75,6 @@ public class NewTaskGeneralInfo extends Composite {
 		task.setName(baseTask.getName());
 		taskDescriptionText.setText(baseTask.getDescription());
 		task.setDescription(baseTask.getDescription());
-		newTaskDependenciesScrolledComposite.initializeBasedOnTask(baseTask);
 	}
 
 	public ExpectedOutputsTableComposite getExpectedOutputsTableComposite() {
