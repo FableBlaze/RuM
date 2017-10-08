@@ -9,6 +9,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
@@ -107,6 +108,7 @@ public class NewTaskDependenciesScrolledComposite extends ScrolledComposite {
 				}
 			}
 		}
+		subTasks.clear();
 		subTaskLabels.clear();
 		subTaskDependsOnComposites.forEach(c -> c.dispose());
 		subTaskRequiredForComposites.forEach(c -> c.dispose());
@@ -131,7 +133,6 @@ public class NewTaskDependenciesScrolledComposite extends ScrolledComposite {
 		RowLayout rl = new RowLayout();
 		rl.wrap=false;
 		rl.marginTop=rl.marginBottom=0;
-		rl.center=true;
 		c.setLayout(rl);
 		subTaskDependsOnComposites.add(c);
 		
@@ -142,7 +143,6 @@ public class NewTaskDependenciesScrolledComposite extends ScrolledComposite {
 		rl = new RowLayout();
 		rl.wrap=false;
 		rl.marginTop=rl.marginBottom=0;
-		rl.center=true;
 		c.setLayout(rl);
 		subTaskRequiredForComposites.add(c);
 		subTasks.add(subTask);
@@ -165,7 +165,8 @@ public class NewTaskDependenciesScrolledComposite extends ScrolledComposite {
 				//Should do cleanup in removeSubtask method, but it's easier here
 				subTaskLabels.get(subTaskIndex).remove(label);
 			} else {
-				label.setText(subTask.getName());				
+				label.setText(subTask.getName());
+				label.getParent().layout();
 			}
 		}
 		layoutContents();
@@ -174,22 +175,44 @@ public class NewTaskDependenciesScrolledComposite extends ScrolledComposite {
 	public void addDependency(SubTask dependsOnSubTask, SubTask requiredForSubTask) {
 		int dependsOnSubTaskIndex = subTasks.indexOf(dependsOnSubTask);
 		int requiredForSubTaskIndex = subTasks.indexOf(requiredForSubTask);
-
-		Label l = new Label(subTaskDependsOnComposites.get(requiredForSubTaskIndex), SWT.BORDER);
-		l.setText(dependsOnSubTask.getName());
-		l.setLayoutData(new RowData());
-		subTaskLabels.get(dependsOnSubTaskIndex).add(l);
 		
-		l = new Label(subTaskRequiredForComposites.get(dependsOnSubTaskIndex), SWT.BORDER);
+		Label l = new Label(subTaskRequiredForComposites.get(dependsOnSubTaskIndex), SWT.BORDER);
 		l.setText(requiredForSubTask.getName());
 		l.setLayoutData(new RowData());
-		subTaskLabels.get(requiredForSubTaskIndex).add(l);
+		subTaskRequiredForComposites.get(dependsOnSubTaskIndex).layout();
+		subTaskLabels.get(requiredForSubTaskIndex).add(l);				
 		
+		l = new Label(subTaskDependsOnComposites.get(requiredForSubTaskIndex), SWT.BORDER);
+		l.setText(dependsOnSubTask.getName());
+		l.setLayoutData(new RowData());
+		subTaskDependsOnComposites.get(requiredForSubTaskIndex).layout();
+		subTaskLabels.get(dependsOnSubTaskIndex).add(l);			
 		
 		layoutContents();
 	}
 	
 	public void removeDependency(SubTask dependsOnSubTask, SubTask requiredForSubTask) {
-		Activator.getLogger().info("Removing dependency: " + dependsOnSubTask.getName() + " >> " + requiredForSubTask.getName());
+		int dependsOnSubTaskIndex = subTasks.indexOf(dependsOnSubTask);
+		int requiredForSubTaskIndex = subTasks.indexOf(requiredForSubTask);
+		
+		ArrayList<Label> subTaskLabelsSubList = subTaskLabels.get(requiredForSubTaskIndex);
+		for (Control control : subTaskRequiredForComposites.get(dependsOnSubTaskIndex).getChildren()) {
+			int subTaskLabelsSubListIndex = subTaskLabelsSubList.indexOf(control);
+			if (subTaskLabelsSubListIndex != -1) {
+				subTaskLabelsSubList.remove(subTaskLabelsSubListIndex).dispose();
+				subTaskRequiredForComposites.get(dependsOnSubTaskIndex).layout();
+			}
+		}
+		
+		subTaskLabelsSubList = subTaskLabels.get(dependsOnSubTaskIndex);
+		for (Control control : subTaskDependsOnComposites.get(requiredForSubTaskIndex).getChildren()) {
+			int subTaskLabelsSubListIndex = subTaskLabelsSubList.indexOf(control);
+			if (subTaskLabelsSubListIndex != -1) {
+				subTaskLabelsSubList.remove(subTaskLabelsSubListIndex).dispose();
+				subTaskDependsOnComposites.get(requiredForSubTaskIndex).layout();
+			}
+		}
+		
+		layoutContents();
 	}
 }
