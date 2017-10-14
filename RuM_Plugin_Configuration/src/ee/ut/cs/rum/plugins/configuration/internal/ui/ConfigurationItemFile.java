@@ -112,6 +112,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 				
 				if (newSelectionIndex==selectionIndex && event.stateMask==SWT.CTRL) {
 					fileSelectorCombo.deselectAll();
+					newSelectionIndex = -1;
 				}
 				
 				if (selectionIndex >= userFilesInSelector.size() && selectionIndex < userFilesInSelector.size()+taskUserFilesInSelector.size()) {

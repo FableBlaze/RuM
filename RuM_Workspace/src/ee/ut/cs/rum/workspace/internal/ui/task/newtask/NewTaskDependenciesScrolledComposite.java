@@ -21,6 +21,9 @@ public class NewTaskDependenciesScrolledComposite extends ScrolledComposite {
 	private static final long serialVersionUID = -7929702586611542936L;
 	
 	private NewTaskGeneralInfo newTaskGeneralInfo;
+	private Composite taskDependenciesContents;
+	private ScrolledComposite dependsOnScrolledComposite;
+	private ScrolledComposite requiredForScrolledComposite;
 	
 	private Composite dependsOnContents;
 	private Composite subTaskNamesComposite;
@@ -47,11 +50,11 @@ public class NewTaskDependenciesScrolledComposite extends ScrolledComposite {
 	private void createContents() {
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
-		Composite taskDependenciesContents = new Composite(this, SWT.NONE);
+		taskDependenciesContents = new Composite(this, SWT.NONE);
 		taskDependenciesContents.setLayout(new GridLayout(3, false));
 		taskDependenciesContents.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
-		ScrolledComposite dependsOnScrolledComposite = new ScrolledComposite(taskDependenciesContents, SWT.H_SCROLL);
+		dependsOnScrolledComposite = new ScrolledComposite(taskDependenciesContents, SWT.H_SCROLL);
 		dependsOnScrolledComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		dependsOnContents = new Composite(dependsOnScrolledComposite, SWT.NONE);
 		dependsOnContents.setLayout(new GridLayout());
@@ -64,7 +67,7 @@ public class NewTaskDependenciesScrolledComposite extends ScrolledComposite {
 		subTaskNamesComposite.setLayout(new GridLayout());
 
 
-		ScrolledComposite requiredForScrolledComposite = new ScrolledComposite(taskDependenciesContents, SWT.H_SCROLL);
+		requiredForScrolledComposite = new ScrolledComposite(taskDependenciesContents, SWT.H_SCROLL);
 		requiredForScrolledComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		requiredForContents = new Composite(requiredForScrolledComposite, SWT.NONE);
 		requiredForContents.setLayout(new GridLayout());
@@ -77,24 +80,28 @@ public class NewTaskDependenciesScrolledComposite extends ScrolledComposite {
 
 			@Override
 			public void handleEvent(Event event) {
-				int x1 = NewTaskDependenciesScrolledComposite.this.getSize().x-5;
-				taskDependenciesContents.setSize(taskDependenciesContents.computeSize(x1, SWT.DEFAULT));
-
-				int x2 = ((NewTaskDependenciesScrolledComposite.this.getSize().x-5)-subTaskNamesComposite.getSize().x)/2;
-				if (dependsOnContents.computeSize(SWT.DEFAULT, SWT.DEFAULT).x > x2) {
-					dependsOnContents.setSize(dependsOnContents.computeSize(SWT.DEFAULT, SWT.DEFAULT));
-				} else {
-					dependsOnContents.setSize(dependsOnContents.computeSize(dependsOnScrolledComposite.getBounds().width-5, SWT.DEFAULT));
-				}
-
-				if (requiredForContents.computeSize(SWT.DEFAULT, SWT.DEFAULT).x > x2) {
-					requiredForContents.setSize(requiredForContents.computeSize(SWT.DEFAULT, SWT.DEFAULT));
-				} else {
-					requiredForContents.setSize(requiredForContents.computeSize(requiredForScrolledComposite.getBounds().width-5, SWT.DEFAULT));
-				}
+				NewTaskDependenciesScrolledComposite.this.recalculateSizes();
 			}
 		});
-		newTaskGeneralInfo.layout();
+	}
+	
+	private void recalculateSizes() {
+		int x1 = NewTaskDependenciesScrolledComposite.this.getSize().x-5;
+		taskDependenciesContents.setSize(taskDependenciesContents.computeSize(x1, SWT.DEFAULT));
+
+		int x2 = ((NewTaskDependenciesScrolledComposite.this.getSize().x-5)-subTaskNamesComposite.getSize().x)/2;
+		if (dependsOnContents.computeSize(SWT.DEFAULT, SWT.DEFAULT).x > x2) {
+			dependsOnContents.setSize(dependsOnContents.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+		} else {
+			dependsOnContents.setSize(dependsOnContents.computeSize(dependsOnScrolledComposite.getBounds().width-5, SWT.DEFAULT));
+		}
+
+		if (requiredForContents.computeSize(SWT.DEFAULT, SWT.DEFAULT).x > x2) {
+			requiredForContents.setSize(requiredForContents.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+		} else {
+			requiredForContents.setSize(requiredForContents.computeSize(requiredForScrolledComposite.getBounds().width-5, SWT.DEFAULT));
+		}
+		newTaskGeneralInfo.layout(true, true);
 	}
 
 	public void clearContents() {
@@ -113,7 +120,7 @@ public class NewTaskDependenciesScrolledComposite extends ScrolledComposite {
 		subTaskRequiredForComposites.forEach(c -> c.dispose());
 		subTaskDependsOnComposites.clear();
 		subTaskRequiredForComposites.clear();
-		newTaskGeneralInfo.layout();
+		this.recalculateSizes();
 	}
 
 	public void addSubTask(SubTask subTask) {
@@ -146,7 +153,7 @@ public class NewTaskDependenciesScrolledComposite extends ScrolledComposite {
 		subTaskRequiredForComposites.add(c);
 		subTasks.add(subTask);
 		
-		newTaskGeneralInfo.layout();
+		this.recalculateSizes();
 	}
 
 	public void removeSubtask(SubTask subTask) {
@@ -156,20 +163,15 @@ public class NewTaskDependenciesScrolledComposite extends ScrolledComposite {
 		subTaskDependsOnComposites.remove(subTaskIndex).dispose();
 		subTaskRequiredForComposites.remove(subTaskIndex).dispose();
 		
-		newTaskGeneralInfo.layout();
+		this.recalculateSizes();
 	}
 
 	public void changeSubTaskName(SubTask subTask) {
 		int subTaskIndex = subTasks.indexOf(subTask);
 		for (Label label : subTaskLabels.get(subTaskIndex)) {
-			if (label.isDisposed()) {
-				//Should do cleanup in removeSubtask method, but it's easier here
-				subTaskLabels.get(subTaskIndex).remove(label);
-			} else {
-				label.setText(subTask.getName());
-			}
+			label.setText(subTask.getName());
 		}
-		newTaskGeneralInfo.layout();
+		this.recalculateSizes();
 	}
 
 	public void addDependency(SubTask dependsOnSubTask, SubTask requiredForSubTask) {
@@ -197,14 +199,12 @@ public class NewTaskDependenciesScrolledComposite extends ScrolledComposite {
 		l.setLayoutData(new RowData());
 		subTaskLabels.get(dependsOnSubTaskIndex).add(l);			
 		
-		newTaskGeneralInfo.layout();
+		this.recalculateSizes();
 	}
 	
 	public void removeDependency(SubTask dependsOnSubTask, SubTask requiredForSubTask) {
 		int dependsOnSubTaskIndex = subTasks.indexOf(dependsOnSubTask);
 		int requiredForSubTaskIndex = subTasks.indexOf(requiredForSubTask);
-		
-		//TODO: BUG: Labels stay in UI if task file is deselected with CTRL+click
 		
 		ArrayList<Label> subTaskLabelsSubList = subTaskLabels.get(requiredForSubTaskIndex);
 		for (Control control : subTaskRequiredForComposites.get(dependsOnSubTaskIndex).getChildren()) {
@@ -228,6 +228,7 @@ public class NewTaskDependenciesScrolledComposite extends ScrolledComposite {
 		if (subTaskDependsOnComposites.get(requiredForSubTaskIndex).getChildren().length==1) {
 			subTaskDependsOnComposites.get(requiredForSubTaskIndex).getChildren()[0].dispose();
 		}
-		newTaskGeneralInfo.layout();
+		subTaskLabelsSubList.size();
+		this.recalculateSizes();
 	}
 }
