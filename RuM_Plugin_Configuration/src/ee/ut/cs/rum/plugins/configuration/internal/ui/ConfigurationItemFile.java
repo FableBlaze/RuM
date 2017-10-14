@@ -366,6 +366,7 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 				int removeFileIndex = taskUserFilesInSelector.indexOf(userFile);
 				int removeSelectorIndex = removeFileIndex + userFilesInSelector.size();
 				if (selectionIndex==removeSelectorIndex) {
+					pluginConfigurationEnabledContainerParent.taskUserFileDeselectedNotify(taskUserFilesInSelector.get(selectionIndex-userFilesInSelector.size()));
 					fileSelectorCombo.deselectAll();
 				}
 				taskUserFilesInSelector.remove(removeFileIndex);
@@ -392,6 +393,15 @@ public class ConfigurationItemFile extends Composite implements ConfigurationIte
 			tmpUserFilesInSelector.add(tmpUserFile);
 			fileSelectorCombo.add(tmpUserFile.getOriginalFilename());
 		}
+	}
+	
+	@Override
+	public void dispose() {
+		int selectionIndex = fileSelectorCombo.getSelectionIndex();
+		if (selectionIndex >= userFilesInSelector.size() && selectionIndex < userFilesInSelector.size()+taskUserFilesInSelector.size()) {
+			pluginConfigurationEnabledContainerParent.taskUserFileDeselectedNotify(taskUserFilesInSelector.get(selectionIndex-userFilesInSelector.size()));
+		}
+		super.dispose();
 	}
 
 	@Override
