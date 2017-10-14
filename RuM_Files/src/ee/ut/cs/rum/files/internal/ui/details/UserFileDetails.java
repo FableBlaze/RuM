@@ -1,14 +1,11 @@
 package ee.ut.cs.rum.files.internal.ui.details;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.UserFile;
-import ee.ut.cs.rum.files.internal.ui.details.left.UserFileDetailsLeft;
-import ee.ut.cs.rum.files.internal.ui.details.right.UserFileDetailsRight;
 import ee.ut.cs.rum.files.ui.FilesManagementUI;
 
 public class UserFileDetails extends Composite{
@@ -21,13 +18,11 @@ public class UserFileDetails extends Composite{
 		
 		this.userFile=userFile;
 		
-		this.setLayout(new GridLayout(2, false));
+		this.setLayout(new GridLayout());
 		
-		new UserFileDetailsLeft(this);
-		new UserFileDetailsRight(this);
+		new UserFileGeneralDetails(this);
 		
-		UserFileFooter userFileFooter = new UserFileFooter(this, userFile);
-		((GridData) userFileFooter.getLayoutData()).horizontalSpan = ((GridLayout) this.getLayout()).numColumns;
+		new UserFileFooter(this, userFile);
 	}
 
 	public UserFile getUserFile() {

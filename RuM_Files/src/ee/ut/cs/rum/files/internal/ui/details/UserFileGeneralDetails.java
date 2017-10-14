@@ -1,4 +1,4 @@
-package ee.ut.cs.rum.files.internal.ui.details.left;
+package ee.ut.cs.rum.files.internal.ui.details;
 
 import java.text.SimpleDateFormat;
 
@@ -16,10 +16,10 @@ public class UserFileGeneralDetails extends Composite {
 
 	private static final long serialVersionUID = 6962780544823550119L;
 
-	public UserFileGeneralDetails(UserFileDetailsLeft userFileDetailsLeft) {
-		super (userFileDetailsLeft, SWT.NONE);
+	public UserFileGeneralDetails(UserFileDetails userFileDetails) {
+		super (userFileDetails, SWT.NONE);
 
-		UserFile userFile = userFileDetailsLeft.getUserFileDetails().getUserFile();
+		UserFile userFile = userFileDetails.getUserFile();
 
 		this.setLayout(new GridLayout(2, false));
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
