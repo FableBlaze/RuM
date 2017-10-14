@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-SymbolicName: RuM_Plugins
 Bundle-Description: RuM plugins management section
-Bundle-Version: 0.2.0
+Bundle-Version: 0.3.0
 Bundle-Name: RuM_Plugins
 Bundle-Vendor: University of Tartu
 Bundle-ManifestVersion: 2
