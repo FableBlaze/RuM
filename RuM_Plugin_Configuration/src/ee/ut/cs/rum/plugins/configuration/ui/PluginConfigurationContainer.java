@@ -31,6 +31,7 @@ public class PluginConfigurationContainer extends ScrolledComposite {
 
 	public void disposeCurrentPluginConfigurationUi() {
 		if (pluginConfigurationUi!=null) {
+			this.setContent(null);
 			pluginConfigurationUi.dispose();
 		}
 	}

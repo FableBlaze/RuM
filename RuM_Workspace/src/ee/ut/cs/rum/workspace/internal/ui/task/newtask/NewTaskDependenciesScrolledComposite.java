@@ -20,6 +20,8 @@ import ee.ut.cs.rum.workspace.internal.Activator;
 public class NewTaskDependenciesScrolledComposite extends ScrolledComposite {
 	private static final long serialVersionUID = -7929702586611542936L;
 	
+	private NewTaskGeneralInfo newTaskGeneralInfo;
+	
 	private Composite dependsOnContents;
 	private Composite subTaskNamesComposite;
 	private Composite requiredForContents;
@@ -31,6 +33,8 @@ public class NewTaskDependenciesScrolledComposite extends ScrolledComposite {
 
 	public NewTaskDependenciesScrolledComposite(NewTaskGeneralInfo newTaskGeneralInfo) {
 		super(newTaskGeneralInfo, SWT.V_SCROLL);
+		
+		this.newTaskGeneralInfo=newTaskGeneralInfo;
 		
 		subTasks = new ArrayList<SubTask>();
 		subTaskLabels = new ArrayList<ArrayList<Label>>();
@@ -90,12 +94,7 @@ public class NewTaskDependenciesScrolledComposite extends ScrolledComposite {
 				}
 			}
 		});
-	}
-	
-	private void layoutContents() {
-		dependsOnContents.layout();
-		subTaskNamesComposite.layout();
-		requiredForContents.layout();
+		newTaskGeneralInfo.layout();
 	}
 
 	public void clearContents() {
@@ -114,7 +113,7 @@ public class NewTaskDependenciesScrolledComposite extends ScrolledComposite {
 		subTaskRequiredForComposites.forEach(c -> c.dispose());
 		subTaskDependsOnComposites.clear();
 		subTaskRequiredForComposites.clear();
-		layoutContents();
+		newTaskGeneralInfo.layout();
 	}
 
 	public void addSubTask(SubTask subTask) {
@@ -146,6 +145,8 @@ public class NewTaskDependenciesScrolledComposite extends ScrolledComposite {
 		c.setLayout(rl);
 		subTaskRequiredForComposites.add(c);
 		subTasks.add(subTask);
+		
+		newTaskGeneralInfo.layout();
 	}
 
 	public void removeSubtask(SubTask subTask) {
@@ -155,7 +156,7 @@ public class NewTaskDependenciesScrolledComposite extends ScrolledComposite {
 		subTaskDependsOnComposites.remove(subTaskIndex).dispose();
 		subTaskRequiredForComposites.remove(subTaskIndex).dispose();
 		
-		layoutContents();
+		newTaskGeneralInfo.layout();
 	}
 
 	public void changeSubTaskName(SubTask subTask) {
@@ -166,10 +167,9 @@ public class NewTaskDependenciesScrolledComposite extends ScrolledComposite {
 				subTaskLabels.get(subTaskIndex).remove(label);
 			} else {
 				label.setText(subTask.getName());
-				label.getParent().layout();
 			}
 		}
-		layoutContents();
+		newTaskGeneralInfo.layout();
 	}
 
 	public void addDependency(SubTask dependsOnSubTask, SubTask requiredForSubTask) {
@@ -185,7 +185,6 @@ public class NewTaskDependenciesScrolledComposite extends ScrolledComposite {
 		l = new Label(subTaskRequiredForComposites.get(dependsOnSubTaskIndex), SWT.BORDER);
 		l.setText(requiredForSubTask.getName());
 		l.setLayoutData(new RowData());
-		subTaskRequiredForComposites.get(dependsOnSubTaskIndex).layout();
 		subTaskLabels.get(requiredForSubTaskIndex).add(l);				
 		
 		if (subTaskDependsOnComposites.get(requiredForSubTaskIndex).getChildren().length==0) {
@@ -196,10 +195,9 @@ public class NewTaskDependenciesScrolledComposite extends ScrolledComposite {
 		l = new Label(subTaskDependsOnComposites.get(requiredForSubTaskIndex), SWT.BORDER);
 		l.setText(dependsOnSubTask.getName());
 		l.setLayoutData(new RowData());
-		subTaskDependsOnComposites.get(requiredForSubTaskIndex).layout();
 		subTaskLabels.get(dependsOnSubTaskIndex).add(l);			
 		
-		layoutContents();
+		newTaskGeneralInfo.layout();
 	}
 	
 	public void removeDependency(SubTask dependsOnSubTask, SubTask requiredForSubTask) {
@@ -213,7 +211,6 @@ public class NewTaskDependenciesScrolledComposite extends ScrolledComposite {
 			int subTaskLabelsSubListIndex = subTaskLabelsSubList.indexOf(control);
 			if (subTaskLabelsSubListIndex != -1) {
 				subTaskLabelsSubList.remove(subTaskLabelsSubListIndex).dispose();
-				subTaskRequiredForComposites.get(dependsOnSubTaskIndex).layout();
 			}
 		}
 		
@@ -222,18 +219,15 @@ public class NewTaskDependenciesScrolledComposite extends ScrolledComposite {
 			int subTaskLabelsSubListIndex = subTaskLabelsSubList.indexOf(control);
 			if (subTaskLabelsSubListIndex != -1) {
 				subTaskLabelsSubList.remove(subTaskLabelsSubListIndex).dispose();
-				subTaskDependsOnComposites.get(requiredForSubTaskIndex).layout();
 			}
 		}
 		
 		if (subTaskRequiredForComposites.get(dependsOnSubTaskIndex).getChildren().length==1) {
 			subTaskRequiredForComposites.get(dependsOnSubTaskIndex).getChildren()[0].dispose();
-			subTaskRequiredForComposites.get(dependsOnSubTaskIndex).layout();
 		}
 		if (subTaskDependsOnComposites.get(requiredForSubTaskIndex).getChildren().length==1) {
 			subTaskDependsOnComposites.get(requiredForSubTaskIndex).getChildren()[0].dispose();
-			subTaskDependsOnComposites.get(requiredForSubTaskIndex).layout();
 		}
-		layoutContents();
+		newTaskGeneralInfo.layout();
 	}
 }
