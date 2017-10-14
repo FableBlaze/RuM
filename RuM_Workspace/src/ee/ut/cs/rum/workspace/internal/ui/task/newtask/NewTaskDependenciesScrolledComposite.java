@@ -159,7 +159,13 @@ public class NewTaskDependenciesScrolledComposite extends ScrolledComposite {
 	public void removeSubtask(SubTask subTask) {
 		int subTaskIndex = subTasks.indexOf(subTask);
 		subTasks.remove(subTaskIndex);
-		subTaskLabels.remove(subTaskIndex).forEach(l -> l.dispose());
+		for (Label label : subTaskLabels.get(subTaskIndex)) {
+			if (label.getParent().getChildren().length==2) {
+				label.getParent().getChildren()[0].dispose();
+			}
+			label.dispose();
+		}
+		subTaskLabels.remove(subTaskIndex);
 		subTaskDependsOnComposites.remove(subTaskIndex).dispose();
 		subTaskRequiredForComposites.remove(subTaskIndex).dispose();
 		
@@ -228,7 +234,7 @@ public class NewTaskDependenciesScrolledComposite extends ScrolledComposite {
 		if (subTaskDependsOnComposites.get(requiredForSubTaskIndex).getChildren().length==1) {
 			subTaskDependsOnComposites.get(requiredForSubTaskIndex).getChildren()[0].dispose();
 		}
-		subTaskLabelsSubList.size();
+		
 		this.recalculateSizes();
 	}
 }
