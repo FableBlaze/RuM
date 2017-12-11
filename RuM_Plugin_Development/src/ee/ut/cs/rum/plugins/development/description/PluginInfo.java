@@ -10,6 +10,7 @@ public class PluginInfo {
 	
 	private String name;
 	private String description;
+	private PluginInputObject[] inputObjects;
 	private PluginParameter[] parameters;
 	private PluginOutput[] outputs;
 
@@ -38,6 +39,21 @@ public class PluginInfo {
 		this.description = description;
 	}
 
+	public PluginInputObject[] getInputObjects() {
+		return inputObjects;
+	}
+	
+	public void setInputObjects(PluginInputObject[] inputObjects) {
+		this.inputObjects = inputObjects;
+		for (int i = 0; i < inputObjects.length; i++) {
+			for (int j = i+1; j < inputObjects.length; j++) {
+				if (inputObjects[i].getName().equals(inputObjects[j].getName())) {
+					throw new JsonParseException(this.getClass().getSimpleName() + " - input object names must be unique");
+				}
+			}
+		}
+	}
+	
 	public PluginParameter[] getParameters() {
 		return parameters;
 	}

@@ -1,0 +1,137 @@
+{
+	"name": "ToyPluginV4",
+	"description": "For testing object_list parameter",
+	"inputObjects": [{
+		"name": "obj1",
+		"parameters": [{
+			"selectionItems": [{
+				"internalName": "11",
+				"displayName": "First",
+				"description": "The first selection item of first selection"
+			},
+			{
+				"internalName": "12",
+				"displayName": "Second",
+				"description": "The second selection item of first selection"
+			},
+			{
+				"internalName": "13",
+				"displayName": "Third",
+				"description": "The third selection item of first selection"
+			}],
+			"internalName": "obj1sel1",
+			"displayName": "Selection",
+			"description": "Testing out the selection parameter",
+			"required": true,
+			"parameterType": "SELECTION"
+		},
+		{
+			"selectionItems": [{
+				"internalName": "11",
+				"displayName": "First",
+				"description": "The first selection item of first selection"
+			},
+			{
+				"internalName": "12",
+				"displayName": "Second",
+				"description": "The second selection item of first selection"
+			},
+			{
+				"internalName": "13",
+				"displayName": "Third",
+				"description": "The third selection item of first selection"
+			}],
+			"internalName": "obj1sel2",
+			"displayName": "Selection",
+			"description": "Testing out the selection parameter",
+			"required": true,
+			"parameterType": "SELECTION"
+		},
+		{
+			"defaultValue": "default",
+			"maxInputLength": 10,
+			"internalName": "obj1str1",
+			"displayName": "String",
+			"description": "String",
+			"required": false,
+			"parameterType": "STRING"
+		}]
+	},
+	{
+		"name": "obj2",
+		"parameters": [{
+			"defaultValue": "default",
+			"maxInputLength": 10,
+			"internalName": "obj1str1",
+			"displayName": "String",
+			"description": "String",
+			"required": false,
+			"parameterType": "STRING"
+		},
+		{
+			"internalName": "inte1",
+			"displayName": "Integer",
+			"description": "Testing integer parameter",
+			"required": true,
+			"parameterType": "INTEGER",
+			"defaultValue": 122,
+			"minValue": 2,
+			"maxValue": 123
+		},
+		{
+			"internalName": "doub1",
+			"displayName": "Double",
+			"description": "Testing the double parameter",
+			"required": true,
+			"parameterType": "DOUBLE",
+			"defaultValue": 1.987,
+			"minValue": 1.22,
+			"maxValue": 10.8,
+			"decimalPlaces": 3
+		}]
+	}],
+	"parameters": [{
+		"defaultValue": "random",
+		"maxInputLength": 30,
+		"internalName": "str1",
+		"displayName": "Random string",
+		"description": "Is not used by the plugin",
+		"required": false,
+		"parameterType": "STRING"
+	},
+	{
+		"inputObjectName": "obj1",
+		"minObjects": 1,
+		"maxObjects": 5,
+		"internalName": "objList1",
+		"displayName": "Objects1",
+		"description": "Testing the object list parameter",
+		"required": true,
+		"parameterType": "OBJECT_LIST"
+	},
+	{
+		"inputObjectName": "obj2",
+		"minObjects": 1,
+		"maxObjects": 5,
+		"internalName": "objList2",
+		"displayName": "Objects2",
+		"description": "Testing the object list parameter",
+		"required": true,
+		"parameterType": "OBJECT_LIST"
+	},
+	{
+		"inputObjectName": "obj2",
+		"minObjects": 1,
+		"maxObjects": 5,
+		"internalName": "objList3",
+		"displayName": "Objects3",
+		"description": "reusing obj2",
+		"required": true,
+		"parameterType": "OBJECT_LIST"
+	}],
+	"outputs": [{
+		"fileName": "result.txt",
+		"fileTypes": ["text",
+		"txt"]
+	}]
+}

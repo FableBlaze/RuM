@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-Description: ToyPlugin for object_list parameter
+Bundle-SymbolicName: ToyPlugin4
+Bundle-Version: 0.0.1
+Bundle-Name: ToyPlugin4
+Bundle-Vendor: University of Tartu
+Bundle-ManifestVersion: 2
+Bundle-Activator: ee.ut.cs.rum.example.plugin.v4.Activator
+Service-Component: OSGI-INF/ToyPlugin4Factory.xml
+Import-Package: ee.ut.cs.rum.plugins.development.description,
+ ee.ut.cs.rum.plugins.development.description.parameter,
+ ee.ut.cs.rum.plugins.development.interfaces,
+ ee.ut.cs.rum.plugins.development.interfaces.factory,
+ org.osgi.framework;version="[1.7.0,1.7.0]",
+ org.slf4j;version="[1.7.22,1.7.22]"
+Import-Bundle: com.google.gson;version="[2.7.0,2.7.0]"
+
