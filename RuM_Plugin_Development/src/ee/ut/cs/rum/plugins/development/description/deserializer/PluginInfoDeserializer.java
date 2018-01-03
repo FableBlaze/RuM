@@ -17,6 +17,7 @@ import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterDou
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterFile;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterInteger;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterObjectList;
+import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterObjectSelection;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterSelection;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterSelectionItem;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterString;
@@ -99,7 +100,6 @@ public class PluginInfoDeserializer implements JsonDeserializer<PluginInfo> {
 			}
 
 			switch (parameterType) {
-			//TODO: Defaults for optional values need reviewing
 			case STRING:
 				PluginParameterString pluginParameterString = new PluginParameterString();
 				pluginParameterString.setDefaultValue(getAsStringFromJsonObject(parameterJsonObject, "defaultValue"));
@@ -139,6 +139,12 @@ public class PluginInfoDeserializer implements JsonDeserializer<PluginInfo> {
 				pluginParameterObjectList.setMinObjects(getAsIntegerFromJsonObject(parameterJsonObject, "minObjects"));
 				pluginParameterObjectList.setMaxObjects(getAsIntegerFromJsonObject(parameterJsonObject, "maxObjects"));
 				parameters[i] = pluginParameterObjectList;
+				break;
+			case OBJECT_SELECTION:
+				PluginParameterObjectSelection pluginParameterObjectSelection = new PluginParameterObjectSelection();
+				pluginParameterObjectSelection.setInputObjectListName(getAsStringFromJsonObject(parameterJsonObject, "inputObjectListName"));
+				parameters[i] = pluginParameterObjectSelection;
+				break;
 			default:
 				break;
 			}

@@ -100,7 +100,7 @@
 		"parameterType": "STRING"
 	},
 	{
-		"inputObjectName": "obj1",
+		"inputObjectName": "obj1111111111111",
 		"minObjects": 1,
 		"maxObjects": 5,
 		"internalName": "objList1",
@@ -128,6 +128,14 @@
 		"description": "reusing obj2",
 		"required": true,
 		"parameterType": "OBJECT_LIST"
+	},
+	{
+		"inputObjectListName": "objList2",
+		"internalName": "objSelection1",
+		"displayName": "Selection of Objects2",
+		"description": "Allows to select items from Objects2",
+		"required": true,
+		"parameterType": "OBJECT_SELECTION"
 	}],
 	"outputs": [{
 		"fileName": "result.txt",

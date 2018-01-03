@@ -6,5 +6,6 @@ public enum PluginParameterType {
 	DOUBLE,
 	SELECTION,
 	FILE,
-	OBJECT_LIST
+	OBJECT_LIST,
+	OBJECT_SELECTION
 }
