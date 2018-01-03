@@ -19,6 +19,7 @@ import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemFile;
 import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemInteger;
 import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemInterface;
 import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemObjectList;
+import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemObjectSelection;
 import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemSelection;
 import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemString;
 import ee.ut.cs.rum.plugins.development.description.PluginInfo;
@@ -28,6 +29,7 @@ import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterDou
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterFile;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterInteger;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterObjectList;
+import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterObjectSelection;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterSelection;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterString;
 
@@ -140,6 +142,11 @@ public class PluginConfigurationUi extends Composite {
 			case OBJECT_LIST:
 				PluginParameterObjectList parameterObjectList = (PluginParameterObjectList) pluginParameter;
 				configurationItems.add(new ConfigurationItemObjectList(this, parameterObjectList));
+				break;
+			case OBJECT_SELECTION:
+				PluginParameterObjectSelection pluginParameterObjectSelection = (PluginParameterObjectSelection) pluginParameter;
+				configurationItems.add(new ConfigurationItemObjectSelection(this, pluginParameterObjectSelection));
+				break;
 			default:
 				break;
 			}
