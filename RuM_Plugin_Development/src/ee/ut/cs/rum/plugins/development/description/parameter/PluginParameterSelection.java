@@ -9,8 +9,7 @@ public class PluginParameterSelection extends PluginParameter {
 	private PluginParameterSelectionItem[] selectionItems;
 	
 	public PluginParameterSelection() {
-		super();
-		super.setParameterType(PluginParameterType.SELECTION);
+		super(PluginParameterType.SELECTION);
 	}
 
 	public String getDefaultValue() {

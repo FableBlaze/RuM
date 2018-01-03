@@ -8,8 +8,7 @@ public class PluginParameterObjectList extends PluginParameter {
 	private Integer maxObjects;
 	
 	public PluginParameterObjectList() {
-		super();
-		super.setParameterType(PluginParameterType.OBJECT_LIST);
+		super(PluginParameterType.OBJECT_LIST);
 	}
 	
 	public String getInputObjectName() {

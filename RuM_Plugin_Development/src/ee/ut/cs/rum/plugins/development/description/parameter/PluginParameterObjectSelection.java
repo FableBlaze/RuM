@@ -6,8 +6,7 @@ public class PluginParameterObjectSelection extends PluginParameter {
 	private String inputObjectListName;
 	
 	public PluginParameterObjectSelection() {
-		super();
-		super.setParameterType(PluginParameterType.OBJECT_SELECTION);
+		super(PluginParameterType.OBJECT_SELECTION);
 	}
 
 	public String getInputObjectListName() {

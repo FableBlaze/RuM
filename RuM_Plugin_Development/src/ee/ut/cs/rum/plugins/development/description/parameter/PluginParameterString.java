@@ -8,8 +8,7 @@ public class PluginParameterString extends PluginParameter {
 	private String allowedCharacters;
 	
 	public PluginParameterString() {
-		super();
-		super.setParameterType(PluginParameterType.STRING);
+		super(PluginParameterType.STRING);
 	}
 
 	public String getDefaultValue() {

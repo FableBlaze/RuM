@@ -9,8 +9,7 @@ public class PluginParameterFile extends PluginParameter {
 	private String[] inputTypes;
 	
 	public PluginParameterFile() {
-		super();
-		super.setParameterType(PluginParameterType.FILE);
+		super(PluginParameterType.FILE);
 	}
 
 	public String[] getInputTypes() {

@@ -9,7 +9,11 @@ public class PluginParameter {
 	private Boolean required;
 	private PluginParameterType parameterType;
 	
-	protected PluginParameter() {
+	protected PluginParameter(PluginParameterType parameterType) {
+		if (parameterType==null) {
+			throw new JsonParseException(this.getClass().getSimpleName() + " - parameterType can not be empty");
+		}
+		this.parameterType = parameterType;
 	}
 
 	public String getInternalName() {
@@ -55,13 +59,6 @@ public class PluginParameter {
 
 	public PluginParameterType getParameterType() {
 		return parameterType;
-	}
-
-	protected void setParameterType(PluginParameterType parameterType) {
-		if (parameterType==null) {
-			throw new JsonParseException(this.getClass().getSimpleName() + " - parameterType can not be empty");
-		}
-		this.parameterType = parameterType;
 	}
 
 	@Override

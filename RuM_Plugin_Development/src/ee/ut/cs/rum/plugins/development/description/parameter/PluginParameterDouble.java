@@ -9,8 +9,7 @@ public class PluginParameterDouble extends PluginParameter {
 	private Integer decimalPlaces;
 	
 	public PluginParameterDouble() {
-		super();
-		super.setParameterType(PluginParameterType.DOUBLE);
+		super(PluginParameterType.DOUBLE);
 	}
 
 	public Double getDefaultValue() {

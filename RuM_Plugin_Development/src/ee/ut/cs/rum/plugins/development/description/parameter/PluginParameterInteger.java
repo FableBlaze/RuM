@@ -8,8 +8,7 @@ public class PluginParameterInteger extends PluginParameter {
 	private Integer maxValue;
 	
 	public PluginParameterInteger() {
-		super();
-		super.setParameterType(PluginParameterType.INTEGER);
+		super(PluginParameterType.INTEGER);
 	}
 
 	public Integer getDefaultValue() {
