@@ -21,7 +21,7 @@ public class PluginParameter {
 	}
 
 	public void setInternalName(String internalName) {
-		if (internalName==null || internalName.equals("")) {
+		if ((!parameterType.equals(PluginParameterType.LABEL)) && (internalName==null || internalName.equals(""))) {
 			throw new JsonParseException(this.getClass().getSimpleName() + " - internalName can not be empty");
 		}
 		this.internalName = internalName;

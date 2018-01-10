@@ -100,6 +100,11 @@
 		"parameterType": "STRING"
 	},
 	{
+		"displayName": "Entering of objects",
+		"required": true,
+		"parameterType": "LABEL"
+	},
+	{
 		"inputObjectName": "obj1111111111111",
 		"minObjects": 1,
 		"maxObjects": 5,
@@ -128,6 +133,11 @@
 		"description": "reusing obj2",
 		"required": true,
 		"parameterType": "OBJECT_LIST"
+	},
+	{
+		"displayName": "Selecting user iputs from above",
+		"required": true,
+		"parameterType": "LABEL"
 	},
 	{
 		"inputObjectListName": "objList2",

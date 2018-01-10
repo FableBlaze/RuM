@@ -18,6 +18,7 @@ import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemDouble;
 import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemFile;
 import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemInteger;
 import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemInterface;
+import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemLabel;
 import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemObjectList;
 import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemObjectSelection;
 import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemSelection;
@@ -28,10 +29,12 @@ import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameter;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterDouble;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterFile;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterInteger;
+import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterLabel;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterObjectList;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterObjectSelection;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterSelection;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterString;
+import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterType;
 
 public class PluginConfigurationUi extends Composite {
 	private static final long serialVersionUID = -5475837154117723386L;
@@ -109,14 +112,16 @@ public class PluginConfigurationUi extends Composite {
 		label.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
 		for (PluginParameter pluginParameter : pluginInfo.getParameters()) {
-
-			label = new Label (this, SWT.NONE);
-			if (pluginParameter.getRequired()) {
-				label.setText(pluginParameter.getDisplayName()+" *");				
-			} else {
-				label.setText(pluginParameter.getDisplayName()+"  ");
+			
+			if (!pluginParameter.getParameterType().equals(PluginParameterType.LABEL)) {
+				label = new Label (this, SWT.NONE);
+				if (pluginParameter.getRequired()) {
+					label.setText(pluginParameter.getDisplayName()+" *");				
+				} else {
+					label.setText(pluginParameter.getDisplayName()+"  ");
+				}
+				label.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));				
 			}
-			label.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, false, false));
 
 			switch (pluginParameter.getParameterType()) {
 			case STRING:
@@ -146,6 +151,11 @@ public class PluginConfigurationUi extends Composite {
 			case OBJECT_SELECTION:
 				PluginParameterObjectSelection pluginParameterObjectSelection = (PluginParameterObjectSelection) pluginParameter;
 				configurationItems.add(new ConfigurationItemObjectSelection(this, pluginParameterObjectSelection));
+				break;
+			case LABEL:
+				PluginParameterLabel pluginParameterLabel = (PluginParameterLabel) pluginParameter;
+				//This is not an actual configurationItem, therefore it should not be added to configurationItems list
+				new ConfigurationItemLabel(this, pluginParameterLabel);
 				break;
 			default:
 				break;

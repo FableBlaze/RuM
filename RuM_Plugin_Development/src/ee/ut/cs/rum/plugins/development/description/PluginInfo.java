@@ -5,9 +5,10 @@ import java.util.Arrays;
 import com.google.gson.JsonParseException;
 
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameter;
+import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterType;
 
 public class PluginInfo {
-	
+
 	private String name;
 	private String description;
 	private PluginInputObject[] inputObjects;
@@ -42,7 +43,7 @@ public class PluginInfo {
 	public PluginInputObject[] getInputObjects() {
 		return inputObjects;
 	}
-	
+
 	public void setInputObjects(PluginInputObject[] inputObjects) {
 		this.inputObjects = inputObjects;
 		for (int i = 0; i < inputObjects.length; i++) {
@@ -53,7 +54,7 @@ public class PluginInfo {
 			}
 		}
 	}
-	
+
 	public PluginParameter[] getParameters() {
 		return parameters;
 	}
@@ -63,9 +64,15 @@ public class PluginInfo {
 			throw new JsonParseException(this.getClass().getSimpleName() + " - parameters can not be empty");
 		}
 		for (int i = 0; i < parameters.length; i++) {
-			for (int j = i+1; j < parameters.length; j++) {
-				if (parameters[i].getInternalName().equals(parameters[j].getInternalName())) {
-					throw new JsonParseException(this.getClass().getSimpleName() + " - parameter internal names must be unique");
+			if (parameters[i].getParameterType().equals(PluginParameterType.LABEL)) {
+				continue;
+			} else {
+				for (int j = i+1; j < parameters.length; j++) {
+					if (parameters[j].getParameterType().equals(PluginParameterType.LABEL)) {
+						continue;
+					} else if (parameters[i].getInternalName().equals(parameters[j].getInternalName())) {
+						throw new JsonParseException(this.getClass().getSimpleName() + " - parameter internal names must be unique");
+					}
 				}
 			}
 		}

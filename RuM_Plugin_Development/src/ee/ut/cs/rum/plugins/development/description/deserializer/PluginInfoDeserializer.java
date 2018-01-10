@@ -16,6 +16,7 @@ import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameter;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterDouble;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterFile;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterInteger;
+import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterLabel;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterObjectList;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterObjectSelection;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterSelection;
@@ -145,15 +146,20 @@ public class PluginInfoDeserializer implements JsonDeserializer<PluginInfo> {
 				pluginParameterObjectSelection.setInputObjectListName(getAsStringFromJsonObject(parameterJsonObject, "inputObjectListName"));
 				parameters[i] = pluginParameterObjectSelection;
 				break;
+			case LABEL:
+				PluginParameterLabel pluginParameterLabel = new PluginParameterLabel();
+				parameters[i] = pluginParameterLabel;
 			default:
 				break;
 			}
 
 			if (parameters[i]!=null) {
-				parameters[i].setInternalName(getAsStringFromJsonObject(parameterJsonObject, "internalName"));
+				if (!parameterType.equals(PluginParameterType.LABEL)) {
+					parameters[i].setInternalName(getAsStringFromJsonObject(parameterJsonObject, "internalName"));
+				}
 				parameters[i].setDisplayName(getAsStringFromJsonObject(parameterJsonObject, "displayName"));
 				parameters[i].setDescription(getAsStringFromJsonObject(parameterJsonObject, "description"));
-				parameters[i].setRequired(getAsBooleanFromJsonObject(parameterJsonObject, "required"));
+				parameters[i].setRequired(getAsBooleanFromJsonObject(parameterJsonObject, "required"));					
 			} else {
 				return null;
 			}

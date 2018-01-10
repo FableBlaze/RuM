@@ -7,5 +7,6 @@ public enum PluginParameterType {
 	SELECTION,
 	FILE,
 	OBJECT_LIST,
-	OBJECT_SELECTION
+	OBJECT_SELECTION,
+	LABEL
 }
