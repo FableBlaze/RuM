@@ -156,10 +156,10 @@ public class PluginInfoDeserializer implements JsonDeserializer<PluginInfo> {
 			if (parameters[i]!=null) {
 				if (!parameterType.equals(PluginParameterType.LABEL)) {
 					parameters[i].setInternalName(getAsStringFromJsonObject(parameterJsonObject, "internalName"));
+					parameters[i].setRequired(getAsBooleanFromJsonObject(parameterJsonObject, "required"));					
 				}
 				parameters[i].setDisplayName(getAsStringFromJsonObject(parameterJsonObject, "displayName"));
 				parameters[i].setDescription(getAsStringFromJsonObject(parameterJsonObject, "description"));
-				parameters[i].setRequired(getAsBooleanFromJsonObject(parameterJsonObject, "required"));					
 			} else {
 				return null;
 			}

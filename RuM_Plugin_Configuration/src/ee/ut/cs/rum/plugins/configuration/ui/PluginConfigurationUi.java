@@ -155,7 +155,8 @@ public class PluginConfigurationUi extends Composite {
 			case LABEL:
 				PluginParameterLabel pluginParameterLabel = (PluginParameterLabel) pluginParameter;
 				//This is not an actual configurationItem, therefore it should not be added to configurationItems list
-				new ConfigurationItemLabel(this, pluginParameterLabel);
+				ConfigurationItemLabel configurationItemLabel = new ConfigurationItemLabel(this, pluginParameterLabel);
+				((GridData) configurationItemLabel.getLayoutData()).horizontalSpan=((GridLayout) this.getLayout()).numColumns;
 				break;
 			default:
 				break;

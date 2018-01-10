@@ -101,7 +101,6 @@
 	},
 	{
 		"displayName": "Entering of objects",
-		"required": true,
 		"parameterType": "LABEL"
 	},
 	{
@@ -136,7 +135,6 @@
 	},
 	{
 		"displayName": "Selecting user iputs from above",
-		"required": true,
 		"parameterType": "LABEL"
 	},
 	{
