@@ -8,8 +8,8 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Composite;
 
-import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationUi;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterSelection;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterSelectionItem;
 
@@ -24,8 +24,8 @@ public class ConfigurationItemSelection extends Combo implements ConfigurationIt
 	
 	private int preEventSelectionIndex;
 
-	public ConfigurationItemSelection(PluginConfigurationUi pluginConfigurationUi, PluginParameterSelection parameterSelection) {
-		super(pluginConfigurationUi, SWT.READ_ONLY);
+	public ConfigurationItemSelection(Composite parentComposite, PluginParameterSelection parameterSelection) {
+		super(parentComposite, SWT.READ_ONLY);
 		
 		this.internalName=parameterSelection.getInternalName();
 		this.displayName=parameterSelection.getDisplayName();

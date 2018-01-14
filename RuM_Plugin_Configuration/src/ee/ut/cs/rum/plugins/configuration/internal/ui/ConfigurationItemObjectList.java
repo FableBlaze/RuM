@@ -11,6 +11,7 @@ import org.eclipse.swt.widgets.Listener;
 
 import ee.ut.cs.rum.plugins.configuration.internal.ui.dialog.ObjectInputDialog;
 import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationUi;
+import ee.ut.cs.rum.plugins.development.description.PluginInputObject;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterObjectList;
 
 public class ConfigurationItemObjectList extends Composite implements ConfigurationItemInterface {
@@ -19,16 +20,18 @@ public class ConfigurationItemObjectList extends Composite implements Configurat
 	private String internalName;
 	private String displayName;
 	private boolean required;
+	private PluginInputObject pluginInputObject;
 	
 	private Composite objectsComposite;
 	
-	public ConfigurationItemObjectList(PluginConfigurationUi pluginConfigurationUi, PluginParameterObjectList parameterObjectList) {
+	public ConfigurationItemObjectList(PluginConfigurationUi pluginConfigurationUi, PluginParameterObjectList parameterObjectList, PluginInputObject pluginInputObject) {
 		super(pluginConfigurationUi, SWT.NONE);
 		
 		this.internalName=parameterObjectList.getInternalName();
 		this.displayName=parameterObjectList.getDisplayName();
 		this.setToolTipText(parameterObjectList.getDescription());
 		this.required=parameterObjectList.getRequired();
+		this.pluginInputObject=pluginInputObject;
 		
 		this.setLayout(new GridLayout());
 		
@@ -42,7 +45,7 @@ public class ConfigurationItemObjectList extends Composite implements Configurat
 		objectsComposite = new Composite(this, SWT.BORDER);
 		objectsComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
-		ObjectInputDialog objectInputDialog = new ObjectInputDialog(Display.getCurrent().getActiveShell());
+		ObjectInputDialog objectInputDialog = new ObjectInputDialog(Display.getCurrent().getActiveShell(), pluginInputObject);
 		
 		Button addObjectButton = new Button(this, SWT.PUSH);
 		addObjectButton.setText("Add");

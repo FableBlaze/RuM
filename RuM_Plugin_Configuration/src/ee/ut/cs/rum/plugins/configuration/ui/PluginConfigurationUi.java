@@ -24,6 +24,7 @@ import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemObjectSel
 import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemSelection;
 import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemString;
 import ee.ut.cs.rum.plugins.development.description.PluginInfo;
+import ee.ut.cs.rum.plugins.development.description.PluginInputObject;
 import ee.ut.cs.rum.plugins.development.description.PluginOutput;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameter;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterDouble;
@@ -42,6 +43,7 @@ public class PluginConfigurationUi extends Composite {
 	private RumController rumController;
 	private PluginConfigurationContainer pluginConfigurationContainer;
 
+	private Map<String, PluginInputObject> pluginInputObjectsMap;
 	private List<ConfigurationItemInterface> configurationItems;
 	private List<ConfigurationItemFile> configurationItemFiles;
 	private List<UserFile> userFiles;
@@ -66,6 +68,11 @@ public class PluginConfigurationUi extends Composite {
 		this.userFiles=userFiles;
 		this.taskUserFiles=taskUserFiles;
 		this.tmpUserFiles=tmpUserFiles;
+		
+		this.pluginInputObjectsMap = new HashMap<String, PluginInputObject>();
+		for (PluginInputObject pluginInputObject : pluginInfo.getInputObjects()) {
+			pluginInputObjectsMap.put(pluginInputObject.getName(), pluginInputObject);
+		}
 
 		this.outputUserFiles = new ArrayList<UserFile>();
 		for (PluginOutput pluginOutput : pluginInfo.getOutputs()) {
@@ -146,7 +153,7 @@ public class PluginConfigurationUi extends Composite {
 				break;
 			case OBJECT_LIST:
 				PluginParameterObjectList parameterObjectList = (PluginParameterObjectList) pluginParameter;
-				configurationItems.add(new ConfigurationItemObjectList(this, parameterObjectList));
+				configurationItems.add(new ConfigurationItemObjectList(this, parameterObjectList, pluginInputObjectsMap.get(parameterObjectList.getInputObjectName())));
 				break;
 			case OBJECT_SELECTION:
 				PluginParameterObjectSelection pluginParameterObjectSelection = (PluginParameterObjectSelection) pluginParameter;

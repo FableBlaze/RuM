@@ -4,9 +4,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 
-import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationUi;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterString;
 
 public class ConfigurationItemString extends Text implements ConfigurationItemInterface {
@@ -16,8 +16,8 @@ public class ConfigurationItemString extends Text implements ConfigurationItemIn
 	private String displayName;
 	private boolean required;
 	
-	public ConfigurationItemString(PluginConfigurationUi pluginConfigurationUi, PluginParameterString parameterString) {
-		super(pluginConfigurationUi, SWT.BORDER);
+	public ConfigurationItemString(Composite parentComposite, PluginParameterString parameterString) {
+		super(parentComposite, SWT.BORDER);
 		
 		this.internalName=parameterString.getInternalName();
 		this.displayName=parameterString.getDisplayName();

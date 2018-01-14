@@ -2,9 +2,9 @@ package ee.ut.cs.rum.plugins.configuration.internal.ui;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
-import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationUi;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterLabel;
 
 public class ConfigurationItemLabel extends Label implements ConfigurationItemInterface {
@@ -12,8 +12,8 @@ public class ConfigurationItemLabel extends Label implements ConfigurationItemIn
 
 	private String displayName;
 
-	public ConfigurationItemLabel(PluginConfigurationUi pluginConfigurationUi, PluginParameterLabel pluginParameterLabel) {
-		super(pluginConfigurationUi, SWT.NONE);
+	public ConfigurationItemLabel(Composite parentComposite, PluginParameterLabel pluginParameterLabel) {
+		super(parentComposite, SWT.NONE);
 
 		this.displayName=pluginParameterLabel.getDisplayName();
 		this.setToolTipText(pluginParameterLabel.getDescription());
