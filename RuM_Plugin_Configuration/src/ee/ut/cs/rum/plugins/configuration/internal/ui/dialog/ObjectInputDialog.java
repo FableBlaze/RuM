@@ -16,8 +16,6 @@ import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
-import com.google.gson.Gson;
-
 import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemDouble;
 import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemInteger;
 import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemInterface;
@@ -143,9 +141,7 @@ public class ObjectInputDialog extends Dialog {
 							configurationValues.put(configurationItem.getInternalName(), "");
 						}
 					}
-					Gson gson = new Gson();
-					String configurationValuesString = gson.toJson(configurationValues);
-					configurationItemObjectList.addInputObjectInstance(configurationValuesString);
+					configurationItemObjectList.addInputObjectMap(configurationValues);
 					shell.close();
 				}
 				

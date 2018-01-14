@@ -16,6 +16,8 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
+import com.google.gson.Gson;
+
 import ee.ut.cs.rum.plugins.configuration.internal.ui.dialog.ObjectInputDialog;
 import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationUi;
 import ee.ut.cs.rum.plugins.development.description.PluginInputObject;
@@ -28,7 +30,7 @@ public class ConfigurationItemObjectList extends Composite implements Configurat
 	private String displayName;
 	private boolean required;
 	private PluginInputObject pluginInputObject;
-	private Map<Integer, String> inputObjectInstances;
+	private Map<Integer, Map <String, String>> inputObjectMaps;
 	
 	private Composite objectsComposite;
 	
@@ -41,7 +43,7 @@ public class ConfigurationItemObjectList extends Composite implements Configurat
 		this.required=parameterObjectList.getRequired();
 		this.pluginInputObject=pluginInputObject;
 		
-		inputObjectInstances = new HashMap<Integer, String>();
+		inputObjectMaps = new HashMap<Integer, Map<String, String>>();
 		
 		this.setLayout(new GridLayout());
 		
@@ -71,15 +73,16 @@ public class ConfigurationItemObjectList extends Composite implements Configurat
 		});
 	}
 	
-	public void addInputObjectInstance (String instanceParameterValues) {
-		if (inputObjectInstances.isEmpty()) {
-			inputObjectInstances.put(0, instanceParameterValues);
+	public void addInputObjectMap (Map <String, String> instanceParameterValues) {
+		if (inputObjectMaps.isEmpty()) {
+			inputObjectMaps.put(0, instanceParameterValues);
 		} else {
-			inputObjectInstances.put(Collections.max(inputObjectInstances.keySet())+1, instanceParameterValues);			
+			inputObjectMaps.put(Collections.max(inputObjectMaps.keySet())+1, instanceParameterValues);			
 		}
 		
 		Label label = new Label(objectsComposite, SWT.NONE);
-		label.setText(instanceParameterValues);
+		Gson gson = new Gson();
+		label.setText(gson.toJson(instanceParameterValues));
 		label.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
 		Button button = new Button(objectsComposite, SWT.PUSH);
@@ -87,8 +90,10 @@ public class ConfigurationItemObjectList extends Composite implements Configurat
 		button.addSelectionListener(new SelectionAdapter() {
 			private static final long serialVersionUID = -2567782900203073741L;
 			
+			int indexToRemove = Collections.max(inputObjectMaps.keySet());
+			
 			public void widgetSelected(SelectionEvent event) {
-				inputObjectInstances.remove(Collections.max(inputObjectInstances.keySet()));
+				inputObjectMaps.remove(indexToRemove);
 				label.dispose();
 				button.dispose();
 				objectsComposite.layout();
@@ -105,8 +110,9 @@ public class ConfigurationItemObjectList extends Composite implements Configurat
 
 	@Override
 	public String getValue() {
-		// TODO Auto-generated method stub
-		return "TODO";
+		Gson gson = new Gson();
+		String configurationValuesString = gson.toJson(inputObjectMaps);
+		return configurationValuesString;
 	}
 
 	@Override
