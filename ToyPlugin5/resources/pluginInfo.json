@@ -104,7 +104,7 @@
 		"parameterType": "LABEL"
 	},
 	{
-		"inputObjectName": "obj1111111111111",
+		"inputObjectName": "obj1",
 		"minObjects": 1,
 		"maxObjects": 5,
 		"internalName": "objList1",

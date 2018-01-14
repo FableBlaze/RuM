@@ -25,6 +25,7 @@ import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterStr
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterType;
 
 public class PluginInfoDeserializer implements JsonDeserializer<PluginInfo> {
+	private PluginInfo pluginInfo;
 
 	@Override
 	public PluginInfo deserialize(JsonElement pluginInfoJson, Type typeOfT, JsonDeserializationContext jsonDeserializationContext)
@@ -32,7 +33,7 @@ public class PluginInfoDeserializer implements JsonDeserializer<PluginInfo> {
 
 		JsonObject pluginInfoJsonObject = pluginInfoJson.getAsJsonObject();
 
-		PluginInfo pluginInfo = new PluginInfo();
+		pluginInfo = new PluginInfo();
 		
 		pluginInfo.setName(getAsStringFromJsonObject(pluginInfoJsonObject, "name"));
 		pluginInfo.setDescription(getAsStringFromJsonObject(pluginInfoJsonObject, "description"));
@@ -136,7 +137,9 @@ public class PluginInfoDeserializer implements JsonDeserializer<PluginInfo> {
 				break;
 			case OBJECT_LIST:
 				PluginParameterObjectList pluginParameterObjectList = new PluginParameterObjectList();
-				pluginParameterObjectList.setInputObjectName(getAsStringFromJsonObject(parameterJsonObject, "inputObjectName"));
+				String inputObjectName = getAsStringFromJsonObject(parameterJsonObject, "inputObjectName");
+				checkIfInputObjectExists(inputObjectName);
+				pluginParameterObjectList.setInputObjectName(inputObjectName);
 				pluginParameterObjectList.setMinObjects(getAsIntegerFromJsonObject(parameterJsonObject, "minObjects"));
 				pluginParameterObjectList.setMaxObjects(getAsIntegerFromJsonObject(parameterJsonObject, "maxObjects"));
 				parameters[i] = pluginParameterObjectList;
@@ -205,6 +208,15 @@ public class PluginInfoDeserializer implements JsonDeserializer<PluginInfo> {
 		} catch (ClassCastException e) {
 			throw new JsonParseException("FileType is invalid", e);
 		}
+	}
+	
+	private void checkIfInputObjectExists(String inputObjectName) {
+		for (PluginInputObject pluginInputObject : pluginInfo.getInputObjects()) {
+			if (pluginInputObject.getName().equals(inputObjectName)) {
+				return;
+			}
+		}
+		throw new JsonParseException("Input object with the name " + inputObjectName + " does not exist");
 	}
 	
 	private JsonArray getAsJsonArrayFromJsonObject(JsonObject jsonObject, String memberName) {
