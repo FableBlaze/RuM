@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -51,7 +53,7 @@ public class ConfigurationItemObjectList extends Composite implements Configurat
 
 	private void createContents() {
 		objectsComposite = new Composite(this, SWT.BORDER);
-		objectsComposite.setLayout(new GridLayout());
+		objectsComposite.setLayout(new GridLayout(2, false));
 		objectsComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
 		ObjectInputDialog objectInputDialog = new ObjectInputDialog(Display.getCurrent().getActiveShell(), this, pluginInputObject);
@@ -75,9 +77,23 @@ public class ConfigurationItemObjectList extends Composite implements Configurat
 		} else {
 			inputObjectInstances.put(Collections.max(inputObjectInstances.keySet())+1, instanceParameterValues);			
 		}
+		
 		Label label = new Label(objectsComposite, SWT.NONE);
 		label.setText(instanceParameterValues);
 		label.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		
+		Button button = new Button(objectsComposite, SWT.PUSH);
+		button.setText("X");
+		button.addSelectionListener(new SelectionAdapter() {
+			private static final long serialVersionUID = -2567782900203073741L;
+			
+			public void widgetSelected(SelectionEvent event) {
+				inputObjectInstances.remove(Collections.max(inputObjectInstances.keySet()));
+				label.dispose();
+				button.dispose();
+				objectsComposite.layout();
+			}
+		});
 		objectsComposite.layout();
 	}
 
