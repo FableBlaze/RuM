@@ -1,7 +1,9 @@
 package ee.ut.cs.rum.plugins.configuration.internal.ui.dialog;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -14,10 +16,13 @@ import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
+import com.google.gson.Gson;
+
 import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemDouble;
 import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemInteger;
 import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemInterface;
 import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemLabel;
+import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemObjectList;
 import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemSelection;
 import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemString;
 import ee.ut.cs.rum.plugins.development.description.PluginInputObject;
@@ -33,13 +38,17 @@ public class ObjectInputDialog extends Dialog {
 	private static final long serialVersionUID = 6650172134399735836L;
 	
 	private Shell shell;
+	private ConfigurationItemObjectList configurationItemObjectList;
 	private PluginInputObject pluginInputObject;
+	
+	private Label feedbackTextLabel;
 	
 	private List<ConfigurationItemInterface> configurationItems;
 
-	public ObjectInputDialog(Shell activeShell, PluginInputObject pluginInputObject) {
+	public ObjectInputDialog(Shell activeShell, ConfigurationItemObjectList configurationItemObjectList, PluginInputObject pluginInputObject) {
 		super(activeShell, SWT.APPLICATION_MODAL | SWT.TITLE | SWT.BORDER | SWT.RESIZE);
 		
+		this.configurationItemObjectList = configurationItemObjectList;
 		this.pluginInputObject = pluginInputObject;
 	}
 	
@@ -57,6 +66,8 @@ public class ObjectInputDialog extends Dialog {
 	private void createContents() {
 		shell.setLayout(new GridLayout());
 		createObjectParametersComposite();
+		feedbackTextLabel = new Label(shell, SWT.NONE);
+		feedbackTextLabel.setLayoutData(new GridData(GridData.FILL_BOTH));
 		createButtonsComposite();
 	}
 	
@@ -120,8 +131,24 @@ public class ObjectInputDialog extends Dialog {
 			private static final long serialVersionUID = 8685716146386181669L;
 			
 			public void widgetSelected(SelectionEvent event) {
-				//TODO
-				shell.close();
+				Map<String, String> configurationValues = new HashMap<String, String>();
+				
+				if (!getDisplayNamesOfEmptyRequiredParameters().isEmpty()) {
+					feedbackTextLabel.setText("Required parameters empty");
+				} else {
+					for (ConfigurationItemInterface configurationItem : configurationItems) {
+						if (configurationItem.getValue()!=null) {
+							configurationValues.put(configurationItem.getInternalName(), configurationItem.getValue());
+						} else {
+							configurationValues.put(configurationItem.getInternalName(), "");
+						}
+					}
+					Gson gson = new Gson();
+					String configurationValuesString = gson.toJson(configurationValues);
+					configurationItemObjectList.addInputObjectInstance(configurationValuesString);
+					shell.close();
+				}
+				
 			}
 		});
 		
@@ -135,5 +162,16 @@ public class ObjectInputDialog extends Dialog {
 				shell.close();
 			}
 		});
+	}
+	
+	private List<String> getDisplayNamesOfEmptyRequiredParameters() {
+		List<String> displayNames = new ArrayList<String>();
+
+		for (ConfigurationItemInterface configurationItem : configurationItems) {
+			if (configurationItem.getRequired() && (configurationItem.getValue()==null || configurationItem.getValue().equals(""))) {
+				displayNames.add(configurationItem.getDisplayName());
+			}
+		}
+		return displayNames;
 	}
 }
