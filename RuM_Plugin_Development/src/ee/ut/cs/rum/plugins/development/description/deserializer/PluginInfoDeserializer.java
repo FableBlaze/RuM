@@ -52,7 +52,7 @@ public class PluginInfoDeserializer implements JsonDeserializer<PluginInfo> {
 			pluginInputObject.setName(getAsStringFromJsonObject(pluginInputObjectJsonObject, "name"));
 			
 			JsonArray inputObjectParametersJsonArray = getAsJsonArrayFromJsonObject(pluginInputObjectJsonObject, "parameters");
-			pluginInputObject.setParameters(parseParametersJsonArray(inputObjectParametersJsonArray));
+			pluginInputObject.setParameters(parseParametersJsonArray(inputObjectParametersJsonArray, true));
 			
 			pluginInputObjects[i] = pluginInputObject;
 		}
@@ -60,7 +60,7 @@ public class PluginInfoDeserializer implements JsonDeserializer<PluginInfo> {
 		
 		//Parse plugin parameters
 		JsonArray pluginParametersJsonArray = getAsJsonArrayFromJsonObject(pluginInfoJsonObject, "parameters");
-		pluginInfo.setParameters(parseParametersJsonArray(pluginParametersJsonArray));
+		pluginInfo.setParameters(parseParametersJsonArray(pluginParametersJsonArray, false));
 		
 		//Parse plugin outputs
 		JsonArray pluginOutputsJsonArray = getAsJsonArrayFromJsonObject(pluginInfoJsonObject, "outputs");
@@ -84,7 +84,7 @@ public class PluginInfoDeserializer implements JsonDeserializer<PluginInfo> {
 		return pluginInfo;
 	}
 	
-	private PluginParameter[] parseParametersJsonArray(JsonArray parametersJsonArray) {
+	private PluginParameter[] parseParametersJsonArray(JsonArray parametersJsonArray, boolean isInputObject) {
 		PluginParameter[] parameters = new PluginParameter[parametersJsonArray.size()];
 		for (int i = 0; i < parameters.length; i++) {
 			JsonObject parameterJsonObject;
@@ -131,6 +131,9 @@ public class PluginInfoDeserializer implements JsonDeserializer<PluginInfo> {
 				parameters[i] = pluginParameterSelection;
 				break; 
 			case FILE:
+				if (isInputObject) {
+					throw new JsonParseException("Parameter type " + parameterType + " is not supported for inputObject");
+				}
 				PluginParameterFile pluginParameterFile = new PluginParameterFile();
 				pluginParameterFile.setInputTypes(parseFileTypes(parameterJsonObject, "inputTypes"));
 				parameters[i] = pluginParameterFile;
