@@ -10,6 +10,9 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonParser;
+
 import ee.ut.cs.rum.controller.RumController;
 import ee.ut.cs.rum.database.domain.SubTaskDependency;
 import ee.ut.cs.rum.database.domain.UserFile;
@@ -61,14 +64,14 @@ public class PluginConfigurationUi extends Composite {
 
 	public PluginConfigurationUi(PluginConfigurationContainer pluginConfigurationContainer, PluginInfo pluginInfo, RumController rumController, List<UserFile> userFiles, List<UserFile> taskUserFiles, List<UserFile> tmpUserFiles) {
 		super(pluginConfigurationContainer, SWT.NONE);
-		
+
 		this.pluginConfigurationContainer=pluginConfigurationContainer;
 
 		this.rumController=rumController;
 		this.userFiles=userFiles;
 		this.taskUserFiles=taskUserFiles;
 		this.tmpUserFiles=tmpUserFiles;
-		
+
 		this.pluginInputObjectsMap = new HashMap<String, PluginInputObject>();
 		for (PluginInputObject pluginInputObject : pluginInfo.getInputObjects()) {
 			pluginInputObjectsMap.put(pluginInputObject.getName(), pluginInputObject);
@@ -119,7 +122,7 @@ public class PluginConfigurationUi extends Composite {
 		label.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 
 		for (PluginParameter pluginParameter : pluginInfo.getParameters()) {
-			
+
 			if (!pluginParameter.getParameterType().equals(PluginParameterType.LABEL)) {
 				label = new Label (this, SWT.NONE);
 				if (pluginParameter.getRequired()) {
@@ -212,11 +215,16 @@ public class PluginConfigurationUi extends Composite {
 		return displayNames;
 	}
 
-	public Map<String, String> getConfigurationValues() {
-		Map<String, String> configurationValues = new HashMap<String, String>();
+	public String getConfigurationValuesString() {
+		Map<String, Object> configurationValues = new HashMap<String, Object>();
 		for (ConfigurationItemInterface configurationItem : configurationItems) {
 			if (configurationItem.getValue()!=null) {
-				configurationValues.put(configurationItem.getInternalName(), configurationItem.getValue());
+				if (configurationItem.getClass()==ConfigurationItemObjectList.class) {
+					JsonParser jsonParser = new JsonParser();
+					configurationValues.put(configurationItem.getInternalName(), jsonParser.parse(configurationItem.getValue()));
+				} else {
+					configurationValues.put(configurationItem.getInternalName(), configurationItem.getValue());
+				}
 			} else {
 				configurationValues.put(configurationItem.getInternalName(), "");
 			}
@@ -230,7 +238,9 @@ public class PluginConfigurationUi extends Composite {
 			}
 		}
 
-		return configurationValues;
+		Gson gson = new Gson();
+		String configurationValuesString = gson.toJson(configurationValues);
+		return configurationValuesString;
 	}
 
 	public List<SubTaskDependency> getDependsOn() {
@@ -279,7 +289,7 @@ public class PluginConfigurationUi extends Composite {
 	public List<ConfigurationItemFile> getConfigurationItemFiles() {
 		return configurationItemFiles;
 	}
-	
+
 	public PluginConfigurationContainer getPluginConfigurationContainer() {
 		return pluginConfigurationContainer;
 	}

@@ -115,9 +115,7 @@ public class NewTaskSubTaskInfo extends Composite {
 				throw new SubTaskUpdateException("Subtask " + subTask.getName() + " required parameters empty");
 			}
 			
-			Map<String, String> configurationValues = pluginConfigurationUi.getConfigurationValues();
-			Gson gson = new Gson();
-			String configurationValuesString = gson.toJson(configurationValues);
+			String configurationValuesString = pluginConfigurationUi.getConfigurationValuesString();
 			
 			subTask.setPlugin(plugin);
 			subTask.setConfigurationValues(configurationValuesString);

@@ -110,9 +110,12 @@ public class ConfigurationItemObjectList extends Composite implements Configurat
 
 	@Override
 	public String getValue() {
-		Gson gson = new Gson();
-		String configurationValuesString = gson.toJson(inputObjectMaps);
-		return configurationValuesString;
+		if (inputObjectMaps.isEmpty()) {
+			return null;
+		} else {
+			Gson gson = new Gson();
+			return gson.toJson(inputObjectMaps);
+		}
 	}
 
 	@Override
