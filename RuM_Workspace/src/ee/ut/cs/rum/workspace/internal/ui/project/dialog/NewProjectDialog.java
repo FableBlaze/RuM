@@ -28,8 +28,6 @@ public class NewProjectDialog extends Dialog {
 	private Text descriptionValue;
 	private Label feedbackTextValue;
 	
-	private Button okButton;
-	
 	public NewProjectDialog(Shell activeShell, RumController rumController) {
 		super(activeShell, SWT.APPLICATION_MODAL | SWT.TITLE | SWT.BORDER | SWT.RESIZE);
 		this.rumController=rumController;
@@ -77,7 +75,7 @@ public class NewProjectDialog extends Dialog {
 		buttonsComposite.setLayout(new GridLayout(2, false));
 		buttonsComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		
-		okButton = new Button(buttonsComposite, SWT.PUSH);
+		Button okButton = new Button(buttonsComposite, SWT.PUSH);
 		okButton.setText("OK");
 		okButton.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, true, true));
 		okButton.addSelectionListener(new SelectionAdapter() {
