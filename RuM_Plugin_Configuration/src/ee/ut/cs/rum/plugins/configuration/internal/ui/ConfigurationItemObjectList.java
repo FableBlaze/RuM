@@ -17,6 +17,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import ee.ut.cs.rum.plugins.configuration.internal.ui.dialog.ObjectInputDialog;
 import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationUi;
@@ -30,7 +32,8 @@ public class ConfigurationItemObjectList extends Composite implements Configurat
 	private String displayName;
 	private boolean required;
 	private PluginInputObject pluginInputObject;
-	private Map<Integer, Map <String, String>> inputObjectMaps;
+	
+	private Map<Integer, JsonObject> inputObjectInstances;
 	
 	private Composite objectsComposite;
 	
@@ -43,7 +46,7 @@ public class ConfigurationItemObjectList extends Composite implements Configurat
 		this.required=parameterObjectList.getRequired();
 		this.pluginInputObject=pluginInputObject;
 		
-		inputObjectMaps = new HashMap<Integer, Map<String, String>>();
+		inputObjectInstances = new HashMap<Integer, JsonObject>();
 		
 		this.setLayout(new GridLayout());
 		
@@ -73,16 +76,23 @@ public class ConfigurationItemObjectList extends Composite implements Configurat
 		});
 	}
 	
-	public void addInputObjectMap (Map <String, String> instanceParameterValues) {
-		if (inputObjectMaps.isEmpty()) {
-			inputObjectMaps.put(0, instanceParameterValues);
+	public void addInputObjectInstance (JsonElement inputObjectValues) {
+		int instanceIndex;
+		if (inputObjectInstances.isEmpty()) {
+			instanceIndex=0;
 		} else {
-			inputObjectMaps.put(Collections.max(inputObjectMaps.keySet())+1, instanceParameterValues);			
+			instanceIndex=Collections.max(inputObjectInstances.keySet())+1;
 		}
+		
+		JsonObject inputObjectInstance = new JsonObject();
+		inputObjectInstance.addProperty("id", instanceIndex);
+		inputObjectInstance.add("values", inputObjectValues);
+		
+		inputObjectInstances.put(instanceIndex, inputObjectInstance);
 		
 		Label label = new Label(objectsComposite, SWT.NONE);
 		Gson gson = new Gson();
-		label.setText(gson.toJson(instanceParameterValues));
+		label.setText(gson.toJson(inputObjectInstance));
 		label.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
 		Button button = new Button(objectsComposite, SWT.PUSH);
@@ -90,10 +100,8 @@ public class ConfigurationItemObjectList extends Composite implements Configurat
 		button.addSelectionListener(new SelectionAdapter() {
 			private static final long serialVersionUID = -2567782900203073741L;
 			
-			int indexToRemove = Collections.max(inputObjectMaps.keySet());
-			
 			public void widgetSelected(SelectionEvent event) {
-				inputObjectMaps.remove(indexToRemove);
+				inputObjectInstances.remove(instanceIndex);
 				label.dispose();
 				button.dispose();
 				objectsComposite.layout();
@@ -110,11 +118,11 @@ public class ConfigurationItemObjectList extends Composite implements Configurat
 
 	@Override
 	public String getValue() {
-		if (inputObjectMaps.isEmpty()) {
+		if (inputObjectInstances.isEmpty()) {
 			return null;
 		} else {
 			Gson gson = new Gson();
-			return gson.toJson(inputObjectMaps);
+			return gson.toJson(inputObjectInstances.values().toArray());
 		}
 	}
 
