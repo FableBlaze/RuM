@@ -113,10 +113,12 @@ public class ConfigurationItemObjectList extends Composite implements Configurat
 				pluginConfigurationUi.inputObjectInstanceRemovedNotify(internalName, inputObjectInstance.getAsJsonObject().get("id").getAsInt());
 				label.dispose();
 				button.dispose();
-				objectsComposite.layout();
+				pluginConfigurationUi.setSize(pluginConfigurationUi.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+				pluginConfigurationUi.layout();
 			}
 		});
-		objectsComposite.layout();
+		pluginConfigurationUi.setSize(pluginConfigurationUi.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+		pluginConfigurationUi.layout();
 	}
 
 	@Override
