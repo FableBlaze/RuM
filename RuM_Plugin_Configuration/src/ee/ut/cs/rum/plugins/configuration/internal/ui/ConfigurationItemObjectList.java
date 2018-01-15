@@ -124,10 +124,11 @@ public class ConfigurationItemObjectList extends Composite implements Configurat
 		JsonParser parser = new JsonParser();
 		JsonElement valueJsonElement = parser.parse(value);
 		for (JsonElement jsonElement : valueJsonElement.getAsJsonArray()) {
-			JsonObject inputObjectInstance = jsonElement.getAsJsonObject().get("values").getAsJsonObject();
-			inputObjectInstances.put(jsonElement.getAsJsonObject().get("id").getAsInt(), inputObjectInstance);
-			pluginConfigurationUi.inputObjectInstanceAddedNotify(internalName, jsonElement.getAsJsonObject());
-			displayInputObjectInstance(jsonElement.getAsJsonObject());
+			JsonObject jsonObject = jsonElement.getAsJsonObject();
+			jsonObject.addProperty("id", jsonObject.get("id").getAsInt());
+			inputObjectInstances.put(jsonObject.get("id").getAsInt(), jsonObject);
+			pluginConfigurationUi.inputObjectInstanceAddedNotify(internalName, jsonObject);
+			displayInputObjectInstance(jsonObject);
 		}
 	}
 

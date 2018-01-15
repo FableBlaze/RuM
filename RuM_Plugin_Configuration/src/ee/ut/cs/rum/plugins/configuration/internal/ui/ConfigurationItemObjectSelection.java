@@ -1,66 +1,82 @@
 package ee.ut.cs.rum.plugins.configuration.internal.ui;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
-
+import org.eclipse.swt.widgets.Combo;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import ee.ut.cs.rum.plugins.configuration.internal.Activator;
 import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationUi;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterObjectSelection;
 
-public class ConfigurationItemObjectSelection extends Composite implements ConfigurationItemInterface {
+public class ConfigurationItemObjectSelection extends Combo implements ConfigurationItemInterface {
 	private static final long serialVersionUID = -4335268682134875034L;
 	
 	private String internalName;
 	private String displayName;
 	private boolean required;
 	
+	private List<Integer> selectionItems;
+	
+	private int selectionIndex;
+	
 	public ConfigurationItemObjectSelection(PluginConfigurationUi pluginConfigurationUi, PluginParameterObjectSelection pluginParameterObjectSelection) {
-		super(pluginConfigurationUi, SWT.BORDER);
+		super(pluginConfigurationUi, SWT.READ_ONLY);
 		
 		this.internalName=pluginParameterObjectSelection.getInternalName();
 		this.displayName=pluginParameterObjectSelection.getDisplayName();
 		this.setToolTipText(pluginParameterObjectSelection.getDescription());
 		this.required=pluginParameterObjectSelection.getRequired();
 		
-		GridLayout gridLayout = new GridLayout(1, false);
-		gridLayout.marginHeight = 0;
-		gridLayout.marginWidth = 0;
-		this.setLayout(gridLayout);
+		this.selectionIndex=-1;
+		
+		selectionItems=new ArrayList<Integer>();
 		
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
-		createContents();
-	}
-	
-	private void createContents() {
-		Label l = new Label(this, SWT.NONE);
-		l.setText("TODO");
-		l.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		this.addSelectionListener(new SelectionListener() {			
+			private static final long serialVersionUID = -2671867325224354752L;
+			@Override
+			public void widgetSelected(SelectionEvent event) {
+				if (ConfigurationItemObjectSelection.this.getSelectionIndex()==selectionIndex && event.stateMask==SWT.CTRL) {
+					ConfigurationItemObjectSelection.this.deselectAll();
+				}
+				selectionIndex = ConfigurationItemObjectSelection.this.getSelectionIndex();
+			}
+			@Override
+			public void widgetDefaultSelected(SelectionEvent event) {
+			}
+		});
+		
 	}
 	
 	public void addObjectReference(JsonObject inputObjectInstance) {
-		Activator.getLogger().info("addObject: " + inputObjectInstance.toString());
+		Gson gson = new Gson();
+		this.add(gson.toJson(inputObjectInstance));
+		selectionItems.add(inputObjectInstance.get("id").getAsInt());
 	}
 	
 	public void removeObjectReference (int id)  {
+		int indexToRemove = selectionItems.indexOf(id);
+		this.remove(indexToRemove);
+		selectionItems.remove(indexToRemove);
 		Activator.getLogger().info("removeObject: " + id);
 	}
 
 	@Override
 	public void setValue(String value) {
-		// TODO Auto-generated method stub
-		
+		this.select(selectionItems.indexOf(Integer.valueOf(value)));
+		selectionIndex = ConfigurationItemObjectSelection.this.getSelectionIndex();
 	}
 
 	@Override
 	public String getValue() {
-		// TODO Auto-generated method stub
-		return "TODO";
+		return Integer.toString(selectionItems.get(selectionIndex));
 	}
 
 	@Override
