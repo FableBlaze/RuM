@@ -59,6 +59,7 @@ public class PluginConfigurationUi extends Composite {
 
 		this.setEnabled(false);
 		this.setLayout();
+		initPluginInputObjectsMap(pluginInfo);
 		createContents(pluginInfo);
 	}
 
@@ -72,10 +73,7 @@ public class PluginConfigurationUi extends Composite {
 		this.taskUserFiles=taskUserFiles;
 		this.tmpUserFiles=tmpUserFiles;
 
-		this.pluginInputObjectsMap = new HashMap<String, PluginInputObject>();
-		for (PluginInputObject pluginInputObject : pluginInfo.getInputObjects()) {
-			pluginInputObjectsMap.put(pluginInputObject.getName(), pluginInputObject);
-		}
+		initPluginInputObjectsMap(pluginInfo);
 
 		this.outputUserFiles = new ArrayList<UserFile>();
 		for (PluginOutput pluginOutput : pluginInfo.getOutputs()) {
@@ -95,6 +93,13 @@ public class PluginConfigurationUi extends Composite {
 		this.createContents(pluginInfo);
 	}
 
+	private void initPluginInputObjectsMap(PluginInfo pluginInfo) {
+		this.pluginInputObjectsMap = new HashMap<String, PluginInputObject>();
+		for (PluginInputObject pluginInputObject : pluginInfo.getInputObjects()) {
+			pluginInputObjectsMap.put(pluginInputObject.getName(), pluginInputObject);
+		}
+	}
+	
 	private void setLayout() {
 		GridLayout layout = new GridLayout(2, false);
 		layout.marginLeft = layout.marginTop = layout.marginRight = layout.marginBottom = 10;
@@ -260,7 +265,13 @@ public class PluginConfigurationUi extends Composite {
 	public void setConfigurationValues(Map<String, String> configurationValues) {
 		for (ConfigurationItemInterface configurationItem : configurationItems) {
 			if (configurationValues.get(configurationItem.getInternalName())!=null) {
-				configurationItem.setValue(configurationValues.get(configurationItem.getInternalName()));				
+				if (configurationItem.getClass()==ConfigurationItemObjectList.class) {
+					Gson gson = new Gson();
+					String valueString = gson.toJson(configurationValues.get(configurationItem.getInternalName()));
+					configurationItem.setValue(valueString);
+				} else {					
+					configurationItem.setValue(configurationValues.get(configurationItem.getInternalName()));				
+				}
 			}
 		}
 		for (ConfigurationItemFile configurationItemFile : configurationItemFiles) {
