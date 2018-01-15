@@ -11,6 +11,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import ee.ut.cs.rum.controller.RumController;
@@ -102,7 +103,7 @@ public class PluginConfigurationUi extends Composite {
 			pluginInputObjectsMap.put(pluginInputObject.getName(), pluginInputObject);
 		}
 	}
-	
+
 	private void setLayout() {
 		GridLayout layout = new GridLayout(2, false);
 		layout.marginLeft = layout.marginTop = layout.marginRight = layout.marginBottom = 10;
@@ -224,7 +225,6 @@ public class PluginConfigurationUi extends Composite {
 				displayNames.add(configurationItemFile.getDisplayName());
 			}
 		}
-
 		return displayNames;
 	}
 
@@ -340,6 +340,22 @@ public class PluginConfigurationUi extends Composite {
 	public void notifySubTaskOfTmpFileUpload(UserFile tmpUserFile) {
 		for (ConfigurationItemFile configurationItemFile : configurationItemFiles) {
 			configurationItemFile.notifyFileParameterOfTmpFileUpload(tmpUserFile);
+		}
+	}
+
+	public void inputObjectInstanceAddedNotify(String parameterInternalName, JsonObject inputObjectInstance) {
+		if (configurationItemObjectSelections.get(parameterInternalName)!=null) {
+			for (ConfigurationItemObjectSelection configurationItemObjectSelection : configurationItemObjectSelections.get(parameterInternalName)) {
+				configurationItemObjectSelection.addObjectReference(inputObjectInstance);
+			}
+		}
+	}
+
+	public void inputObjectInstanceRemovedNotify(String parameterInternalName, int id) {
+		if (configurationItemObjectSelections.get(parameterInternalName)!=null) {
+			for (ConfigurationItemObjectSelection configurationItemObjectSelection : configurationItemObjectSelections.get(parameterInternalName)) {
+				configurationItemObjectSelection.removeObjectReference(id);
+			}
 		}
 	}
 

@@ -6,6 +6,9 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
+import com.google.gson.JsonObject;
+
+import ee.ut.cs.rum.plugins.configuration.internal.Activator;
 import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationUi;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterObjectSelection;
 
@@ -38,6 +41,14 @@ public class ConfigurationItemObjectSelection extends Composite implements Confi
 		Label l = new Label(this, SWT.NONE);
 		l.setText("TODO");
 		l.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+	}
+	
+	public void addObjectReference(JsonObject inputObjectInstance) {
+		Activator.getLogger().info("addObject: " + inputObjectInstance.toString());
+	}
+	
+	public void removeObjectReference (int id)  {
+		Activator.getLogger().info("removeObject: " + id);
 	}
 
 	@Override

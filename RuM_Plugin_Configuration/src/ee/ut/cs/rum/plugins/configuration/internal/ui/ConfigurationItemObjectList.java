@@ -29,6 +29,7 @@ import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterObj
 public class ConfigurationItemObjectList extends Composite implements ConfigurationItemInterface {
 	private static final long serialVersionUID = -6538283686156068894L;
 	
+	private PluginConfigurationUi pluginConfigurationUi;
 	private String internalName;
 	private String displayName;
 	private boolean required;
@@ -41,6 +42,7 @@ public class ConfigurationItemObjectList extends Composite implements Configurat
 	public ConfigurationItemObjectList(PluginConfigurationUi pluginConfigurationUi, PluginParameterObjectList parameterObjectList, PluginInputObject pluginInputObject) {
 		super(pluginConfigurationUi, SWT.NONE);
 		
+		this.pluginConfigurationUi=pluginConfigurationUi;
 		this.internalName=parameterObjectList.getInternalName();
 		this.displayName=parameterObjectList.getDisplayName();
 		this.setToolTipText(parameterObjectList.getDescription());
@@ -90,6 +92,7 @@ public class ConfigurationItemObjectList extends Composite implements Configurat
 		inputObjectInstance.add("values", inputObjectValues);
 		
 		inputObjectInstances.put(instanceIndex, inputObjectInstance);
+		pluginConfigurationUi.inputObjectInstanceAddedNotify(internalName, inputObjectInstance);
 		
 		displayInputObjectInstance(inputObjectInstance);
 	}
@@ -107,6 +110,7 @@ public class ConfigurationItemObjectList extends Composite implements Configurat
 			
 			public void widgetSelected(SelectionEvent event) {
 				inputObjectInstances.remove(inputObjectInstance.getAsJsonObject().get("id").getAsInt());
+				pluginConfigurationUi.inputObjectInstanceRemovedNotify(internalName, inputObjectInstance.getAsJsonObject().get("id").getAsInt());
 				label.dispose();
 				button.dispose();
 				objectsComposite.layout();
@@ -122,6 +126,7 @@ public class ConfigurationItemObjectList extends Composite implements Configurat
 		for (JsonElement jsonElement : valueJsonElement.getAsJsonArray()) {
 			JsonObject inputObjectInstance = jsonElement.getAsJsonObject().get("values").getAsJsonObject();
 			inputObjectInstances.put(jsonElement.getAsJsonObject().get("id").getAsInt(), inputObjectInstance);
+			pluginConfigurationUi.inputObjectInstanceAddedNotify(internalName, jsonElement.getAsJsonObject());
 			displayInputObjectInstance(jsonElement.getAsJsonObject());
 		}
 	}
