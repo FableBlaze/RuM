@@ -39,21 +39,23 @@ public class ObjectInputDialog extends Dialog {
 	private Shell shell;
 	private ConfigurationItemObjectList configurationItemObjectList;
 	private PluginInputObject pluginInputObject;
+	private String displayName;
 	
 	private Label feedbackTextLabel;
 	
 	private List<ConfigurationItemInterface> configurationItems;
 
-	public ObjectInputDialog(Shell activeShell, ConfigurationItemObjectList configurationItemObjectList, PluginInputObject pluginInputObject) {
+	public ObjectInputDialog(Shell activeShell, ConfigurationItemObjectList configurationItemObjectList, PluginInputObject pluginInputObject, String displayName) {
 		super(activeShell, SWT.APPLICATION_MODAL | SWT.TITLE | SWT.BORDER | SWT.RESIZE);
 		
 		this.configurationItemObjectList = configurationItemObjectList;
 		this.pluginInputObject = pluginInputObject;
+		this.displayName=displayName;
 	}
 	
 	public String open() {
 		shell = new Shell(this.getParent(), getStyle());
-		shell.setText("Add object");
+		shell.setText("Add object to " + displayName);
 		createContents();
 		shell.pack();
 		shell.setLocation (100, 100);

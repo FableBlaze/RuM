@@ -64,7 +64,7 @@ public class ConfigurationItemObjectList extends Composite implements Configurat
 		objectsComposite.setLayout(new GridLayout(2, false));
 		objectsComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
-		ObjectInputDialog objectInputDialog = new ObjectInputDialog(Display.getCurrent().getActiveShell(), this, pluginInputObject);
+		ObjectInputDialog objectInputDialog = new ObjectInputDialog(Display.getCurrent().getActiveShell(), this, pluginInputObject, displayName);
 		
 		Button addObjectButton = new Button(this, SWT.PUSH);
 		addObjectButton.setText("Add");
