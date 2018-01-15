@@ -19,6 +19,7 @@ import org.eclipse.swt.widgets.Listener;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import ee.ut.cs.rum.plugins.configuration.internal.ui.dialog.ObjectInputDialog;
 import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationUi;
@@ -90,10 +91,14 @@ public class ConfigurationItemObjectList extends Composite implements Configurat
 		
 		inputObjectInstances.put(instanceIndex, inputObjectInstance);
 		
+		displayInputObjectInstance(inputObjectInstance);
+	}
+	
+	private void displayInputObjectInstance(JsonObject inputObjectInstance) {
 		Label label = new Label(objectsComposite, SWT.NONE);
 		Gson gson = new Gson();
 		label.setText(gson.toJson(inputObjectInstance));
-		label.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		label.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		
 		Button button = new Button(objectsComposite, SWT.PUSH);
 		button.setText("X");
@@ -101,7 +106,7 @@ public class ConfigurationItemObjectList extends Composite implements Configurat
 			private static final long serialVersionUID = -2567782900203073741L;
 			
 			public void widgetSelected(SelectionEvent event) {
-				inputObjectInstances.remove(instanceIndex);
+				inputObjectInstances.remove(inputObjectInstance.getAsJsonObject().get("id").getAsInt());
 				label.dispose();
 				button.dispose();
 				objectsComposite.layout();
@@ -112,8 +117,13 @@ public class ConfigurationItemObjectList extends Composite implements Configurat
 
 	@Override
 	public void setValue(String value) {
-		// TODO Auto-generated method stub
-		
+		JsonParser parser = new JsonParser();
+		JsonElement valueJsonElement = parser.parse(value);
+		for (JsonElement jsonElement : valueJsonElement.getAsJsonArray()) {
+			JsonObject inputObjectInstance = jsonElement.getAsJsonObject().get("values").getAsJsonObject();
+			inputObjectInstances.put(jsonElement.getAsJsonObject().get("id").getAsInt(), inputObjectInstance);
+			displayInputObjectInstance(inputObjectInstance);
+		}
 	}
 
 	@Override
