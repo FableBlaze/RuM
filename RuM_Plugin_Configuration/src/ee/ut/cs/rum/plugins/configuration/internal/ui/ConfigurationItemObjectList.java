@@ -122,7 +122,7 @@ public class ConfigurationItemObjectList extends Composite implements Configurat
 		for (JsonElement jsonElement : valueJsonElement.getAsJsonArray()) {
 			JsonObject inputObjectInstance = jsonElement.getAsJsonObject().get("values").getAsJsonObject();
 			inputObjectInstances.put(jsonElement.getAsJsonObject().get("id").getAsInt(), inputObjectInstance);
-			displayInputObjectInstance(inputObjectInstance);
+			displayInputObjectInstance(jsonElement.getAsJsonObject());
 		}
 	}
 

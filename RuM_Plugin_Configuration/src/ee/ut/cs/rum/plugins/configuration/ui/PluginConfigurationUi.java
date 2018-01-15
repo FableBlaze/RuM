@@ -53,12 +53,14 @@ public class PluginConfigurationUi extends Composite {
 	private List<UserFile> taskUserFiles;
 	private List<UserFile> tmpUserFiles;
 	private List<UserFile> outputUserFiles;
+	private Map<String, List<ConfigurationItemObjectSelection>> configurationItemObjectSelections;
 
 	public PluginConfigurationUi(PluginConfigurationContainer pluginConfigurationContainer, PluginInfo pluginInfo) {
 		super(pluginConfigurationContainer, SWT.NONE);
 
 		this.setEnabled(false);
 		this.setLayout();
+		this.configurationItemObjectSelections = new HashMap<String, List<ConfigurationItemObjectSelection>>(); 
 		initPluginInputObjectsMap(pluginInfo);
 		createContents(pluginInfo);
 	}
@@ -73,6 +75,7 @@ public class PluginConfigurationUi extends Composite {
 		this.taskUserFiles=taskUserFiles;
 		this.tmpUserFiles=tmpUserFiles;
 
+		this.configurationItemObjectSelections = new HashMap<String, List<ConfigurationItemObjectSelection>>(); 
 		initPluginInputObjectsMap(pluginInfo);
 
 		this.outputUserFiles = new ArrayList<UserFile>();
@@ -165,7 +168,12 @@ public class PluginConfigurationUi extends Composite {
 				break;
 			case OBJECT_SELECTION:
 				PluginParameterObjectSelection pluginParameterObjectSelection = (PluginParameterObjectSelection) pluginParameter;
-				configurationItems.add(new ConfigurationItemObjectSelection(this, pluginParameterObjectSelection));
+				ConfigurationItemObjectSelection configurationItemObjectSelection = new ConfigurationItemObjectSelection(this, pluginParameterObjectSelection);
+				configurationItems.add(configurationItemObjectSelection);
+				if (configurationItemObjectSelections.get(pluginParameterObjectSelection.getInputObjectListName())==null) {
+					configurationItemObjectSelections.put(pluginParameterObjectSelection.getInputObjectListName(), new ArrayList<ConfigurationItemObjectSelection>());
+				}
+				configurationItemObjectSelections.get(pluginParameterObjectSelection.getInputObjectListName()).add(configurationItemObjectSelection);
 				break;
 			case LABEL:
 				PluginParameterLabel pluginParameterLabel = (PluginParameterLabel) pluginParameter;
