@@ -22,13 +22,16 @@ import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemInteger;
 import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemInterface;
 import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemLabel;
 import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemObjectList;
+import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemObjectSelection;
 import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemSelection;
 import ee.ut.cs.rum.plugins.configuration.internal.ui.ConfigurationItemString;
+import ee.ut.cs.rum.plugins.configuration.ui.PluginConfigurationUi;
 import ee.ut.cs.rum.plugins.development.description.PluginInputObject;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameter;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterDouble;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterInteger;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterLabel;
+import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterObjectSelection;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterSelection;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterString;
 import ee.ut.cs.rum.plugins.development.description.parameter.PluginParameterType;
@@ -40,17 +43,19 @@ public class ObjectInputDialog extends Dialog {
 	private ConfigurationItemObjectList configurationItemObjectList;
 	private PluginInputObject pluginInputObject;
 	private String displayName;
+	private PluginConfigurationUi pluginConfigurationUi;
 	
 	private Label feedbackTextLabel;
 	
 	private List<ConfigurationItemInterface> configurationItems;
 
-	public ObjectInputDialog(Shell activeShell, ConfigurationItemObjectList configurationItemObjectList, PluginInputObject pluginInputObject, String displayName) {
+	public ObjectInputDialog(Shell activeShell, ConfigurationItemObjectList configurationItemObjectList, PluginInputObject pluginInputObject, String displayName, PluginConfigurationUi pluginConfigurationUi) {
 		super(activeShell, SWT.APPLICATION_MODAL | SWT.TITLE | SWT.BORDER | SWT.RESIZE);
 		
 		this.configurationItemObjectList = configurationItemObjectList;
 		this.pluginInputObject = pluginInputObject;
 		this.displayName=displayName;
+		this.pluginConfigurationUi=pluginConfigurationUi;
 	}
 	
 	public String open() {
@@ -113,6 +118,12 @@ public class ObjectInputDialog extends Dialog {
 				//This is not an actual configurationItem, therefore it should not be added to configurationItems list
 				ConfigurationItemLabel configurationItemLabel = new ConfigurationItemLabel(objectParametersComposite, pluginParameterLabel);
 				((GridData) configurationItemLabel.getLayoutData()).horizontalSpan=((GridLayout) objectParametersComposite.getLayout()).numColumns;
+				break;
+			case OBJECT_SELECTION:
+				PluginParameterObjectSelection pluginParameterObjectSelection = (PluginParameterObjectSelection) pluginParameter;
+				ConfigurationItemObjectSelection configurationItemObjectSelection = new ConfigurationItemObjectSelection(objectParametersComposite, pluginParameterObjectSelection);
+				configurationItemObjectSelection.setObjectReferences(pluginConfigurationUi.getObjectsFromInputObjectsMap(pluginParameterObjectSelection.getInputObjectListName()));
+				configurationItems.add(configurationItemObjectSelection);
 				break;
 			default:
 				break;

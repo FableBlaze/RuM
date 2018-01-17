@@ -55,6 +55,7 @@ public class PluginConfigurationUi extends Composite {
 	private List<UserFile> tmpUserFiles;
 	private List<UserFile> outputUserFiles;
 	private Map<String, List<ConfigurationItemObjectSelection>> configurationItemObjectSelections;
+	private Map<String, Map<Integer, JsonObject>> inputObjectsMap;
 
 	public PluginConfigurationUi(PluginConfigurationContainer pluginConfigurationContainer, PluginInfo pluginInfo) {
 		super(pluginConfigurationContainer, SWT.NONE);
@@ -77,6 +78,7 @@ public class PluginConfigurationUi extends Composite {
 		this.tmpUserFiles=tmpUserFiles;
 
 		this.configurationItemObjectSelections = new HashMap<String, List<ConfigurationItemObjectSelection>>(); 
+		this.inputObjectsMap  = new HashMap<String, Map<Integer, JsonObject>>();
 		initPluginInputObjectsMap(pluginInfo);
 
 		this.outputUserFiles = new ArrayList<UserFile>();
@@ -166,6 +168,11 @@ public class PluginConfigurationUi extends Composite {
 			case OBJECT_LIST:
 				PluginParameterObjectList parameterObjectList = (PluginParameterObjectList) pluginParameter;
 				configurationItems.add(new ConfigurationItemObjectList(this, parameterObjectList, pluginInputObjectsMap.get(parameterObjectList.getInputObjectName())));
+				if (inputObjectsMap!=null) {
+					if (inputObjectsMap.get(parameterObjectList.getInternalName())==null) {
+						inputObjectsMap.put(parameterObjectList.getInternalName(), new HashMap<Integer, JsonObject>());
+					}					
+				}
 				break;
 			case OBJECT_SELECTION:
 				PluginParameterObjectSelection pluginParameterObjectSelection = (PluginParameterObjectSelection) pluginParameter;
@@ -344,6 +351,7 @@ public class PluginConfigurationUi extends Composite {
 	}
 
 	public void inputObjectInstanceAddedNotify(String parameterInternalName, JsonObject inputObjectInstance) {
+		inputObjectsMap.get(parameterInternalName).put(inputObjectInstance.get("id").getAsInt(), inputObjectInstance);
 		if (configurationItemObjectSelections.get(parameterInternalName)!=null) {
 			for (ConfigurationItemObjectSelection configurationItemObjectSelection : configurationItemObjectSelections.get(parameterInternalName)) {
 				configurationItemObjectSelection.addObjectReference(inputObjectInstance);
@@ -352,11 +360,16 @@ public class PluginConfigurationUi extends Composite {
 	}
 
 	public void inputObjectInstanceRemovedNotify(String parameterInternalName, int id) {
+		inputObjectsMap.get(parameterInternalName).remove(id);
 		if (configurationItemObjectSelections.get(parameterInternalName)!=null) {
 			for (ConfigurationItemObjectSelection configurationItemObjectSelection : configurationItemObjectSelections.get(parameterInternalName)) {
 				configurationItemObjectSelection.removeObjectReference(id);
 			}
 		}
+	}
+	
+	public Map<Integer, JsonObject> getObjectsFromInputObjectsMap(String parameterInternalName) {
+		return inputObjectsMap.get(parameterInternalName);
 	}
 
 	public void addUserFile(UserFile userFile) {

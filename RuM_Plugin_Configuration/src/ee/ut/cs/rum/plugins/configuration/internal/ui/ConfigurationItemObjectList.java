@@ -64,7 +64,7 @@ public class ConfigurationItemObjectList extends Composite implements Configurat
 		objectsComposite.setLayout(new GridLayout(2, false));
 		objectsComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
-		ObjectInputDialog objectInputDialog = new ObjectInputDialog(Display.getCurrent().getActiveShell(), this, pluginInputObject, displayName);
+		ObjectInputDialog objectInputDialog = new ObjectInputDialog(Display.getCurrent().getActiveShell(), this, pluginInputObject, displayName, pluginConfigurationUi);
 		
 		Button addObjectButton = new Button(this, SWT.PUSH);
 		addObjectButton.setText("Add");
@@ -119,6 +119,10 @@ public class ConfigurationItemObjectList extends Composite implements Configurat
 		});
 		pluginConfigurationUi.setSize(pluginConfigurationUi.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 		pluginConfigurationUi.layout();
+	}
+	
+	public PluginConfigurationUi getPluginConfigurationUi() {
+		return pluginConfigurationUi;
 	}
 
 	@Override

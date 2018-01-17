@@ -55,6 +55,14 @@
 			"description": "String",
 			"required": false,
 			"parameterType": "STRING"
+		},
+		{
+			"inputObjectListName": "objList2",
+			"internalName": "objSelection11",
+			"displayName": "Selection of Objects2",
+			"description": "Allows to select items from Objects2",
+			"required": true,
+			"parameterType": "OBJECT_SELECTION"
 		}]
 	},
 	{

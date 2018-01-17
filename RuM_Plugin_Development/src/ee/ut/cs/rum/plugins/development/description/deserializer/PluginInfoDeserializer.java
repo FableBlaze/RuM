@@ -151,9 +151,6 @@ public class PluginInfoDeserializer implements JsonDeserializer<PluginInfo> {
 				parameters[i] = pluginParameterObjectList;
 				break;
 			case OBJECT_SELECTION:
-				if (isInputObject) {
-					throw new JsonParseException("Parameter type " + parameterType + " is not supported for inputObject");
-				}
 				PluginParameterObjectSelection pluginParameterObjectSelection = new PluginParameterObjectSelection();
 				pluginParameterObjectSelection.setInputObjectListName(getAsStringFromJsonObject(parameterJsonObject, "inputObjectListName"));
 				parameters[i] = pluginParameterObjectSelection;
