@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-SymbolicName: RuM
 Bundle-Description: RuM entrypoint which provides the general ui
-Bundle-Version: 0.3.0
+Bundle-Version: 0.3.1
 Bundle-Name: RuM
 Bundle-Vendor: University of Tartu
 Bundle-ManifestVersion: 2
@@ -19,7 +19,7 @@ Import-Package: ee.ut.cs.rum.administration.ui,
  javax.servlet.http;version="[3.1.0.20170128,3.1.0.20170128]",
  org.osgi.framework;version="[1.7.0,1.7.0]",
  org.osgi.util.tracker;version="[1.5.1,1.5.1]",
- org.slf4j;version="[1.7.22,1.7.22]"
+ org.slf4j;version="[1.7.25,1.7.25]"
 Bundle-Activator: ee.ut.cs.rum.internal.Activator
 Import-Bundle: org.eclipse.rap.rwt;version="[3.1.2.20161130-0738,3.1.2.20161130-0738]"
 

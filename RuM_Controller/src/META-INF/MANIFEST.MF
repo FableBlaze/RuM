@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-SymbolicName: RuM_Controller
 Bundle-Description: Mediator between ui and database
-Bundle-Version: 0.2.0
+Bundle-Version: 0.2.1
 Bundle-Name: RuM_Controller
 Bundle-ManifestVersion: 2
 Bundle-Vendor: University of Tartu
@@ -11,7 +11,7 @@ Import-Package: ee.ut.cs.rum.database.domain,
  ee.ut.cs.rum.database.domain.interfaces,
  ee.ut.cs.rum.database.util,
  org.osgi.framework;version="[1.7.0,1.7.0]",
- org.slf4j;version="[1.7.22,1.7.22]"
+ org.slf4j;version="[1.7.25,1.7.25]"
 Export-Package: ee.ut.cs.rum.controller,
  ee.ut.cs.rum.enums,
  ee.ut.cs.rum.interfaces
